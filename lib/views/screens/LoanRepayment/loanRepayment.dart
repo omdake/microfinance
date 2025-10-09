@@ -33,222 +33,224 @@ class LoanRepaymentScreen extends StatelessWidget {
           height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Loan ID", isRequired: true),
-                        TextFormField(
-                          controller: controller.loanId.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Loan ID "),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Applicant Name", isRequired: true),
-                        TextFormField(
-                          controller: controller.applicantName.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Applicant Name "),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget([
-                      LabelsWithMark(label: "Mode Of Payment"),
-                      Obx(() {
-                        return DropdownButtonFormField<String>(
-                          value: controller.selectedModeOfPayment.value.isEmpty
-                              ? null
-                              : controller.selectedModeOfPayment.value,
-                          items: controller.modeOfPaymentList.map((e) {
-                            return DropdownMenuItem(
-                              value: e.name.toString(),
-                              child: Text(e.name.toString()),
-                            );
-                          }).toList(),
-                          style: TextStyles.textfieldTextStyle,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Mode Of Payment",
-                              sufficIconOntap: () {},
-                              sufficIcon: null),
-                          onChanged: (value) {
-                            controller.selectedModeOfPayment.value = value!;
-                          },
-                          validator: (value) {
-                            if (value == null) {
-                              return 'This field can\'t be empty';
-                            }
-                            return null;
-                          },
-                        );
-                      })
-                    ]),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Payable Amount", isRequired: true),
-                        TextFormField(
-                          readOnly: true,
-                          controller: controller.payableAmount.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Payable Amount"),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Amount Paid", isRequired: true),
-                        TextFormField(
-                          controller: controller.amountPaid.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Paid Amount"),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Value Date", isRequired: true),
-                        Obx(
-                          () => TextFormField(
-                            controller: controller.valueDate.value,
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: Form(
+                    key: _formKey,
+                    child: Column(children: [
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Loan ID", isRequired: true),
+                          TextFormField(
+                            controller: controller.loanId.value,
                             cursorColor: AppColors.primary,
-                            readOnly: true,
+                            textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecorationicon(
-                                    hint: "Value Date",
-                                    sufficIcon: Icons.calendar_today,
-                                    sufficIconOntap: null),
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Loan ID "),
                           ),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Reference Date", isRequired: true),
-                        Obx(
-                          () => TextFormField(
-                            controller: controller.referenceDate.value,
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Applicant Name", isRequired: true),
+                          TextFormField(
+                            controller: controller.applicantName.value,
                             cursorColor: AppColors.primary,
-                            readOnly: true,
-                            onTap: () => controller.selectDate(
-                                context,
-                                controller.referenceDate.value,
-                                controller.selectedReferenceDate),
+                            textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecorationicon(
-                              hint: "Reference Date",
-                              sufficIcon: Icons.calendar_today,
-                              sufficIconOntap: () => controller.selectDate(
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Applicant Name "),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget([
+                        LabelsWithMark(label: "Mode Of Payment"),
+                        Obx(() {
+                          return DropdownButtonFormField<String>(
+                            value: controller.selectedModeOfPayment.value.isEmpty
+                                ? null
+                                : controller.selectedModeOfPayment.value,
+                            items: controller.modeOfPaymentList.map((e) {
+                              return DropdownMenuItem(
+                                value: e.name.toString(),
+                                child: Text(e.name.toString()),
+                              );
+                            }).toList(),
+                            style: TextStyles.textfieldTextStyle,
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Select Mode Of Payment",
+                                sufficIconOntap: () {},
+                                sufficIcon: null),
+                            onChanged: (value) {
+                              controller.selectedModeOfPayment.value = value!;
+                            },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'This field can\'t be empty';
+                              }
+                              return null;
+                            },
+                          );
+                        })
+                      ]),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Payable Amount", isRequired: true),
+                          TextFormField(
+                            readOnly: true,
+                            controller: controller.payableAmount.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            validator: (value) => requiredValidator(value!),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Payable Amount"),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Amount Paid", isRequired: true),
+                          TextFormField(
+                            controller: controller.amountPaid.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            validator: (value) => requiredValidator(value!),
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Paid Amount"),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Value Date", isRequired: true),
+                          Obx(
+                            () => TextFormField(
+                              controller: controller.valueDate.value,
+                              cursorColor: AppColors.primary,
+                              readOnly: true,
+                              validator: (value) => requiredValidator(value!),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecorationicon(
+                                      hint: "Value Date",
+                                      sufficIcon: Icons.calendar_today,
+                                      sufficIconOntap: null),
+                            ),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Reference Date", isRequired: true),
+                          Obx(
+                            () => TextFormField(
+                              controller: controller.referenceDate.value,
+                              cursorColor: AppColors.primary,
+                              readOnly: true,
+                              onTap: () => controller.selectDate(
                                   context,
                                   controller.referenceDate.value,
                                   controller.selectedReferenceDate),
+                              validator: (value) => requiredValidator(value!),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecorationicon(
+                                hint: "Reference Date",
+                                sufficIcon: Icons.calendar_today,
+                                sufficIconOntap: () => controller.selectDate(
+                                    context,
+                                    controller.referenceDate.value,
+                                    controller.selectedReferenceDate),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    imagePickerField(
-                      label: "Payment Proof",
-                      imageFile: controller.paymentProofImage,
-                      // imageUrl: RxString(controller.loanMember.isNotEmpty
-                      //     ? controller.loanMember[0].memberImage ?? ''
-                      //     : ''),
-                      isFocused: controller.isPaymentProofImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.paymentProofImage),
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        LabelsWithMark(label: "UTR Number"),
-                        TextFormField(
-                          controller: controller.utrNumber.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "UTR Number"),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        LabelsWithMark(label: "Remark"),
-                        TextFormField(
-                          controller: controller.remark.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.none,
-                          keyboardType: TextInputType.emailAddress,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Remark",
+                        ],
+                      ),
+                      imagePickerField(
+                        label: "Payment Proof",
+                        imageFile: controller.paymentProofImage,
+                        // imageUrl: RxString(controller.loanMember.isNotEmpty
+                        //     ? controller.loanMember[0].memberImage ?? ''
+                        //     : ''),
+                        isFocused: controller.isPaymentProofImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.paymentProofImage),
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          LabelsWithMark(label: "UTR Number"),
+                          TextFormField(
+                            controller: controller.utrNumber.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "UTR Number"),
                           ),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    AppButton(
-                        title: "save",
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            controller.saveRepayments();
-                          } else {
-                            AppTostMassage.showTostMassage(
-                              massage: "Please fill all required fields",
-                            );
-                          }
-                        })
-                  ])),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          LabelsWithMark(label: "Remark"),
+                          TextFormField(
+                            controller: controller.remark.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.none,
+                            keyboardType: TextInputType.emailAddress,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Remark",
+                            ),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      AppButton(
+                          title: "save",
+                          onTap: () async {
+                            if (_formKey.currentState!.validate()) {
+                              controller.saveRepayments();
+                            } else {
+                              AppTostMassage.showTostMassage(
+                                massage: "Please fill all required fields",
+                              );
+                            }
+                          })
+                    ])),
+              ),
             ),
           ),
         ));

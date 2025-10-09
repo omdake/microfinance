@@ -13,6 +13,16 @@ class DetailsScreen extends StatelessWidget {
   DetailsScreen({super.key});
   final _formKey = GlobalKey<FormState>();
   final LoanDetailsController controller = Get.put(LoanDetailsController());
+
+  String _formatDate(DateTime? date) {
+    if (date == null) return 'N/A';
+    try {
+      return DateFormat('yyy-MM-dd').format(date);
+    } catch (e) {
+      return 'N/A';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return
@@ -162,11 +172,10 @@ class DetailsScreen extends StatelessWidget {
                                 label: "Disbursement Date", isRequired: true),
                             Obx(
                               () {
-                                final date = controller
-                                    .loanDisbursement.value.disbursementDate;
-                                final formattedDate = date != null
-                                    ? DateFormat('yyyy-MM-dd').format(date)
-                                    : '';
+                                final formattedDate = _formatDate(
+                                  controller
+                                      .loanDisbursement.value.disbursementDate,
+                                );
 
                                 return TextFormField(
                                   initialValue: formattedDate,
@@ -195,11 +204,8 @@ class DetailsScreen extends StatelessWidget {
                                 isRequired: true),
                             Obx(
                               () {
-                                final date = controller
-                                    .loanDisbursement.value.repaymentStartDate;
-                                final formattedDate = date != null
-                                    ? DateFormat('yyyy-MM-dd').format(date)
-                                    : '';
+                                final formattedDate = _formatDate(controller
+                                    .loanDisbursement.value.repaymentStartDate);
 
                                 return TextFormField(
                                   initialValue: formattedDate,
@@ -250,7 +256,7 @@ class DetailsScreen extends StatelessWidget {
                                 label: "Applicant", isRequired: true),
                             TextFormField(
                               initialValue: controller
-                                  .loanDisbursement.value.applicant
+                                  .loanDisbursement.value.applicantMemberName
                                   .toString(),
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,
