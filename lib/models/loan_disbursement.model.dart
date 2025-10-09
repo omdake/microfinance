@@ -84,6 +84,7 @@ class LoanDisbursementResult {
   String? status;
   dynamic referenceNumber;
   String? amendedFrom;
+   String? applicantMemberName;
 
   LoanDisbursementResult({
     this.name,
@@ -124,6 +125,7 @@ class LoanDisbursementResult {
     this.status,
     this.referenceNumber,
     this.amendedFrom,
+    this.applicantMemberName,
   });
 
   factory LoanDisbursementResult.fromJson(Map<String, dynamic> json) =>
@@ -166,6 +168,7 @@ class LoanDisbursementResult {
         status: json["status"],
         referenceNumber: json["reference_number"],
         amendedFrom: json["amended_from"],
+         applicantMemberName: json["applicant_member_name"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -210,5 +213,6 @@ class LoanDisbursementResult {
         "status": status,
         "reference_number": referenceNumber,
         "amended_from": amendedFrom,
+         "applicant_member_name": applicantMemberName,
       };
 }

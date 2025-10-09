@@ -23,7 +23,7 @@ class LoanSummaryController extends GetxController {
   final ScrollController scrollController = ScrollController();
   RxList<LoanDisbursementResult> loanDisbursementList =
       <LoanDisbursementResult>[].obs;
-      
+
   void selectButton(
     int index,
   ) {
@@ -58,7 +58,6 @@ class LoanSummaryController extends GetxController {
           "Authorization": token!,
         },
       );
-      print("................${response.body}");
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
