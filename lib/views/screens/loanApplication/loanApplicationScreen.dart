@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
@@ -51,34 +52,39 @@ class LoanApplicationScreen extends StatelessWidget {
                       paddingWidget([
                         LabelsWithMark(label: "Applicant Name"),
                         Obx(() {
-                          return DropdownButtonFormField<String>(
+                          return DropdownButtonFormField2<String>(
                             value: controller.selectedMemberName.value.isEmpty
                                 ? null
                                 : controller.selectedMemberName.value,
-                            items: controller.loanMemberList.map((e) {
+                            items: controller.loanMemberAsPerGroup.map((e) {
                               return DropdownMenuItem<String>(
-                                value: e.memberName.toString(),
-                                child: Text(e.memberName.toString()),
+                                value: e.memberName ?? "",
+                                child: Text(e.memberName ?? ""),
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Select Applicant",
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 500,
+                            ),
                             onChanged: (newValue) {
                               if (newValue != null) {
-                                final selectedMember = controller.loanMemberList
-                                    .firstWhere((e) => e.memberName == newValue);
+                                final selectedMember =
+                                    controller.loanMemberAsPerGroup.firstWhere(
+                                        (e) => e.memberName == newValue);
                                 controller.selectedMemberName.value =
                                     selectedMember.memberName?.trim() ?? "";
                                 controller.selectedApplicantId.value =
                                     selectedMember.name ?? "";
                                 controller.selectedGroup.value =
                                     selectedMember.group ?? "";
-              
+
                                 controller.getCoBorrowerList(
                                     controller.selectedGroup.value);
                                 controller.getNomineeList(
@@ -219,7 +225,8 @@ class LoanApplicationScreen extends StatelessWidget {
                       C10(),
                       paddingWidget(
                         [
-                          const LabelsWithMark(label: "Amount", isRequired: true),
+                          const LabelsWithMark(
+                              label: "Amount", isRequired: true),
                           TextFormField(
                             controller: controller.loanAmount.value,
                             cursorColor: AppColors.primary,
@@ -235,7 +242,8 @@ class LoanApplicationScreen extends StatelessWidget {
                       C10(),
                       paddingWidget(
                         [
-                          const LabelsWithMark(label: "Period", isRequired: true),
+                          const LabelsWithMark(
+                              label: "Period", isRequired: true),
                           TextFormField(
                             controller: controller.periods.value,
                             cursorColor: AppColors.primary,
@@ -251,7 +259,8 @@ class LoanApplicationScreen extends StatelessWidget {
                       ),
                       C10(),
                       paddingWidget([
-                        const LabelsWithMark(label: "Nominee", isRequired: true),
+                        const LabelsWithMark(
+                            label: "Nominee", isRequired: true),
                         Obx(() {
                           return DropdownButtonFormField<String>(
                             value: controller.selectednominee.value.isEmpty
@@ -286,7 +295,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                 };
                                 controller.selectedNomineeId.value =
                                     memberMap[newValue]?.name ?? "";
-              
+
                                 controller.getRelationList();
                               }
                             },
@@ -317,7 +326,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                 );
                               }).toList(),
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
                                 sufficIconOntap: () {},
                                 sufficIcon: null,
                                 hint: "",

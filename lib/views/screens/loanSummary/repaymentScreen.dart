@@ -1,12 +1,234 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
+import 'package:microfinance/utils/text_field_decoration.dart';
+import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class RepaymentScreen extends StatelessWidget {
   const RepaymentScreen({super.key});
+  String _formatDate(DateTime? date) {
+    if (date == null) return 'N/A';
+    try {
+      return DateFormat('yyy-MM-dd').format(date);
+    } catch (e) {
+      return 'N/A';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoanSummaryController());
+
     return Scaffold(
-      body: Center(child: Text("hii")),
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+          child: Column(
+            children: [
+              Obx(() {
+                return DropdownButtonFormField2<String>(
+                  value: controller.selectedGroup.value.isEmpty
+                      ? null
+                      : controller.selectedGroup.value,
+                  hint: Text(
+                    "Select A Group Name",
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 12,
+                    ),
+                  ),
+                  items: controller.groupList.map((e) {
+                    return DropdownMenuItem<String>(
+                      value: e.name ?? "",
+                      child: Text(e.name ?? ""),
+                    );
+                  }).toList(),
+                  dropdownStyleData: DropdownStyleData(
+                    maxHeight: 500,
+                  ),
+                  style: TextStyles.textfieldTextStyle,
+                  decoration: TextFieldDecoration.textfieldDecoration(
+                    sufficIconOntap: () {},
+                    sufficIcon: null,
+                    hint: '',
+                  ),
+                  onChanged: (newGroup) {
+                    controller.selectedGroup.value = newGroup!;
+                    controller.repaymentList.clear();
+                    controller.getRepaymentList();
+                  },
+                );
+              }),
+              C20(),
+              Expanded(
+                child: Obx(() {
+                  if (controller.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(color: Colors.black),
+                    );
+                  }
+
+                  if (controller.repaymentList.isEmpty) {
+                    return const Center(child: Text("No members found"));
+                  }
+
+                  return ListView.builder(
+                    itemCount: controller.repaymentList.length,
+                    itemBuilder: (context, index) {
+                      final user = controller.repaymentList[index];
+
+                      return Column(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  flex: 6,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          RichText(
+                                            text: TextSpan(
+                                              children: [
+                                                TextSpan(
+                                                  text: "Applicant Id: ",
+                                                  style: TextStyle(
+                                                    fontFamily: "Roboto-Medium",
+                                                    fontSize: 15,
+                                                    color: Colors.grey.shade700,
+                                                  ),
+                                                ),
+                                                TextSpan(
+                                                  text:
+                                                      "${user.applicant ?? ""}",
+                                                  style: const TextStyle(
+                                                    fontFamily: "Roboto-Medium",
+                                                    fontSize: 15,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Applicant Name: ",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text:
+                                                  "${user.applicantMemberName ?? ""}",
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Against Loan: ",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "${user.againstLoan ?? ""}",
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Amount Paid: ",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: "${user.amountPaid ?? ""}",
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Posting date: ",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
+                                            ),
+                                            TextSpan(
+                                              text: _formatDate(user.valueDate),
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(color: Colors.grey),
+                        ],
+                      );
+                    },
+                  );
+                }),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

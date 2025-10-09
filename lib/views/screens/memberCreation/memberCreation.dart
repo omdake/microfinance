@@ -29,7 +29,7 @@ class MemberCreationScreen extends StatelessWidget {
       appBar: appBarWithTitle(title: "Member Creation"),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
           child: Column(
             children: [
               Row(
@@ -43,6 +43,7 @@ class MemberCreationScreen extends StatelessWidget {
                         onTap: () => controller.selectButton(index),
                         child: Container(
                           decoration: BoxDecoration(
+                             borderRadius: BorderRadiusDirectional.circular(10),
                             color: isSelected
                                 ? Colors.grey.shade400
                                 : Colors.white,
@@ -50,7 +51,7 @@ class MemberCreationScreen extends StatelessWidget {
                           alignment: Alignment.center,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 16),
+                                horizontal: 6, vertical: 2),
                             child: Text(
                               labels[index],
                               textAlign: TextAlign.center,
