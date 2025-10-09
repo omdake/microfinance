@@ -215,7 +215,7 @@ class DashboardScreen extends StatelessWidget {
                             Expanded(
                                 child: quickButtons(
                                     onTap: () {
-                                      Get.toNamed(Routes.loanSummaryScreen);
+                                      Get.toNamed(Routes.loanSummaryScreen); 
                                     },
                                     title: "Loan Summary")),
                           ],
