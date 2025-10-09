@@ -7,6 +7,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/loan_memberList_aspergroup.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/nominee_relation.model.dart';
 import 'package:microfinance/models/product_list.model.dart';
@@ -15,6 +16,8 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanApplicationController extends GetxController {
   RxList<LoanMemberListMessage> loanMemberList = <LoanMemberListMessage>[].obs;
+  RxList<LoanMemberListAsPerGroupMessage> loanMemberAsPerGroup =
+      <LoanMemberListAsPerGroupMessage>[].obs;
   RxList<LoanMemberListMessage> coBorrowerList = <LoanMemberListMessage>[].obs;
   RxList<LoanMemberListMessage> nomineeList = <LoanMemberListMessage>[].obs;
   RxList<RelationListMessage> RelationList = <RelationListMessage>[].obs;
@@ -49,23 +52,18 @@ class LoanApplicationController extends GetxController {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.loanMemberList(
-                country: "india",
-                group: selectedGroup.value,
-                search: "",
-                Status: "verified",
-                isGroup: true)),
+            AppURLs.getloanMemberListAsPerGroupAssignment),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
-        loanMemberList.value =
-            messages.map((e) => LoanMemberListMessage.fromJson(e)).toList();
+        loanMemberAsPerGroup.value = messages
+            .map((e) => LoanMemberListAsPerGroupMessage.fromJson(e))
+            .toList();
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(

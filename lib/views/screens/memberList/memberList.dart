@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
@@ -23,27 +24,38 @@ class MemberListScreen extends StatelessWidget {
               Obx(() {
                 if (!controller.isGroup.value) return SizedBox.shrink();
 
-                return DropdownButtonFormField<GroupListMessage>(
-                  value: controller.groupList.isNotEmpty
-                      ? controller.groupList.first
-                      : null,
-                  items: controller.groupList.map((e) {
-                    return DropdownMenuItem<GroupListMessage>(
-                      value: e,
-                      child: Text(e.name ?? ""),
-                    );
-                  }).toList(),
-                  decoration: TextFieldDecoration.textfieldDecoration(
-                    sufficIconOntap: () {},
-                    sufficIcon: null,
-                    hint: '',
+                return SizedBox(
+                  width: double.infinity,
+                  child: DropdownButtonFormField2<GroupListMessage>(
+                    isExpanded: true,
+                    decoration: TextFieldDecoration.textfieldDecoration(
+                      sufficIconOntap: () {},
+                      sufficIcon: null,
+                      hint: '',
+                    ),
+                    dropdownStyleData: DropdownStyleData(
+                      maxHeight: 500,
+                    ),
+                    value: controller.groupList.isNotEmpty
+                        ? controller.groupList.first
+                        : null,
+                    items: controller.groupList.map((e) {
+                      return DropdownMenuItem<GroupListMessage>(
+                        value: e,
+                        child: Text(
+                          e.name ?? "",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    }).toList(),
+                    //style: TextStyles.textfieldTextStyle,
+                    onChanged: (newValue) {
+                      if (newValue != null) {
+                        controller.selectedGroup.value = newValue.name!;
+                        controller.getLoanMemberList();
+                      }
+                    },
                   ),
-                  onChanged: (newValue) {
-                    if (newValue != null) {
-                      controller.selectedGroup.value = newValue.name!;
-                      controller.getLoanMemberList();
-                    }
-                  },
                 );
               }),
               C25(),
@@ -75,10 +87,10 @@ class MemberListScreen extends StatelessWidget {
                                   flex: 2,
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.shade800,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(12)),
-                                    ),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12)),
+                                        border: Border.all(
+                                            color: Colors.grey.shade800)),
                                     child: Padding(
                                       padding: const EdgeInsets.symmetric(
                                           vertical: 12),
@@ -88,7 +100,7 @@ class MemberListScreen extends StatelessWidget {
                                           style: const TextStyle(
                                             fontFamily: "Roboto-Medium",
                                             fontSize: 15,
-                                            color: Colors.white,
+                                            color: Colors.black,
                                           ),
                                         ),
                                       ),
@@ -131,7 +143,7 @@ class MemberListScreen extends StatelessWidget {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.grey.shade500,
+                                      color: Colors.grey.shade800,
                                       borderRadius: BorderRadius.circular(25),
                                     ),
                                     child: Padding(

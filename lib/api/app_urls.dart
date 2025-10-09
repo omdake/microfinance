@@ -19,7 +19,7 @@ class AppURLs {
 
   static String get getmodeOfPayment => "api/method/ex_loan_management.api.country.mode_of_payment_list";
 
-  static String  getLoanRepayments({required String loanGroup}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?loan_group=$loanGroup";
+  static String  getLoanRepayments({required String loanGroup,int? page,}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?is_pagination=$page&loan_group=$loanGroup";
 
   static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
@@ -36,6 +36,8 @@ class AppURLs {
   static String get getLoanDisbursementList => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/";
 
   static String get groupList => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/";
+
+  static String get getloanMemberListAsPerGroupAssignment => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list_as_per_group_assignment/";
 
   static String   getLoanPaymentSchedule({required String loanId})=> "api/method/lending.loan_management.doctype.loan_repayment_schedule.loan_repayment_schedule.loan_payment_schedule_list/?loan=$loanId";
 
