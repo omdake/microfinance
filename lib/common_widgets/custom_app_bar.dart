@@ -54,6 +54,7 @@ AppBar appBarWithTwoTitle({
 
   return AppBar(
     backgroundColor: Colors.grey.shade600,
+    iconTheme: IconThemeData(color: Colors.white),
     titleSpacing: 10.0,
     title: Container(
       child: Column(

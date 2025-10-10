@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/loan_member.model.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:microfinance/models/total_loan_count.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -26,12 +28,23 @@ class DashboardController extends GetxController {
 
   RxString fullName = "".obs;
   RxString email = "".obs;
+  RxBool isLoader = true.obs;
+  RxString appName = ''.obs;
+  RxString version = ''.obs;
+  RxString buildNumber = ''.obs;
+  RxString packageName = ''.obs;
+  RxInt currentIndex = 0.obs;
+  RxInt selectedIndex = 0.obs;
+  void changeIndex(int index) {
+    selectedIndex.value = index;
+  }
 
   @override
   void onInit() async {
     loadFullName();
     getLoanMemberCount();
     getTotalLoanCount();
+    getAppInfo();
     super.onInit();
   }
 
@@ -40,6 +53,18 @@ class DashboardController extends GetxController {
     final emailId = await AppPreferences.getEmailId();
     fullName.value = name ?? "-";
     email.value = emailId ?? "-";
+  }
+
+  Future<void> getAppInfo() async {
+    try {
+      final packageInfo = await PackageInfo.fromPlatform();
+      appName.value = packageInfo.appName;
+      packageName.value = packageInfo.packageName;
+      version.value = packageInfo.version;
+      buildNumber.value = packageInfo.buildNumber;
+    } catch (e) {
+      debugPrint("Failed to get app info: $e");
+    }
   }
 
   getLoanMemberCount() async {
