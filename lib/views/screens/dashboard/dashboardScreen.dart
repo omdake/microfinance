@@ -41,32 +41,32 @@ class DashboardScreen extends StatelessWidget {
         body: SafeArea(
           child: Obx(() => buildBody(context)),
         ),
-        bottomNavigationBar: Obx(
-          () => BottomNavigationBar(
-            backgroundColor: Colors.grey,
-            currentIndex: controller.selectedIndex.value,
-            onTap: (index) => controller.selectedIndex.value = index,
-            type: BottomNavigationBarType.fixed,
-            selectedItemColor: AppColors.black,
-            unselectedItemColor: Colors.white,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: 'Dashboard'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.person_add_alt_1_outlined),
-                  label: 'Member Creation'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.note_add_outlined),
-                  label: 'Loan Application'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.payments_outlined), label: 'Loan EMI'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.summarize_outlined), label: 'Loan Summary'),
-            ],
-          ),
-        ),
+        // bottomNavigationBar: Obx(
+        //   () => BottomNavigationBar(
+        //     backgroundColor: Colors.grey,
+        //     currentIndex: controller.selectedIndex.value,
+        //     onTap: (index) => controller.selectedIndex.value = index,
+        //     type: BottomNavigationBarType.fixed,
+        //     selectedItemColor: AppColors.black,
+        //     unselectedItemColor: Colors.white,
+        //     showSelectedLabels: false,
+        //     showUnselectedLabels: false,
+        //     items: const [
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.home), label: 'Dashboard'),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.person_add_alt_1_outlined),
+        //           label: 'Member Creation'),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.note_add_outlined),
+        //           label: 'Loan Application'),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.payments_outlined), label: 'Loan EMI'),
+        //       BottomNavigationBarItem(
+        //           icon: Icon(Icons.summarize_outlined), label: 'Loan Summary'),
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

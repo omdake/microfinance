@@ -32,32 +32,44 @@ class LoanRepaymentController extends GetxController {
   RxString selectedValueDate = ''.obs;
   RxString selectedReferenceDate = ''.obs;
   RxString name = ''.obs;
+  RxString applicantId = ''.obs;
+  RxBool isFromEMI = false.obs;
+  RxBool isFormEdit = false.obs;
 
   @override
-  void onInit() async {
+  void onInit() {
     super.onInit();
-    String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    selectedReferenceDate.value = today;
-    referenceDate.value.text = today;
-    final args = Get.arguments as Map<String, dynamic>?;
-    print("Received arguments: $args");
+    final args = Get.arguments;
     if (args != null) {
-      loanId.value.text = args['loanId'] ?? "";
-      payableAmount.value.text = (args['totalPayment'] ?? 0.0).toString();
-      selectedValueDate.value = args['paymentDate'] ?? "";
-      valueDate.value.text = selectedValueDate.value;
-      applicantName.value.text = args['memberName'] ?? "";
+      isFromEMI.value = true;
+      isFormEdit.value = false;
       name.value = args['applicant'] ?? '';
+      loanId.value.text = args['loanId'] ?? '';
+      applicantName.value.text = args['memberName'] ?? '';
+      payableAmount.value.text = args['totalPayment']?.toString() ?? '';
+      valueDate.value.text = args['paymentDate'] ?? '';
+      String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      referenceDate.value.text = today;
+      selectedReferenceDate.value = today;
+    } else {
+      isFromEMI.value = false;
+      isFormEdit.value = true;
     }
 
     getModeOfPaymentList();
   }
 
-  Future<void> selectDate(BuildContext context,
-      TextEditingController controller, RxString selectedDate) async {
+  Future<void> selectDate(
+    BuildContext context,
+    TextEditingController controller,
+    RxString selectedDate,
+  ) async {
+    DateTime now = DateTime.now();
     DateTime initialDate = controller.text.isNotEmpty
-        ? DateTime.tryParse(controller.text) ?? DateTime.now()
-        : DateTime.now();
+        ? DateTime.tryParse(controller.text) ?? now
+        : now;
+
+    DateTime lastDate = isFromEMI.value ? now : DateTime(2100);
 
     List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
       context: context,
@@ -68,7 +80,7 @@ class LoanRepaymentController extends GetxController {
         selectedDayHighlightColor: Colors.grey,
         dayTextStyle: const TextStyle(color: Colors.black),
         firstDate: DateTime(2000),
-        lastDate: DateTime.now(),
+        lastDate: lastDate,
         currentDate: initialDate,
       ),
       dialogSize: const Size(350, 400),
@@ -125,16 +137,13 @@ class LoanRepaymentController extends GetxController {
     isLoading.value = true;
     try {
       var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
-      print("Request URL: $uri");
-      print("Authorization Token: $token");
-
       var request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = token!;
 
       request.fields.addAll({
         "name": name.value,
         "against_loan": loanId.value.text,
-        "applicant": applicantName.value.text,
+        "applicant": applicantId.value,
         "repayment_type": "",
         "loan_disbursement": "",
         "loan_adjustment": "",
@@ -148,7 +157,6 @@ class LoanRepaymentController extends GetxController {
         "payable_amount": payableAmount.value.text,
       });
       Map<String, Rx<File?>> imageFields = {"payment_proof": paymentProofImage};
-
       for (var entry in imageFields.entries) {
         if (entry.value.value != null) {
           var file = await http.MultipartFile.fromPath(
@@ -160,7 +168,6 @@ class LoanRepaymentController extends GetxController {
       }
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
-
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);

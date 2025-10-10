@@ -31,6 +31,8 @@ class AppURLs {
 
   static String get loanMemberCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_members";
 
+    static String get getLoanlist => "api/method/lending.loan_management.doctype.loan.loan.loan_list";
+
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
   static String get getLoanDisbursementList => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/";
