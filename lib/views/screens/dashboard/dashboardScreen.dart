@@ -366,13 +366,13 @@ class DashboardScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Hello User",
+              Text("${controller.fullName.value}",
                   style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
                       fontWeight: FontWeight.bold)),
               C5(),
-              Text("Designation",
+              Text("${controller.email}",
                   style: TextStyle(color: Colors.white70, fontSize: 14)),
             ],
           ),
@@ -389,7 +389,9 @@ class DashboardScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.symmetric(vertical: 10),
           children: [
-            drawerTile(Icons.person_outline, "Profile", () {}),
+            drawerTile(Icons.person_outline, "Profile", () {
+              Get.toNamed(Routes.profile);
+            }),
             const Divider(
               thickness: 0.4,
               color: Colors.grey,

@@ -11,6 +11,7 @@ class Routes {
   static const loanEMIScreen = '/loanEMIScreen';
   static const loanSummaryScreen = '/loanSummaryScreen';
   static const loanDetailsScreen = '/loanDetailsScreen';
+  static const profile = '/profile';
   static const homeScreen = '/homeScreen';
   static const dashboardScreen = '/dashboardScreen';
   static const loanRepayment = '/loanRepayment';

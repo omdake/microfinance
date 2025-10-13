@@ -19,6 +19,8 @@ class AppURLs {
 
   static String get getmodeOfPayment => "api/method/ex_loan_management.api.country.mode_of_payment_list";
 
+  static String get getUserProfile => "api/method/ex_loan_management.api.user_profile.get_user_profile";
+
   static String  getLoanRepayments({required String loanGroup,int? page,}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?is_pagination=$page&loan_group=$loanGroup";
 
   static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
@@ -30,6 +32,8 @@ class AppURLs {
   static String get saveLoanMember => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.create_loan_member";
 
   static String get loanMemberCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_members";
+
+  static String get getPayableAmount => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.calculate_amounts";
 
     static String get getLoanlist => "api/method/lending.loan_management.doctype.loan.loan.loan_list";
 

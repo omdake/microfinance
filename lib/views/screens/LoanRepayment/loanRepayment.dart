@@ -58,7 +58,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                               items: loanlist.map((loan) {
                                 return DropdownMenuItem<String>(
                                   value: loan.name!,
-                                  child: Text(loan.loanId!),
+                                  child: Text(loan.name!),
                                 );
                               }).toList(),
                               onChanged: (value) {
@@ -67,6 +67,10 @@ class LoanRepaymentScreen extends StatelessWidget {
                                     controller.applicantName.value.text =
                                         loan.applicantName!;
                                     controller.loanId.value.text = loan.name!;
+
+                                    controller.valueDate.value.text = '';
+                                    controller.selectedValueDate.value = '';
+                                    controller.payableAmount.value.text = '';
                                   }
                                 }
                               },
@@ -102,6 +106,44 @@ class LoanRepaymentScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
+                              label: "Value Date", isRequired: true),
+                          Obx(
+                            () => TextFormField(
+                              controller: controller.valueDate.value,
+                              cursorColor: AppColors.primary,
+                              readOnly: true,
+                              onTap: () async {
+                                await controller.selectDate(
+                                    context,
+                                    controller.valueDate.value,
+                                    controller.selectedValueDate);
+                                if (controller.loanId.value.text.isNotEmpty &&
+                                    controller
+                                        .selectedValueDate.value.isNotEmpty) {
+                                  controller.getRepaymentAmount();
+                                }
+                              },
+                              validator: (value) => requiredValidator(value!),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecorationicon(
+                                hint: "Value Date",
+                                sufficIcon: Icons.calendar_today,
+                                sufficIconOntap: () => controller.selectDate(
+                                    context,
+                                    controller.valueDate.value,
+                                    controller.selectedValueDate),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
                               label: "Applicant Name", isRequired: true),
                           TextFormField(
                             controller: controller.applicantName.value,
@@ -115,6 +157,26 @@ class LoanRepaymentScreen extends StatelessWidget {
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Applicant Name "),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Payable Amount", isRequired: true),
+                          TextFormField(
+                            controller: controller.payableAmount.value,
+                            cursorColor: AppColors.primary,
+                            enabled: controller.isFormEdit.value,
+                            textCapitalization: TextCapitalization.sentences,
+                            validator: (value) => requiredValidator(value!),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Payable Amount"),
                           ),
                         ],
                       ),
@@ -156,26 +218,6 @@ class LoanRepaymentScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Payable Amount", isRequired: true),
-                          TextFormField(
-                            controller: controller.payableAmount.value,
-                            cursorColor: AppColors.primary,
-                            enabled: controller.isFormEdit.value,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Payable Amount"),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
                               label: "Amount Paid", isRequired: true),
                           TextFormField(
                             controller: controller.amountPaid.value,
@@ -188,37 +230,6 @@ class LoanRepaymentScreen extends StatelessWidget {
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Paid Amount"),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Value Date", isRequired: true),
-                          Obx(
-                            () => TextFormField(
-                              controller: controller.valueDate.value,
-                              cursorColor: AppColors.primary,
-                              readOnly: true,
-                              onTap: () => controller.selectDate(
-                                  context,
-                                  controller.valueDate.value,
-                                  controller.selectedValueDate),
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecorationicon(
-                                hint: "Value Date",
-                                sufficIcon: Icons.calendar_today,
-                                sufficIconOntap: () => controller.selectDate(
-                                    context,
-                                    controller.valueDate.value,
-                                    controller.selectedValueDate),
-                              ),
-                            ),
                           ),
                         ],
                       ),
