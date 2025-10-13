@@ -20,6 +20,7 @@ import 'package:microfinance/views/screens/memberCreation/addressDetailsScreen.d
 import 'package:microfinance/views/screens/memberCreation/memberCreation.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
 import 'package:microfinance/views/screens/memberList/memberList.dart';
+import 'package:microfinance/views/screens/profile/ProfileScreen.dart';
 import 'package:microfinance/views/screens/splash_screen.dart';
 
 class AppRoutes {
@@ -82,6 +83,11 @@ class AppRoutes {
       name: Routes.loanDetailsScreen,
       binding: LoanDetailsBindings(),
       page: () => LoanDetails(),
+    ),
+    GetPage(
+      name: Routes.profile,
+      //binding: LoanDetailsBindings(),
+      page: () => ProfileScreen(),
     ),
   ];
 }

@@ -11,6 +11,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/get_Payable_Amount.model.dart';
 import 'package:microfinance/models/mode_of_payment.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -25,6 +26,8 @@ class LoanRepaymentController extends GetxController {
   Rx<TextEditingController> utrNumber = TextEditingController().obs;
   Rx<TextEditingController> remark = TextEditingController().obs;
   RxList<ModeOfPaymentMessage> modeOfPaymentList = <ModeOfPaymentMessage>[].obs;
+  RxList<GetPayableAmountMessage> getPayableAmount =
+      <GetPayableAmountMessage>[].obs;
   RxString selectedModeOfPayment = ''.obs;
   RxBool isLoading = false.obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
@@ -124,6 +127,38 @@ class LoanRepaymentController extends GetxController {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  getRepaymentAmount() async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final requestBody = {
+        "against_loan": loanId.value.text,
+        "posting_date": selectedValueDate.value,
+      };
+      final response = await http.post(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.getPayableAmount),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+        body: jsonEncode(requestBody),
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final message = GetPayableAmountMessage.fromJson(data['message']);
+        getPayableAmount.value = [message];
+        payableAmount.value.text = message.payableAmount?.toString() ?? '0';
+      } else {
+        final err = jsonDecode(response.body);
+        CustomSnackBar.show(isIssue: true, message: err['message']['msg'] ?? "Error");
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
