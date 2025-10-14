@@ -66,10 +66,18 @@ class LoanApplicationScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Applicant",
+                              hint: "",
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ),
+                             hint: Text(
+                                "Select Applicant",
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontFamily: "Roboto-Regular",
+                                  fontSize: 12,
+                                ),
+                              ),
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
