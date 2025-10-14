@@ -49,6 +49,7 @@ class MemberCreationController extends GetxController {
   Rx<File?> voterImage = Rx<File?>(null);
   Rx<File?> memberImage = Rx<File?>(null);
   Rx<File?> addressImage = Rx<File?>(null);
+  Rx<File?> addressProofImage = Rx<File?>(null);
   RxBool isvoterImageFocused = false.obs;
   RxBool ishomeImageFocused = false.obs;
   RxBool isAadharImageFocused = false.obs;
@@ -56,6 +57,7 @@ class MemberCreationController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isAddressImageFocused = false.obs;
   RxBool isMemberImageFocused = false.obs;
+   RxBool isAddressProofImageFocused = false.obs;
   RxString selectedOccupation = ''.obs;
   RxString selectedCountry = "".obs;
   RxString selectedState = "".obs;

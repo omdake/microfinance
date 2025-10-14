@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -53,27 +52,7 @@ class AddressDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     C10(),
-                    imagePickerField(
-                      label: "Address Image",
-                      imageFile: controller.addressImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].addressImage ?? ''
-                          : ''),
-                      isFocused: controller.isAddressImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.addressImage),
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "Home Image",
-                      imageFile: controller.homeImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].homeImage ?? ''
-                          : ''),
-                      isFocused: controller.ishomeImageFocused,
-                      onTap: () => controller.pickImage(controller.homeImage),
-                    ),
-                    C10(),
+                    
                     paddingWidget(
                       [
                         const LabelsWithMark(
