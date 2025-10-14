@@ -176,6 +176,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                             controller: controller.payableAmount.value,
                             cursorColor: AppColors.primary,
                             enabled: controller.isFormEdit.value,
+                            readOnly: true,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:

@@ -167,7 +167,7 @@ class DashboardScreen extends StatelessWidget {
                     Expanded(
                       child: reusableCard(
                         title: "${controller.dueReport.value}",
-                        subTitle: 'Due Report',
+                        subTitle: 'Outstanding Report',
                       ),
                     ),
                   ],
@@ -178,7 +178,7 @@ class DashboardScreen extends StatelessWidget {
                     Expanded(
                       child: reusableCard(
                         title: "${controller.assignedGroup.value}",
-                        subTitle: 'Assigned Group',
+                        subTitle: 'Monthly Collection',
                       ),
                     ),
                     C10(),

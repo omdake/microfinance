@@ -80,15 +80,48 @@ class UploadDcumentSreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    
                     C10(),
                     imagePickerField(
-                      label: "PAN Image",
+                      label: "Pan Image",
                       imageFile: controller.panImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImage ?? ''
                           : ''),
                       isFocused: controller.isPanImageFocused,
                       onTap: () => controller.pickImage(controller.panImage),
+                    ),
+                    imagePickerField(
+                      label: "Address Image",
+                      imageFile: controller.addressImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].addressImage ?? ''
+                          : ''),
+                      isFocused: controller.isAddressImageFocused,
+                      onTap: () =>
+                          controller.pickImage(controller.addressImage),
+                    ),
+                    C10(),
+                    // imagePickerField(
+                    //   label: "Address Proof Image",
+                    //   imageFile: controller.addressProofImage,
+                    //   imageUrl: RxString(controller.loanMember.isNotEmpty
+                    //       ? controller.loanMember[0].addressProofImage ?? ''
+                    //       : ''),
+                    //   isFocused: controller.isAddressProofImageFocused,
+                    //   onTap: () =>
+                    //       controller.pickImage(controller.addressProofImage),
+                    // ),
+                    // C10(),
+                 
+                    imagePickerField(
+                      label: "Home Image",
+                      imageFile: controller.homeImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].homeImage ?? ''
+                          : ''),
+                      isFocused: controller.ishomeImageFocused,
+                      onTap: () => controller.pickImage(controller.homeImage),
                     ),
                     C10(),
                     paddingWidget(
