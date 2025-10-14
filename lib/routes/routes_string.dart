@@ -11,6 +11,8 @@ class Routes {
   static const collectionInHandList = '/collectionInHandList';
   static const createCollectionInHand = '/createCollectionInHand';
   static const otpScreen = '/otpScreen';
+  static const resetPasswordScreen = '/resetPasswordScreen';
+  static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const loanEMIScreen = '/loanEMIScreen';
   static const loanSummaryScreen = '/loanSummaryScreen';
   static const loanDetailsScreen = '/loanDetailsScreen';
