@@ -52,47 +52,6 @@ class AddressDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     C10(),
-                    
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Address Doc Type", isRequired: true),
-                        Obx(() {
-                          return DropdownButtonFormField<String>(
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Address Doc Type",
-                            ),
-                            style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            items: controller.addressDocTypeList
-                                .map((addressDocType) {
-                              return DropdownMenuItem<String>(
-                                value: addressDocType,
-                                child: Text(addressDocType),
-                              );
-                            }).toList(),
-                            value: controller
-                                    .selectedAddressDocType.value.isNotEmpty
-                                ? controller.selectedAddressDocType.value
-                                : null,
-                            onChanged: (value) {
-                              if (value != null) {
-                                controller.selectedAddressDocType.value = value;
-                              }
-                            },
-                            validator: (value) {
-                              if (controller
-                                  .selectedAddressDocType.value.isEmpty) {
-                                return 'Address Doc Type is required';
-                              }
-                              return null;
-                            },
-                          );
-                        }),
-                      ],
-                    ),
-                    C10(),
                     paddingWidget([
                       LabelsWithMark(label: "State"),
                       Obx(() {
