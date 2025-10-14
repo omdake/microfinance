@@ -186,6 +186,7 @@ class DashboardScreen extends StatelessWidget {
                       child: reusableCard(
                         title: "${controller.collectionByCash.value}",
                         subTitle: 'Collection By Cash',
+                        onTap: ()=>Get.toNamed(Routes.collectionInHandList),
                       ),
                     ),
                   ],

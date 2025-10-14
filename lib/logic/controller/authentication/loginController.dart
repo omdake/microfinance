@@ -35,14 +35,18 @@ class LoginController extends GetxController {
         final apiSecret = data["message"]["token"]["api_secret"];
         final name = data["message"]["user"]["full_name"];
         final emailId = data["message"]["user"]["email"];
+        final empId = data["message"]["user"]["emp_details"]["employee"];
+        final empName = data["message"]["user"]["emp_details"]["employee_name"];
         final token = "token $apiKey:$apiSecret";
         await AppPreferences.setToken(token);
         await AppPreferences.setName(name);
         await AppPreferences.setEmailId(emailId);
+        await AppPreferences.setEmpName(empName);
+        await AppPreferences.setEmpId(empId);
         await Get.offAllNamed(Routes.dashboardScreen);
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['message'];
+        String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {

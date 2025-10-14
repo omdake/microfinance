@@ -26,8 +26,7 @@ class LoanApplicationController extends GetxController {
   Rx<TextEditingController> loanAmount = TextEditingController().obs;
   Rx<TextEditingController> periods = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
-  RxList<LoanApplicantListResult> loanApplicantList =
-      <LoanApplicantListResult>[].obs;
+  RxList<LoanApplicantListResult> loanApplicantList =<LoanApplicantListResult>[].obs;
   RxString selectedMemberName = "".obs;
   RxString selectedCoBorrower = "".obs;
   RxString selectednominee = "".obs;
@@ -279,7 +278,6 @@ class LoanApplicationController extends GetxController {
           "Authorization": token!,
         },
       );
-      print("....................${response.body}");
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
@@ -294,7 +292,6 @@ class LoanApplicationController extends GetxController {
             isIssue: true, message: err['message']['msg'] ?? "Error");
       }
     } catch (e) {
-      print("???????????????????/$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;

@@ -12,6 +12,8 @@ import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
 import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
 import 'package:microfinance/views/screens/authentication/login.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionInHandList.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationList.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationScreen.dart';
@@ -94,6 +96,16 @@ class AppRoutes {
       name: Routes.loanApplicationList,
       //binding: LoanDetailsBindings(),
       page: () => LoanApplicationList(),
+    ),
+    GetPage(
+      name: Routes.collectionInHandList,
+      //binding: LoanDetailsBindings(),
+      page: () => CollectionInHandList(),
+    ),
+    GetPage(
+      name: Routes.createCollectionInHand,
+      //binding: LoanDetailsBindings(),
+      page: () => CollectionInHandScreen(),
     ),
   ];
 }
