@@ -7,6 +7,7 @@ class Routes {
   static const addressDetails = '/addressDetails';
   static const loginWithEmailScreen = '/loginWithEmailScreen';
   static const loanApplication = '/loanApplication';
+   static const loanApplicationList = '/loanApplicationList';
   static const otpScreen = '/otpScreen';
   static const loanEMIScreen = '/loanEMIScreen';
   static const loanSummaryScreen = '/loanSummaryScreen';

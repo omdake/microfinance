@@ -13,6 +13,7 @@ import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
 import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
 import 'package:microfinance/views/screens/authentication/login.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
+import 'package:microfinance/views/screens/loanApplication/loanApplicationList.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationScreen.dart';
 import 'package:microfinance/views/screens/loanSummary/loanDetails.dart';
 import 'package:microfinance/views/screens/loanSummary/loanSummaryScreen.dart';
@@ -88,6 +89,11 @@ class AppRoutes {
       name: Routes.profile,
       //binding: LoanDetailsBindings(),
       page: () => ProfileScreen(),
+    ),
+     GetPage(
+      name: Routes.loanApplicationList,
+      //binding: LoanDetailsBindings(),
+      page: () => LoanApplicationList(),
     ),
   ];
 }
