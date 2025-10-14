@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/logic/controller/authentication/loginController.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/utils/strings.dart';
 import 'package:microfinance/utils/ui_helper.dart/lable_widget.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
@@ -15,7 +17,7 @@ class LoginWithPassword extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(), 
+          onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
@@ -108,12 +110,21 @@ class LoginWithPassword extends StatelessWidget {
                                 ),
                         ),
                         onPressed: () async {
-                          FocusScope.of(context).unfocus(); // hide keyboard
+                          FocusScope.of(context).unfocus();
                           await controller.login();
                         },
                       ),
                     ),
-                  )
+                  ),
+                  C10(),
+                  AppTextButton(
+                    onTap: () {
+                      Get.offAndToNamed(Routes.forgotPasswordScreen);
+                    },
+                    title: 'Forgot Password',
+                    style: TextStyle(
+                        color: Colors.grey, fontFamily: "Inter-Regular"),
+                  ),
                 ],
               ),
             ),

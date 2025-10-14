@@ -29,6 +29,7 @@ class Strings {
   
   static String get mobilePre => "+44 ";
   static String get UserName => "Username";
+  static String get Email => "Email";
   static String get Password => "Password";
   static String get email => "Email";
   static String get next => "Next";

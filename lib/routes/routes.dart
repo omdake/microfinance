@@ -11,7 +11,9 @@ import 'package:get/get.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
 import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
+import 'package:microfinance/views/screens/authentication/forgotPassword.dart';
 import 'package:microfinance/views/screens/authentication/login.dart';
+import 'package:microfinance/views/screens/authentication/resetPasswordScreen.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandList.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
@@ -107,5 +109,15 @@ class AppRoutes {
       //binding: LoanDetailsBindings(),
       page: () => CollectionInHandScreen(),
     ),
+    GetPage(
+name: Routes.forgotPasswordScreen,
+//binding: LoanDetailsBindings(),
+page: () => ForgotPassword(),
+),
+GetPage(
+name: Routes.resetPasswordScreen,
+//binding: LoanDetailsBindings(),
+page: () => ResetPasswordScreen(),
+),
   ];
 }
