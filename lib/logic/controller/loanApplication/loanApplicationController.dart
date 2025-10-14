@@ -7,6 +7,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/models/loan_memberList_aspergroup.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/nominee_relation.model.dart';
@@ -25,6 +26,8 @@ class LoanApplicationController extends GetxController {
   Rx<TextEditingController> loanAmount = TextEditingController().obs;
   Rx<TextEditingController> periods = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
+  RxList<LoanApplicantListResult> loanApplicantList =
+      <LoanApplicantListResult>[].obs;
   RxString selectedMemberName = "".obs;
   RxString selectedCoBorrower = "".obs;
   RxString selectednominee = "".obs;
@@ -44,6 +47,7 @@ class LoanApplicationController extends GetxController {
     super.onInit();
     await getLoanMemberList();
     getProductList();
+    getAplicantList();
   }
 
   getLoanMemberList() async {
@@ -257,6 +261,40 @@ class LoanApplicationController extends GetxController {
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  getAplicantList({int? page}) async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(
+            AppEnvironment.baseUrl + AppURLs.getApplicantList(page: page)),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      print("....................${response.body}");
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        final message = data['message'];
+        final results = message['results'] as List<dynamic>;
+
+        loanApplicantList.value =
+            results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
+      } else {
+        final err = jsonDecode(response.body);
+        CustomSnackBar.show(
+            isIssue: true, message: err['message']['msg'] ?? "Error");
+      }
+    } catch (e) {
+      print("???????????????????/$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;

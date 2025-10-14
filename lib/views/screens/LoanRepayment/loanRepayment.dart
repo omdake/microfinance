@@ -74,13 +74,20 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   }
                                 }
                               },
+                              hint: Text(
+                                "Select A Loan Id",
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontFamily: "Roboto-Regular",
+                                  fontSize: 12,
+                                ),
+                              ),
                               style: TextStyles.textfieldTextStyle,
                               dropdownStyleData:
                                   DropdownStyleData(maxHeight: 500),
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Loan ID",
-                              ),
+                                      hint: ''),
                               validator: (value) => requiredValidator(value!),
                             );
                           } else {
@@ -322,6 +329,7 @@ class LoanRepaymentScreen extends StatelessWidget {
               ),
             ),
           ),
-        ));
+        )
+        );
   }
 }

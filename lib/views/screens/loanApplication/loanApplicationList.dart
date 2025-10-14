@@ -1,87 +1,37 @@
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
+import 'package:microfinance/common_widgets/custom_app_bar.dart';
+import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
 import 'package:microfinance/routes/routes_string.dart';
-import 'package:microfinance/themes/app_textstyles.dart';
-import 'package:microfinance/utils/text_field_decoration.dart';
-import 'package:microfinance/utils/ui_helper_widgets.dart';
 
-class RepaymentScreen extends StatelessWidget {
-  const RepaymentScreen({super.key});
-  String _formatDate(DateTime? date) {
-    if (date == null) return 'N/A';
-    try {
-      return DateFormat('yyy-MM-dd').format(date);
-    } catch (e) {
-      return 'N/A';
-    }
-  }
-
+class LoanApplicationList extends StatelessWidget {
+  const LoanApplicationList({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoanSummaryController());
-
+    final controller = Get.put(LoanApplicationController());
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: appBarWithTitle(title: "Loan Application List"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              Obx(() {
-                return DropdownButtonFormField2<String>(
-                  value: controller.selectedGroup.value.isEmpty
-                      ? null
-                      : controller.selectedGroup.value,
-                  hint: Text(
-                    "Select A Group Name",
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontFamily: "Roboto-Regular",
-                      fontSize: 12,
-                    ),
-                  ),
-                  items: controller.groupList.map((e) {
-                    return DropdownMenuItem<String>(
-                      value: e.name ?? "",
-                      child: Text(e.name ?? ""),
-                    );
-                  }).toList(),
-                  dropdownStyleData: DropdownStyleData(
-                    maxHeight: 500,
-                  ),
-                  style: TextStyles.textfieldTextStyle,
-                  decoration: TextFieldDecoration.textfieldDecoration(
-                    sufficIconOntap: () {},
-                    sufficIcon: null,
-                    hint: '',
-                  ),
-                  onChanged: (newGroup) {
-                    controller.selectedGroup.value = newGroup!;
-                    controller.repaymentList.clear();
-                    controller.getRepaymentList();
-                  },
-                );
-              }),
-              C20(),
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return const Center(
-                      child: CircularProgressIndicator(color: Colors.black),
-                    );
+                        child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ));
                   }
-
-                  if (controller.repaymentList.isEmpty) {
+                  if (controller.loanApplicantList.isEmpty) {
                     return const Center(child: Text("No members found"));
                   }
-
                   return ListView.builder(
-                    itemCount: controller.repaymentList.length,
+                    itemCount: controller.loanApplicantList.length,
                     itemBuilder: (context, index) {
-                      final user = controller.repaymentList[index];
+                      final user = controller.loanApplicantList[index];
 
                       return Column(
                         children: [
@@ -97,35 +47,27 @@ class RepaymentScreen extends StatelessWidget {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              children: [
-                                                TextSpan(
-                                                  text: "Applicant Id: ",
-                                                  style: TextStyle(
-                                                    fontFamily:
-                                                        "Roboto-Medium",
-                                                    fontSize: 15,
-                                                    color:
-                                                        Colors.grey.shade700,
-                                                  ),
-                                                ),
-                                                TextSpan(
-                                                  text:
-                                                      "${user.applicant ?? ""}",
-                                                  style: const TextStyle(
-                                                    fontFamily:
-                                                        "Roboto-Medium",
-                                                    fontSize: 15,
-                                                    color: Colors.black,
-                                                  ),
-                                                ),
-                                              ],
+                                      RichText(
+                                        text: TextSpan(
+                                          children: [
+                                            TextSpan(
+                                              text: "Applicant Id: ",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.grey.shade700,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                            TextSpan(
+                                              text: "${user.name ?? ""}",
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                       RichText(
                                         text: TextSpan(
@@ -140,7 +82,7 @@ class RepaymentScreen extends StatelessWidget {
                                             ),
                                             TextSpan(
                                               text:
-                                                  "${user.applicantMemberName ?? ""}",
+                                                  "${user.applicantName ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -154,7 +96,7 @@ class RepaymentScreen extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Against Loan: ",
+                                              text: "Company: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -162,8 +104,7 @@ class RepaymentScreen extends StatelessWidget {
                                               ),
                                             ),
                                             TextSpan(
-                                              text:
-                                                  "${user.againstLoan ?? ""}",
+                                              text: "${user.company ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -177,7 +118,7 @@ class RepaymentScreen extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Amount Paid: ",
+                                              text: "Loan Product: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -185,8 +126,7 @@ class RepaymentScreen extends StatelessWidget {
                                               ),
                                             ),
                                             TextSpan(
-                                              text:
-                                                  "${user.amountPaid ?? ""}",
+                                              text: "${user.loanProduct ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -200,7 +140,7 @@ class RepaymentScreen extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Posting date: ",
+                                              text: "Loan Amount: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -208,8 +148,7 @@ class RepaymentScreen extends StatelessWidget {
                                               ),
                                             ),
                                             TextSpan(
-                                              text:
-                                                  _formatDate(user.valueDate),
+                                              text: "${user.loanAmount ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -222,10 +161,26 @@ class RepaymentScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade600,
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 4, vertical: 2),
+                                  child: Text(
+                                    user.status ?? "-",
+                                    style: const TextStyle(
+                                      fontFamily: "Roboto-Medium",
+                                      fontSize: 13,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          Divider(color: Colors.grey),
+                          const Divider(color: Colors.grey),
                         ],
                       );
                     },
@@ -238,11 +193,11 @@ class RepaymentScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(Routes.loanRepayment);
+          Get.toNamed(Routes.loanApplication);
         },
         backgroundColor: Colors.black,
         child: const Icon(Icons.add),
-        tooltip: "Add Repayment",
+        tooltip: "Add Payment Proof",
       ),
     );
   }
