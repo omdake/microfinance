@@ -37,6 +37,10 @@ class AppURLs {
 
     static String get getLoanlist => "api/method/lending.loan_management.doctype.loan.loan.loan_list";
 
+    static String  getCollectionInHandlist({required int page,String? employee }) => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.collection_in_hand_list?is_pagination=$page&employee=$employee";
+
+    static String get saveCollectionInHand => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.create_collection_in_hand";
+
     static String  getApplicantList({int? page}) => "api/method/lending.loan_management.doctype.loan_application.loan_application.loan_application_list?applicant_type=Loan Member&is_pagination=$page";
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";

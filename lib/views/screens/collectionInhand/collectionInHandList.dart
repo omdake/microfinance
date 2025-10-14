@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
-import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
+import 'package:microfinance/logic/controller/collectionInHand/collectionInHandController.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:intl/intl.dart';
 
-class LoanApplicationList extends StatelessWidget {
-  const LoanApplicationList({super.key});
+class CollectionInHandList extends StatelessWidget {
+  const CollectionInHandList({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoanApplicationController());
+    final controller = Get.put(CollectionInHandController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan Application List"),
@@ -25,13 +26,13 @@ class LoanApplicationList extends StatelessWidget {
                       color: Colors.black,
                     ));
                   }
-                  if (controller.loanApplicantList.isEmpty) {
+                  if (controller.collectionInHandList.isEmpty) {
                     return const Center(child: Text("No members found"));
                   }
                   return ListView.builder(
-                    itemCount: controller.loanApplicantList.length,
+                    itemCount: controller.collectionInHandList.length,
                     itemBuilder: (context, index) {
-                      final user = controller.loanApplicantList[index];
+                      final user = controller.collectionInHandList[index];
 
                       return Column(
                         children: [
@@ -51,7 +52,7 @@ class LoanApplicationList extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Application Id: ",
+                                              text: "Employee Id: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -59,7 +60,7 @@ class LoanApplicationList extends StatelessWidget {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: "${user.name ?? ""}",
+                                              text: "${user.employee ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -73,7 +74,7 @@ class LoanApplicationList extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Application Name: ",
+                                              text: "Employee Name: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -82,7 +83,7 @@ class LoanApplicationList extends StatelessWidget {
                                             ),
                                             TextSpan(
                                               text:
-                                                  "${user.applicantName ?? ""}",
+                                                  "${user.employeeEmployeeName ?? ""}",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -96,7 +97,7 @@ class LoanApplicationList extends StatelessWidget {
                                         text: TextSpan(
                                           children: [
                                             TextSpan(
-                                              text: "Company: ",
+                                              text: "Date: ",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -104,51 +105,11 @@ class LoanApplicationList extends StatelessWidget {
                                               ),
                                             ),
                                             TextSpan(
-                                              text: "${user.company ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Loan Product: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.loanProduct ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Loan Amount: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
-                                              ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.loanAmount ?? ""}",
+                                              text: user.postingDate != null
+                                                  ? DateFormat(
+                                                          'yyyy-MM-dd')
+                                                      .format(user.postingDate!)
+                                                  : "",
                                               style: const TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 15,
@@ -161,22 +122,22 @@ class LoanApplicationList extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade600,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 2),
-                                  child: Text(
-                                    user.status ?? "-",
-                                    style: const TextStyle(
-                                      fontFamily: "Roboto-Medium",
-                                      fontSize: 13,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                                // Container(
+                                //   decoration: BoxDecoration(
+                                //     color: Colors.grey.shade600,
+                                //     borderRadius: BorderRadius.circular(25),
+                                //   ),
+                                //   padding: const EdgeInsets.symmetric(
+                                //       horizontal: 4, vertical: 2),
+                                //   child: Text(
+                                //     user.status ?? "-",
+                                //     style: const TextStyle(
+                                //       fontFamily: "Roboto-Medium",
+                                //       fontSize: 13,
+                                //       color: Colors.white,
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
@@ -193,7 +154,7 @@ class LoanApplicationList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(Routes.loanApplication);
+          Get.toNamed(Routes.createCollectionInHand);
         },
         backgroundColor: Colors.black,
         child: const Icon(Icons.add),
