@@ -111,6 +111,7 @@ class LoginController extends GetxController {
         "email": verifyEmail.value.toString(),
         "otp": otp.value.text.toINT,
       };
+
       final response = await http.post(
         Uri.parse(AppEnvironment.baseUrl + AppURLs.verifyOtp),
         body: jsonEncode(requestBody),
@@ -142,6 +143,18 @@ class LoginController extends GetxController {
 
   ResetPassword() async {
     isLoading.value = true;
+    if (newPassword.value.text.isEmpty || ConfirmPassword.value.text.isEmpty) {
+      CustomSnackBar.show(
+          isIssue: true, message: "Please fill both password fields");
+           isLoading.value = false;
+      return;
+    }
+
+    if (newPassword.value.text != ConfirmPassword.value.text) {
+      CustomSnackBar.show(isIssue: true, message: "Passwords do not match");
+       isLoading.value = false;
+      return;
+    }
     try {
       final requestBody = {
         "email": verifyEmail.value,
@@ -160,7 +173,7 @@ class LoginController extends GetxController {
         Get.toNamed(Routes.loginScreen);
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']?['msg'];
+        String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {

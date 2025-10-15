@@ -24,7 +24,7 @@ class DashboardController extends GetxController {
   RxInt todaysCollection = 0.obs;
   RxInt dueReport = 0.obs;
   RxInt assignedGroup = 0.obs;
-  RxInt collectionByCash = 0.obs;
+  RxDouble collectionByCash = 0.0.obs;
 
   RxString fullName = "".obs;
   RxString email = "".obs;
@@ -114,10 +114,10 @@ class DashboardController extends GetxController {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final message = TotalLoanCountMessage.fromJson(data['message']);
 
-        todaysCollection.value = message.totalLoans ?? 0;
-        dueReport.value = (message.totalRepaymentAmount ?? 0.0).toInt();
-        assignedGroup.value = message.approvedLoans ?? 0;
-        collectionByCash.value = message.totalEmis ?? 0;
+        todaysCollection.value = message.todaysCollection ?? 0;
+        dueReport.value = (message.remainingAmount ?? 0.0).toInt();
+        assignedGroup.value = message.monthlyCollection ?? 0;
+        collectionByCash.value = message.collectionInHand ?? 0.0;
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];

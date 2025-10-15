@@ -18,33 +18,42 @@ class TotalLoanCountMessage {
   int? totalLoans;
   int? approvedLoans;
   int? rejectedLoans;
-  double? totalRepaymentAmount;
+  int? remainingAmount;
   int? totalEmis;
+  double? collectionInHand;
+  int? todaysCollection;
+  int? monthlyCollection;
 
   TotalLoanCountMessage({
     this.totalLoans,
     this.approvedLoans,
     this.rejectedLoans,
-    this.totalRepaymentAmount,
+    this.remainingAmount,
     this.totalEmis,
+    this.collectionInHand,
+    this.todaysCollection,
+    this.monthlyCollection,
   });
 
-  factory TotalLoanCountMessage.fromJson(Map<String, dynamic> json) =>
-      TotalLoanCountMessage(
-        totalLoans: json["total_loans"] ?? 0,
-        approvedLoans: json["approved_loans"] ?? 0,
-        rejectedLoans: json["rejected_loans"] ?? 0.0,
-        totalRepaymentAmount: (json["total_repayment_amount"] is int)
-            ? (json["total_repayment_amount"] as int).toDouble()
-            : (json["total_repayment_amount"] ?? 0.0),
-        totalEmis: json["total_emis"] ?? 0,
+  factory TotalLoanCountMessage.fromJson(Map<String, dynamic> json) => TotalLoanCountMessage(
+        totalLoans: json["total_loans"],
+        approvedLoans: json["approved_loans"],
+        rejectedLoans: json["rejected_loans"],
+        remainingAmount: json["remaining_amount"],
+        totalEmis: json["total_emis"],
+        collectionInHand: json["collection_in_hand"],
+        todaysCollection: json["todays_collection"],
+        monthlyCollection: json["monthly_collection"],
       );
 
   Map<String, dynamic> toJson() => {
         "total_loans": totalLoans,
         "approved_loans": approvedLoans,
         "rejected_loans": rejectedLoans,
-        "total_repayment_amount": totalRepaymentAmount,
+        "remaining_amount": remainingAmount,
         "total_emis": totalEmis,
+        "collection_in_hand": collectionInHand,
+        "todays_collection": todaysCollection,
+        "monthly_collection": monthlyCollection,
       };
 }

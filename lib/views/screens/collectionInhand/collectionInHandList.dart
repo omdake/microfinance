@@ -12,7 +12,7 @@ class CollectionInHandList extends StatelessWidget {
     final controller = Get.put(CollectionInHandController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Application List"),
+      appBar: appBarWithTitle(title: "Collection By Cash List"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

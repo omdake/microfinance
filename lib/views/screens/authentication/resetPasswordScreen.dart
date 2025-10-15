@@ -47,7 +47,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       isRequired: true,
                       child: TextFormField(
                         controller: controller.newPassword.value,
-                        autovalidateMode: AutovalidateMode.disabled,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         obscureText: true,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
@@ -70,7 +70,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       isRequired: true,
                       child: TextFormField(
                         controller: controller.ConfirmPassword.value,
-                        autovalidateMode: AutovalidateMode.disabled,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
                         obscureText: true,
                         cursorColor: Colors.black,
                         decoration: InputDecoration(
