@@ -16,17 +16,20 @@ import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanApplicationController extends GetxController {
-  RxList<LoanMemberListMessage> loanMemberList = <LoanMemberListMessage>[].obs;
+  RxList<LoanMemberListResult> loanMemberList = <LoanMemberListResult>[].obs;
   RxList<LoanMemberListAsPerGroupMessage> loanMemberAsPerGroup =
       <LoanMemberListAsPerGroupMessage>[].obs;
-  RxList<LoanMemberListMessage> coBorrowerList = <LoanMemberListMessage>[].obs;
-  RxList<LoanMemberListMessage> nomineeList = <LoanMemberListMessage>[].obs;
+  RxList<LoanMemberDropdownListMessage> coBorrowerList =
+      <LoanMemberDropdownListMessage>[].obs;
+  RxList<LoanMemberDropdownListMessage> nomineeList =
+      <LoanMemberDropdownListMessage>[].obs;
   RxList<RelationListMessage> RelationList = <RelationListMessage>[].obs;
   RxList<ProductListResult> productList = <ProductListResult>[].obs;
   Rx<TextEditingController> loanAmount = TextEditingController().obs;
   Rx<TextEditingController> periods = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
-  RxList<LoanApplicantListResult> loanApplicantList =<LoanApplicantListResult>[].obs;
+  RxList<LoanApplicantListResult> loanApplicantList =
+      <LoanApplicantListResult>[].obs;
   RxString selectedMemberName = "".obs;
   RxString selectedCoBorrower = "".obs;
   RxString selectednominee = "".obs;
@@ -85,12 +88,13 @@ class LoanApplicationController extends GetxController {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.loanMemberList(
+            AppURLs.loanMemberDropdownList(
                 country: "india",
                 group: group,
                 search: "",
                 Status: "verified",
-                isGroup: true)),
+                isGroup: true,
+                )),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
@@ -100,7 +104,7 @@ class LoanApplicationController extends GetxController {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
         coBorrowerList.value = messages
-            .map((e) => LoanMemberListMessage.fromJson(e))
+            .map((e) => LoanMemberDropdownListMessage.fromJson(e))
             .where((m) =>
                 m.group == selectedGroup.value &&
                 m.memberName != selectedMemberName.value.trim())
@@ -119,18 +123,20 @@ class LoanApplicationController extends GetxController {
     }
   }
 
-  getNomineeList(String group) async {
+  getNomineeList(String group,) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.loanMemberList(
+            AppURLs.loanMemberDropdownList(
                 country: "india",
                 group: group,
                 search: "",
                 Status: "verified",
-                isGroup: true)),
+                isGroup: true,
+               
+               )),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
@@ -141,7 +147,7 @@ class LoanApplicationController extends GetxController {
         final messages = data['message'] as List<dynamic>;
 
         nomineeList.value = messages
-            .map((e) => LoanMemberListMessage.fromJson(e))
+            .map((e) => LoanMemberDropdownListMessage.fromJson(e))
             .where((m) =>
                 m.group == selectedGroup.value &&
                 m.memberName != selectedMemberName.value.trim())
@@ -151,7 +157,7 @@ class LoanApplicationController extends GetxController {
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
-            isIssue: true, message: err['message']['msg'] ?? "Error");
+            isIssue: true, message: err['message']?['msg']);
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -180,7 +186,7 @@ class LoanApplicationController extends GetxController {
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
-            isIssue: true, message: err['message']['msg'] ?? "Error");
+            isIssue: true, message: err['message']?['msg']);
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");

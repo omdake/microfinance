@@ -10,11 +10,13 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 
 class MemberListController extends GetxController {
   RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
-  RxList<LoanMemberListMessage> loanMemberList = <LoanMemberListMessage>[].obs;
+  RxList<LoanMemberListResult> loanMemberList = <LoanMemberListResult>[].obs;
   RxString selectedGroup = "".obs;
   RxBool isLoading = false.obs;
   RxString status = ''.obs;
   RxBool isGroup = true.obs;
+  RxInt page = 1.obs;
+  RxBool hasNextPage = true.obs;
 
   @override
   void onInit() {
@@ -66,6 +68,18 @@ class MemberListController extends GetxController {
     }
   }
 
+  getloadData() {
+    page.value = 1;
+    loanMemberList.value = [];
+    getLoanMemberList(Status: status.value, isGroup: isGroup.value);
+  }
+
+  getLoadMoreData() {
+    if (!hasNextPage.value) return;
+    page.value += 1;
+    getLoanMemberList(Status: status.value, isGroup: isGroup.value);
+  }
+
   getLoanMemberList({String? Status, bool? isGroup}) async {
     final token = await AppPreferences.getToken();
     try {
@@ -78,6 +92,9 @@ class MemberListController extends GetxController {
               search: "",
               Status: Status ?? "",
               isGroup: isGroup ?? true,
+              isPagination: true,
+              page: page.value,
+              pagesize: 10,
             )),
         headers: {
           "Content-Type": "application/json",
@@ -87,17 +104,20 @@ class MemberListController extends GetxController {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        final messages = data['message'] as List<dynamic>;
+        final message = data['message'];
 
-        final allMembers =
-            messages.map((e) => LoanMemberListMessage.fromJson(e)).toList();
+        final results = message['results'] as List<dynamic>;
 
-        if (selectedGroup.value.isNotEmpty) {
-          loanMemberList.value =
-              allMembers.where((m) => m.group == selectedGroup.value).toList();
+        final members =
+            results.map((e) => LoanMemberListResult.fromJson(e)).toList();
+
+        if (page.value == 1) {
+          loanMemberList.value = members;
         } else {
-          loanMemberList.value = allMembers;
+          loanMemberList.addAll(members);
         }
+
+        hasNextPage.value = message['next'] != null;
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];

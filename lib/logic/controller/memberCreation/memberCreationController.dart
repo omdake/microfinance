@@ -64,7 +64,7 @@ class MemberCreationController extends GetxController {
   RxString name = "".obs;
   Rx<StateResult?> selectedstateObj = Rx<StateResult?>(null);
   RxList<OccupationResult> occupationList = <OccupationResult>[].obs;
-  RxList<LoanMemberListMessage> loanMember = <LoanMemberListMessage>[].obs;
+  RxList<LoanMemberListResult> loanMember = <LoanMemberListResult>[].obs;
   RxList<StateResult> stateList = <StateResult>[].obs;
   RxInt selectedIndex = 0.obs;
   final ScrollController scrollController = ScrollController();
@@ -375,7 +375,7 @@ class MemberCreationController extends GetxController {
         return;
       }
       final Map<String, dynamic> data = jsonDecode(response.body);
-      final memberData = LoanMemberListMessage.fromJson(data['message']);
+      final memberData = LoanMemberListResult.fromJson(data['message']);
       loanMember.value = [memberData];
       name.value = memberData.name ?? '';
       memeberId.value.text = memberData.memberId ?? '';
