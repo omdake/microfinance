@@ -70,33 +70,26 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ),
-                             hint: Text(
-                                "Select Applicant",
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontFamily: "Roboto-Regular",
-                                  fontSize: 12,
-                                ),
+                            hint: Text(
+                              "Select Applicant",
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontFamily: "Roboto-Regular",
+                                fontSize: 12,
                               ),
+                            ),
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
-                                final selectedMember =
-                                    controller.loanMemberAsPerGroup.firstWhere(
-                                        (e) => e.memberName == newValue);
-                                controller.selectedMemberName.value =
-                                    selectedMember.memberName?.trim() ?? "";
-                                controller.selectedApplicantId.value =
-                                    selectedMember.name ?? "";
-                                controller.selectedGroup.value =
-                                    selectedMember.group ?? "";
+                                final selectedMember = controller.loanMemberAsPerGroup.firstWhere((e) => e.memberName == newValue);
+                                controller.selectedMemberName.value = selectedMember.memberName?.trim() ?? "";
+                                controller.selectedApplicantId.value = selectedMember.name ?? "";
+                                controller.selectedGroup.value = selectedMember.group ?? "";
 
-                                controller.getCoBorrowerList(
-                                    controller.selectedGroup.value);
-                                controller.getNomineeList(
-                                    controller.selectedGroup.value);
+                                controller.getCoBorrowerList(controller.selectedGroup.value);
+                                controller.getNomineeList(controller.selectedGroup.value);
                                 ;
                               }
                             },
@@ -128,7 +121,7 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             items: controller.coBorrowerList.map((e) {
                               return DropdownMenuItem<String>(
-                                value: e.memberName ?? "",
+                                value: e.name ?? "",
                                 child: Text(e.memberName ?? ""),
                               );
                             }).toList(),

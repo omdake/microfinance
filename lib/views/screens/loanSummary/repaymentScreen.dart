@@ -46,12 +46,13 @@ class RepaymentScreen extends StatelessWidget {
                   items: controller.groupList.map((e) {
                     return DropdownMenuItem<String>(
                       value: e.name ?? "",
-                      child: Text(e.name ?? ""),
+                      child: Text(e.groupName ?? "",overflow: TextOverflow.ellipsis,),
                     );
                   }).toList(),
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 500,
                   ),
+                   isExpanded: true,
                   style: TextStyles.textfieldTextStyle,
                   decoration: TextFieldDecoration.textfieldDecoration(
                     sufficIconOntap: () {},

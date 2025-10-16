@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
-import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
+import 'package:microfinance/logic/controller/loanApplication/loanlistController.dart';
+
+import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
 
 class LoanApplicationList extends StatelessWidget {
   const LoanApplicationList({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoanApplicationController());
+    final controller = Get.put(LoanApplicationListController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan Application List"),
@@ -35,149 +37,163 @@ class LoanApplicationList extends StatelessWidget {
 
                       return Column(
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 6,
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Application Id: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
+                          GestureDetector(
+                            onTap: () {
+                              final args = {
+                                "applicant": user,
+                                "isReadOnly": true,
+                              };
+                              Get.toNamed(
+                                Routes.loanApplicationViewonly,
+                                arguments: args,
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 6,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Applicant Id: ",
+                                                style: TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.name ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
+                                              TextSpan(
+                                                text: "${user.name ?? ""}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Application Name: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Applicant Name: ",
+                                                style: TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                            ),
-                                            TextSpan(
-                                              text:
-                                                  "${user.applicantName ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
+                                              TextSpan(
+                                                text:
+                                                    "${user.applicantName ?? ""}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Company: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Company: ",
+                                                style: TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.company ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
+                                              TextSpan(
+                                                text: "${user.company ?? ""}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Loan Product: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Loan Product: ",
+                                                style: TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.loanProduct ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
+                                              TextSpan(
+                                                text:
+                                                    "${user.loanProduct ?? ""}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            TextSpan(
-                                              text: "Loan Amount: ",
-                                              style: TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.grey.shade700,
+                                        RichText(
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: "Loan Amount: ",
+                                                style: TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.grey.shade700,
+                                                ),
                                               ),
-                                            ),
-                                            TextSpan(
-                                              text: "${user.loanAmount ?? ""}",
-                                              style: const TextStyle(
-                                                fontFamily: "Roboto-Medium",
-                                                fontSize: 15,
-                                                color: Colors.black,
+                                              TextSpan(
+                                                text:
+                                                    "${user.loanAmount ?? ""}",
+                                                style: const TextStyle(
+                                                  fontFamily: "Roboto-Medium",
+                                                  fontSize: 15,
+                                                  color: Colors.black,
+                                                ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.shade600,
-                                    borderRadius: BorderRadius.circular(25),
-                                  ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 4, vertical: 2),
-                                  child: Text(
-                                    user.status ?? "-",
-                                    style: const TextStyle(
-                                      fontFamily: "Roboto-Medium",
-                                      fontSize: 13,
-                                      color: Colors.white,
+                                      ],
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey.shade600,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 4, vertical: 2),
+                                    child: Text(
+                                      user.status ?? "-",
+                                      style: const TextStyle(
+                                        fontFamily: "Roboto-Medium",
+                                        fontSize: 13,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           const Divider(color: Colors.grey),
@@ -193,7 +209,12 @@ class LoanApplicationList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.toNamed(Routes.loanApplication);
+          // Get.toNamed(Routes.loanApplication);
+          final newApplicant = LoanApplicantListResult(); // empty model
+          Get.toNamed(Routes.loanApplication, arguments: {
+            "applicant": newApplicant,
+            "isReadOnly": false,
+          });
         },
         backgroundColor: Colors.black,
         child: const Icon(Icons.add),

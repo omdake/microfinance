@@ -13,7 +13,7 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
-class CollectionInHandController extends GetxController {
+class CollectionInHandListController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;

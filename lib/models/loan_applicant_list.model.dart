@@ -54,6 +54,7 @@ class LoanApplicantListResult {
   String? company;
   DateTime? postingDate;
   String? status;
+  String? group;
   String? loanProduct;
   int? isTermLoan;
   double? loanAmount;
@@ -66,6 +67,11 @@ class LoanApplicantListResult {
   double? repaymentAmount;
   double? totalPayableInterest;
   dynamic amendedFrom;
+   String? nominee;
+    String? nomineeRelation;
+    int? isSecuredLoan;
+    String? nomineeMemberName;
+    String? coBorrowerMemberName;
 
   LoanApplicantListResult({
     this.name,
@@ -76,6 +82,7 @@ class LoanApplicantListResult {
     this.company,
     this.postingDate,
     this.status,
+    this.group,
     this.loanProduct,
     this.isTermLoan,
     this.loanAmount,
@@ -88,6 +95,11 @@ class LoanApplicantListResult {
     this.repaymentAmount,
     this.totalPayableInterest,
     this.amendedFrom,
+    this.nominee,
+    this.nomineeRelation,
+    this.isSecuredLoan,
+    this.nomineeMemberName,
+    this.coBorrowerMemberName,
   });
 
   factory LoanApplicantListResult.fromJson(Map<String, dynamic> json) =>
@@ -100,6 +112,7 @@ class LoanApplicantListResult {
         company: json["company"],
         postingDate: DateTime.parse(json["posting_date"]),
         status: json["status"],
+        group: json["group"],
         loanProduct: json["loan_product"],
         isTermLoan: json["is_term_loan"],
         description: json["description"],
@@ -113,6 +126,12 @@ class LoanApplicantListResult {
         repaymentAmount: (json["repayment_amount"] as num?)?.toDouble(),
         totalPayableInterest:
             (json["total_payable_interest"] as num?)?.toDouble(),
+             nominee: json["nominee"],
+        nomineeRelation: json["nominee_relation"],
+        isSecuredLoan: json["is_secured_loan"],
+        nomineeMemberName: json["nominee_member_name"],
+        coBorrowerMemberName: json["co_borrower_member_name"],
+        
       );
 
   Map<String, dynamic> toJson() => {
@@ -125,6 +144,7 @@ class LoanApplicantListResult {
         "posting_date":
             "${postingDate!.year.toString().padLeft(4, '0')}-${postingDate!.month.toString().padLeft(2, '0')}-${postingDate!.day.toString().padLeft(2, '0')}",
         "status": status,
+        "group": group,
         "loan_product": loanProduct,
         "is_term_loan": isTermLoan,
         "loan_amount": loanAmount,
@@ -137,5 +157,10 @@ class LoanApplicantListResult {
         "repayment_amount": repaymentAmount,
         "total_payable_interest": totalPayableInterest,
         "amended_from": amendedFrom,
+        "nominee": nominee,
+        "nominee_relation": nomineeRelation,
+        "is_secured_loan": isSecuredLoan,
+        "nominee_member_name": nomineeMemberName,
+        "co_borrower_member_name": coBorrowerMemberName,
       };
 }

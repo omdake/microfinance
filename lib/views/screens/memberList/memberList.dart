@@ -44,7 +44,7 @@ class MemberListScreen extends StatelessWidget {
                       return DropdownMenuItem<GroupListMessage>(
                         value: e,
                         child: Text(
-                          e.name ?? "",
+                          e.groupName ?? "",
                           overflow: TextOverflow.ellipsis,
                         ),
                       );

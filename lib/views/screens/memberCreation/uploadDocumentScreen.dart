@@ -45,7 +45,7 @@ class UploadDcumentSreen extends StatelessWidget {
                           cursorColor: AppColors.primary,
                           keyboardType: TextInputType.number,
                           validator: (value) => aadharValidator(value!.trim()),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Aadhar Number"),
@@ -73,14 +73,13 @@ class UploadDcumentSreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.characters,
                           keyboardType: TextInputType.text,
                           validator: (value) => panValidator(value!.trim()),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Pan Card Number"),
                         ),
                       ],
                     ),
-                    
                     C10(),
                     imagePickerField(
                       label: "Pan Image",
@@ -92,7 +91,7 @@ class UploadDcumentSreen extends StatelessWidget {
                       onTap: () => controller.pickImage(controller.panImage),
                     ),
                     C10(),
-                     paddingWidget(
+                    paddingWidget(
                       [
                         const LabelsWithMark(
                             label: "Address Doc Type", isRequired: true),
@@ -102,8 +101,8 @@ class UploadDcumentSreen extends StatelessWidget {
                               hint: "Select Address Doc Type",
                             ),
                             style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            // autovalidateMode:
+                            //     AutovalidateMode.onUserInteraction,
                             items: controller.addressDocTypeList
                                 .map((addressDocType) {
                               return DropdownMenuItem<String>(
@@ -143,18 +142,6 @@ class UploadDcumentSreen extends StatelessWidget {
                           controller.pickImage(controller.addressImage),
                     ),
                     C10(),
-                    // imagePickerField(
-                    //   label: "Address Proof Image",
-                    //   imageFile: controller.addressProofImage,
-                    //   imageUrl: RxString(controller.loanMember.isNotEmpty
-                    //       ? controller.loanMember[0].addressProofImage ?? ''
-                    //       : ''),
-                    //   isFocused: controller.isAddressProofImageFocused,
-                    //   onTap: () =>
-                    //       controller.pickImage(controller.addressProofImage),
-                    // ),
-                    // C10(),
-                 
                     imagePickerField(
                       label: "Home Image",
                       imageFile: controller.homeImage,
@@ -175,7 +162,7 @@ class UploadDcumentSreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.characters,
                           keyboardType: TextInputType.text,
                           validator: (value) => voterIdValidator(value!.trim()),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Voter Id",

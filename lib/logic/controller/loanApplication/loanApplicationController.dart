@@ -43,13 +43,33 @@ class LoanApplicationController extends GetxController {
   RxString selectedApplicantId = "".obs;
   RxString selectedNomineeId = "".obs;
   RxString selectedproductId = "".obs;
+  RxString selectedApplicant = "".obs;
+  RxBool isReadOnly = false.obs;
+  RxBool isFormEdit = false.obs;
+  Rx<TextEditingController> applicantName = TextEditingController().obs;
+  Rx<TextEditingController> coBorrower = TextEditingController().obs;
+  Rx<TextEditingController> loanProduct = TextEditingController().obs;
+  Rx<TextEditingController> period = TextEditingController().obs;
+  Rx<TextEditingController> nominee = TextEditingController().obs;
+  Rx<TextEditingController> relation = TextEditingController().obs;
 
   @override
   void onInit() async {
     super.onInit();
+
     await getLoanMemberList();
     getProductList();
     getAplicantList();
+
+    final args = Get.arguments;
+    if (args != null && args['applicant'] != null) {
+      final applicant = args['applicant'];
+      final readOnly = args['isReadOnly'] ?? false;
+      getLoanDataFromArg(applicant as LoanApplicantListResult,
+          readOnly: readOnly);
+    } else {
+      resetForm();
+    }
   }
 
   getLoanMemberList() async {
@@ -89,17 +109,18 @@ class LoanApplicationController extends GetxController {
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
             AppURLs.loanMemberDropdownList(
-                country: "india",
-                group: group,
-                search: "",
-                Status: "verified",
-                isGroup: true,
-                )),
+              country: "india",
+              group: group,
+              search: "",
+              Status: "verified",
+              isGroup: true,
+            )),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
@@ -123,20 +144,21 @@ class LoanApplicationController extends GetxController {
     }
   }
 
-  getNomineeList(String group,) async {
+  getNomineeList(
+    String group,
+  ) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
             AppURLs.loanMemberDropdownList(
-                country: "india",
-                group: group,
-                search: "",
-                Status: "verified",
-                isGroup: true,
-               
-               )),
+              country: "india",
+              group: group,
+              search: "",
+              Status: "verified",
+              isGroup: true,
+            )),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
@@ -156,8 +178,7 @@ class LoanApplicationController extends GetxController {
         selectednominee.value = '';
       } else {
         final err = jsonDecode(response.body);
-        CustomSnackBar.show(
-            isIssue: true, message: err['message']?['msg']);
+        CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -185,8 +206,7 @@ class LoanApplicationController extends GetxController {
             messages.map((e) => RelationListMessage.fromJson(e)).toList();
       } else {
         final err = jsonDecode(response.body);
-        CustomSnackBar.show(
-            isIssue: true, message: err['message']?['msg']);
+        CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -302,6 +322,19 @@ class LoanApplicationController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  getLoanDataFromArg(LoanApplicantListResult applicant,
+      {bool readOnly = true}) async {
+    isReadOnly.value = readOnly;
+    loanAmount.value.text = applicant.loanAmount?.toString() ?? '';
+    periods.value.text = applicant.repaymentPeriods?.toString() ?? '';
+    description.value.text = applicant.description ?? '';
+    applicantName.value.text = applicant.applicantName ?? '';
+    coBorrower.value.text = applicant.coBorrower ?? '';
+    loanProduct.value.text = applicant.loanProduct ?? '';
+    nominee.value.text = applicant.nominee ?? '';
+    relation.value.text = applicant.nomineeRelation ?? '';
   }
 
   void resetForm() {
