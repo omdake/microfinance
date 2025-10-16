@@ -21,16 +21,25 @@ class MemberListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    final args = Get.arguments ?? {};
-    status.value = args["status"] ?? "";
-    selectedGroup.value = args["group"] ?? "";
-    isGroup.value = args["isGroup"] ?? true;
 
-    if (isGroup.value) {
-      getGroupList();
-    } else {
-      getLoanMemberList(Status: status.value, isGroup: false);
+    if (Get.arguments != null) {
+      if (Get.arguments['status'] != null) {
+        status.value = Get.arguments['status'];
+      }
+
+      if (Get.arguments['group'] != null) {
+        selectedGroup.value = Get.arguments['group'];
+      }
+
+      if (Get.arguments['is_group'] != null) {
+        isGroup.value = Get.arguments['is_group'];
+        getUngroupedLoanMemberList(isGroup: isGroup.value);
+        return;
+      }
     }
+
+    getGroupList();
+    getLoanMemberList();
   }
 
   getGroupList() async {
@@ -49,13 +58,6 @@ class MemberListController extends GetxController {
         final List<dynamic> messages = data['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
-        if (groupList.isNotEmpty) {
-          if (selectedGroup.value.isEmpty) {
-            selectedGroup.value = groupList.first.name ?? "";
-          }
-
-          getLoanMemberList(Status: status.value, isGroup: true);
-        }
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -71,16 +73,67 @@ class MemberListController extends GetxController {
   getloadData() {
     page.value = 1;
     loanMemberList.value = [];
-    getLoanMemberList(Status: status.value, isGroup: isGroup.value);
+    getLoanMemberList();
   }
 
-  getLoadMoreData() {
-    if (!hasNextPage.value) return;
+  getLoadMoreData() async {
+    if (!hasNextPage.value || isLoading.value) return;
     page.value += 1;
-    getLoanMemberList(Status: status.value, isGroup: isGroup.value);
+    if (isGroup.value) {
+      await getLoanMemberList();
+    } else {
+      await getUngroupedLoanMemberList(isGroup: isGroup.value);
+    }
   }
 
-  getLoanMemberList({String? Status, bool? isGroup}) async {
+  getUngroupedLoanMemberList({bool? isGroup}) async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl +
+            AppURLs.unGroupedloanMemberList(
+                search: "",
+                country: "india",
+                isPagination: true,
+                page: page.value,
+                pagesize: 10,
+                isGroup: isGroup)),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final message = data['message'];
+        final results = message['results'] as List<dynamic>;
+        final members =
+            results.map((e) => LoanMemberListResult.fromJson(e)).toList();
+
+        final ungroupedMembers =
+            members.where((m) => m.group == null || m.group!.isEmpty).toList();
+
+        if (page.value == 1) {
+          loanMemberList.value = ungroupedMembers;
+        } else {
+          loanMemberList.addAll(ungroupedMembers);
+        }
+        hasNextPage.value = message['next'] != null;
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  getLoanMemberList({String? Status}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
@@ -91,7 +144,6 @@ class MemberListController extends GetxController {
               group: selectedGroup.value,
               search: "",
               Status: Status ?? "",
-              isGroup: isGroup ?? true,
               isPagination: true,
               page: page.value,
               pagesize: 10,

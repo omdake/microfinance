@@ -59,7 +59,10 @@ class AppURLs {
 
   static String   getLoanPaymentSchedule({required String loanId})=> "api/method/lending.loan_management.doctype.loan_repayment_schedule.loan_repayment_schedule.loan_payment_schedule_list/?loan=$loanId";
 
-  static String  loanMemberList({ String? search, required String country, required String group,String? Status,bool? isGroup,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&is_group=$isGroup&page_size=$pagesize&page=$page";
+  static String  loanMemberList({ String? search, required String country, required String group,String? Status,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&page_size=$pagesize&page=$page";
+
+  static String  unGroupedloanMemberList({ String? search, required String country,bool? isGroup,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&country=$country&is_pagination=$isPagination&is_group=$isGroup&page_size=$pagesize&page=$page";
+
 
   static String  loanMemberDropdownList({ String? search, required String country, required String group,String? Status,bool? isGroup}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&status=$Status&is_group=$isGroup";
 
