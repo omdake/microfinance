@@ -1,0 +1,57 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:microfinance/AppPreferences/app_areferences.dart';
+
+import 'package:microfinance/api/app_envirments.dart';
+import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/loan_applicant_list.model.dart';
+
+import 'package:microfinance/utils/snackbar_widget.dart';
+
+class LoanApplicationListController extends GetxController {
+  RxList<LoanApplicantListResult> loanApplicantList =
+      <LoanApplicantListResult>[].obs;
+
+  RxBool isLoading = false.obs;
+
+  @override
+  void onInit() async {
+    super.onInit();
+
+    getAplicantList();
+  }
+
+  getAplicantList({int? page}) async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(
+            AppEnvironment.baseUrl + AppURLs.getApplicantList(page: page)),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        final message = data['message'];
+        final results = message['results'] as List<dynamic>;
+
+        loanApplicantList.value =
+            results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
+      } else {
+        final err = jsonDecode(response.body);
+        CustomSnackBar.show(
+            isIssue: true, message: err['message']['msg'] ?? "Error");
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+}

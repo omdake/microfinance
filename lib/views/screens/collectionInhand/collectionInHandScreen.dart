@@ -53,7 +53,7 @@ class CollectionInHandScreen extends StatelessWidget {
                           const LabelsWithMark(
                               label: "Employee", isRequired: true),
                           TextFormField(
-                            enabled: controller.isFormEdit.value,
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.employee.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -70,7 +70,7 @@ class CollectionInHandScreen extends StatelessWidget {
                         [
                           LabelsWithMark(label: "Employee Name"),
                           TextFormField(
-                             enabled: controller.isFormEdit.value,
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.employeeName.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -88,6 +88,7 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Posting Date", isRequired: true),
                           Obx(
                             () => TextFormField(
+                              enabled: !controller.isReadOnly.value,
                               controller: controller.postingDate.value,
                               cursorColor: AppColors.primary,
                               readOnly: true,
@@ -115,6 +116,7 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Amount", isRequired: true),
                           TextFormField(
                             controller: controller.amount.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
                             keyboardType: TextInputType.emailAddress,
@@ -132,6 +134,7 @@ class CollectionInHandScreen extends StatelessWidget {
                           LabelsWithMark(label: "Amount Given To"),
                           TextFormField(
                             controller: controller.amountgivenTo.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             keyboardType: TextInputType.name,
@@ -141,18 +144,24 @@ class CollectionInHandScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                   C50(),
-                      AppButton(
-                          title: "save",
-                          onTap: () async {
-                            if (_formKey.currentState!.validate()) {
-                             controller.saveCollectionInHand();
-                            } else {
-                              AppTostMassage.showTostMassage(
-                                massage: "Please fill all required fields",
-                              );
-                            }
-                          })
+                      C50(),
+                      Obx(
+                        () => controller.isReadOnly.value
+                            ? SizedBox.shrink()
+                            : AppButton(
+                                title: "save",
+                                onTap: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    controller.saveCollectionInHand();
+                                  } else {
+                                    AppTostMassage.showTostMassage(
+                                      massage:
+                                          "Please fill all required fields",
+                                    );
+                                  }
+                                },
+                              ),
+                      ),
                     ],
                   ),
                 ),
