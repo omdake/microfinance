@@ -266,7 +266,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                             items: controller.occupationList.map((e) {
                               return DropdownMenuItem(
                                 value: e.name.toString(),
-                                child: Text(e.name.toString()),
+                                child: Text(e.occupation.toString()),
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,

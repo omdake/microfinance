@@ -37,9 +37,12 @@ class MemberListScreen extends StatelessWidget {
                     dropdownStyleData: DropdownStyleData(
                       maxHeight: 500,
                     ),
-                    value: controller.groupList.isNotEmpty
-                        ? controller.groupList.first
-                        : null,
+                    value: controller.selectedGroup.value.isEmpty
+                        ? null
+                        : controller.groupList.firstWhere(
+                            (g) => g.name == controller.selectedGroup.value,
+                            orElse: () => controller.groupList.first,
+                          ),
                     items: controller.groupList.map((e) {
                       return DropdownMenuItem<GroupListMessage>(
                         value: e,
@@ -51,11 +54,12 @@ class MemberListScreen extends StatelessWidget {
                     }).toList(),
                     onChanged: (newValue) {
                       if (newValue != null) {
-                        controller.selectedGroup.value = newValue.name!;
-                        controller.page.value = 1; 
-                        controller.loanMemberList.clear(); 
+                        controller.selectedGroup.value = newValue.name ?? "";
+                        controller.page.value = 1;
+                        controller.loanMemberList.clear();
+
                         controller.getLoanMemberList(
-                            Status: controller.status.value, isGroup: true);
+                            Status: controller.status.value);
                       }
                     },
                   ),

@@ -95,8 +95,6 @@ class RepaymentScreen extends StatelessWidget {
                                 "applicant": user,
                                 "isReadOnly": true,
                               };
-                              print(
-                                  "Selected applicant: ${user.applicantMemberName}");
                               Get.toNamed(
                                 Routes.loanRepaymentViewonly,
                                 arguments: args,

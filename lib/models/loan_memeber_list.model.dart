@@ -16,7 +16,7 @@ class LoanMemberList {
 class LoanMemberListMessage {
     int? count;
     String? next;
-    String? previous;
+    dynamic previous;
     List<LoanMemberListResult>? results;
 
     LoanMemberListMessage({

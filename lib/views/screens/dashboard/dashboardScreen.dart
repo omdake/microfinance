@@ -103,9 +103,9 @@ class DashboardScreen extends StatelessWidget {
                       child: reusableCard(
                         title: "${controller.totalMembers.value}",
                         subTitle: 'Total Members',
-                        onTap: () => navigateToMembers(
-                          group: controller.selectedGroup.value,
-                          status: null,
+                        onTap: () => (
+                          Get.toNamed(Routes.memberList,
+                              arguments: {"status": "", "group": ""}),
                         ),
                       ),
                     ),
@@ -114,9 +114,14 @@ class DashboardScreen extends StatelessWidget {
                       child: reusableCard(
                         title: "${controller.verifiedMembers.value}",
                         subTitle: 'Verified Members',
-                        onTap: () => navigateToMembers(
-                          group: controller.selectedGroup.value,
-                          status: "Verified",
+                        onTap: () => (
+                          Get.toNamed(
+                            Routes.memberList,
+                            arguments: {
+                              "status": "Verified",
+                              "group": controller.selectedGroup.value
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -127,21 +132,28 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: reusableCard(
-                        title: "${controller.ungroupedMembers.value}",
-                        subTitle: 'Ungrouped Members',
-                        onTap: () =>
-                            navigateToMembers(group: null, isGroup: false),
-                      ),
+                          title: "${controller.ungroupedMembers.value}",
+                          subTitle: 'Ungrouped Members',
+                          onTap: () => (Get.toNamed(
+                                Routes.memberList,
+                                arguments: {
+                                  "is_group": false,
+                                },
+                              ))),
                     ),
                     C10(),
                     Expanded(
                       child: reusableCard(
                         title: "${controller.pendingVerification.value}",
                         subTitle: 'Pending Verification',
-                        onTap: () => navigateToMembers(
-                          group: null,
-                          status: "Pending",
-                          isGroup: false,
+                        onTap: () => (
+                          Get.toNamed(
+                            Routes.memberList,
+                            arguments: {
+                              "status": "pending",
+                              "group": controller.selectedGroup.value
+                            },
+                          ),
                         ),
                       ),
                     ),
@@ -186,7 +198,7 @@ class DashboardScreen extends StatelessWidget {
                       child: reusableCard(
                         title: "${controller.collectionByCash.value}",
                         subTitle: 'Collection By Cash',
-                        onTap: ()=>Get.toNamed(Routes.collectionInHandList),
+                        onTap: () => Get.toNamed(Routes.collectionInHandList),
                       ),
                     ),
                   ],
@@ -588,18 +600,5 @@ class DashboardScreen extends StatelessWidget {
       ),
       onTap: onTap,
     );
-  }
-
-  void navigateToMembers({
-    required String? group,
-    String? status,
-    bool? isGroup,
-  }) {
-    final args = {
-      "group": group,
-      "status": status,
-      "isGroup": isGroup ?? true,
-    };
-    Get.toNamed(Routes.memberList, arguments: args);
   }
 }
