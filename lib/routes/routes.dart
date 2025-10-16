@@ -22,6 +22,7 @@ import 'package:microfinance/views/screens/loanApplication/loanApplicationScreen
 import 'package:microfinance/views/screens/loanApplication/loanApplicationViweOnly.dart';
 import 'package:microfinance/views/screens/loanSummary/loanDetails.dart';
 import 'package:microfinance/views/screens/loanSummary/loanSummaryScreen.dart';
+import 'package:microfinance/views/screens/loanSummary/repaymentscreenView.dart';
 import 'package:microfinance/views/screens/memberCreation/addressDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/memberCreation.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
@@ -123,6 +124,10 @@ page: () => ResetPasswordScreen(),
 GetPage(
       name: Routes.loanApplicationViewonly,
       page: () =>LoanApplicationViewOnlyScreen (),
+    ),
+    GetPage(
+      name: Routes.loanRepaymentViewonly,
+      page: () =>LoanRepaymentViewScreen (),
     ),
   ];
 }
