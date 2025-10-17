@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/uploadFile.dart'
+    show imagePickerField;
 import 'package:microfinance/logic/controller/collectionInHand/collectionInHandController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -144,6 +146,20 @@ class CollectionInHandScreen extends StatelessWidget {
                           ),
                         ],
                       ),
+                      C10(),
+                      Obx(() {
+                        print(
+                            '🔄 Rebuilding image picker — URL: ${controller.paymentProofImageUrl.value}');
+                        return imagePickerField(
+                          isEnabled: !controller.isReadOnly.value,
+                          label: "Payment Proof",
+                          imageFile: controller.paymentProofImage,
+                          imageUrl: controller.paymentProofImageUrl,
+                          isFocused: controller.isPaymentProofImageFocused,
+                          onTap: () => controller
+                              .pickImage(controller.paymentProofImage),
+                        );
+                      }),
                       C50(),
                       Obx(
                         () => controller.isReadOnly.value

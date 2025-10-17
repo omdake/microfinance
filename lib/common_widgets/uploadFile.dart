@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -20,12 +21,16 @@ Widget imagePickerField({
 }) {
   final ImagePicker picker = ImagePicker();
 
-  Future<void> pickImageFromSource(ImageSource source) async {
+  Future<void> pickFile() async {
     if (!isEnabled) return;
-    final XFile? pickedFile =
-        await picker.pickImage(source: source, imageQuality: 80);
-    if (pickedFile != null) {
-      imageFile?.value = File(pickedFile.path);
+
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+    );
+
+    if (result != null && result.files.single.path != null) {
+      imageFile?.value = File(result.files.single.path!);
     }
   }
 
@@ -47,7 +52,7 @@ Widget imagePickerField({
   return paddingWidget([
     LabelsWithMark(label: label, isRequired: isRequired),
     Obx(() {
-      bool hasImage =
+      bool hasFile =
           (imageFile?.value != null) || (imageUrl?.value.isNotEmpty ?? false);
 
       String displayText = "Upload";
@@ -57,12 +62,16 @@ Widget imagePickerField({
         displayText = imageUrl!.value.split('/').last;
       }
 
+      final fileExtension =
+          imageFile?.value?.path.split('.').last.toLowerCase();
+
       return Focus(
         onFocusChange: (hasFocus) => isFocused.value = hasFocus,
         child: GestureDetector(
           onTap: isEnabled
               ? () {
-                  if (hasImage) {
+                  if (hasFile) {
+                    // Show preview dialog
                     Get.dialog(
                       Dialog(
                         shape: RoundedRectangleBorder(
@@ -80,29 +89,44 @@ Widget imagePickerField({
                               SizedBox(
                                 width: 300,
                                 height: 300,
-                                child: imageFile?.value != null
-                                    ? Image.file(imageFile!.value!,
-                                        fit: BoxFit.contain)
-                                    : FutureBuilder<Uint8List?>(
-                                        future:
-                                            fetchImageBytes(imageUrl!.value),
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return const Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (!snapshot.hasData ||
-                                              snapshot.data == null) {
-                                            return const Center(
-                                                child: Text(
-                                                    "Image not available"));
-                                          } else {
-                                            return Image.memory(snapshot.data!,
-                                                fit: BoxFit.contain);
-                                          }
-                                        },
-                                      ),
+                                child: (fileExtension == 'pdf')
+                                    ? Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            const Icon(Icons.picture_as_pdf,
+                                                size: 80, color: Colors.red),
+                                            Text(displayText),
+                                          ],
+                                        ),
+                                      )
+                                    : imageFile?.value != null
+                                        ? Image.file(
+                                            imageFile!.value!,
+                                            fit: BoxFit.contain,
+                                          )
+                                        : FutureBuilder<Uint8List?>(
+                                            future: fetchImageBytes(
+                                                imageUrl!.value),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState ==
+                                                  ConnectionState.waiting) {
+                                                return const Center(
+                                                    child:
+                                                        CircularProgressIndicator());
+                                              } else if (!snapshot.hasData ||
+                                                  snapshot.data == null) {
+                                                return const Center(
+                                                    child: Text(
+                                                        "Image not available"));
+                                              } else {
+                                                return Image.memory(
+                                                    snapshot.data!,
+                                                    fit: BoxFit.contain);
+                                              }
+                                            },
+                                          ),
                               ),
                               C10(),
                               ElevatedButton(
@@ -133,16 +157,36 @@ Widget imagePickerField({
                               ListTile(
                                 leading: const Icon(Icons.camera_alt),
                                 title: const Text("Camera"),
-                                onTap: () {
-                                  pickImageFromSource(ImageSource.camera);
+                                onTap: () async {
+                                  final XFile? pickedFile =
+                                      await picker.pickImage(
+                                          source: ImageSource.camera,
+                                          imageQuality: 80);
+                                  if (pickedFile != null) {
+                                    imageFile?.value = File(pickedFile.path);
+                                  }
                                   Get.back();
                                 },
                               ),
                               ListTile(
                                 leading: const Icon(Icons.photo_library),
                                 title: const Text("Gallery"),
-                                onTap: () {
-                                  pickImageFromSource(ImageSource.gallery);
+                                onTap: () async {
+                                  final XFile? pickedFile =
+                                      await picker.pickImage(
+                                          source: ImageSource.gallery,
+                                          imageQuality: 80);
+                                  if (pickedFile != null) {
+                                    imageFile?.value = File(pickedFile.path);
+                                  }
+                                  Get.back();
+                                },
+                              ),
+                              ListTile(
+                                leading: const Icon(Icons.picture_as_pdf),
+                                title: const Text("Upload PDF"),
+                                onTap: () async {
+                                  await pickFile();
                                   Get.back();
                                 },
                               ),
@@ -155,11 +199,11 @@ Widget imagePickerField({
                     );
                   }
                 }
-              : null, 
+              : null,
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             decoration: BoxDecoration(
-              color: isEnabled ? Colors.white : Colors.white,
+              color: Colors.white,
               border: Border.all(
                   color: isFocused.value ? Colors.grey : Colors.grey.shade300),
               borderRadius: BorderRadius.circular(8),
@@ -167,14 +211,14 @@ Widget imagePickerField({
             child: Row(
               children: [
                 const Icon(Icons.upload_file, color: Colors.grey),
-               C5(),
+                C5(),
                 Expanded(
                   child: Text(
                     displayText,
                     style: TextStyles.textfieldTextStyle,
                   ),
                 ),
-                if (hasImage)
+                if (hasFile)
                   GestureDetector(
                     onTap: isEnabled
                         ? () {
@@ -182,10 +226,7 @@ Widget imagePickerField({
                             if (imageUrl != null) imageUrl.value = '';
                           }
                         : null,
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.red,
-                    ),
+                    child: const Icon(Icons.delete, color: Colors.red),
                   ),
               ],
             ),
