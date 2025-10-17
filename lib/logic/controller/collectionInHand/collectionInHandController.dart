@@ -92,52 +92,6 @@ class CollectionInHandController extends GetxController {
     }
   }
 
-  // saveCollectionInHand() async {
-  //   final token = await AppPreferences.getToken();
-  //   isLoading.value = true;
-  //   try {
-  //     var uri =
-  //         Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand);
-  //     var request = http.MultipartRequest('POST', uri);
-  //     request.headers['Authorization'] = token!;
-  //     request.fields.addAll({
-  //       "employee": employee.value.text,
-  //       "given_to": amountgivenTo.value.text,
-  //       "amount": amount.value.text,
-  //       "posting_date": postingDate.value.text,
-  //     });
-
-  //     Map<String, Rx<File?>> imageFields = {
-  //       'payment_proof': paymentProofImage,
-  //     };
-
-  //     for (var entry in imageFields.entries) {
-  //       if (entry.value.value != null) {
-  //         var file = await http.MultipartFile.fromPath(
-  //           entry.key,
-  //           entry.value.value!.path,
-  //         );
-  //         request.files.add(file);
-  //       }
-  //     }
-
-  //     var streamedResponse = await request.send();
-  //     var response = await http.Response.fromStream(streamedResponse);
-  //     print("...................${response.body}");
-  //     if (response.statusCode == APIStatusCode.SUCCESS) {
-  //       var json = jsonDecode(response.body);
-  //       CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-  //     } else {
-  //       Map<String, dynamic> errormsg = jsonDecode(response.body);
-  //       String msg = errormsg['message']['msg'];
-  //       CustomSnackBar.show(isIssue: true, message: msg);
-  //     }
-  //   } catch (e) {
-  //     CustomSnackBar.show(isIssue: true, message: "$e");
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
   saveCollectionInHand() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
@@ -169,20 +123,6 @@ class CollectionInHandController extends GetxController {
         }
       }
 
-      // --- PRINT REQUEST DATA ---
-      print("====== REQUEST DATA ======");
-      print("URL: $uri");
-      print("HEADERS:");
-      request.headers.forEach((k, v) => print("$k: $v"));
-      print("FIELDS:");
-      request.fields.forEach((k, v) => print("$k: $v"));
-      print("FILES:");
-      for (var f in request.files) {
-        print(
-            "Field: ${f.field}, Filename: ${f.filename}, Length: ${f.length}");
-      }
-      print("==========================");
-
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
@@ -203,27 +143,6 @@ class CollectionInHandController extends GetxController {
       isLoading.value = false;
     }
   }
-
-  // getLoanDataFromArg(CollectionInhandResult applicant,
-  //     {bool readOnly = false}) async {
-  //   isReadOnly.value = readOnly;
-
-  //   employee.value.text = applicant.employee?.toString() ?? '';
-  //   employeeName.value.text = applicant.employeeEmployeeName?.toString() ?? '';
-  //   amount.value.text = applicant.amount?.toString() ?? '';
-  //   amountgivenTo.value.text = applicant.givenTo ?? '';
-  //   paymentProofImage.value = (applicant.paymentProof != null &&
-  //           applicant.paymentProof!.isNotEmpty &&
-  //           !applicant.paymentProof!.startsWith('http'))
-  //       ? File(applicant.paymentProof!)
-  //       : null;
-
-  //   print('🖼️ Payment proof image URL: ${applicant.paymentProof}');
-  //   print('🧾 Full applicant data: ${applicant.toJson()}');
-  //   postingDate.value.text = applicant.postingDate != null
-  //       ? "${applicant.postingDate!.year.toString().padLeft(4, '0')}-${applicant.postingDate!.month.toString().padLeft(2, '0')}-${applicant.postingDate!.day.toString().padLeft(2, '0')}"
-  //       : '';
-  // }
 
   getLoanDataFromArg(CollectionInhandResult applicant,
       {bool readOnly = false}) async {
