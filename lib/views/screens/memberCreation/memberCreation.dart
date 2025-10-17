@@ -4,6 +4,7 @@ import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/views/screens/memberCreation/cibilDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
 import 'package:microfinance/views/screens/memberCreation/addressDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/bankDetailsScreen.dart';
@@ -19,6 +20,7 @@ class MemberCreationScreen extends StatelessWidget {
     "Personal Details",
     "Address Details",
     "Bank Details",
+    "Cibil Details",
     "Upload Document",
   ];
 
@@ -58,7 +60,7 @@ class MemberCreationScreen extends StatelessWidget {
                               style: const TextStyle(
                                 color: Colors.black,
                                 fontFamily: "Roboto-Medium",
-                                fontSize: 14,
+                                fontSize: 13,
                               ),
                             ),
                           ),
@@ -85,6 +87,8 @@ class MemberCreationScreen extends StatelessWidget {
                       screen = BankDetailscSreen();
                       break;
                     case 3:
+                      screen = CibilDetailscSreen();
+                      case 4:
                       screen = UploadDcumentSreen();
                       break;
                     default:

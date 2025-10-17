@@ -18,8 +18,8 @@ class PersonalDetailsScreen extends StatelessWidget {
       Get.put(MemberCreationController());
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>
-      Scaffold(
+    return Obx(
+      () => Scaffold(
           backgroundColor: Colors.white,
           body: Container(
             decoration: BoxDecoration(
@@ -46,7 +46,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -64,7 +65,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -82,7 +84,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -100,7 +103,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -111,15 +115,18 @@ class PersonalDetailsScreen extends StatelessWidget {
                       C10(),
                       paddingWidget(
                         [
-                          const LabelsWithMark(label: "Email", isRequired: true),
+                          const LabelsWithMark(
+                              label: "Email", isRequired: true),
                           TextFormField(
                             controller: controller.email.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
                             keyboardType: TextInputType.emailAddress,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             style: TextStyles.textfieldTextStyle,
-                            validator: (value) => commonValidator(value!.trim()),
+                            validator: (value) =>
+                                commonValidator(value!.trim()),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Email",
                             ),
@@ -129,10 +136,12 @@ class PersonalDetailsScreen extends StatelessWidget {
                       C10(),
                       paddingWidget(
                         [
-                          const LabelsWithMark(label: "Gender", isRequired: true),
+                          const LabelsWithMark(
+                              label: "Gender", isRequired: true),
                           Obx(() {
                             return DropdownButtonFormField<String>(
-                              decoration: TextFieldDecoration.textfieldDecoration(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
                                 hint: "Select Gender",
                               ),
                               style: TextStyles.textfieldTextStyle,
@@ -199,7 +208,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -217,7 +227,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -235,7 +246,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             keyboardType: TextInputType.phone,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             style: TextStyles.textfieldTextStyle,
                             validator: (value) =>
                                 mobileNoValidator(value!.trim()),
@@ -246,14 +258,33 @@ class PersonalDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       C10(),
-                       imagePickerField(
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                            label: "Alternate Mobile Number",
+                          ),
+                          TextFormField(
+                            controller: controller.alternateMobileNo.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.phone,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Mobile Number",
+                            ),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      imagePickerField(
                         label: "Member Image",
                         imageFile: controller.memberImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].memberImage ?? ''
                             : ''),
                         isFocused: controller.isMemberImageFocused,
-                        onTap: () => controller.pickImage(controller.memberImage),
+                        onTap: () =>
+                            controller.pickImage(controller.memberImage),
                       ),
                       C10(),
                       paddingWidget([
@@ -270,7 +301,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Select Occupation",
                                 sufficIconOntap: () {},

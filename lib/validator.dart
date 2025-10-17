@@ -71,11 +71,14 @@ String? mobileNoValidator(String value) {
   if (value.isEmpty) {
     return 'This field is required';
   }
+  String sanitized = value.replaceAll(' ', '');
 
-  RegExp regex = RegExp(r'^[6-9]\d{9}$');
-  if (!regex.hasMatch(value)) {
-    return 'Please enter a valid mobile number';
+  RegExp regex = RegExp(r'^\91[6-9]\d{9}$');
+
+  if (!regex.hasMatch(sanitized)) {
+    return 'Please enter a valid mobile number (91XXXXXXXXXX)';
   }
+
   return null;
 }
 
@@ -136,9 +139,7 @@ String? voterIdValidator(String value) {
 
 String? pincodeValidator(String value) {
   if (value.isEmpty) return 'This field is required';
-  final regex = RegExp(r'^\d{6}$'); 
+  final regex = RegExp(r'^\d{6}$');
   if (!regex.hasMatch(value)) return 'Please enter a valid 6-digit pincode';
   return null;
 }
-
-

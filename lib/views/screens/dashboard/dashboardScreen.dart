@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/dashboard/dasboardController.dart';
@@ -494,12 +495,12 @@ class DashboardScreen extends StatelessWidget {
               width: 100,
               child: ElevatedButton(
                 onPressed: () async {
-                  // await AppPreferences.clearAll();
-                  // Get.offAllNamed(Routes.loginScreen);
+                  await AppPreferences.clearPreferences();
+                  Get.offAllNamed(Routes.loginScreen);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary.withOpacity(0.3),
-                  foregroundColor: AppColors.primary,
+                  backgroundColor: AppColors.black,
+                  foregroundColor: AppColors.white,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),

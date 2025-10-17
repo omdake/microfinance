@@ -52,6 +52,21 @@ class AddressDetailsScreen extends StatelessWidget {
                       ],
                     ),
                     C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(label: "Address Line 1"),
+                        TextFormField(
+                          controller: controller.addressLineTwo.value,
+                          cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.sentences,
+                          keyboardType: TextInputType.name,
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Address line 1"),
+                        ),
+                      ],
+                    ),
+                    C10(),
                     paddingWidget([
                       LabelsWithMark(label: "State"),
                       Obx(() {
@@ -61,8 +76,8 @@ class AddressDetailsScreen extends StatelessWidget {
                               : controller.selectedState.value,
                           items: controller.stateList.map((e) {
                             return DropdownMenuItem(
-                              value: e.stateCode, 
-                              child: Text(e.stateName.toString()), 
+                              value: e.stateCode,
+                              child: Text(e.stateName.toString()),
                             );
                           }).toList(),
                           style: TextStyles.textfieldTextStyle,
