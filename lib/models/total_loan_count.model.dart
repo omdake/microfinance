@@ -22,7 +22,7 @@ class TotalLoanCountMessage {
   int? totalEmis;
   double? collectionInHand;
   int? todaysCollection;
-  int? monthlyCollection;
+  double? monthlyCollection;
 
   TotalLoanCountMessage({
     this.totalLoans,

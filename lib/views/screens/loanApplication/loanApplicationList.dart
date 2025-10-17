@@ -105,28 +105,7 @@ class LoanApplicationList extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Company: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "${user.company ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                                       
                                         RichText(
                                           text: TextSpan(
                                             children: [

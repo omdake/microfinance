@@ -67,11 +67,11 @@ class LoanApplicantListResult {
   double? repaymentAmount;
   double? totalPayableInterest;
   dynamic amendedFrom;
-   String? nominee;
-    String? nomineeRelation;
-    int? isSecuredLoan;
-    String? nomineeMemberName;
-    String? coBorrowerMemberName;
+  String? nominee;
+  String? nomineeRelation;
+  int? isSecuredLoan;
+  String? nomineeMemberName;
+  String? coBorrowerMemberName;
 
   LoanApplicantListResult({
     this.name,
@@ -126,12 +126,11 @@ class LoanApplicantListResult {
         repaymentAmount: (json["repayment_amount"] as num?)?.toDouble(),
         totalPayableInterest:
             (json["total_payable_interest"] as num?)?.toDouble(),
-             nominee: json["nominee"],
+        nominee: json["nominee"],
         nomineeRelation: json["nominee_relation"],
         isSecuredLoan: json["is_secured_loan"],
         nomineeMemberName: json["nominee_member_name"],
         coBorrowerMemberName: json["co_borrower_member_name"],
-        
       );
 
   Map<String, dynamic> toJson() => {

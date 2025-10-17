@@ -40,7 +40,6 @@ class DisbursementScreen extends StatelessWidget {
                             onTap: () {
                               Get.toNamed(Routes.loanDetailsScreen,
                                   arguments: user);
-                             
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -80,29 +79,6 @@ class DisbursementScreen extends StatelessWidget {
                                           text: TextSpan(
                                             children: [
                                               TextSpan(
-                                                text: "Loan Type: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.againstLoan ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
                                                 text: "Applicant: ",
                                                 style: TextStyle(
                                                   fontFamily: "Roboto-Medium",
@@ -112,29 +88,7 @@ class DisbursementScreen extends StatelessWidget {
                                               ),
                                               TextSpan(
                                                 text:
-                                                    "${user.applicantType ?? "-"}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Company: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "${user.company ?? ""}",
+                                                    "${user.applicantMemberName ?? "-"}",
                                                 style: const TextStyle(
                                                   fontFamily: "Roboto-Medium",
                                                   fontSize: 15,
