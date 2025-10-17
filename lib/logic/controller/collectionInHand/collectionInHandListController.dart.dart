@@ -13,7 +13,7 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
-class CollectionInHandController extends GetxController {
+class CollectionInHandListController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
@@ -22,7 +22,6 @@ class CollectionInHandController extends GetxController {
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
-  RxString paymentProofImageUrl = ''.obs;
   RxBool isPaymentProofImageFocused = false.obs;
   RxBool isLoading = false.obs;
   RxInt page = 1.obs;
@@ -90,45 +89,81 @@ class CollectionInHandController extends GetxController {
     } else {
       resetForm();
     }
+
+    getCollectionInHandList(page: page.value, empName: employee.value.text);
+  }
+
+  getloadData() {
+    page.value = 1;
+    collectionInHandList.clear();
+    getCollectionInHandList(page: page.value, empName: employee.value.text);
+  }
+
+  getLoadMoreData() {
+    if (!hasNextPage.value) return;
+    page.value += 1;
+    getCollectionInHandList(page: page.value, empName: employee.value.text);
+  }
+
+  getCollectionInHandList({required int page, String? empName}) async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl +
+            AppURLs.getCollectionInHandlist(
+                page: page,
+                employee: empName,
+                pageSize: 10,
+                isPagination: true)),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final results = data['message']?['results'] as List<dynamic>;
+        final newItems =
+            results.map((e) => CollectionInhandResult.fromJson(e)).toList();
+
+        if (page == 1) {
+          collectionInHandList.value = newItems;
+        } else {
+          collectionInHandList.addAll(newItems);
+        }
+
+        hasNextPage.value = data['message']?['next'] != null;
+      } else {
+        final err = jsonDecode(response.body);
+        CustomSnackBar.show(
+            isIssue: true, message: err['message']['msg'] ?? "Error");
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   saveCollectionInHand() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
     try {
-      var uri =
-          Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand);
-      var request = http.MultipartRequest('POST', uri);
-
-      request.headers['Authorization'] = token!;
-
-      request.fields.addAll({
+      final requestBody = {
         "employee": employee.value.text,
         "given_to": amountgivenTo.value.text,
         "amount": amount.value.text,
         "posting_date": postingDate.value.text,
-      });
-
-      Map<String, Rx<File?>> imageFields = {
-        'payment_proof': paymentProofImage,
       };
-
-      for (var entry in imageFields.entries) {
-        if (entry.value.value != null) {
-          var file = await http.MultipartFile.fromPath(
-            entry.key,
-            entry.value.value!.path,
-          );
-          request.files.add(file);
-        }
-      }
-
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-
-      print("Status code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
+      final response = await http.post(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+        body: jsonEncode(requestBody),
+      );
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
@@ -148,19 +183,13 @@ class CollectionInHandController extends GetxController {
       {bool readOnly = false}) async {
     isReadOnly.value = readOnly;
 
-    employee.value.text = applicant.employee ?? '';
-    employeeName.value.text = applicant.employeeEmployeeName ?? '';
+    employee.value.text = applicant.employee?.toString() ?? '';
+    employeeName.value.text = applicant.employeeEmployeeName?.toString() ?? '';
     amount.value.text = applicant.amount?.toString() ?? '';
     amountgivenTo.value.text = applicant.givenTo ?? '';
-    print('🖼️ Payment proof image URL: ${applicant.paymentProof}');
-    print('🧾 Full applicant data: ${applicant.toJson()}');
-    if (applicant.paymentProof!.startsWith('http')) {
-      paymentProofImage.value = null;
-      paymentProofImageUrl.value = applicant.paymentProof!;
-    }
 
     postingDate.value.text = applicant.postingDate != null
-        ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
+        ? "${applicant.postingDate!.year.toString().padLeft(4, '0')}-${applicant.postingDate!.month.toString().padLeft(2, '0')}-${applicant.postingDate!.day.toString().padLeft(2, '0')}"
         : '';
   }
 

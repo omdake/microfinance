@@ -25,6 +25,8 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> entryAge = TextEditingController().obs;
   Rx<TextEditingController> completedAge = TextEditingController().obs;
   Rx<TextEditingController> mobileNo = TextEditingController().obs;
+  Rx<TextEditingController> alternateMobileNo = TextEditingController().obs;
+  Rx<TextEditingController> addressLineTwo = TextEditingController().obs;
   Rx<TextEditingController> occupation = TextEditingController().obs;
   Rx<TextEditingController> membergender = TextEditingController().obs;
   Rx<TextEditingController> address = TextEditingController().obs;
@@ -50,6 +52,9 @@ class MemberCreationController extends GetxController {
   Rx<File?> memberImage = Rx<File?>(null);
   Rx<File?> addressImage = Rx<File?>(null);
   Rx<File?> addressProofImage = Rx<File?>(null);
+  Rx<File?> aadharbackImage = Rx<File?>(null);
+  Rx<File?> panbackImage = Rx<File?>(null);
+  Rx<File?> voterbackImage = Rx<File?>(null);
   RxBool isvoterImageFocused = false.obs;
   RxBool ishomeImageFocused = false.obs;
   RxBool isAadharImageFocused = false.obs;
@@ -57,7 +62,10 @@ class MemberCreationController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isAddressImageFocused = false.obs;
   RxBool isMemberImageFocused = false.obs;
-   RxBool isAddressProofImageFocused = false.obs;
+  RxBool isAddressProofImageFocused = false.obs;
+  RxBool isvoterbackImageFocused = false.obs;
+  RxBool isPanImagebackFocused = false.obs;
+  RxBool isAadharbackImageFocused = false.obs;
   RxString selectedOccupation = ''.obs;
   RxString selectedCountry = "".obs;
   RxString selectedState = "".obs;
@@ -103,6 +111,29 @@ class MemberCreationController extends GetxController {
     }
   }
 
+  void updateAgesFromDOB(String dobText) {
+    if (dobText.isEmpty) return;
+
+    try {
+      DateTime dob = DateFormat('yyyy-MM-dd').parse(dobText);
+      DateTime today = DateTime.now();
+
+      int completed = today.year - dob.year;
+      if (today.month < dob.month ||
+          (today.month == dob.month && today.day < dob.day)) {
+        completed--;
+      }
+
+      int entry = completed + 1;
+
+      entryAge.value.text = entry.toString();
+      completedAge.value.text = completed.toString();
+    } catch (e) {
+      entryAge.value.text = '';
+      completedAge.value.text = '';
+    }
+  }
+
   Future<void> selectDate(
       BuildContext context, TextEditingController controller) async {
     List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
@@ -121,6 +152,7 @@ class MemberCreationController extends GetxController {
     if (picked != null && picked.isNotEmpty && picked.first != null) {
       String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
       controller.text = formatted;
+      updateAgesFromDOB(formatted);
     }
   }
 
@@ -201,6 +233,8 @@ class MemberCreationController extends GetxController {
         'ifsc_code': ifscCode.value.text,
         'bank_address': bankAddress.value.text,
         'voter_id': voterId.value.text,
+        "address_line_2": addressLineTwo.value.text,
+        "mobile_no_2": alternateMobileNo.value.text
       });
 
       Map<String, Rx<File?>> imageFields = {
@@ -210,6 +244,9 @@ class MemberCreationController extends GetxController {
         'voter_id_image': voterImage,
         'address_image': addressImage,
         'home_image': homeImage,
+        "aadhar_image_back": aadharbackImage,
+        "pancard_image_back": panbackImage,
+        "voter_id_image_back": voterbackImage
       };
 
       for (var entry in imageFields.entries) {
@@ -282,6 +319,8 @@ class MemberCreationController extends GetxController {
         'ifsc_code': ifscCode.value.text,
         'bank_address': bankAddress.value.text,
         'voter_id': voterId.value.text,
+        "address_line_2": addressLineTwo.value.text,
+        "mobile_no_2": alternateMobileNo.value.text
       };
 
       fields.removeWhere((key, value) => value.isEmpty);
@@ -294,6 +333,9 @@ class MemberCreationController extends GetxController {
         'voter_id_image': voterImage,
         'address_image': addressImage,
         'home_image': homeImage,
+        "aadhar_image_back": aadharbackImage,
+        "pancard_image_back": panbackImage,
+        "voter_id_image_back": voterbackImage
       };
 
       for (var entry in imageFields.entries) {
@@ -309,7 +351,7 @@ class MemberCreationController extends GetxController {
       try {
         json = jsonDecode(response.body);
       } catch (_) {}
-
+      print("..........${response.body}");
       if (response.statusCode == APIStatusCode.SUCCESS) {
         String msg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: false, message: msg);
@@ -403,8 +445,10 @@ class MemberCreationController extends GetxController {
       aadharNumber.value.text = memberData.aadhar ?? '';
       panNumber.value.text = memberData.pancard ?? '';
       voterId.value.text = memberData.voterId ?? '';
+      alternateMobileNo.value.text = memberData.mobileNoLine2 ?? '';
+      addressLineTwo.value.text = memberData.addressLine2 ?? '';
       dob.value.text = memberData.dob != null
-          ? DateFormat('yyyy/MM/dd').format(memberData.dob!)
+          ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
           : '';
       selectedOccupation.value = memberData.occupation ?? '';
       selectedState.value = memberData.state ?? '';
@@ -419,11 +463,21 @@ class MemberCreationController extends GetxController {
               !memberData.aadharImage!.startsWith('http'))
           ? File(memberData.aadharImage!)
           : null;
+      aadharbackImage.value = (memberData.aadharImageBack != null &&
+              memberData.aadharImageBack!.isNotEmpty &&
+              !memberData.aadharImageBack!.startsWith('http'))
+          ? File(memberData.aadharImageBack!)
+          : null;
 
       panImage.value = (memberData.pancardImage != null &&
               memberData.pancardImage!.isNotEmpty &&
               !memberData.pancardImage!.startsWith('http'))
           ? File(memberData.pancardImage!)
+          : null;
+      panbackImage.value = (memberData.pancardImageBack != null &&
+              memberData.pancardImageBack!.isNotEmpty &&
+              !memberData.pancardImageBack!.startsWith('http'))
+          ? File(memberData.pancardImageBack!)
           : null;
 
       homeImage.value = (memberData.homeImage != null &&
@@ -442,6 +496,12 @@ class MemberCreationController extends GetxController {
               memberData.voterIdImage!.isNotEmpty &&
               !memberData.voterIdImage!.startsWith('http'))
           ? File(memberData.voterIdImage!)
+          : null;
+
+      voterbackImage.value = (memberData.voterIdImageBack != null &&
+              memberData.voterIdImageBack!.isNotEmpty &&
+              !memberData.voterIdImageBack!.startsWith('http'))
+          ? File(memberData.voterIdImageBack!)
           : null;
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");

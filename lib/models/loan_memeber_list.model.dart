@@ -1,144 +1,159 @@
 class LoanMemberList {
-    List<LoanMemberListMessage>? message;
+  List<LoanMemberListMessage>? message;
 
-    LoanMemberList({
-        this.message,
-    });
+  LoanMemberList({
+    this.message,
+  });
 
-    factory LoanMemberList.fromJson(Map<String, dynamic> json) => LoanMemberList(
-        message: List<LoanMemberListMessage>.from(json["message"].map((x) => LoanMemberListMessage.fromJson(x))),
-    );
+  factory LoanMemberList.fromJson(Map<String, dynamic> json) => LoanMemberList(
+        message: List<LoanMemberListMessage>.from(
+            json["message"].map((x) => LoanMemberListMessage.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": List<dynamic>.from(message!.map((x) => x.toJson())),
-    };
+      };
 }
+
 class LoanMemberListMessage {
-    int? count;
-    String? next;
-    dynamic previous;
-    List<LoanMemberListResult>? results;
+  int? count;
+  String? next;
+  dynamic previous;
+  List<LoanMemberListResult>? results;
 
-    LoanMemberListMessage({
-        this.count,
-        this.next,
-        this.previous,
-        this.results,
-    });
+  LoanMemberListMessage({
+    this.count,
+    this.next,
+    this.previous,
+    this.results,
+  });
 
-    factory LoanMemberListMessage.fromJson(Map<String, dynamic> json) => LoanMemberListMessage(
+  factory LoanMemberListMessage.fromJson(Map<String, dynamic> json) =>
+      LoanMemberListMessage(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results: List<LoanMemberListResult>.from(json["results"].map((x) => LoanMemberListResult.fromJson(x))),
-    );
+        results: List<LoanMemberListResult>.from(
+            json["results"].map((x) => LoanMemberListResult.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "count": count,
         "next": next,
         "previous": previous,
         "results": List<dynamic>.from(results!.map((x) => x.toJson())),
-    };
+      };
 }
 
 class LoanMemberListResult {
-    String? name;
-    String? firstName;
-    String? lastName;
-    String? middleName;
-    String? gender;
-    DateTime? dob;
-    int? completedAge;
-    int? entryAge;
-    String? mobileNo;
-    String? state;
-    String? country;
-    String? city;
-    int? pincode;
-    String? status;
-    String? occupation;
-    String? group;
-    String? email;
-    String? address;
-    dynamic nominee;
-    String? relation;
-    dynamic aadhar;
-    dynamic pancard;
-    dynamic aadharImage;
-    dynamic pancardImage;
-    dynamic addressImage;
-    int? aadharVerified;
-    int? pancardVerified;
-    int? addressVerified;
-    int? cibilScore;
-    dynamic cibilDate;
-    dynamic bankName;
-    dynamic accountNumber;
-    dynamic holderName;
-    dynamic branch;
-    dynamic ifscCode;
-    String? accountType;
-    dynamic bankAddress;
-    String? memberId;
-    dynamic memberImage;
-    String? company;
-    String? memberName;
-    String? addressDocType;
-    dynamic homeImage;
-    dynamic voterId;
-    dynamic voterIdImage;
-    String? groupGroupName;
+  String? name;
+  String? firstName;
+  String? lastName;
+  String? middleName;
+  String? gender;
+  DateTime? dob;
+  int? completedAge;
+  int? entryAge;
+  String? mobileNo;
+  String? state;
+  String? country;
+  String? city;
+  int? pincode;
+  String? status;
+  String? occupation;
+  String? group;
+  String? email;
+  String? address;
+  dynamic nominee;
+  String? relation;
+  dynamic aadhar;
+  dynamic pancard;
+  dynamic aadharImage;
+  dynamic pancardImage;
+  dynamic addressImage;
+  int? aadharVerified;
+  int? pancardVerified;
+  int? addressVerified;
+  int? cibilScore;
+  dynamic cibilDate;
+  dynamic bankName;
+  dynamic accountNumber;
+  dynamic holderName;
+  dynamic branch;
+  dynamic ifscCode;
+  String? accountType;
+  dynamic bankAddress;
+  String? memberId;
+  dynamic memberImage;
+  String? company;
+  String? memberName;
+  String? addressDocType;
+  dynamic homeImage;
+  dynamic voterId;
+  dynamic voterIdImage;
+  dynamic aadharImageBack;
+  dynamic pancardImageBack;
+  dynamic voterIdImageBack;
+  dynamic addressLine2;
+  String? mobileNoLine2;
+  String? groupGroupName;
 
-    LoanMemberListResult({
-        this.name,
-        this.firstName,
-        this.lastName,
-        this.middleName,
-        this.gender,
-        this.dob,
-        this.completedAge,
-        this.entryAge,
-        this.mobileNo,
-        this.state,
-        this.country,
-        this.city,
-        this.pincode,
-        this.status,
-        this.occupation,
-        this.group,
-        this.email,
-        this.address,
-        this.nominee,
-        this.relation,
-        this.aadhar,
-        this.pancard,
-        this.aadharImage,
-        this.pancardImage,
-        this.addressImage,
-        this.aadharVerified,
-        this.pancardVerified,
-        this.addressVerified,
-        this.cibilScore,
-        this.cibilDate,
-        this.bankName,
-        this.accountNumber,
-        this.holderName,
-        this.branch,
-        this.ifscCode,
-        this.accountType,
-        this.bankAddress,
-        this.memberId,
-        this.memberImage,
-        this.company,
-        this.memberName,
-        this.addressDocType,
-        this.homeImage,
-        this.voterId,
-        this.voterIdImage,
-        this.groupGroupName,
-    });
+  LoanMemberListResult({
+    this.name,
+    this.firstName,
+    this.lastName,
+    this.middleName,
+    this.gender,
+    this.dob,
+    this.completedAge,
+    this.entryAge,
+    this.mobileNo,
+    this.state,
+    this.country,
+    this.city,
+    this.pincode,
+    this.status,
+    this.occupation,
+    this.group,
+    this.email,
+    this.address,
+    this.nominee,
+    this.relation,
+    this.aadhar,
+    this.pancard,
+    this.aadharImage,
+    this.pancardImage,
+    this.addressImage,
+    this.aadharVerified,
+    this.pancardVerified,
+    this.addressVerified,
+    this.cibilScore,
+    this.cibilDate,
+    this.bankName,
+    this.accountNumber,
+    this.holderName,
+    this.branch,
+    this.ifscCode,
+    this.accountType,
+    this.bankAddress,
+    this.memberId,
+    this.memberImage,
+    this.company,
+    this.memberName,
+    this.addressDocType,
+    this.homeImage,
+    this.voterId,
+    this.voterIdImage,
+    this.aadharImageBack,
+    this.pancardImageBack,
+    this.voterIdImageBack,
+    this.addressLine2,
+    this.mobileNoLine2,
+    this.groupGroupName,
+  });
 
-    factory LoanMemberListResult.fromJson(Map<String, dynamic> json) => LoanMemberListResult(
+  factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
+      LoanMemberListResult(
         name: json["name"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -184,18 +199,24 @@ class LoanMemberListResult {
         homeImage: json["home_image"],
         voterId: json["voter_id"],
         voterIdImage: json["voter_id_image"],
-        groupGroupName: json["group_group_name"],
-    );
+        aadharImageBack: json["aadhar_image_back"],
+        pancardImageBack: json["pancard_image_back"],
+        voterIdImageBack: json["voter_id_image_back"],
+        addressLine2: json["pancard_image_back"],
+        mobileNoLine2: json["address_line_2"],
+        groupGroupName: json["mobile_no_2"],
+      );
 
   get voter_id_image => null;
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
         "first_name": firstName,
         "last_name": lastName,
         "middle_name": middleName,
         "gender": gender,
-        "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
+        "dob":
+            "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "completed_age": completedAge,
         "entry_age": entryAge,
         "mobile_no": mobileNo,
@@ -236,123 +257,131 @@ class LoanMemberListResult {
         "voter_id": voterId,
         "voter_id_image": voterIdImage,
         "group_group_name": groupGroupName,
-    };
+        "aadhar_image_back": aadharImageBack,
+        "pancard_image_back": pancardImageBack,
+        "voter_id_image_back": voterIdImageBack,
+        "address_line_2": addressLine2,
+        "mobile_no_2": mobileNoLine2
+      };
 }
 
 class LoanMemberDropdownList {
-    List<LoanMemberDropdownListMessage>? message;
+  List<LoanMemberDropdownListMessage>? message;
 
-    LoanMemberDropdownList({
-        this.message,
-    });
+  LoanMemberDropdownList({
+    this.message,
+  });
 
-    factory LoanMemberDropdownList.fromJson(Map<String, dynamic> json) => LoanMemberDropdownList(
-        message: List<LoanMemberDropdownListMessage>.from(json["message"].map((x) => LoanMemberDropdownListMessage.fromJson(x))),
-    );
+  factory LoanMemberDropdownList.fromJson(Map<String, dynamic> json) =>
+      LoanMemberDropdownList(
+        message: List<LoanMemberDropdownListMessage>.from(json["message"]
+            .map((x) => LoanMemberDropdownListMessage.fromJson(x))),
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "message": List<dynamic>.from(message!.map((x) => x.toJson())),
-    };
+      };
 }
 
 class LoanMemberDropdownListMessage {
-     String? name;
-    String? firstName;
-    String? lastName;
-    String? middleName;
-    String? gender;
-    DateTime? dob;
-    int? completedAge;
-    int? entryAge;
-    String? mobileNo;
-    String? state;
-    String? country;
-    String? city;
-    int? pincode;
-    String? status;
-    String? occupation;
-    String? group;
-    String? email;
-    String? address;
-    dynamic nominee;
-    String? relation;
-    dynamic aadhar;
-    dynamic pancard;
-    dynamic aadharImage;
-    dynamic pancardImage;
-    dynamic addressImage;
-    int? aadharVerified;
-    int? pancardVerified;
-    int? addressVerified;
-    int? cibilScore;
-    dynamic cibilDate;
-    dynamic bankName;
-    dynamic accountNumber;
-    dynamic holderName;
-    dynamic branch;
-    dynamic ifscCode;
-    String? accountType;
-    dynamic bankAddress;
-    String? memberId;
-    dynamic memberImage;
-    String? company;
-    String? memberName;
-    String? addressDocType;
-    dynamic homeImage;
-    dynamic voterId;
-    dynamic voterIdImage;
-    String? groupGroupName;
+  String? name;
+  String? firstName;
+  String? lastName;
+  String? middleName;
+  String? gender;
+  DateTime? dob;
+  int? completedAge;
+  int? entryAge;
+  String? mobileNo;
+  String? state;
+  String? country;
+  String? city;
+  int? pincode;
+  String? status;
+  String? occupation;
+  String? group;
+  String? email;
+  String? address;
+  dynamic nominee;
+  String? relation;
+  dynamic aadhar;
+  dynamic pancard;
+  dynamic aadharImage;
+  dynamic pancardImage;
+  dynamic addressImage;
+  int? aadharVerified;
+  int? pancardVerified;
+  int? addressVerified;
+  int? cibilScore;
+  dynamic cibilDate;
+  dynamic bankName;
+  dynamic accountNumber;
+  dynamic holderName;
+  dynamic branch;
+  dynamic ifscCode;
+  String? accountType;
+  dynamic bankAddress;
+  String? memberId;
+  dynamic memberImage;
+  String? company;
+  String? memberName;
+  String? addressDocType;
+  dynamic homeImage;
+  dynamic voterId;
+  dynamic voterIdImage;
+  String? groupGroupName;
 
-    LoanMemberDropdownListMessage({
-        this.name,
-        this.firstName,
-        this.lastName,
-        this.middleName,
-        this.gender,
-        this.dob,
-        this.completedAge,
-        this.entryAge,
-        this.mobileNo,
-        this.state,
-        this.country,
-        this.city,
-        this.pincode,
-        this.status,
-        this.occupation,
-        this.group,
-        this.email,
-        this.address,
-        this.nominee,
-        this.relation,
-        this.aadhar,
-        this.pancard,
-        this.aadharImage,
-        this.pancardImage,
-        this.addressImage,
-        this.aadharVerified,
-        this.pancardVerified,
-        this.addressVerified,
-        this.cibilScore,
-        this.cibilDate,
-        this.bankName,
-        this.accountNumber,
-        this.holderName,
-        this.branch,
-        this.ifscCode,
-        this.accountType,
-        this.bankAddress,
-        this.memberId,
-        this.memberImage,
-        this.company,
-        this.memberName,
-        this.addressDocType,
-        this.homeImage,
-        this.voterId,
-        this.voterIdImage,
-        this.groupGroupName,
-    });
+  LoanMemberDropdownListMessage({
+    this.name,
+    this.firstName,
+    this.lastName,
+    this.middleName,
+    this.gender,
+    this.dob,
+    this.completedAge,
+    this.entryAge,
+    this.mobileNo,
+    this.state,
+    this.country,
+    this.city,
+    this.pincode,
+    this.status,
+    this.occupation,
+    this.group,
+    this.email,
+    this.address,
+    this.nominee,
+    this.relation,
+    this.aadhar,
+    this.pancard,
+    this.aadharImage,
+    this.pancardImage,
+    this.addressImage,
+    this.aadharVerified,
+    this.pancardVerified,
+    this.addressVerified,
+    this.cibilScore,
+    this.cibilDate,
+    this.bankName,
+    this.accountNumber,
+    this.holderName,
+    this.branch,
+    this.ifscCode,
+    this.accountType,
+    this.bankAddress,
+    this.memberId,
+    this.memberImage,
+    this.company,
+    this.memberName,
+    this.addressDocType,
+    this.homeImage,
+    this.voterId,
+    this.voterIdImage,
+    this.groupGroupName,
+  });
 
-    factory LoanMemberDropdownListMessage.fromJson(Map<String, dynamic> json) => LoanMemberDropdownListMessage(
+  factory LoanMemberDropdownListMessage.fromJson(Map<String, dynamic> json) =>
+      LoanMemberDropdownListMessage(
         name: json["name"],
         firstName: json["first_name"],
         lastName: json["last_name"],
@@ -399,9 +428,9 @@ class LoanMemberDropdownListMessage {
         voterId: json["voter_id"],
         voterIdImage: json["voter_id_image"],
         groupGroupName: json["group_group_name"],
-    );
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "name": name,
         "first_name": firstName,
         "last_name": lastName,
@@ -431,7 +460,8 @@ class LoanMemberDropdownListMessage {
         "pancard_verified": pancardVerified,
         "address_verified": addressVerified,
         "cibil_score": cibilScore,
-        "cibil_date": "${cibilDate.year.toString().padLeft(4, '0')}-${cibilDate.month.toString().padLeft(2, '0')}-${cibilDate.day.toString().padLeft(2, '0')}",
+        "cibil_date":
+            "${cibilDate.year.toString().padLeft(4, '0')}-${cibilDate.month.toString().padLeft(2, '0')}-${cibilDate.day.toString().padLeft(2, '0')}",
         "bank_name": bankName,
         "account_number": accountNumber,
         "holder_name": holderName,
@@ -448,5 +478,5 @@ class LoanMemberDropdownListMessage {
         "voter_id": voterId,
         "voter_id_image": voterIdImage,
         "group_group_name": groupGroupName,
-    };
+      };
 }

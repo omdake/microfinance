@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
-import 'package:microfinance/logic/controller/collectionInHand/collectionInHandList.dart';
+import 'package:microfinance/logic/controller/collectionInHand/collectionInHandListController.dart.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:intl/intl.dart';
 import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
