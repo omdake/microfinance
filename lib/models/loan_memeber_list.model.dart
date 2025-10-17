@@ -95,7 +95,7 @@ class LoanMemberListResult {
   dynamic pancardImageBack;
   dynamic voterIdImageBack;
   dynamic addressLine2;
-  String? mobileNoLine2;
+  int? mobileNoLine2;
   String? groupGroupName;
 
   LoanMemberListResult({
@@ -159,7 +159,7 @@ class LoanMemberListResult {
         lastName: json["last_name"],
         middleName: json["middle_name"],
         gender: json["gender"],
-        dob: DateTime.parse(json["dob"]),
+        dob: json["dob"] != null ? DateTime.parse(json["dob"]) : null,
         completedAge: json["completed_age"],
         entryAge: json["entry_age"],
         mobileNo: json["mobile_no"],
@@ -202,12 +202,10 @@ class LoanMemberListResult {
         aadharImageBack: json["aadhar_image_back"],
         pancardImageBack: json["pancard_image_back"],
         voterIdImageBack: json["voter_id_image_back"],
-        addressLine2: json["pancard_image_back"],
-        mobileNoLine2: json["address_line_2"],
-        groupGroupName: json["mobile_no_2"],
+        addressLine2: json["address_line_2"],
+        mobileNoLine2: json["mobile_no_2"],
+        groupGroupName: json["group_group_name"],
       );
-
-  get voter_id_image => null;
 
   Map<String, dynamic> toJson() => {
         "name": name,

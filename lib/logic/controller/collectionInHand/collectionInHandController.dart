@@ -126,9 +126,6 @@ class CollectionInHandController extends GetxController {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
-      print("Status code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
-
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
@@ -152,12 +149,12 @@ class CollectionInHandController extends GetxController {
     employeeName.value.text = applicant.employeeEmployeeName ?? '';
     amount.value.text = applicant.amount?.toString() ?? '';
     amountgivenTo.value.text = applicant.givenTo ?? '';
-    print('🖼️ Payment proof image URL: ${applicant.paymentProof}');
-    print('🧾 Full applicant data: ${applicant.toJson()}');
-    if (applicant.paymentProof!.startsWith('http')) {
-      paymentProofImage.value = null;
-      paymentProofImageUrl.value = applicant.paymentProof!;
-    }
+
+    paymentProofImage.value = (applicant.paymentProof != null &&
+            applicant.paymentProof!.isNotEmpty &&
+            !applicant.paymentProof!.startsWith('http'))
+        ? File(applicant.paymentProof!)
+        : null;
 
     postingDate.value.text = applicant.postingDate != null
         ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)

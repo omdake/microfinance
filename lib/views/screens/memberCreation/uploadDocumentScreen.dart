@@ -63,7 +63,7 @@ class UploadDcumentSreen extends StatelessWidget {
                       onTap: () => controller.pickImage(controller.aadharImage),
                     ),
                     C10(),
-                     imagePickerField(
+                    imagePickerField(
                       label: "AadharCard Back Image",
                       imageFile: controller.aadharbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -101,14 +101,15 @@ class UploadDcumentSreen extends StatelessWidget {
                       onTap: () => controller.pickImage(controller.panImage),
                     ),
                     C10(),
-                     imagePickerField(
+                    imagePickerField(
                       label: "PanCard Back Image",
                       imageFile: controller.panbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImageBack ?? ''
                           : ''),
                       isFocused: controller.isAadharbackImageFocused,
-                      onTap: () => controller.pickImage(controller.panbackImage),
+                      onTap: () =>
+                          controller.pickImage(controller.panbackImage),
                     ),
                     C10(),
                     paddingWidget(
@@ -182,7 +183,7 @@ class UploadDcumentSreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.characters,
                           keyboardType: TextInputType.text,
                           validator: (value) => voterIdValidator(value!.trim()),
-                         // autovalidateMode: AutovalidateMode.onUserInteraction,
+                          // autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Voter Id",

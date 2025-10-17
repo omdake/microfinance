@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
-import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
@@ -31,15 +29,6 @@ class CollectionInHandListController extends GetxController {
 
   RxList<CollectionInhandResult> collectionInHandList =
       <CollectionInhandResult>[].obs;
-
-  Future<void> pickImage(Rx<File?> imageHolder) async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
-    if (result != null && result.files.single.path != null) {
-      imageHolder.value = File(result.files.single.path!);
-    }
-  }
 
   Future<void> selectDate(
       BuildContext context, TextEditingController controller) async {
@@ -81,13 +70,6 @@ class CollectionInHandListController extends GetxController {
     }
     if (empName != null && empName.isNotEmpty) {
       employeeName.value.text = empName;
-    }
-    final args = Get.arguments;
-    if (args != null && args['applicant'] != null) {
-      getLoanDataFromArg(args['applicant'] as CollectionInhandResult,
-          readOnly: args['isReadOnly'] ?? false);
-    } else {
-      resetForm();
     }
 
     getCollectionInHandList(page: page.value, empName: employee.value.text);
@@ -144,60 +126,5 @@ class CollectionInHandListController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  saveCollectionInHand() async {
-    final token = await AppPreferences.getToken();
-    isLoading.value = true;
-    try {
-      final requestBody = {
-        "employee": employee.value.text,
-        "given_to": amountgivenTo.value.text,
-        "amount": amount.value.text,
-        "posting_date": postingDate.value.text,
-      };
-      final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token!,
-        },
-        body: jsonEncode(requestBody),
-      );
-      if (response.statusCode == APIStatusCode.SUCCESS) {
-        var json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-      } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
-        CustomSnackBar.show(isIssue: true, message: msg);
-      }
-    } catch (e) {
-      CustomSnackBar.show(isIssue: true, message: "$e");
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  getLoanDataFromArg(CollectionInhandResult applicant,
-      {bool readOnly = false}) async {
-    isReadOnly.value = readOnly;
-
-    employee.value.text = applicant.employee?.toString() ?? '';
-    employeeName.value.text = applicant.employeeEmployeeName?.toString() ?? '';
-    amount.value.text = applicant.amount?.toString() ?? '';
-    amountgivenTo.value.text = applicant.givenTo ?? '';
-
-    postingDate.value.text = applicant.postingDate != null
-        ? "${applicant.postingDate!.year.toString().padLeft(4, '0')}-${applicant.postingDate!.month.toString().padLeft(2, '0')}-${applicant.postingDate!.day.toString().padLeft(2, '0')}"
-        : '';
-  }
-
-  void resetForm() {
-    amount.value.clear();
-    amountgivenTo.value.clear();
-    postingDate.value.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    isReadOnly.value = false;
-    isFormEdit.value = false;
   }
 }

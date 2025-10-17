@@ -66,7 +66,7 @@ class AppURLs {
 
   static String  loanMemberDropdownList({ String? search, required String country, required String group,String? Status,bool? isGroup}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&status=$Status&is_group=$isGroup";
 
- static String  loanMember({required String name}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_get/?name=$name";
+ static String  loanMember({required String name}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?name=$name";
 
  static String get  updateLoanMember => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.update_loan_member_api/";
 

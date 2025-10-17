@@ -148,13 +148,16 @@ class CollectionInHandScreen extends StatelessWidget {
                       ),
                       C10(),
                       Obx(() {
-                        print(
-                            '🔄 Rebuilding image picker — URL: ${controller.paymentProofImageUrl.value}');
                         return imagePickerField(
-                          isEnabled: !controller.isReadOnly.value,
+                          // isEnabled: !controller.isReadOnly.value,
                           label: "Payment Proof",
                           imageFile: controller.paymentProofImage,
-                          imageUrl: controller.paymentProofImageUrl,
+                          imageUrl: RxString(
+                              controller.collectionInHandList.isNotEmpty
+                                  ? controller.collectionInHandList[0]
+                                          .paymentProof ??
+                                      ''
+                                  : ''),
                           isFocused: controller.isPaymentProofImageFocused,
                           onTap: () => controller
                               .pickImage(controller.paymentProofImage),

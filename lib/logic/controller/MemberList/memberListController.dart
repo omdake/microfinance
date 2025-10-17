@@ -153,7 +153,6 @@ class MemberListController extends GetxController {
           "Authorization": token!,
         },
       );
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final message = data['message'];
@@ -168,7 +167,6 @@ class MemberListController extends GetxController {
         } else {
           loanMemberList.addAll(members);
         }
-
         hasNextPage.value = message['next'] != null;
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
