@@ -325,7 +325,6 @@ class MemberCreationController extends GetxController {
 
       fields.removeWhere((key, value) => value.isEmpty);
       request.fields.addAll(fields);
-      print(voterImage);
       Map<String, Rx<File?>> imageFields = {
         'member_image': memberImage,
         'aadhar_image': aadharImage,
@@ -351,7 +350,6 @@ class MemberCreationController extends GetxController {
       try {
         json = jsonDecode(response.body);
       } catch (_) {}
-      print("..........${response.body}");
       if (response.statusCode == APIStatusCode.SUCCESS) {
         String msg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: false, message: msg);
@@ -360,7 +358,6 @@ class MemberCreationController extends GetxController {
         CustomSnackBar.show(isIssue: true, message: errorMsg);
       }
     } catch (e) {
-      print("Exception: $e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;
@@ -408,16 +405,16 @@ class MemberCreationController extends GetxController {
           "Authorization": token!,
         },
       );
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
+
       if (response.statusCode != 200) {
         final Map<String, dynamic> err = jsonDecode(response.body);
+
         final msg = err['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
         return;
       }
       final Map<String, dynamic> data = jsonDecode(response.body);
-      final memberData = LoanMemberListResult.fromJson(data['message']);
+      final memberData = LoanMemberListResult.fromJson(data['message'][0]);
       loanMember.value = [memberData];
       name.value = memberData.name ?? '';
       memeberId.value.text = memberData.memberId ?? '';
@@ -445,7 +442,7 @@ class MemberCreationController extends GetxController {
       aadharNumber.value.text = memberData.aadhar ?? '';
       panNumber.value.text = memberData.pancard ?? '';
       voterId.value.text = memberData.voterId ?? '';
-      alternateMobileNo.value.text = memberData.mobileNoLine2 ?? '';
+      alternateMobileNo.value.text = memberData.mobileNoLine2?.toString() ?? '';
       addressLineTwo.value.text = memberData.addressLine2 ?? '';
       dob.value.text = memberData.dob != null
           ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
@@ -463,6 +460,7 @@ class MemberCreationController extends GetxController {
               !memberData.aadharImage!.startsWith('http'))
           ? File(memberData.aadharImage!)
           : null;
+
       aadharbackImage.value = (memberData.aadharImageBack != null &&
               memberData.aadharImageBack!.isNotEmpty &&
               !memberData.aadharImageBack!.startsWith('http'))
@@ -523,8 +521,6 @@ class MemberCreationController extends GetxController {
           "Authorization": token!,
         },
       );
-      print("Response Status Code: ${response.statusCode}");
-      print("Response Body: ${response.body}");
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
