@@ -58,8 +58,6 @@ class ScheduleScreen extends StatelessWidget {
                                         1: FixedColumnWidth(150),
                                         2: FixedColumnWidth(150),
                                         3: FixedColumnWidth(150),
-                                        4: FixedColumnWidth(150),
-                                        5: FixedColumnWidth(150),
                                       },
                                       children: [
                                         TableRow(
@@ -123,46 +121,6 @@ class ScheduleScreen extends StatelessWidget {
                                               padding:
                                                   const EdgeInsets.all(8.0),
                                               child: const Text(
-                                                "Principal Amount",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontFamily: "Roboto-Medium",
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                      color:
-                                                          Colors.grey.shade300,
-                                                      width: 1),
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: const Text(
-                                                "Interest Amount",
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                    fontFamily: "Roboto-Medium",
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 12),
-                                              ),
-                                            ),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                border: Border(
-                                                  right: BorderSide(
-                                                      color:
-                                                          Colors.grey.shade300,
-                                                      width: 1),
-                                                ),
-                                              ),
-                                              padding:
-                                                  const EdgeInsets.all(8.0),
-                                              child: const Text(
                                                 "Total Payment",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
@@ -195,7 +153,7 @@ class ScheduleScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                    // Data Table
+
                                     Table(
                                       defaultVerticalAlignment:
                                           TableCellVerticalAlignment.middle,
@@ -204,8 +162,6 @@ class ScheduleScreen extends StatelessWidget {
                                         1: FixedColumnWidth(150),
                                         2: FixedColumnWidth(150),
                                         3: FixedColumnWidth(150),
-                                        4: FixedColumnWidth(150),
-                                        5: FixedColumnWidth(150),
                                       },
                                       children: List.generate(
                                         controller.repaymentSchedule.length,
@@ -217,7 +173,7 @@ class ScheduleScreen extends StatelessWidget {
                                               border: Border(
                                                 bottom: BorderSide(
                                                     color: Colors.grey.shade300,
-                                                    width: 2),
+                                                    width: 1),
                                               ),
                                               color: Colors.white,
                                             ),
@@ -260,46 +216,6 @@ class ScheduleScreen extends StatelessWidget {
                                                 child: Text(
                                                   _formatDate(
                                                       schedule.paymentDate),
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                    fontFamily: "Roboto-Medium",
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                    right: BorderSide(
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                        width: 1),
-                                                  ),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "₹ ${schedule.principalAmount!.toStringAsFixed(2)}",
-                                                  textAlign: TextAlign.center,
-                                                  style: const TextStyle(
-                                                      fontFamily:
-                                                          "Roboto-Medium",
-                                                      fontSize: 14),
-                                                ),
-                                              ),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  border: Border(
-                                                    right: BorderSide(
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                        width: 1),
-                                                  ),
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  "₹ ${schedule.interestAmount!.toStringAsFixed(2)}",
                                                   textAlign: TextAlign.center,
                                                   style: const TextStyle(
                                                       fontFamily:

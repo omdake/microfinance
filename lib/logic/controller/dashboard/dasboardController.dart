@@ -116,7 +116,7 @@ class DashboardController extends GetxController {
 
         todaysCollection.value = message.todaysCollection ?? 0;
         dueReport.value = (message.remainingAmount ?? 0.0).toInt();
-        assignedGroup.value = message.monthlyCollection ?? 0;
+        assignedGroup.value = (message.monthlyCollection ?? 0.0).toInt();
         collectionByCash.value = message.collectionInHand ?? 0.0;
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);

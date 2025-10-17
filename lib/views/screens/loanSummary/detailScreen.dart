@@ -49,6 +49,29 @@ class DetailsScreen extends StatelessWidget {
                         paddingWidget(
                           [
                             const LabelsWithMark(
+                                label: "Applicant", isRequired: true),
+                            TextFormField(
+                              initialValue: controller
+                                  .loanDisbursement.value.applicantMemberName
+                                  .toString(),
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                      hint: "Applicant"),
+                            ),
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
                                 label: "Against Loan", isRequired: true),
                             TextFormField(
                               initialValue: controller
@@ -114,28 +137,6 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                       hint: "Current Disbursed Amount"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Applicant Type", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.applicantType,
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Applicant Type"),
                             ),
                           ],
                         ),
@@ -230,101 +231,6 @@ class DetailsScreen extends StatelessWidget {
                         paddingWidget(
                           [
                             const LabelsWithMark(
-                                label: "Company", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.company
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Company"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Applicant", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.applicantMemberName
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Applicant"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Repayment Frequency", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.repaymentFrequency
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.phone,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              style: TextStyles.textfieldTextStyle,
-                              validator: (value) =>
-                                  mobileNoValidator(value!.trim()),
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Repayment Frequency",
-                              ),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Broken Period Interest Days",
-                                isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.brokenPeriodInterest
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Broken Period Interest Days"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
                                 label: "Disbursed Amount", isRequired: true),
                             TextFormField(
                               initialValue: controller
@@ -341,54 +247,6 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                       hint: "Disbursed Amount"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Broken Period Interest",
-                                isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.brokenPeriodInterest
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Broken Period Interest"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "BPI Amount Difference",
-                                isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.bpiAmountDifference
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "BPI Amount Difference"),
                             ),
                           ],
                         ),
@@ -419,77 +277,6 @@ class DetailsScreen extends StatelessWidget {
                           ],
                         ),
                         C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Disbursement Account",
-                                isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.disbursedAmount
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Disbursement Account"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Loan Account", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.loanAccount
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: "Loan Account"),
-                            ),
-                          ],
-                        ),
-                        C10(),
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Cost Center", isRequired: true),
-                            TextFormField(
-                              initialValue: controller
-                                  .loanDisbursement.value.costCenter
-                                  .toString(),
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.phone,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              style: TextStyles.textfieldTextStyle,
-                              validator: (value) =>
-                                  mobileNoValidator(value!.trim()),
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Cost Center",
-                              ),
-                            ),
-                          ],
-                        ),
                         C10(),
                         paddingWidget(
                           [

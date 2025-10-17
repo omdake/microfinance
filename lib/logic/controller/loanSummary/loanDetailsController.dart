@@ -27,7 +27,6 @@ class LoanDetailsController extends GetxController {
 
   Rx<TextEditingController> againstLoan = TextEditingController().obs;
   Rx<TextEditingController> applicant = TextEditingController().obs;
-  Rx<TextEditingController> company = TextEditingController().obs;
   Rx<TextEditingController> sanctionedLoanAmount = TextEditingController().obs;
   Rx<TextEditingController> currentDisbursedAmount =
       TextEditingController().obs;

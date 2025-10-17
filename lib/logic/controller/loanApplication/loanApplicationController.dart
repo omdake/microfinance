@@ -331,9 +331,9 @@ class LoanApplicationController extends GetxController {
     periods.value.text = applicant.repaymentPeriods?.toString() ?? '';
     description.value.text = applicant.description ?? '';
     applicantName.value.text = applicant.applicantName ?? '';
-    coBorrower.value.text = applicant.coBorrower ?? '';
+    coBorrower.value.text = applicant.coBorrowerMemberName ?? '';
     loanProduct.value.text = applicant.loanProduct ?? '';
-    nominee.value.text = applicant.nominee ?? '';
+    nominee.value.text = applicant.nomineeMemberName ?? '';
     relation.value.text = applicant.nomineeRelation ?? '';
   }
 
