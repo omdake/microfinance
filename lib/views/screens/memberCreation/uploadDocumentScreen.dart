@@ -54,13 +54,23 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "Aadhar Image",
+                      label: "AadharCard Front Image",
                       imageFile: controller.aadharImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImage ?? ''
                           : ''),
                       isFocused: controller.isAadharImageFocused,
                       onTap: () => controller.pickImage(controller.aadharImage),
+                    ),
+                    C10(),
+                     imagePickerField(
+                      label: "AadharCard Back Image",
+                      imageFile: controller.aadharbackImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].aadharImageBack ?? ''
+                          : ''),
+                      isFocused: controller.isAadharbackImageFocused,
+                      onTap: () => controller.pickImage(controller.aadharbackImage),
                     ),
                     C10(),
                     paddingWidget(
@@ -82,13 +92,23 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "Pan Image",
+                      label: "PanCard Front Image",
                       imageFile: controller.panImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImage ?? ''
                           : ''),
                       isFocused: controller.isPanImageFocused,
                       onTap: () => controller.pickImage(controller.panImage),
+                    ),
+                    C10(),
+                     imagePickerField(
+                      label: "PanCard Back Image",
+                      imageFile: controller.panbackImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].pancardImageBack ?? ''
+                          : ''),
+                      isFocused: controller.isAadharbackImageFocused,
+                      onTap: () => controller.pickImage(controller.panbackImage),
                     ),
                     C10(),
                     paddingWidget(
@@ -172,7 +192,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                        label: "VoterId Image",
+                        label: "VoterId Front Image",
                         imageFile: controller.voterImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].voterIdImage ?? ''
@@ -180,6 +200,17 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isvoterImageFocused,
                         onTap: () {
                           controller.pickImage(controller.voterImage);
+                        }),
+                    C20(),
+                    imagePickerField(
+                        label: "VoterId Back Image",
+                        imageFile: controller.voterbackImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].voterIdImageBack ?? ''
+                            : ''),
+                        isFocused: controller.isvoterbackImageFocused,
+                        onTap: () {
+                          controller.pickImage(controller.voterbackImage);
                         }),
                     C20(),
                     Row(

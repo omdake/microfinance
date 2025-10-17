@@ -141,66 +141,6 @@ class BankDetailscSreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Cibil Score", isRequired: true),
-                        TextFormField(
-                          controller: controller.cibilScore.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Cibil Score"),
-                        ),
-                      ],
-                    ),C10(),
-                    // paddingWidget(
-                    //   [
-                    //     const LabelsWithMark(
-                    //         label: "Cibil Date"),
-                    //     TextFormField(
-                    //       controller: controller.cibilDate.value,
-                    //       cursorColor: AppColors.primary,
-                    //       textCapitalization: TextCapitalization.sentences,
-                    //       // validator: (value) => requiredValidator(value!),
-                    //       // autovalidateMode: AutovalidateMode.onUserInteraction,
-                    //       keyboardType: TextInputType.name,
-                    //       style: TextStyles.textfieldTextStyle,
-                    //       decoration: TextFieldDecoration.textfieldDecoration(
-                    //           hint: "Cibil Date"),
-                    //     ),
-                    //   ],
-                   // ),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Cibil Date", isRequired: true),
-                        Obx(
-                          () => TextFormField(
-                            controller: controller.cibilDate.value,
-                            cursorColor: AppColors.primary,
-                            readOnly: true,
-                            onTap: () => controller.selectDate(context,controller.cibilDate.value),
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecorationicon(
-                              hint: "Cibil Date",
-                              sufficIcon: Icons.calendar_today,
-                              sufficIconOntap: () =>
-                                  controller.selectDate(context,controller.cibilDate.value),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
                     C20(),
                     AppButton(
                         title: "save",
