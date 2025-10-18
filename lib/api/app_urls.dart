@@ -47,9 +47,13 @@ class AppURLs {
 
   static String  getCollectionInHandlist({required int page,String? employee ,bool? isPagination,int? pageSize}) => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.collection_in_hand_list?is_pagination=$isPagination&employee=$employee&page=$page&page_size=$pageSize";
 
+  static String  getGroupCreationList({required int page,String? search ,bool? isPagination,int? pageSize}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/?is_pagination=$isPagination&search=$search&page=$page";
+
   static String get saveCollectionInHand => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.create_collection_in_hand";
 
   static String  getApplicantList({int? page}) => "api/method/lending.loan_management.doctype.loan_application.loan_application.loan_application_list?applicant_type=Loan Member&is_pagination=$page";
+
+static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.create_loan_group/";
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
@@ -64,7 +68,8 @@ class AppURLs {
   static String  loanMemberList({ String? search, required String country, required String group,String? Status,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&page_size=$pagesize&page=$page";
 
   static String  unGroupedloanMemberList({ String? search, required String country,bool? isGroup,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&country=$country&is_pagination=$isPagination&is_group=$isGroup&page_size=$pagesize&page=$page";
-
+ 
+  static String  loanHeadList({ String? search, required String country,String? Status,bool? isGroup}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&&country=$country&status=$Status&is_group=$isGroup";
 
   static String  loanMemberDropdownList({ String? search, required String country, required String group,String? Status,bool? isGroup}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&status=$Status&is_group=$isGroup";
 

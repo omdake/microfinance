@@ -18,6 +18,8 @@ import 'package:microfinance/views/screens/authentication/resetPasswordScreen.da
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandList.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
+import 'package:microfinance/views/screens/groupCreation/groupCreationScreen.dart';
+import 'package:microfinance/views/screens/groupCreation/groupListScreen.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationList.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationScreen.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationViweOnly.dart';
@@ -133,6 +135,14 @@ GetPage(
     GetPage(
       name: Routes.dueEmi,
       page: () => DueEMIScreen(),
+    ),
+    GetPage(
+      name: Routes.groupCreation,
+      page: () => GroupCreationScreen(),
+    ),
+    GetPage(
+      name: Routes.groupList,
+      page: () => GroupListScreen(),
     ),
   ];
 }
