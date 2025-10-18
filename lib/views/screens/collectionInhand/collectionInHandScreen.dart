@@ -131,21 +131,107 @@ class CollectionInHandScreen extends StatelessWidget {
                         ],
                       ),
                       C10(),
-                      paddingWidget(
-                        [
-                          LabelsWithMark(label: "Amount Given To"),
-                          TextFormField(
-                            controller: controller.amountgivenTo.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
+                      paddingWidget([
+                        const LabelsWithMark(
+                            label: "Give To", isRequired: true),
+                        Obx(() {
+                          return DropdownButtonFormField<String>(
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: " Enter Amount Given To"),
-                          ),
-                        ],
-                      ),
+                              hint: "Select Amount Given To",
+                            ),
+                            style: TextStyles.textfieldTextStyle,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            items: controller.giventoList.map((givento) {
+                              return DropdownMenuItem<String>(
+                                value: givento,
+                                child: Text(givento),
+                              );
+                            }).toList(),
+                            value: controller.selectedGivenTo.value.isNotEmpty
+                                ? controller.selectedGivenTo.value
+                                : null,
+                            onChanged: (value) {
+                              if (value != null) {
+                                controller.selectedGivenTo.value = value;
+                                controller.amountgivenTo.value.clear();
+                              }
+                            },
+                            validator: (value) {
+                              if (controller.selectedGivenTo.value.isEmpty) {
+                                return 'Given To is required';
+                              }
+                              return null;
+                            },
+                          );
+                        }),
+                      ]),
+                      C10(),
+                      Obx(() {
+                        if (controller.selectedGivenTo.value == "employee") {
+                          return paddingWidget([
+                            const LabelsWithMark(
+                                label: "Amount Given To Employee",
+                                isRequired: true),
+                            DropdownButtonFormField<String>(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                hint: "Select Employee",
+                              ),
+                              style: TextStyles.textfieldTextStyle,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              items: ["Employee 1", "Employee 2", "Employee 3"]
+                                  .map((emp) => DropdownMenuItem(
+                                        value: emp,
+                                        child: Text(emp),
+                                      ))
+                                  .toList(),
+                              value:
+                                  controller.amountgivenTo.value.text.isNotEmpty
+                                      ? controller.amountgivenTo.value.text
+                                      : null,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  controller.amountgivenTo.value.text = value;
+                                }
+                              },
+                              validator: (value) {
+                                if (controller
+                                    .amountgivenTo.value.text.isEmpty) {
+                                  return 'Amount Given Employee is required';
+                                }
+                                return null;
+                              },
+                            ),
+                          ]);
+                        } else {
+                          return const SizedBox();
+                        }
+                      }),
+                      Obx(() {
+                        if (controller.selectedGivenTo.value == "bank") {
+                          return paddingWidget([
+                            const LabelsWithMark(
+                                label: "Bank", isRequired: true),
+                            TextFormField(
+                              controller: controller.amountgivenTo.value,
+                              enabled: !controller.isReadOnly.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.text,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                hint: "Enter Bank Name",
+                              ),
+                            ),
+                          ]);
+                        } else {
+                          return const SizedBox();
+                        }
+                      }),
                       C10(),
                       Obx(() {
                         return imagePickerField(

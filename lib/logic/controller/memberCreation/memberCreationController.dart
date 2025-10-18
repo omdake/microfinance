@@ -88,6 +88,8 @@ class MemberCreationController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    mobileNo.value.text = '+91';
+    alternateMobileNo.value.text = '+91';
     await getOccupationList();
     await getStateList();
     final args = Get.arguments as Map<String, dynamic>?;
