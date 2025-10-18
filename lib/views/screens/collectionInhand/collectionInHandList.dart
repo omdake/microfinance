@@ -21,12 +21,7 @@ class CollectionInHandList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Obx(() {
             if (controller.collectionInHandList.isEmpty) {
-              return const Center(
-                  child: CircularProgressIndicator(color: Colors.black));
-            }
-
-            if (controller.collectionInHandList.isEmpty) {
-              return const Center(child: Text("No members found"));
+              return const Center(child: Text("No records found"));
             }
 
             return LoadMoreListView(
@@ -42,7 +37,7 @@ class CollectionInHandList extends StatelessWidget {
                           "isReadOnly": true,
                         };
                         Get.toNamed(
-                          Routes.createCollectionInHand,
+                          Routes.collectionInhandView,
                           arguments: args,
                         );
                       },

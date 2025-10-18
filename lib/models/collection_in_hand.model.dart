@@ -55,6 +55,8 @@ class CollectionInhandResult {
   String? applicant;
   String? loan;
   String? paymentProof;
+  String? amountGivenEmp;
+  dynamic description;
   String? employeeEmployeeName;
 
   CollectionInhandResult({
@@ -67,6 +69,7 @@ class CollectionInhandResult {
     this.applicant,
     this.loan,
     this.paymentProof,
+    this.amountGivenEmp,
     this.employeeEmployeeName,
   });
 
@@ -81,6 +84,7 @@ class CollectionInhandResult {
         applicant: json["applicant"],
         loan: json["loan"],
         paymentProof: json["payment_proof"],
+        amountGivenEmp: json["amount_given_emp"],
         employeeEmployeeName: json["employee_employee_name"],
       );
 
@@ -95,6 +99,7 @@ class CollectionInhandResult {
         "applicant": applicant,
         "loan": loan,
         "payment_proof": paymentProof,
+        "amount_given_emp": amountGivenEmp,
         "employee_employee_name": employeeEmployeeName,
       };
 }

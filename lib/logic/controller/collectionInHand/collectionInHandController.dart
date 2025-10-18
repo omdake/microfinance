@@ -11,6 +11,7 @@ import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
+import 'package:microfinance/models/employee.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class CollectionInHandController extends GetxController {
@@ -22,6 +23,8 @@ class CollectionInHandController extends GetxController {
           text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
+  Rx<TextEditingController> givenTo = TextEditingController().obs;
+
   Rx<File?> paymentProofImage = Rx<File?>(null);
   RxString paymentProofImageUrl = ''.obs;
   RxBool isPaymentProofImageFocused = false.obs;
@@ -31,12 +34,14 @@ class CollectionInHandController extends GetxController {
   RxBool isReadOnly = false.obs;
   RxBool hasNextPage = true.obs;
   RxString selectedType = ''.obs;
-  final List<String> giventoList = ["employee", "bank"];
+  final List<String> giventoList = ["Employee", "Bank"];
   RxString selectedGivenTo = ''.obs;
+  RxString selectedamountGivenTo = ''.obs;
+  RxString selectedAmountGivenToEmployeeId = ''.obs;
 
   RxList<CollectionInhandResult> collectionInHandList =
       <CollectionInhandResult>[].obs;
-
+  RxList<Employee> employeeList = <Employee>[].obs;
   Future<void> pickImage(Rx<File?> imageHolder) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -108,9 +113,12 @@ class CollectionInHandController extends GetxController {
 
       request.fields.addAll({
         "employee": employee.value.text,
-        "given_to": amountgivenTo.value.text,
+        "given_to": selectedGivenTo.value,
         "amount": amount.value.text,
         "posting_date": postingDate.value.text,
+        "amount_given_emp": selectedGivenTo.value == "Employee"
+            ? selectedamountGivenTo.value
+            : bankAmount.value.text,
       });
 
       Map<String, Rx<File?>> imageFields = {
@@ -152,17 +160,73 @@ class CollectionInHandController extends GetxController {
     employee.value.text = applicant.employee ?? '';
     employeeName.value.text = applicant.employeeEmployeeName ?? '';
     amount.value.text = applicant.amount?.toString() ?? '';
-    amountgivenTo.value.text = applicant.givenTo ?? '';
-
+    givenTo.value.text = applicant.givenTo ?? '';
+    amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
     paymentProofImage.value = (applicant.paymentProof != null &&
             applicant.paymentProof!.isNotEmpty &&
             !applicant.paymentProof!.startsWith('http'))
         ? File(applicant.paymentProof!)
         : null;
-
     postingDate.value.text = applicant.postingDate != null
         ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
         : '';
+  }
+
+  getemployeeList() async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.getemployeeList),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        final messages = data['message'] as List<dynamic>;
+        employeeList.value = messages.map((e) => Employee.fromJson(e)).toList();
+      } else {
+        final err = jsonDecode(response.body);
+        CustomSnackBar.show(
+            isIssue: true, message: err['message']['msg'] ?? "Error");
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  saveLoanMember() async {
+    final token = await AppPreferences.getToken();
+    isLoading.value = true;
+    try {
+      final requestBody = {};
+      final response = await http.post(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.saveLoanCreationMember),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      if (response.statusCode == APIStatusCode.SUCCESS) {
+        var json = jsonDecode(response.body);
+        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+        Future.delayed(const Duration(milliseconds: 300), () {});
+      } else {
+        Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   void resetForm() {

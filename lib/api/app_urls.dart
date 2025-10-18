@@ -77,7 +77,11 @@ static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_
 
  static String get  updateLoanMember => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.update_loan_member_api/";
 
+  static String get approveRejecte => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.approve_or_reject_collection";
+
 static String get relation => "api/method/ex_loan_management.api.relation.get_relation_select_options";
+
+static String get getemployeeList => "api/method/ex_loan_management.api.employee.employee_list";
 
 static String get productList => "api/method/lending.loan_management.doctype.loan_product.loan_product.loan_product_list";
 

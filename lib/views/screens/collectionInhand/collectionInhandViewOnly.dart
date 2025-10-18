@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart'
@@ -9,12 +8,11 @@ import 'package:microfinance/logic/controller/collectionInHand/collectionInHandC
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
-import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
 
-class CollectionInHandScreen extends StatelessWidget {
-  CollectionInHandScreen({super.key});
+class CollectionInHandViewOnlyScreen extends StatelessWidget {
+  CollectionInHandViewOnlyScreen({super.key});
   final _formKey = GlobalKey<FormState>();
   final CollectionInHandController controller =
       Get.put(CollectionInHandController());
@@ -55,6 +53,7 @@ class CollectionInHandScreen extends StatelessWidget {
                           const LabelsWithMark(
                               label: "Employee", isRequired: true),
                           TextFormField(
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.employee.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -71,6 +70,7 @@ class CollectionInHandScreen extends StatelessWidget {
                         [
                           LabelsWithMark(label: "Employee Name"),
                           TextFormField(
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.employeeName.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -88,6 +88,7 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Posting Date", isRequired: true),
                           Obx(
                             () => TextFormField(
+                              enabled: !controller.isReadOnly.value,
                               controller: controller.postingDate.value,
                               cursorColor: AppColors.primary,
                               readOnly: true,
@@ -115,6 +116,7 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Amount", isRequired: true),
                           TextFormField(
                             controller: controller.amount.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
                             keyboardType: TextInputType.emailAddress,
@@ -127,113 +129,47 @@ class CollectionInHandScreen extends StatelessWidget {
                         ],
                       ),
                       C10(),
-                      paddingWidget([
-                        const LabelsWithMark(
-                            label: "Give To", isRequired: true),
-                        Obx(() {
-                          return DropdownButtonFormField<String>(
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Amount Given To",
-                            ),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: " Give To", isRequired: true),
+                          TextFormField(
+                            controller: controller.givenTo.value,
+                            enabled: !controller.isReadOnly.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.none,
+                            keyboardType: TextInputType.emailAddress,
                             style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            items: controller.giventoList.map((givento) {
-                              return DropdownMenuItem<String>(
-                                value: givento,
-                                child: Text(givento),
-                              );
-                            }).toList(),
-                            value: controller.selectedGivenTo.value.isNotEmpty
-                                ? controller.selectedGivenTo.value
-                                : null,
-                            onChanged: (value) {
-                              if (value != null) {
-                                controller.selectedGivenTo.value = value;
-                                controller.amountgivenTo.value.clear();
-                                controller.getemployeeList();
-                              }
-                            },
-                            validator: (value) {
-                              if (controller.selectedGivenTo.value.isEmpty) {
-                                return 'Given To is required';
-                              }
-                              return null;
-                            },
-                          );
-                        }),
-                      ]),
+                            validator: (value) => requiredValidator(value!),
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Enter Amount",
+                            ),
+                          ),
+                        ],
+                      ),
                       C10(),
-                      Obx(() {
-                        if (controller.selectedGivenTo.value == "Employee") {
-                          return paddingWidget([
-                            const LabelsWithMark(
-                                label: "Amount Given To Employee",
-                                isRequired: true),
-                            DropdownButtonFormField<String>(
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Employee",
-                              ),
-                              style: TextStyles.textfieldTextStyle,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              items: controller.employeeList.map((employee) {
-                                return DropdownMenuItem<String>(
-                                  value: employee.employee,
-                                  child: Text(employee.employeeName ?? ''),
-                                );
-                              }).toList(),
-                              value: controller
-                                      .selectedamountGivenTo.value.isNotEmpty
-                                  ? controller.selectedamountGivenTo.value
-                                  : null,
-                              onChanged: (value) {
-                                if (value != null) {
-                                  controller.selectedamountGivenTo.value =
-                                      value;
-                                  controller.selectedAmountGivenToEmployeeId
-                                      .value = value;
-                                }
-                              },
-                              validator: (value) {
-                                if (controller
-                                    .selectedamountGivenTo.value.isEmpty) {
-                                  return 'Amount Given Employee is required';
-                                }
-                                return null;
-                              },
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Amount Given To", isRequired: true),
+                          TextFormField(
+                            controller: controller.amountgivenTo.value,
+                            enabled: !controller.isReadOnly.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.none,
+                            keyboardType: TextInputType.emailAddress,
+                            style: TextStyles.textfieldTextStyle,
+                            validator: (value) => requiredValidator(value!),
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Enter Amount Given To",
                             ),
-                          ]);
-                        } else {
-                          return const SizedBox();
-                        }
-                      }),
-                      Obx(() {
-                        if (controller.selectedGivenTo.value == "Bank") {
-                          return paddingWidget([
-                            const LabelsWithMark(
-                                label: "Bank", isRequired: true),
-                            TextFormField(
-                              controller: controller.bankAmount.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.text,
-                              style: TextStyles.textfieldTextStyle,
-                              validator: (value) => requiredValidator(value!),
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Enter Bank Name",
-                              ),
-                            ),
-                          ]);
-                        } else {
-                          return const SizedBox();
-                        }
-                      }),
+                          ),
+                        ],
+                      ),
                       C10(),
                       Obx(() {
                         return imagePickerField(
+                          // isEnabled: !controller.isReadOnly.value,
                           label: "Payment Proof",
                           imageFile: controller.paymentProofImage,
                           imageUrl: RxString(
@@ -247,34 +183,6 @@ class CollectionInHandScreen extends StatelessWidget {
                               .pickImage(controller.paymentProofImage),
                         );
                       }),
-                      C50(),
-                      AppButton(
-                        title: "save",
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            controller.saveCollectionInHand();
-                          } else {
-                            AppTostMassage.showTostMassage(
-                              massage: "Please fill all required fields",
-                            );
-                          }
-                        },
-                      ),
-                      Obx(() {
-                        final loggedInEmployeeId =
-                            controller.employee.value.text;
-
-                        if (controller.selectedGivenTo.value == "Employee" &&
-                            controller.selectedAmountGivenToEmployeeId.value ==
-                                loggedInEmployeeId) {
-                          return AppButton(
-                            title: "Approve",
-                            onTap: () {},
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      })
                     ],
                   ),
                 ),
