@@ -55,7 +55,6 @@ class CollectionInHandScreen extends StatelessWidget {
                           const LabelsWithMark(
                               label: "Employee", isRequired: true),
                           TextFormField(
-                            enabled: !controller.isReadOnly.value,
                             controller: controller.employee.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -72,7 +71,6 @@ class CollectionInHandScreen extends StatelessWidget {
                         [
                           LabelsWithMark(label: "Employee Name"),
                           TextFormField(
-                            enabled: !controller.isReadOnly.value,
                             controller: controller.employeeName.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -90,7 +88,6 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Posting Date", isRequired: true),
                           Obx(
                             () => TextFormField(
-                              enabled: !controller.isReadOnly.value,
                               controller: controller.postingDate.value,
                               cursorColor: AppColors.primary,
                               readOnly: true,
@@ -118,7 +115,6 @@ class CollectionInHandScreen extends StatelessWidget {
                               label: "Amount", isRequired: true),
                           TextFormField(
                             controller: controller.amount.value,
-                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
                             keyboardType: TextInputType.emailAddress,
@@ -155,6 +151,7 @@ class CollectionInHandScreen extends StatelessWidget {
                               if (value != null) {
                                 controller.selectedGivenTo.value = value;
                                 controller.amountgivenTo.value.clear();
+                                controller.getemployeeList();
                               }
                             },
                             validator: (value) {
@@ -168,7 +165,7 @@ class CollectionInHandScreen extends StatelessWidget {
                       ]),
                       C10(),
                       Obx(() {
-                        if (controller.selectedGivenTo.value == "employee") {
+                        if (controller.selectedGivenTo.value == "Employee") {
                           return paddingWidget([
                             const LabelsWithMark(
                                 label: "Amount Given To Employee",
@@ -181,24 +178,27 @@ class CollectionInHandScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
-                              items: ["Employee 1", "Employee 2", "Employee 3"]
-                                  .map((emp) => DropdownMenuItem(
-                                        value: emp,
-                                        child: Text(emp),
-                                      ))
-                                  .toList(),
-                              value:
-                                  controller.amountgivenTo.value.text.isNotEmpty
-                                      ? controller.amountgivenTo.value.text
-                                      : null,
+                              items: controller.employeeList.map((employee) {
+                                return DropdownMenuItem<String>(
+                                  value: employee.employee,
+                                  child: Text(employee.employeeName ?? ''),
+                                );
+                              }).toList(),
+                              value: controller
+                                      .selectedamountGivenTo.value.isNotEmpty
+                                  ? controller.selectedamountGivenTo.value
+                                  : null,
                               onChanged: (value) {
                                 if (value != null) {
-                                  controller.amountgivenTo.value.text = value;
+                                  controller.selectedamountGivenTo.value =
+                                      value;
+                                  controller.selectedAmountGivenToEmployeeId
+                                      .value = value;
                                 }
                               },
                               validator: (value) {
                                 if (controller
-                                    .amountgivenTo.value.text.isEmpty) {
+                                    .selectedamountGivenTo.value.isEmpty) {
                                   return 'Amount Given Employee is required';
                                 }
                                 return null;
@@ -210,13 +210,12 @@ class CollectionInHandScreen extends StatelessWidget {
                         }
                       }),
                       Obx(() {
-                        if (controller.selectedGivenTo.value == "bank") {
+                        if (controller.selectedGivenTo.value == "Bank") {
                           return paddingWidget([
                             const LabelsWithMark(
                                 label: "Bank", isRequired: true),
                             TextFormField(
-                              controller: controller.amountgivenTo.value,
-                              enabled: !controller.isReadOnly.value,
+                              controller: controller.bankAmount.value,
                               cursorColor: AppColors.primary,
                               textCapitalization: TextCapitalization.none,
                               keyboardType: TextInputType.text,
@@ -235,7 +234,6 @@ class CollectionInHandScreen extends StatelessWidget {
                       C10(),
                       Obx(() {
                         return imagePickerField(
-                          // isEnabled: !controller.isReadOnly.value,
                           label: "Payment Proof",
                           imageFile: controller.paymentProofImage,
                           imageUrl: RxString(
@@ -250,23 +248,37 @@ class CollectionInHandScreen extends StatelessWidget {
                         );
                       }),
                       C50(),
-                      Obx(
-                        () => controller.isReadOnly.value
-                            ? SizedBox.shrink()
-                            : AppButton(
-                                title: "save",
-                                onTap: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    controller.saveCollectionInHand();
-                                  } else {
-                                    AppTostMassage.showTostMassage(
-                                      massage:
-                                          "Please fill all required fields",
-                                    );
-                                  }
-                                },
-                              ),
+                      AppButton(
+                        title: "save",
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            controller.saveCollectionInHand();
+                          } else {
+                            AppTostMassage.showTostMassage(
+                              massage: "Please fill all required fields",
+                            );
+                          }
+                        },
                       ),
+                      Obx(() {
+                        // Get logged-in employee ID
+                        final loggedInEmployeeId =
+                            controller.employee.value.text;
+
+                        // Show approve button only if selected employee matches logged-in employee
+                        if (controller.selectedGivenTo.value == "Employee" &&
+                            controller.selectedAmountGivenToEmployeeId.value ==
+                                loggedInEmployeeId) {
+                          return AppButton(
+                            title: "Approve",
+                            onTap: () {
+                              // call your approve API here
+                            },
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      })
                     ],
                   ),
                 ),

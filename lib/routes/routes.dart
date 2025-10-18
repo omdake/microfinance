@@ -17,6 +17,7 @@ import 'package:microfinance/views/screens/authentication/login.dart';
 import 'package:microfinance/views/screens/authentication/resetPasswordScreen.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandList.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionInhandViewOnly.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupListScreen.dart';
@@ -143,6 +144,10 @@ GetPage(
     GetPage(
       name: Routes.groupList,
       page: () => GroupListScreen(),
+    ),
+    GetPage(
+      name: Routes.collectionInhandView,
+      page: () => CollectionInHandViewOnlyScreen(),
     ),
   ];
 }
