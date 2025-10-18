@@ -9,6 +9,7 @@ import 'package:microfinance/logic/bindings/memberCreation_binding.dart';
 import 'package:microfinance/logic/bindings/memeberList_bindig.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/views/screens/LoanEMI/dueEmiScreen.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
 import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
 import 'package:microfinance/views/screens/authentication/forgotPassword.dart';
@@ -128,6 +129,10 @@ GetPage(
     GetPage(
       name: Routes.loanRepaymentViewonly,
       page: () =>LoanRepaymentViewScreen (),
+    ),
+    GetPage(
+      name: Routes.dueEmi,
+      page: () => DueEMIScreen(),
     ),
   ];
 }

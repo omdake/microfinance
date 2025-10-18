@@ -13,6 +13,7 @@ class Routes {
   static const loanApplicationViewonly = '/loanApplicationViewonly';
   static const loanRepaymentViewonly = '/loanRepaymentViewonly';
   static const otpScreen = '/otpScreen';
+  static const dueEmi = '/dueEmi';
   static const resetPasswordScreen = '/resetPasswordScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
   static const loanEMIScreen = '/loanEMIScreen';

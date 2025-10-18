@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/logic/controller/loanEMI/loanEMIController.dart';
+import 'package:microfinance/logic/controller/loanEMI/dueEmiController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
-class LoanEMIScreen extends StatelessWidget {
-  const LoanEMIScreen({super.key});
+class DueEMIScreen extends StatelessWidget {
+  const DueEMIScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoanEMIController());
+    final controller = Get.put(DueEMIController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan EmI List"),
@@ -23,22 +23,22 @@ class LoanEMIScreen extends StatelessWidget {
           child: Column(
             children: [
               paddingWidget([
-                const LabelsWithMark(label: "Selected Date"),
+                const LabelsWithMark(label: "Up To Date"),
                 Obx(
                   () => TextFormField(
                     readOnly: true,
                     cursorColor: AppColors.primary,
                     onTap: () =>
-                        controller.selectDate(context, isSelectedDate: true),
+                        controller.selectDate(context, isSelectedDate: false),
                     style: TextStyles.textfieldTextStyle,
                     decoration: TextFieldDecoration.textfieldDecorationicon(
                       hint: "Select Date",
                       sufficIcon: Icons.calendar_today,
                       sufficIconOntap: () =>
-                          controller.selectDate(context, isSelectedDate: true),
+                          controller.selectDate(context, isSelectedDate: false),
                     ),
-                    controller: TextEditingController(
-                        text: controller.selectedDate.value),
+                    controller:
+                        TextEditingController(text: controller.upToDate.value),
                   ),
                 ),
               ]),

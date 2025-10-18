@@ -25,6 +25,8 @@ class AppURLs {
 
   static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
+  static String dueEmiList({String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
+
   static String  submitLoanMember({required String name}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.update_loan_member/?name=$name";
 
    static String get saveLoanCreationMember => "api/method/lending.loan_management.doctype.loan_application.loan_application.create_loan_application";
