@@ -277,6 +277,24 @@ class DashboardScreen extends StatelessWidget {
               C10(),
               Expanded(
                 child: quickButton(
+                  title: "Due EMI",
+                  onTap: () => Get.toNamed(Routes.dueEmi),
+                ),
+              ),
+            ],
+          ),
+          C10(),
+          Row(
+            children: [
+               Expanded(
+                child: quickButton(
+                  title: "Group Creation",
+                  onTap: () {},
+                ),
+              ),
+              C10(),
+              Expanded(
+                child: quickButton(
                   title: "Loan Summary",
                   onTap: () => Get.toNamed(Routes.loanSummaryScreen),
                 ),

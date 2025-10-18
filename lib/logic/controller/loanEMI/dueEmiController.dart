@@ -11,8 +11,8 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/loan_emi.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
-class LoanEMIController extends GetxController {
-  RxString selectedDate = ''.obs;
+class DueEMIController extends GetxController {
+  RxString upToDate = ''.obs;
 
   RxBool isLoading = false.obs;
   RxList<LoanEmiListMessage> loanEMIList = <LoanEmiListMessage>[].obs;
@@ -20,7 +20,7 @@ class LoanEMIController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    upToDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
     getLoanEMIList();
   }
 
@@ -42,30 +42,26 @@ class LoanEMIController extends GetxController {
     if (picked != null && picked.isNotEmpty && picked.first != null) {
       String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
 
-      selectedDate.value = formattedDate;
+      upToDate.value = formattedDate;
     }
-
     getLoanEMIList(
-      selectedDate: selectedDate.value,
+      upToDate: upToDate.value,
     );
   }
 
-  getLoanEMIList({
-    String? selectedDate,
-  }) async {
+  getLoanEMIList({String? upToDate}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final url = AppEnvironment.baseUrl +
-          AppURLs.LoanEmiList(
-            selectedDate: selectedDate ?? "",
+          AppURLs.dueEmiList(
+            upToDate: upToDate ?? "",
             searchText: "",
             sortBy: "",
             sortOrder: "",
             employee: "",
             loanGroup: "",
           );
-
       final response = await http.get(
         Uri.parse(url),
         headers: {
