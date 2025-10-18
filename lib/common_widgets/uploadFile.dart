@@ -3,10 +3,12 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
@@ -32,6 +34,30 @@ Widget imagePickerField({
     if (result != null && result.files.single.path != null) {
       imageFile?.value = File(result.files.single.path!);
     }
+  }
+
+  Future<File?> cropImage(String path) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: path,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Image',
+          toolbarColor: AppColors.primary,
+          toolbarWidgetColor: Colors.white,
+          lockAspectRatio: false,
+          aspectRatioPresets: [
+            CropAspectRatioPreset.square,
+            CropAspectRatioPreset.ratio3x2,
+          ],
+        ),
+        IOSUiSettings(title: 'Crop Image'),
+      ],
+    );
+
+    if (croppedFile != null) {
+      return File(croppedFile.path);
+    }
+    return null;
   }
 
   Future<Uint8List?> fetchImageBytes(String url) async {
@@ -160,10 +186,15 @@ Widget imagePickerField({
                                 onTap: () async {
                                   final XFile? pickedFile =
                                       await picker.pickImage(
-                                          source: ImageSource.camera,
-                                          imageQuality: 80);
+                                    source: ImageSource.camera,
+                                    imageQuality: 80,
+                                  );
                                   if (pickedFile != null) {
-                                    imageFile?.value = File(pickedFile.path);
+                                    File? cropped =
+                                        await cropImage(pickedFile.path);
+                                    if (cropped != null) {
+                                      imageFile?.value = cropped;
+                                    }
                                   }
                                   Get.back();
                                 },
@@ -174,10 +205,15 @@ Widget imagePickerField({
                                 onTap: () async {
                                   final XFile? pickedFile =
                                       await picker.pickImage(
-                                          source: ImageSource.gallery,
-                                          imageQuality: 80);
+                                    source: ImageSource.gallery,
+                                    imageQuality: 80,
+                                  );
                                   if (pickedFile != null) {
-                                    imageFile?.value = File(pickedFile.path);
+                                    File? cropped =
+                                        await cropImage(pickedFile.path);
+                                    if (cropped != null) {
+                                      imageFile?.value = cropped;
+                                    }
                                   }
                                   Get.back();
                                 },
