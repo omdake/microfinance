@@ -270,14 +270,14 @@ class DashboardScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: quickButton(
-                  title: "Loan EMI",
+                  title: "Due EMI",
                   onTap: () => Get.toNamed(Routes.loanEMIScreen),
                 ),
               ),
               C10(),
               Expanded(
                 child: quickButton(
-                  title: "Due EMI",
+                  title: "Pending EMI",
                   onTap: () => Get.toNamed(Routes.dueEmi),
                 ),
               ),
@@ -289,7 +289,7 @@ class DashboardScreen extends StatelessWidget {
                Expanded(
                 child: quickButton(
                   title: "Group Creation",
-                  onTap: () {},
+                  onTap: () => Get.toNamed(Routes.groupList),
                 ),
               ),
               C10(),
