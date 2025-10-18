@@ -17,6 +17,7 @@ class CollectionInHandController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
+  Rx<TextEditingController> bankAmount = TextEditingController().obs;
   Rx<TextEditingController> postingDate = TextEditingController(
           text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
       .obs;
@@ -29,6 +30,9 @@ class CollectionInHandController extends GetxController {
   RxBool isFormEdit = false.obs;
   RxBool isReadOnly = false.obs;
   RxBool hasNextPage = true.obs;
+  RxString selectedType = ''.obs;
+  final List<String> giventoList = ["employee", "bank"];
+  RxString selectedGivenTo = ''.obs;
 
   RxList<CollectionInhandResult> collectionInHandList =
       <CollectionInhandResult>[].obs;

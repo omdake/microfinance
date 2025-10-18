@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/mobileFormatter_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -237,26 +239,25 @@ class PersonalDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Mobile Number", isRequired: true),
-                          TextFormField(
-                            controller: controller.mobileNo.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.phone,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) =>
-                                mobileNoValidator(value!.trim()),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Mobile Number",
-                            ),
+                      paddingWidget([
+                        const LabelsWithMark(
+                            label: "Mobile Number", isRequired: true),
+                        TextFormField(
+                          controller: controller.mobileNo.value,
+                          cursorColor: AppColors.primary,
+                          keyboardType: TextInputType.phone,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          style: TextStyles.textfieldTextStyle,
+                          validator: (value) =>
+                              mobileNoValidator(value!.trim()),
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            hint: "Mobile Number",
                           ),
-                        ],
-                      ),
+                          inputFormatters: [
+                            MobileNumberPrefixFormatter(),
+                          ],
+                        ),
+                      ]),
                       C10(),
                       paddingWidget(
                         [
@@ -272,6 +273,9 @@ class PersonalDetailsScreen extends StatelessWidget {
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Mobile Number",
                             ),
+                            inputFormatters: [
+                              MobileNumberPrefixFormatter(),
+                            ],
                           ),
                         ],
                       ),

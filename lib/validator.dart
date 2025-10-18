@@ -73,10 +73,10 @@ String? mobileNoValidator(String value) {
   }
   String sanitized = value.replaceAll(' ', '');
 
-  RegExp regex = RegExp(r'^\91[6-9]\d{9}$');
+  RegExp regex = RegExp(r'^\+91[6-9]\d{9}$');
 
   if (!regex.hasMatch(sanitized)) {
-    return 'Please enter a valid mobile number (91XXXXXXXXXX)';
+    return 'Please enter a valid mobile number (+91XXXXXXXXXX)';
   }
 
   return null;
