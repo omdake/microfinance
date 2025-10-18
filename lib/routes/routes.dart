@@ -9,6 +9,7 @@ import 'package:microfinance/logic/bindings/memberCreation_binding.dart';
 import 'package:microfinance/logic/bindings/memeberList_bindig.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/views/screens/LoanEMI/dueEmiScreen.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
 import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
 import 'package:microfinance/views/screens/authentication/forgotPassword.dart';
@@ -96,7 +97,7 @@ class AppRoutes {
       //binding: LoanDetailsBindings(),
       page: () => ProfileScreen(),
     ),
-     GetPage(
+    GetPage(
       name: Routes.loanApplicationList,
       //binding: LoanDetailsBindings(),
       page: () => LoanApplicationList(),
@@ -112,22 +113,27 @@ class AppRoutes {
       page: () => CollectionInHandScreen(),
     ),
     GetPage(
-name: Routes.forgotPasswordScreen,
+      name: Routes.forgotPasswordScreen,
 //binding: LoanDetailsBindings(),
-page: () => ForgotPassword(),
-),
-GetPage(
-name: Routes.resetPasswordScreen,
+      page: () => ForgotPassword(),
+    ),
+    GetPage(
+      name: Routes.resetPasswordScreen,
 //binding: LoanDetailsBindings(),
-page: () => ResetPasswordScreen(),
-),
-GetPage(
+      page: () => ResetPasswordScreen(),
+    ),
+    GetPage(
       name: Routes.loanApplicationViewonly,
-      page: () =>LoanApplicationViewOnlyScreen (),
+      page: () => LoanApplicationViewOnlyScreen(),
     ),
     GetPage(
       name: Routes.loanRepaymentViewonly,
-      page: () =>LoanRepaymentViewScreen (),
+      page: () => LoanRepaymentViewScreen(),
+    ),
+
+     GetPage(
+      name: Routes.dueEmi,
+      page: () => DueEMIScreen(),
     ),
   ];
 }

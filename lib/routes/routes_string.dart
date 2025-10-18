@@ -12,6 +12,7 @@ class Routes {
   static const createCollectionInHand = '/createCollectionInHand';
   static const loanApplicationViewonly = '/loanApplicationViewonly';
   static const loanRepaymentViewonly = '/loanRepaymentViewonly';
+  static const dueEmi = '/dueEmi';
   static const otpScreen = '/otpScreen';
   static const resetPasswordScreen = '/resetPasswordScreen';
   static const forgotPasswordScreen = '/forgotPasswordScreen';
