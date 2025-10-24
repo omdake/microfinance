@@ -260,21 +260,6 @@ class CollectionInHandScreen extends StatelessWidget {
                           }
                         },
                       ),
-                      Obx(() {
-                        final loggedInEmployeeId =
-                            controller.employee.value.text;
-
-                        if (controller.selectedGivenTo.value == "Employee" &&
-                            controller.selectedAmountGivenToEmployeeId.value ==
-                                loggedInEmployeeId) {
-                          return AppButton(
-                            title: "Approve",
-                            onTap: () {},
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      })
                     ],
                   ),
                 ),
