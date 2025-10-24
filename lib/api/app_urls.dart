@@ -15,6 +15,8 @@ class AppURLs {
 
   static String get login => "api/method/ex_loan_management.api.login.login_and_get_token";
 
+  static String get resetPassword => "api/method/ex_loan_management.api.login.reset_password";
+
    static String get saveRepayments => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.create_loan_repayment";
 
   static String get getmodeOfPayment => "api/method/ex_loan_management.api.country.mode_of_payment_list";

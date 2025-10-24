@@ -286,7 +286,7 @@ class DashboardScreen extends StatelessWidget {
           C10(),
           Row(
             children: [
-               Expanded(
+              Expanded(
                 child: quickButton(
                   title: "Group Creation",
                   onTap: () => Get.toNamed(Routes.groupList),
@@ -461,6 +461,15 @@ class DashboardScreen extends StatelessWidget {
             ),
             drawerTile(
                 Icons.logout_outlined, "Logout", showLogoutConfirmationDialog),
+            const Divider(
+              thickness: 0.4,
+              color: Colors.grey,
+              indent: 50,
+              endIndent: 30,
+            ),
+            drawerTile(Icons.summarize_outlined, "Reset Password", () {
+              Get.toNamed(Routes.resetPassword);
+            }),
             const Divider(
               thickness: 0.4,
               color: Colors.grey,
