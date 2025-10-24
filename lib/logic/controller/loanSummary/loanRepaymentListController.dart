@@ -21,6 +21,7 @@ class LoanSummaryListController extends GetxController {
   void onInit() {
     super.onInit();
     getGroupList();
+    getRepaymentList();
   }
 
   getloadData() {

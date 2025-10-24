@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_disbursement.model.dart';
 import 'package:microfinance/models/loan_list.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
@@ -27,6 +28,9 @@ class LoanSummaryController extends GetxController {
   RxList<LoanDisbursementResult> loanDisbursementList =
       <LoanDisbursementResult>[].obs;
   RxList<LoanListMessage> loantList = <LoanListMessage>[].obs;
+  RxString selecteddisbursementGroup = "".obs;
+  RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
+
   RxInt page = 1.obs;
   void selectButton(
     int index,
@@ -45,9 +49,37 @@ class LoanSummaryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    getGroupList();
     getLoanDisbursementList();
     getLoanList();
+  }
+
+  getGroupList() async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final List<dynamic> messages = data['message'];
+        groupList.value =
+            messages.map((e) => GroupListMessage.fromJson(e)).toList();
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   getLoanDisbursementList() async {

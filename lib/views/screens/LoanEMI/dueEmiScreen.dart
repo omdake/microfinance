@@ -16,7 +16,7 @@ class DueEMIScreen extends StatelessWidget {
     final controller = Get.put(DueEMIController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan EmI List"),
+      appBar: appBarWithTitle(title: "Pending EMI List"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
