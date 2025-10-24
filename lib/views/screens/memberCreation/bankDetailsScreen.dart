@@ -126,14 +126,11 @@ class BankDetailscSreen extends StatelessWidget {
                     C10(),
                     paddingWidget(
                       [
-                        const LabelsWithMark(
-                            label: "Bank Address", isRequired: true),
+                        const LabelsWithMark(label: "Bank Address"),
                         TextFormField(
                           controller: controller.bankAddress.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(

@@ -54,7 +54,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "AadharCard Front Image",
+                      label: "AadharCard Front Image",isRequired: true,
                       imageFile: controller.aadharImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImage ?? ''
@@ -64,13 +64,14 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "AadharCard Back Image",
+                      label: "AadharCard Back Image",isRequired: true,
                       imageFile: controller.aadharbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImageBack ?? ''
                           : ''),
                       isFocused: controller.isAadharbackImageFocused,
-                      onTap: () => controller.pickImage(controller.aadharbackImage),
+                      onTap: () =>
+                          controller.pickImage(controller.aadharbackImage),
                     ),
                     C10(),
                     paddingWidget(
@@ -92,7 +93,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "PanCard Front Image",
+                      label: "PanCard Front Image",isRequired: true,
                       imageFile: controller.panImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImage ?? ''
@@ -154,7 +155,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     C10(),
                     imagePickerField(
                       label: "Address Image",
-                      imageFile: controller.addressImage,
+                      imageFile: controller.addressImage,isRequired: true,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].addressImage ?? ''
                           : ''),
@@ -164,14 +165,40 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "Home Image",
+                      label: "Home Image",isRequired: true,
                       imageFile: controller.homeImage,
+                      enableGeotag: true,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].homeImage ?? ''
                           : ''),
                       isFocused: controller.ishomeImageFocused,
                       onTap: () => controller.pickImage(controller.homeImage),
                     ),
+                    C10(),
+                    Obx(() {
+                      if (!controller.isApiDataLoaded.value) return Container();
+                      return Column(
+                        children: [
+                          TextFormField(
+                            readOnly: true,
+                            controller: controller.homeLatController.value,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Latitude",
+                            ).copyWith(
+                                filled: true, fillColor: Colors.grey.shade200),
+                          ),
+                          C10(),
+                          TextFormField(
+                            readOnly: true,
+                            controller: controller.homeLongController.value,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Longitude",
+                            ).copyWith(
+                                filled: true, fillColor: Colors.grey.shade200),
+                          ),
+                        ],
+                      );
+                    }),
                     C10(),
                     paddingWidget(
                       [
@@ -193,7 +220,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                        label: "VoterId Front Image",
+                        label: "VoterId Front Image",isRequired: true,
                         imageFile: controller.voterImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].voterIdImage ?? ''
@@ -204,7 +231,7 @@ class UploadDcumentSreen extends StatelessWidget {
                         }),
                     C20(),
                     imagePickerField(
-                        label: "VoterId Back Image",
+                        label: "VoterId Back Image",isRequired: true,
                         imageFile: controller.voterbackImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].voterIdImageBack ?? ''

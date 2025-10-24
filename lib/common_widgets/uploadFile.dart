@@ -5,12 +5,26 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
-import 'package:microfinance/utils/ui_helper_widgets.dart';
+
+class PDFViewWidget extends StatelessWidget {
+  final File file;
+  const PDFViewWidget({required this.file, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SfPdfViewer.file(file);
+  }
+}
 
 Widget imagePickerField({
   required String label,
@@ -20,20 +34,43 @@ Widget imagePickerField({
   VoidCallback? onTap,
   bool isRequired = false,
   bool isEnabled = true,
+  bool enableGeotag = false,
+  Rx<Position?>? savedPosition,
+  RxString? savedAddress,
 }) {
   final ImagePicker picker = ImagePicker();
+  Rx<Position?> filePosition = Rx<Position?>(null);
+  RxString fileAddress = ''.obs;
 
-  Future<void> pickFile() async {
-    if (!isEnabled) return;
-
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
-    );
-
-    if (result != null && result.files.single.path != null) {
-      imageFile?.value = File(result.files.single.path!);
+  Future<Position?> getCurrentLocation() async {
+    if (!enableGeotag) return null;
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return null;
     }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) return null;
+    }
+    if (permission == LocationPermission.deniedForever) return null;
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<String?> getAddressFromPosition(Position position) async {
+    try {
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      if (placemarks.isNotEmpty) {
+        final Placemark place = placemarks.first;
+        return "${place.name}, ${place.locality}, ${place.subAdministrativeArea}, ${place.administrativeArea}, ${place.country}";
+      }
+    } catch (e) {
+      print("Error getting address: $e");
+    }
+    return null;
   }
 
   Future<File?> cropImage(String path) async {
@@ -53,11 +90,34 @@ Widget imagePickerField({
         IOSUiSettings(title: 'Crop Image'),
       ],
     );
-
-    if (croppedFile != null) {
-      return File(croppedFile.path);
-    }
+    if (croppedFile != null) return File(croppedFile.path);
     return null;
+  }
+
+  Future<void> pickFile() async {
+    if (!isEnabled) return;
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+    );
+    if (result != null && result.files.single.path != null) {
+      File file = File(result.files.single.path!);
+      imageFile?.value = file;
+
+      if (enableGeotag) {
+        Position? position = await getCurrentLocation();
+        if (position != null) {
+          filePosition.value = position;
+          fileAddress.value = (await getAddressFromPosition(position)) ?? '';
+          Get.snackbar(
+            "Location Captured",
+            "Lat: ${position.latitude}, Long: ${position.longitude}\nAddress: ${fileAddress.value}",
+            snackPosition: SnackPosition.BOTTOM,
+            //duration: const Duration(seconds: 3),
+          );
+        }
+      }
+    }
   }
 
   Future<Uint8List?> fetchImageBytes(String url) async {
@@ -66,7 +126,6 @@ Widget imagePickerField({
       final bool isPrivate = url.contains('/private/files/');
       final headers = <String, String>{};
       if (isPrivate) headers['Authorization'] = '$token';
-
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) return response.bodyBytes;
     } catch (e) {
@@ -80,13 +139,11 @@ Widget imagePickerField({
     Obx(() {
       bool hasFile =
           (imageFile?.value != null) || (imageUrl?.value.isNotEmpty ?? false);
-
       String displayText = "Upload";
-      if (imageFile?.value != null) {
+      if (imageFile?.value != null)
         displayText = imageFile!.value!.path.split('/').last;
-      } else if (imageUrl?.value.isNotEmpty ?? false) {
+      else if (imageUrl?.value.isNotEmpty ?? false)
         displayText = imageUrl!.value.split('/').last;
-      }
 
       final fileExtension =
           imageFile?.value?.path.split('.').last.toLowerCase();
@@ -95,9 +152,8 @@ Widget imagePickerField({
         onFocusChange: (hasFocus) => isFocused.value = hasFocus,
         child: GestureDetector(
           onTap: isEnabled
-              ? () {
+              ? () async {
                   if (hasFile) {
-                    // Show preview dialog
                     Get.dialog(
                       Dialog(
                         shape: RoundedRectangleBorder(
@@ -114,24 +170,12 @@ Widget imagePickerField({
                               C10(),
                               SizedBox(
                                 width: 300,
-                                height: 300,
+                                height: 340,
                                 child: (fileExtension == 'pdf')
-                                    ? Center(
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const Icon(Icons.picture_as_pdf,
-                                                size: 80, color: Colors.red),
-                                            Text(displayText),
-                                          ],
-                                        ),
-                                      )
+                                    ? PDFViewWidget(file: imageFile!.value!)
                                     : imageFile?.value != null
-                                        ? Image.file(
-                                            imageFile!.value!,
-                                            fit: BoxFit.contain,
-                                          )
+                                        ? Image.file(imageFile!.value!,
+                                            fit: BoxFit.contain)
                                         : FutureBuilder<Uint8List?>(
                                             future: fetchImageBytes(
                                                 imageUrl!.value),
@@ -154,6 +198,15 @@ Widget imagePickerField({
                                             },
                                           ),
                               ),
+                              if (enableGeotag && filePosition.value != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 8.0),
+                                  child: Text(
+                                    "Lat: ${filePosition.value!.latitude}, Long: ${filePosition.value!.longitude}\nAddress: ${fileAddress.value}",
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                ),
                               C10(),
                               ElevatedButton(
                                 onPressed: () => Get.back(),
@@ -182,27 +235,68 @@ Widget imagePickerField({
                             children: [
                               ListTile(
                                 leading: const Icon(Icons.camera_alt),
-                                title: const Text("Camera"),
+                                title: Text(enableGeotag
+                                    ? "Camera (Geotagged)"
+                                    : "Camera"),
                                 onTap: () async {
+                                  Get.back();
+                                  final cameraStatus =
+                                      await Permission.camera.request();
+                                  if (!cameraStatus.isGranted) {
+                                    Get.snackbar("Permission Denied",
+                                        "Camera permission is required");
+                                    return;
+                                  }
                                   final XFile? pickedFile =
                                       await picker.pickImage(
                                     source: ImageSource.camera,
                                     imageQuality: 80,
                                   );
+
                                   if (pickedFile != null) {
                                     File? cropped =
                                         await cropImage(pickedFile.path);
                                     if (cropped != null) {
                                       imageFile?.value = cropped;
+
+                                      if (enableGeotag) {
+                                        Future.delayed(Duration.zero, () async {
+                                          try {
+                                            Position? position =
+                                                await getCurrentLocation();
+                                            if (position != null) {
+                                              String? address =
+                                                  await getAddressFromPosition(
+                                                      position);
+                                              filePosition.value = position;
+                                              fileAddress.value = address ?? '';
+                                            }
+                                          } catch (e) {
+                                            print("Error fetching geotag: $e");
+                                          }
+                                        });
+                                      }
                                     }
                                   }
-                                  Get.back();
                                 },
                               ),
                               ListTile(
                                 leading: const Icon(Icons.photo_library),
                                 title: const Text("Gallery"),
                                 onTap: () async {
+                                  Get.back();
+                                  Position? position;
+                                  String? address;
+                                  if (enableGeotag) {
+                                    position = await getCurrentLocation();
+                                    if (position != null) {
+                                      address = await getAddressFromPosition(
+                                          position);
+                                      filePosition.value = position;
+                                      fileAddress.value = address ?? '';
+                                    }
+                                  }
+
                                   final XFile? pickedFile =
                                       await picker.pickImage(
                                     source: ImageSource.gallery,
@@ -213,9 +307,16 @@ Widget imagePickerField({
                                         await cropImage(pickedFile.path);
                                     if (cropped != null) {
                                       imageFile?.value = cropped;
+                                      if (enableGeotag && position != null) {
+                                        Get.snackbar(
+                                          "Location Captured",
+                                          "Lat: ${position.latitude}, Long: ${position.longitude}\nAddress: ${address ?? ''}",
+                                          snackPosition: SnackPosition.BOTTOM,
+                                          duration: const Duration(seconds: 3),
+                                        );
+                                      }
                                     }
                                   }
-                                  Get.back();
                                 },
                               ),
                               ListTile(
@@ -224,6 +325,24 @@ Widget imagePickerField({
                                 onTap: () async {
                                   await pickFile();
                                   Get.back();
+                                  if (imageFile?.value != null &&
+                                      fileExtension == 'pdf') {
+                                    Get.dialog(
+                                      Dialog(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12)),
+                                        child: Container(
+                                          padding: const EdgeInsets.all(10),
+                                          child: SizedBox(
+                                              width: 300,
+                                              height: 340,
+                                              child: PDFViewWidget(
+                                                  file: imageFile!.value!)),
+                                        ),
+                                      ),
+                                    );
+                                  }
                                 },
                               ),
                             ],
@@ -259,6 +378,8 @@ Widget imagePickerField({
                     onTap: isEnabled
                         ? () {
                             if (imageFile != null) imageFile.value = null;
+                            filePosition.value = null;
+                            fileAddress.value = '';
                             if (imageUrl != null) imageUrl.value = '';
                           }
                         : null,

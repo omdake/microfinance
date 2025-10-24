@@ -95,8 +95,11 @@ class LoanMemberListResult {
   dynamic pancardImageBack;
   dynamic voterIdImageBack;
   dynamic addressLine2;
-  int? mobileNoLine2;
+  String? mobileNoLine2;
   String? groupGroupName;
+  double? longitude;
+  double? latitude;
+  dynamic geoLocation;
 
   LoanMemberListResult({
     this.name,
@@ -150,6 +153,9 @@ class LoanMemberListResult {
     this.addressLine2,
     this.mobileNoLine2,
     this.groupGroupName,
+    this.longitude,
+    this.latitude,
+    this.geoLocation,
   });
 
   factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
@@ -205,6 +211,17 @@ class LoanMemberListResult {
         addressLine2: json["address_line_2"],
         mobileNoLine2: json["mobile_no_2"],
         groupGroupName: json["group_group_name"],
+        geoLocation: json["geo_location"],
+        longitude: json["longitude"] != null
+            ? (json["longitude"] is int
+                ? (json["longitude"] as int).toDouble()
+                : json["longitude"] as double)
+            : null,
+        latitude: json["latitude"] != null
+            ? (json["latitude"] is int
+                ? (json["latitude"] as int).toDouble()
+                : json["latitude"] as double)
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -259,7 +276,10 @@ class LoanMemberListResult {
         "pancard_image_back": pancardImageBack,
         "voter_id_image_back": voterIdImageBack,
         "address_line_2": addressLine2,
-        "mobile_no_2": mobileNoLine2
+        "mobile_no_2": mobileNoLine2,
+        "longitude": longitude,
+        "latitude": latitude,
+        "geo_location": geoLocation,
       };
 }
 

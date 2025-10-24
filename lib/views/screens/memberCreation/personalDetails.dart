@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
@@ -39,25 +38,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                 child: Form(
                     key: _formKey,
                     child: Column(children: [
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Member Id", isRequired: true),
-                          TextFormField(
-                            controller: controller.memeberId.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Member Id"),
-                          ),
-                        ],
-                      ),
-                      C10(),
                       paddingWidget(
                         [
                           const LabelsWithMark(
@@ -201,43 +181,58 @@ class PersonalDetailsScreen extends StatelessWidget {
                         ],
                       ),
                       C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Entry Age", isRequired: true),
-                          TextFormField(
-                            controller: controller.entryAge.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Age"),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Completed Age", isRequired: true),
-                          TextFormField(
-                            controller: controller.completedAge.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Age"),
-                          ),
-                        ],
-                      ),
+                      Obx(() {
+                        if (!controller.isDobSelected.value) return SizedBox();
+                        return Column(
+                          children: [
+                            paddingWidget(
+                              [
+                                const LabelsWithMark(
+                                    label: "Entry Age", isRequired: true),
+                                TextFormField(
+                                  readOnly: true,
+                                  controller: controller.entryAge.value,
+                                  cursorColor: AppColors.primary,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  validator: (value) =>
+                                      requiredValidator(value!),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                          hint: "Age"),
+                                ),
+                              ],
+                            ),
+                            C10(),
+                            paddingWidget(
+                              [
+                                const LabelsWithMark(
+                                    label: "Completed Age", isRequired: true),
+                                TextFormField(
+                                  readOnly: true,
+                                  controller: controller.completedAge.value,
+                                  cursorColor: AppColors.primary,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  validator: (value) =>
+                                      requiredValidator(value!),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.number,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                          hint: "Age"),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      }),
                       C10(),
                       paddingWidget([
                         const LabelsWithMark(
@@ -281,7 +276,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ),
                       C10(),
                       imagePickerField(
-                        label: "Member Image",
+                        label: "Member Image",isRequired: true,
                         imageFile: controller.memberImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].memberImage ?? ''
@@ -292,7 +287,40 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ),
                       C10(),
                       paddingWidget([
-                        LabelsWithMark(label: "Occupation"),
+                        LabelsWithMark(label: "Group",isRequired: true,),
+                        Obx(() {
+                          return DropdownButtonFormField<String>(
+                            value: controller.selectedGroup.value.isEmpty
+                                ? null
+                                : controller.selectedGroup.value,
+                            items: controller.groupList.map((e) {
+                              return DropdownMenuItem(
+                                value: e.name.toString(),
+                                child: Text(e.groupName.toString()),
+                              );
+                            }).toList(),
+                            style: TextStyles.textfieldTextStyle,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Select Group",
+                                sufficIconOntap: () {},
+                                sufficIcon: null),
+                            onChanged: (value) {
+                              controller.selectedGroup.value = value!;
+                            },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'This field can\'t be empty';
+                              }
+                              return null;
+                            },
+                          );
+                        })
+                      ]),
+                      C10(),
+                      paddingWidget([
+                        LabelsWithMark(label: "Occupation",isRequired: true,),
                         Obx(() {
                           return DropdownButtonFormField<String>(
                             value: controller.selectedOccupation.value.isEmpty

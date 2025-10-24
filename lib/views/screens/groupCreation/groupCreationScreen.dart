@@ -12,7 +12,6 @@ import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
-import 'package:microfinance/validator.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
@@ -52,25 +51,10 @@ class GroupCreationScreen extends StatelessWidget {
                     children: [
                       paddingWidget(
                         [
-                          const LabelsWithMark(
-                              label: "Group Code", isRequired: true),
-                          TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.groupCode.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Enter Group Code"),
+                          LabelsWithMark(
+                            label: "Group Name",
+                            isRequired: true,
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          LabelsWithMark(label: "Group Name "),
                           TextFormField(
                             enabled: !controller.isReadOnly.value,
                             controller: controller.groupName.value,
@@ -102,13 +86,21 @@ class GroupCreationScreen extends StatelessWidget {
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,
+                            hint: Text(
+                              "Select Group Head",
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontFamily: "Roboto-Regular",
+                                fontSize: 12,
+                              ),
+                            ),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Group Head",
+                                hint: "",
                                 sufficIconOntap: () {},
                                 sufficIcon: null),
                             onChanged: (value) {
@@ -126,12 +118,10 @@ class GroupCreationScreen extends StatelessWidget {
                       C10(),
                       imagePickerField(
                         label: "Group Image",
-                        imageFile: controller.groupImage, // Rx<File?>
-                        imageUrl: controller
-                            .groupImageUrl, // Optional: RxString if you have URL
+                        imageFile: controller.groupImage,
+                        imageUrl: controller.groupImageUrl,
                         isFocused: controller.isgroupImageFocused,
-                        isEnabled: !controller.isReadOnly
-                            .value, // Enable/disable based on controller
+                        isEnabled: !controller.isReadOnly.value,
                         onTap: () =>
                             controller.pickImage(controller.groupImage),
                         isRequired: false,
