@@ -101,7 +101,6 @@ class GroupScreenController extends GetxController {
           "Authorization": token!,
         },
       );
-      print(".............${response.body}");
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
