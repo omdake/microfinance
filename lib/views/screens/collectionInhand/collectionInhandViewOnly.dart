@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart'
@@ -183,6 +184,39 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                               .pickImage(controller.paymentProofImage),
                         );
                       }),
+                      C25(),
+                      Obx(() {
+                        if (controller.amountgivenTo.value.text ==
+                            controller.employee.value.text) {
+                          return SizedBox(
+                            width: double.infinity,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Expanded(
+                                  child: AppButton(
+                                    title: "Approve",
+                                    onTap: () {
+                                       controller.approve();
+                                    },
+                                  ),
+                                ),
+                                C15(),
+                                Expanded(
+                                  child: AppButton(
+                                    title: "Reject",
+                                    onTap: () {
+                                     controller.rejecte();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
+                      })
                     ],
                   ),
                 ),

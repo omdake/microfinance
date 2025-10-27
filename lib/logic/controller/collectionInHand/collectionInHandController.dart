@@ -16,6 +16,7 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 
 class CollectionInHandController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
+  Rx<TextEditingController> name = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
   Rx<TextEditingController> bankAmount = TextEditingController().obs;
@@ -156,7 +157,7 @@ class CollectionInHandController extends GetxController {
   getLoanDataFromArg(CollectionInhandResult applicant,
       {bool readOnly = false}) async {
     isReadOnly.value = readOnly;
-
+    name.value.text = applicant.name ?? '';
     employee.value.text = applicant.employee ?? '';
     employeeName.value.text = applicant.employeeEmployeeName ?? '';
     amount.value.text = applicant.amount?.toString() ?? '';
@@ -199,13 +200,40 @@ class CollectionInHandController extends GetxController {
     }
   }
 
-  saveLoanMember() async {
+  approve() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
     try {
-      final requestBody = {};
+      final requestBody = {"name": name.value.text, "status": "Approved"};
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.saveLoanCreationMember),
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+        body: jsonEncode(requestBody),
+      );
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        CustomSnackBar.show(isIssue: false, message: json["message"]);
+      } else {
+        var json = jsonDecode(response.body);
+        CustomSnackBar.show(isIssue: true, message: json["message"]["msg"]);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  rejecte() async {
+    final token = await AppPreferences.getToken();
+    isLoading.value = true;
+    try {
+      final requestBody = {"name": name.value.text, "status": "Rejected"};
+      final response = await http.post(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
@@ -213,10 +241,9 @@ class CollectionInHandController extends GetxController {
         body: jsonEncode(requestBody),
       );
 
-      if (response.statusCode == APIStatusCode.SUCCESS) {
+      if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-        Future.delayed(const Duration(milliseconds: 300), () {});
+        CustomSnackBar.show(isIssue: false, message: json["message"]);
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
