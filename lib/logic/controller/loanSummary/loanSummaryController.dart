@@ -82,11 +82,11 @@ class LoanSummaryController extends GetxController {
     }
   }
 
-  getLoanDisbursementList() async {
+  getLoanDisbursementList({String? loanGroup}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
-      final url = AppEnvironment.baseUrl + AppURLs.getLoanDisbursementList;
+      final url = AppEnvironment.baseUrl + AppURLs.getLoanDisbursementList(loanGroup: selecteddisbursementGroup.value);
       final response = await http.get(
         Uri.parse(url),
         headers: {

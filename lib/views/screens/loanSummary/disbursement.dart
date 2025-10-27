@@ -20,8 +20,7 @@ class DisbursementScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-
-               Obx(() {
+              Obx(() {
                 return DropdownButtonFormField2<String>(
                   value: controller.selecteddisbursementGroup.value.isEmpty
                       ? null
@@ -34,15 +33,21 @@ class DisbursementScreen extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  items: controller.groupList.map((e) {
-                    return DropdownMenuItem<String>(
-                      value: e.name ?? "",
-                      child: Text(
-                        e.groupName ?? "",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    );
-                  }).toList(),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: "",
+                      child: Text(""),
+                    ),
+                    ...controller.groupList.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e.name ?? "",
+                        child: Text(
+                          e.groupName ?? "",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    }).toList(),
+                  ],
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 500,
                   ),
@@ -54,9 +59,12 @@ class DisbursementScreen extends StatelessWidget {
                     hint: '',
                   ),
                   onChanged: (newGroup) {
-                    controller.selecteddisbursementGroup.value = newGroup!;
-                    controller.loanDisbursementList.clear();
-                    controller.getLoanDisbursementList();
+                    controller.selecteddisbursementGroup.value = newGroup ?? "";
+                    if (controller.selecteddisbursementGroup.value.isEmpty) {
+                      controller.getLoanDisbursementList();
+                    } else {
+                      controller.getLoanDisbursementList();
+                    }
                   },
                 );
               }),
