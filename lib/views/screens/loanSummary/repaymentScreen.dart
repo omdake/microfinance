@@ -43,15 +43,21 @@ class RepaymentScreen extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  items: controller.groupList.map((e) {
-                    return DropdownMenuItem<String>(
-                      value: e.name ?? "",
-                      child: Text(
-                        e.groupName ?? "",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    );
-                  }).toList(),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: "",
+                      child: Text(""),
+                    ),
+                    ...controller.groupList.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e.name ?? "",
+                        child: Text(
+                          e.groupName ?? "",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    }),
+                  ],
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 500,
                   ),
@@ -63,9 +69,13 @@ class RepaymentScreen extends StatelessWidget {
                     hint: '',
                   ),
                   onChanged: (newGroup) {
-                    controller.selectedGroup.value = newGroup!;
-                    controller.repaymentList.clear();
-                    controller.getRepaymentList();
+                    controller.selectedGroup.value = newGroup ?? "";
+                    if (controller.selectedGroup.value.isEmpty) {
+                      controller.getRepaymentList();
+                    } else {
+                      controller.repaymentList.clear();
+                      controller.getRepaymentList();
+                    }
                   },
                 );
               }),
