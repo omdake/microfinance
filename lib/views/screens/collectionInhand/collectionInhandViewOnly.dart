@@ -62,7 +62,13 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Employee"),
+                                    hint: "Employee")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -78,7 +84,13 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Employee Name"),
+                                    hint: "Employee Name")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -105,6 +117,11 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                                 sufficIcon: Icons.calendar_today,
                                 sufficIconOntap: () => controller.selectDate(
                                     context, controller.postingDate.value),
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ),
@@ -125,6 +142,11 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                             validator: (value) => requiredValidator(value!),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Enter Amount",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],
@@ -144,13 +166,18 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                             validator: (value) => requiredValidator(value!),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Enter Amount",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],
                       ),
                       C10(),
-                      paddingWidget(
-                        [
+                      if (controller.givenTo.value.text == "Employee")
+                        paddingWidget([
                           const LabelsWithMark(
                               label: "Amount Given To", isRequired: true),
                           TextFormField(
@@ -163,10 +190,36 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                             validator: (value) => requiredValidator(value!),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Enter Amount Given To",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
-                        ],
-                      ),
+                        ])
+                      else if (controller.givenTo.value.text == "Bank")
+                        paddingWidget([
+                          const LabelsWithMark(
+                              label: "Bank Name", isRequired: true),
+                          TextFormField(
+                            controller: controller.bankName.value,
+                            enabled: !controller.isReadOnly.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.none,
+                            keyboardType: TextInputType.text,
+                            style: TextStyles.textfieldTextStyle,
+                            validator: (value) => requiredValidator(value!),
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Enter Bank Name",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
+                          ),
+                        ]),
                       C10(),
                       Obx(() {
                         return imagePickerField(
@@ -197,7 +250,7 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                                   child: AppButton(
                                     title: "Approve",
                                     onTap: () {
-                                       controller.approve();
+                                      controller.approve();
                                     },
                                   ),
                                 ),
@@ -206,7 +259,7 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                                   child: AppButton(
                                     title: "Reject",
                                     onTap: () {
-                                     controller.rejecte();
+                                      controller.rejecte();
                                     },
                                   ),
                                 ),

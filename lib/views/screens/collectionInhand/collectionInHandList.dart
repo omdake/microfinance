@@ -125,6 +125,30 @@ class CollectionInHandList extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: (user.status == null ||
+                                        user.status!.isEmpty)
+                                    ? Colors.white
+                                    : Colors.grey.shade600,
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              child: Text(
+                                user.status?.isNotEmpty == true
+                                    ? user.status!
+                                    : "",
+                                style: TextStyle(
+                                  fontFamily: "Roboto-Medium",
+                                  fontSize: 13,
+                                  color: (user.status == null ||
+                                          user.status!.isEmpty)
+                                      ? Colors.black
+                                      : Colors.white,
+                                ),
+                              ),
+                            )
                           ],
                         ),
                       ),

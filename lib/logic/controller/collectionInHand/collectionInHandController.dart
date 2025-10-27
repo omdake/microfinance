@@ -20,6 +20,7 @@ class CollectionInHandController extends GetxController {
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
   Rx<TextEditingController> bankAmount = TextEditingController().obs;
+  Rx<TextEditingController> bankName = TextEditingController().obs;
   Rx<TextEditingController> postingDate = TextEditingController(
           text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
       .obs;
@@ -117,10 +118,12 @@ class CollectionInHandController extends GetxController {
         "given_to": selectedGivenTo.value,
         "amount": amount.value.text,
         "posting_date": postingDate.value.text,
-        "amount_given_emp": selectedGivenTo.value == "Employee"
-            ? selectedamountGivenTo.value
-            : bankAmount.value.text,
       });
+      if (selectedGivenTo.value == "Employee") {
+        request.fields["amount_given_emp"] = selectedamountGivenTo.value;
+      } else if (selectedGivenTo.value == "Bank") {
+        request.fields["description"] = bankAmount.value.text;
+      }
 
       Map<String, Rx<File?>> imageFields = {
         'payment_proof': paymentProofImage,
@@ -163,6 +166,7 @@ class CollectionInHandController extends GetxController {
     amount.value.text = applicant.amount?.toString() ?? '';
     givenTo.value.text = applicant.givenTo ?? '';
     amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
+    bankName.value.text = applicant.description ?? '';
     paymentProofImage.value = (applicant.paymentProof != null &&
             applicant.paymentProof!.isNotEmpty &&
             !applicant.paymentProof!.startsWith('http'))
