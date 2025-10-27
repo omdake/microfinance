@@ -94,8 +94,8 @@ class GroupCreationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
+                            // autovalidateMode:
+                            //     AutovalidateMode.onUserInteraction,
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
@@ -106,12 +106,12 @@ class GroupCreationScreen extends StatelessWidget {
                             onChanged: (value) {
                               controller.selectedGroupHead.value = value!;
                             },
-                            validator: (value) {
-                              if (value == null) {
-                                return 'This field can\'t be empty';
-                              }
-                              return null;
-                            },
+                            // validator: (value) {
+                            //   if (value == null) {
+                            //     return 'This field can\'t be empty';
+                            //   }
+                            //   return null;
+                            // },
                           );
                         })
                       ]),
