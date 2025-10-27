@@ -8,6 +8,7 @@ import 'package:microfinance/logic/bindings/login_binding.dart';
 import 'package:microfinance/logic/bindings/memberCreation_binding.dart';
 import 'package:microfinance/logic/bindings/memeberList_bindig.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/logic/bindings/resetPassoword_binding.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/views/screens/LoanEMI/dueEmiScreen.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
@@ -32,6 +33,7 @@ import 'package:microfinance/views/screens/memberCreation/memberCreation.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
 import 'package:microfinance/views/screens/memberList/memberList.dart';
 import 'package:microfinance/views/screens/profile/ProfileScreen.dart';
+import 'package:microfinance/views/screens/resetPassword/resetPassword.dart';
 import 'package:microfinance/views/screens/splash_screen.dart';
 
 class AppRoutes {
@@ -100,7 +102,7 @@ class AppRoutes {
       //binding: LoanDetailsBindings(),
       page: () => ProfileScreen(),
     ),
-     GetPage(
+    GetPage(
       name: Routes.loanApplicationList,
       //binding: LoanDetailsBindings(),
       page: () => LoanApplicationList(),
@@ -116,22 +118,22 @@ class AppRoutes {
       page: () => CollectionInHandScreen(),
     ),
     GetPage(
-name: Routes.forgotPasswordScreen,
+      name: Routes.forgotPasswordScreen,
 //binding: LoanDetailsBindings(),
-page: () => ForgotPassword(),
-),
-GetPage(
-name: Routes.resetPasswordScreen,
+      page: () => ForgotPassword(),
+    ),
+    GetPage(
+      name: Routes.resetPasswordScreen,
 //binding: LoanDetailsBindings(),
-page: () => ResetPasswordScreen(),
-),
-GetPage(
+      page: () => ResetPasswordScreen(),
+    ),
+    GetPage(
       name: Routes.loanApplicationViewonly,
-      page: () =>LoanApplicationViewOnlyScreen (),
+      page: () => LoanApplicationViewOnlyScreen(),
     ),
     GetPage(
       name: Routes.loanRepaymentViewonly,
-      page: () =>LoanRepaymentViewScreen (),
+      page: () => LoanRepaymentViewScreen(),
     ),
     GetPage(
       name: Routes.dueEmi,
@@ -148,6 +150,11 @@ GetPage(
     GetPage(
       name: Routes.collectionInhandView,
       page: () => CollectionInHandViewOnlyScreen(),
+    ),
+    GetPage(
+      name: Routes.resetPassword,
+      binding: ResetPassowordBindings(),
+      page: () => ResetPassword(),
     ),
   ];
 }

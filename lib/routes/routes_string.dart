@@ -14,6 +14,7 @@ class Routes {
   static const loanRepaymentViewonly = '/loanRepaymentViewonly';
   static const otpScreen = '/otpScreen';
   static const dueEmi = '/dueEmi';
+  static const resetPassword = '/resetPassword';
   static const collectionInhandView = '/collectionInhandView';
   static const groupList = '/groupList';
   static const groupCreation = '/groupCreation';
