@@ -12,7 +12,8 @@ import 'package:microfinance/validator.dart';
 class LoanRepaymentViewScreen extends StatelessWidget {
   LoanRepaymentViewScreen({super.key});
   final _formKey = GlobalKey<FormState>();
-  final LoanSummaryViewController controller = Get.put(LoanSummaryViewController());
+  final LoanSummaryViewController controller =
+      Get.put(LoanSummaryViewController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,6 +50,11 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Loan ID",
+                          ).copyWith(
+                            filled: true,
+                            fillColor: controller.isFormEdit.value
+                                ? Colors.white
+                                : Colors.grey.shade200,
                           ),
                         )
                       ]),
@@ -60,7 +66,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                           TextFormField(
                             controller: controller.valueDate.value,
                             cursorColor: AppColors.primary,
-                            readOnly: true,
+                            enabled: controller.isFormEdit.value,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -69,6 +75,11 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                                 TextFieldDecoration.textfieldDecorationicon(
                               hint: "Value Date",
                               sufficIcon: Icons.calendar_today,
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],
@@ -89,7 +100,13 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Applicant Name "),
+                                    hint: "Applicant Name ")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -102,7 +119,6 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             controller: controller.payableAmount.value,
                             cursorColor: AppColors.primary,
                             enabled: controller.isFormEdit.value,
-                            readOnly: true,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:
@@ -110,7 +126,13 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Payable Amount"),
+                                    hint: "Payable Amount")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -121,6 +143,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               label: "Mode Of Payment", isRequired: true),
                           TextFormField(
                             controller: controller.modeOfPayment.value,
+                            enabled: controller.isFormEdit.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
@@ -129,7 +152,13 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Mode Of Payment"),
+                                    hint: "Mode Of Payment")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -140,6 +169,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               label: "Amount Paid", isRequired: true),
                           TextFormField(
                             controller: controller.amountPaid.value,
+                            enabled: controller.isFormEdit.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
@@ -148,7 +178,13 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Paid Amount"),
+                                    hint: "Paid Amount")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -160,7 +196,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                           TextFormField(
                             controller: controller.referenceDate.value,
                             cursorColor: AppColors.primary,
-                            readOnly: true,
+                            enabled: controller.isFormEdit.value,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
@@ -169,34 +205,35 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                                 TextFieldDecoration.textfieldDecorationicon(
                               hint: "Reference Date",
                               sufficIcon: Icons.calendar_today,
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],
                       ),
-                      C10(),
-//                       imagePickerField(
-//                         label: "Payment Proof",
-//                         imageFile: controller.paymentProofImage,
-// // imageUrl: RxString(controller.loanMember.isNotEmpty
-// // ? controller.loanMember[0].memberImage ?? ''
-// // : ''),
-//                         isFocused: controller.isPaymentProofImageFocused,
-//                         onTap: () =>
-//                             controller.pickImage(controller.paymentProofImage),
-//                       ),
                       C10(),
                       paddingWidget(
                         [
                           LabelsWithMark(label: "UTR Number"),
                           TextFormField(
                             controller: controller.utrNumber.value,
+                            enabled: controller.isFormEdit.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "UTR Number"),
-                          ),
+                                    hint: "UTR Number")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
+                          )
                         ],
                       ),
                       C10(),
@@ -211,6 +248,11 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Remark",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],

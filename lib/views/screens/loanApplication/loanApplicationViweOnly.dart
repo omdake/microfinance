@@ -59,7 +59,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Applicant Name"),
+                                    hint: "Applicant Name")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -77,7 +83,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Co-Borrower"),
+                                    hint: "Co-Borrower")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -95,7 +107,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Loan Product"),
+                                    hint: "Loan Product")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -113,7 +131,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Amount"),
+                                    hint: "Amount")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -132,6 +156,11 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             validator: (value) => requiredValidator(value!),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Period",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
                             ),
                           ),
                         ],
@@ -150,7 +179,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Nominee"),
+                                    hint: "Nominee")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -168,7 +203,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Relation"),
+                                    hint: "Relation")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
@@ -184,7 +225,13 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Description"),
+                                    hint: "Description")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
                         ],
                       ),
