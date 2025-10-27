@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:calendar_date_picker2/calendar_date_picker2.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart' hide State;
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/occupation_list.model.dart';
 import 'package:microfinance/models/state_list.model.dart';
@@ -70,11 +72,18 @@ class MemberCreationController extends GetxController {
   RxString selectedCountry = "".obs;
   RxString selectedState = "".obs;
   RxString name = "".obs;
+  RxBool isDobSelected = false.obs;
   Rx<StateResult?> selectedstateObj = Rx<StateResult?>(null);
   RxList<OccupationResult> occupationList = <OccupationResult>[].obs;
   RxList<LoanMemberListResult> loanMember = <LoanMemberListResult>[].obs;
+  RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
   RxList<StateResult> stateList = <StateResult>[].obs;
+  Rx<Position?> memberImagePosition = Rx<Position?>(null);
+  RxString memberImageAddress = ''.obs;
   RxInt selectedIndex = 0.obs;
+  RxString selectedGroup = "".obs;
+  RxString selectedGroupId = "".obs;
+  RxBool isApiDataLoaded = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
   final List<String> genderList = ["Male", "Female", "Other"];
@@ -84,6 +93,10 @@ class MemberCreationController extends GetxController {
     "Rent Agreement"
   ];
   RxString selectedAddressDocType = ''.obs;
+  Rx<Position?> homeImagePosition = Rx<Position?>(null);
+  RxString homeImageAddress = ''.obs;
+  Rx<TextEditingController> homeLatController = TextEditingController().obs;
+  Rx<TextEditingController> homeLongController = TextEditingController().obs;
 
   @override
   void onInit() async {
@@ -91,12 +104,20 @@ class MemberCreationController extends GetxController {
     mobileNo.value.text = '+91';
     alternateMobileNo.value.text = '+91';
     await getOccupationList();
+    getGroupList();
     await getStateList();
     final args = Get.arguments as Map<String, dynamic>?;
     if (args != null && args['name'] != null) {
       name.value = args['name'].toString();
       await getLoanMember(memberName: name.value);
     }
+  }
+
+  void updateHomeImageLocation(Position position, String address) {
+    homeImagePosition.value = position;
+    homeImageAddress.value = address;
+    homeLatController.value.text = position.latitude.toString();
+    homeLongController.value.text = position.longitude.toString();
   }
 
   void selectButton(
@@ -153,8 +174,37 @@ class MemberCreationController extends GetxController {
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
       String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      isDobSelected.value = true;
       controller.text = formatted;
       updateAgesFromDOB(formatted);
+    }
+  }
+
+  getGroupList() async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final List<dynamic> messages = data['message'];
+        groupList.value =
+            messages.map((e) => GroupListMessage.fromJson(e)).toList();
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -221,6 +271,7 @@ class MemberCreationController extends GetxController {
         'mobile_no': mobileNo.value.text,
         'email': email.value.text,
         'occupation': selectedOccupation.value,
+        'group': selectedGroup.value,
         'state': selectedState.value,
         'Country': selectedCountry.value,
         'city': city.value.text,
@@ -236,7 +287,9 @@ class MemberCreationController extends GetxController {
         'bank_address': bankAddress.value.text,
         'voter_id': voterId.value.text,
         "address_line_2": addressLineTwo.value.text,
-        "mobile_no_2": alternateMobileNo.value.text
+        "mobile_no_2": alternateMobileNo.value.text,
+        "longitude": homeLongController.value.text,
+        "latitude": homeLatController.value.text,
       });
 
       Map<String, Rx<File?>> imageFields = {
@@ -305,6 +358,7 @@ class MemberCreationController extends GetxController {
         'email': email.value.text,
         'address_doc_type': selectedAddressDocType.value,
         'occupation': selectedOccupation.value,
+        'group': selectedGroup.value,
         'state': selectedState.value,
         'Country': selectedCountry.value,
         'city': city.value.text,
@@ -322,9 +376,10 @@ class MemberCreationController extends GetxController {
         'bank_address': bankAddress.value.text,
         'voter_id': voterId.value.text,
         "address_line_2": addressLineTwo.value.text,
-        "mobile_no_2": alternateMobileNo.value.text
+        "mobile_no_2": alternateMobileNo.value.text,
+        "latitude": (memberImagePosition.value?.latitude ?? 0.0).toString(),
+        "longitude": (memberImagePosition.value?.longitude ?? 0.0).toString(),
       };
-
       fields.removeWhere((key, value) => value.isEmpty);
       request.fields.addAll(fields);
       Map<String, Rx<File?>> imageFields = {
@@ -408,101 +463,110 @@ class MemberCreationController extends GetxController {
         },
       );
 
-      if (response.statusCode != 200) {
-        final Map<String, dynamic> err = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final memberData = LoanMemberListResult.fromJson(data['message'][0]);
+        loanMember.value = [memberData];
+        name.value = memberData.name ?? '';
+        memeberId.value.text = memberData.memberId ?? '';
+        firstName.value.text = memberData.firstName ?? '';
+        middleName.value.text = memberData.middleName ?? '';
+        cibilScore.value.text = memberData.cibilScore.toString();
+        cibilDate.value.text = memberData.cibilDate ?? '';
+        lastName.value.text = memberData.lastName ?? '';
+        email.value.text = memberData.email ?? '';
+        selectedGender.value = memberData.gender ?? '';
+        mobileNo.value.text = memberData.mobileNo ?? '';
+        selectedOccupation.value = memberData.occupation ?? '';
+        address.value.text = memberData.address ?? '';
+        selectedAddressDocType.value = memberData.addressDocType ?? '';
+        city.value.text = memberData.city ?? '';
+        pincode.value.text = memberData.pincode?.toString() ?? '';
+        bankName.value.text = memberData.bankName ?? '';
+        accountNumber.value.text = memberData.accountNumber ?? '';
+        holderName.value.text = memberData.holderName ?? '';
+        branch.value.text = memberData.branch ?? '';
+        ifscCode.value.text = memberData.ifscCode ?? '';
+        bankAddress.value.text = memberData.bankAddress ?? '';
+        aadharNumber.value.text = memberData.aadhar ?? '';
+        panNumber.value.text = memberData.pancard ?? '';
+        voterId.value.text = memberData.voterId ?? '';
+        alternateMobileNo.value.text = memberData.mobileNoLine2 ?? '';
+        addressLineTwo.value.text = memberData.addressLine2 ?? '';
+        dob.value.text = memberData.dob != null
+            ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
+            : '';
+        if (memberData.dob != null) {
+          isDobSelected.value = true;
+          entryAge.value.text = memberData.entryAge?.toString() ?? '';
+          completedAge.value.text = memberData.completedAge?.toString() ?? '';
+        }
+        selectedOccupation.value = memberData.occupation ?? '';
+        selectedGroup.value = memberData.group ?? '';
+        selectedState.value = memberData.state ?? '';
 
-        final msg = err['message']?['msg'];
+        if (memberData.latitude != null && memberData.longitude != null) {
+          homeLatController.value.text = memberData.latitude.toString();
+          homeLongController.value.text = memberData.longitude.toString();
+        }
+
+        memberImage.value = (memberData.memberImage != null &&
+                memberData.memberImage!.isNotEmpty &&
+                !memberData.memberImage!.startsWith('http'))
+            ? File(memberData.memberImage!)
+            : null;
+
+        aadharImage.value = (memberData.aadharImage != null &&
+                memberData.aadharImage!.isNotEmpty &&
+                !memberData.aadharImage!.startsWith('http'))
+            ? File(memberData.aadharImage!)
+            : null;
+
+        aadharbackImage.value = (memberData.aadharImageBack != null &&
+                memberData.aadharImageBack!.isNotEmpty &&
+                !memberData.aadharImageBack!.startsWith('http'))
+            ? File(memberData.aadharImageBack!)
+            : null;
+
+        panImage.value = (memberData.pancardImage != null &&
+                memberData.pancardImage!.isNotEmpty &&
+                !memberData.pancardImage!.startsWith('http'))
+            ? File(memberData.pancardImage!)
+            : null;
+        panbackImage.value = (memberData.pancardImageBack != null &&
+                memberData.pancardImageBack!.isNotEmpty &&
+                !memberData.pancardImageBack!.startsWith('http'))
+            ? File(memberData.pancardImageBack!)
+            : null;
+
+        homeImage.value = (memberData.homeImage != null &&
+                memberData.homeImage!.isNotEmpty &&
+                !memberData.homeImage!.startsWith('http'))
+            ? File(memberData.homeImage!)
+            : null;
+
+        addressImage.value = (memberData.addressImage != null &&
+                memberData.addressImage!.isNotEmpty &&
+                !memberData.addressImage!.startsWith('http'))
+            ? File(memberData.addressImage!)
+            : null;
+
+        voterImage.value = (memberData.voterIdImage != null &&
+                memberData.voterIdImage!.isNotEmpty &&
+                !memberData.voterIdImage!.startsWith('http'))
+            ? File(memberData.voterIdImage!)
+            : null;
+
+        voterbackImage.value = (memberData.voterIdImageBack != null &&
+                memberData.voterIdImageBack!.isNotEmpty &&
+                !memberData.voterIdImageBack!.startsWith('http'))
+            ? File(memberData.voterIdImageBack!)
+            : null;
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
-        return;
       }
-      final Map<String, dynamic> data = jsonDecode(response.body);
-      final memberData = LoanMemberListResult.fromJson(data['message'][0]);
-      loanMember.value = [memberData];
-      name.value = memberData.name ?? '';
-      memeberId.value.text = memberData.memberId ?? '';
-      firstName.value.text = memberData.firstName ?? '';
-      middleName.value.text = memberData.middleName ?? '';
-      cibilScore.value.text = memberData.cibilScore.toString();
-      cibilDate.value.text = memberData.cibilDate ?? '';
-      lastName.value.text = memberData.lastName ?? '';
-      email.value.text = memberData.email ?? '';
-      selectedGender.value = memberData.gender ?? '';
-      entryAge.value.text = memberData.entryAge?.toString() ?? '';
-      completedAge.value.text = memberData.completedAge?.toString() ?? '';
-      mobileNo.value.text = memberData.mobileNo ?? '';
-      selectedOccupation.value = memberData.occupation ?? '';
-      address.value.text = memberData.address ?? '';
-      selectedAddressDocType.value = memberData.addressDocType ?? '';
-      city.value.text = memberData.city ?? '';
-      pincode.value.text = memberData.pincode?.toString() ?? '';
-      bankName.value.text = memberData.bankName ?? '';
-      accountNumber.value.text = memberData.accountNumber ?? '';
-      holderName.value.text = memberData.holderName ?? '';
-      branch.value.text = memberData.branch ?? '';
-      ifscCode.value.text = memberData.ifscCode ?? '';
-      bankAddress.value.text = memberData.bankAddress ?? '';
-      aadharNumber.value.text = memberData.aadhar ?? '';
-      panNumber.value.text = memberData.pancard ?? '';
-      voterId.value.text = memberData.voterId ?? '';
-      alternateMobileNo.value.text = memberData.mobileNoLine2?.toString() ?? '';
-      addressLineTwo.value.text = memberData.addressLine2 ?? '';
-      dob.value.text = memberData.dob != null
-          ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
-          : '';
-      selectedOccupation.value = memberData.occupation ?? '';
-      selectedState.value = memberData.state ?? '';
-      memberImage.value = (memberData.memberImage != null &&
-              memberData.memberImage!.isNotEmpty &&
-              !memberData.memberImage!.startsWith('http'))
-          ? File(memberData.memberImage!)
-          : null;
-
-      aadharImage.value = (memberData.aadharImage != null &&
-              memberData.aadharImage!.isNotEmpty &&
-              !memberData.aadharImage!.startsWith('http'))
-          ? File(memberData.aadharImage!)
-          : null;
-
-      aadharbackImage.value = (memberData.aadharImageBack != null &&
-              memberData.aadharImageBack!.isNotEmpty &&
-              !memberData.aadharImageBack!.startsWith('http'))
-          ? File(memberData.aadharImageBack!)
-          : null;
-
-      panImage.value = (memberData.pancardImage != null &&
-              memberData.pancardImage!.isNotEmpty &&
-              !memberData.pancardImage!.startsWith('http'))
-          ? File(memberData.pancardImage!)
-          : null;
-      panbackImage.value = (memberData.pancardImageBack != null &&
-              memberData.pancardImageBack!.isNotEmpty &&
-              !memberData.pancardImageBack!.startsWith('http'))
-          ? File(memberData.pancardImageBack!)
-          : null;
-
-      homeImage.value = (memberData.homeImage != null &&
-              memberData.homeImage!.isNotEmpty &&
-              !memberData.homeImage!.startsWith('http'))
-          ? File(memberData.homeImage!)
-          : null;
-
-      addressImage.value = (memberData.addressImage != null &&
-              memberData.addressImage!.isNotEmpty &&
-              !memberData.addressImage!.startsWith('http'))
-          ? File(memberData.addressImage!)
-          : null;
-
-      voterImage.value = (memberData.voterIdImage != null &&
-              memberData.voterIdImage!.isNotEmpty &&
-              !memberData.voterIdImage!.startsWith('http'))
-          ? File(memberData.voterIdImage!)
-          : null;
-
-      voterbackImage.value = (memberData.voterIdImageBack != null &&
-              memberData.voterIdImageBack!.isNotEmpty &&
-              !memberData.voterIdImageBack!.startsWith('http'))
-          ? File(memberData.voterIdImageBack!)
-          : null;
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {

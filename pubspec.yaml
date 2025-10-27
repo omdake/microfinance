@@ -22,6 +22,10 @@ dependencies:
   dropdown_flutter: 1.0.1
   dropdown_button2: ^2.3.9
   flutter_pdfview: ^1.2.7
+  permission_handler: ^11.3.0
+  geocoding: ^2.0.5
+  syncfusion_flutter_pdfviewer: ^31.1.18
+
   # modal_progress_hud_nsn: ^0.4.0
   dio: ^5.3.3
   http:

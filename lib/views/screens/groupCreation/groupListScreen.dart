@@ -65,7 +65,7 @@ class GroupListScreen extends StatelessWidget {
               C20(),
               Expanded(
                 child: Obx(() {
-                  if (controller.search.value.text.length >= 3 ||
+                  if (controller.search.value.text.length >= 3 &&
                       controller.groupList.isEmpty) {
                     return Center(
                       child: Text(
@@ -74,6 +74,7 @@ class GroupListScreen extends StatelessWidget {
                       ),
                     );
                   }
+
                   return LoadMoreListView(
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),

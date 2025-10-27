@@ -37,7 +37,7 @@ class AddressDetailsScreen extends StatelessWidget {
                     paddingWidget(
                       [
                         const LabelsWithMark(
-                            label: "Address", isRequired: true),
+                            label: "Address Line 1", isRequired: true),
                         TextFormField(
                           controller: controller.address.value,
                           cursorColor: AppColors.primary,
@@ -47,28 +47,30 @@ class AddressDetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Address"),
+                              hint: "Address Line 1"),
                         ),
                       ],
                     ),
                     C10(),
                     paddingWidget(
                       [
-                        const LabelsWithMark(label: "Address Line 1"),
+                        const LabelsWithMark(label: "Address Line 2",isRequired: true,),
                         TextFormField(
                           controller: controller.addressLineTwo.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
+                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.name,
+                           validator: (value) => requiredValidator(value!),
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Address line 1"),
+                              hint: "Address line 2"),
                         ),
                       ],
                     ),
                     C10(),
                     paddingWidget([
-                      LabelsWithMark(label: "State"),
+                      LabelsWithMark(label: "State",isRequired: true,),
                       Obx(() {
                         return DropdownButtonFormField<String>(
                           value: controller.selectedState.value.isEmpty
