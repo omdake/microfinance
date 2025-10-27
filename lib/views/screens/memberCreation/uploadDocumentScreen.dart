@@ -77,7 +77,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     paddingWidget(
                       [
                         const LabelsWithMark(
-                            label: "Pan Card", isRequired: true),
+                            label: "Pan Card Number", isRequired: true),
                         TextFormField(
                           controller: controller.panNumber.value,
                           cursorColor: AppColors.primary,
@@ -116,11 +116,11 @@ class UploadDcumentSreen extends StatelessWidget {
                     paddingWidget(
                       [
                         const LabelsWithMark(
-                            label: "Address Doc Type", isRequired: true),
+                            label: "Address Document", isRequired: true),
                         Obx(() {
                           return DropdownButtonFormField<String>(
                             decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Address Doc Type",
+                              hint: "Select Address Document",
                             ),
                             style: TextStyles.textfieldTextStyle,
                             // autovalidateMode:
@@ -144,7 +144,7 @@ class UploadDcumentSreen extends StatelessWidget {
                             validator: (value) {
                               if (controller
                                   .selectedAddressDocType.value.isEmpty) {
-                                return 'Address Doc Type is required';
+                                return 'Address Document is required';
                               }
                               return null;
                             },
@@ -203,7 +203,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     paddingWidget(
                       [
                         const LabelsWithMark(
-                            label: "Voter Id", isRequired: true),
+                            label: "Voter Id Number", isRequired: true),
                         TextFormField(
                           controller: controller.voterId.value,
                           cursorColor: AppColors.primary,

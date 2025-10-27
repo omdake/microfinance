@@ -73,6 +73,7 @@ class MemberCreationController extends GetxController {
   RxString selectedState = "".obs;
   RxString name = "".obs;
   RxBool isDobSelected = false.obs;
+  RxBool isFormEdit = false.obs;
   Rx<StateResult?> selectedstateObj = Rx<StateResult?>(null);
   RxList<OccupationResult> occupationList = <OccupationResult>[].obs;
   RxList<LoanMemberListResult> loanMember = <LoanMemberListResult>[].obs;

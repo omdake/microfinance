@@ -190,7 +190,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 const LabelsWithMark(
                                     label: "Entry Age", isRequired: true),
                                 TextFormField(
-                                  readOnly: true,
+                                  enabled: controller.isFormEdit.value,
                                   controller: controller.entryAge.value,
                                   cursorColor: AppColors.primary,
                                   textCapitalization:
@@ -203,7 +203,13 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   style: TextStyles.textfieldTextStyle,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
-                                          hint: "Age"),
+                                          hint: "Age")
+                                        .copyWith(
+                                          filled: true,
+                                          fillColor: controller.isFormEdit.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200,
+                                        ),
                                 ),
                               ],
                             ),
@@ -213,7 +219,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 const LabelsWithMark(
                                     label: "Completed Age", isRequired: true),
                                 TextFormField(
-                                  readOnly: true,
+                                  enabled: controller.isFormEdit.value,
                                   controller: controller.completedAge.value,
                                   cursorColor: AppColors.primary,
                                   textCapitalization:
@@ -226,7 +232,13 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   style: TextStyles.textfieldTextStyle,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
-                                          hint: "Age"),
+                                              hint: "Age")
+                                          .copyWith(
+                                    filled: true,
+                                    fillColor: controller.isFormEdit.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200,
+                                  ),
                                 ),
                               ],
                             ),
@@ -276,7 +288,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ),
                       C10(),
                       imagePickerField(
-                        label: "Member Image",isRequired: true,
+                        label: "Member Image",
+                        isRequired: true,
                         imageFile: controller.memberImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].memberImage ?? ''
@@ -287,7 +300,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ),
                       C10(),
                       paddingWidget([
-                        LabelsWithMark(label: "Group",isRequired: true,),
+                        LabelsWithMark(
+                          label: "Group",
+                          isRequired: true,
+                        ),
                         Obx(() {
                           return DropdownButtonFormField<String>(
                             value: controller.selectedGroup.value.isEmpty
@@ -320,7 +336,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ]),
                       C10(),
                       paddingWidget([
-                        LabelsWithMark(label: "Occupation",isRequired: true,),
+                        LabelsWithMark(
+                          label: "Occupation",
+                          isRequired: true,
+                        ),
                         Obx(() {
                           return DropdownButtonFormField<String>(
                             value: controller.selectedOccupation.value.isEmpty
