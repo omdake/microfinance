@@ -6,6 +6,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_applicant_list.model.dart';
 
 import 'package:microfinance/utils/snackbar_widget.dart';
@@ -13,17 +14,46 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 class LoanApplicationListController extends GetxController {
   RxList<LoanApplicantListResult> loanApplicantList =
       <LoanApplicantListResult>[].obs;
-
+  RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
   RxBool isLoading = false.obs;
+  RxString selectedGroup = "".obs;
 
   @override
   void onInit() async {
     super.onInit();
-
+    getGroupList();
     getAplicantList();
   }
 
-  getAplicantList({int? page}) async {
+  getGroupList() async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final List<dynamic> messages = data['message'];
+        groupList.value =
+            messages.map((e) => GroupListMessage.fromJson(e)).toList();
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  getAplicantList({int? page,String? loanGroup}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;

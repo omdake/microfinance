@@ -37,6 +37,7 @@ Widget imagePickerField({
   bool enableGeotag = false,
   Rx<Position?>? savedPosition,
   RxString? savedAddress,
+  Function(Position position, String address)? onGeotagCaptured,
 }) {
   final ImagePicker picker = ImagePicker();
   Rx<Position?> filePosition = Rx<Position?>(null);
@@ -260,21 +261,18 @@ Widget imagePickerField({
                                       imageFile?.value = cropped;
 
                                       if (enableGeotag) {
-                                        Future.delayed(Duration.zero, () async {
-                                          try {
-                                            Position? position =
-                                                await getCurrentLocation();
-                                            if (position != null) {
-                                              String? address =
-                                                  await getAddressFromPosition(
-                                                      position);
-                                              filePosition.value = position;
-                                              fileAddress.value = address ?? '';
-                                            }
-                                          } catch (e) {
-                                            print("Error fetching geotag: $e");
-                                          }
-                                        });
+                                        Position? position =
+                                            await getCurrentLocation();
+                                        if (position != null) {
+                                          String? address =
+                                              await getAddressFromPosition(
+                                                  position);
+                                          filePosition.value = position;
+                                          fileAddress.value = address ?? '';
+
+                                          onGeotagCaptured?.call(
+                                              position, fileAddress.value);
+                                        }
                                       }
                                     }
                                   }
@@ -307,13 +305,19 @@ Widget imagePickerField({
                                         await cropImage(pickedFile.path);
                                     if (cropped != null) {
                                       imageFile?.value = cropped;
-                                      if (enableGeotag && position != null) {
-                                        Get.snackbar(
-                                          "Location Captured",
-                                          "Lat: ${position.latitude}, Long: ${position.longitude}\nAddress: ${address ?? ''}",
-                                          snackPosition: SnackPosition.BOTTOM,
-                                          duration: const Duration(seconds: 3),
-                                        );
+
+                                      if (enableGeotag) {
+                                        Position? position =
+                                            await getCurrentLocation();
+                                        if (position != null) {
+                                          String? address =
+                                              await getAddressFromPosition(
+                                                  position);
+                                          filePosition.value = position;
+                                          fileAddress.value = address ?? '';
+                                          onGeotagCaptured?.call(
+                                              position, fileAddress.value);
+                                        }
                                       }
                                     }
                                   }
