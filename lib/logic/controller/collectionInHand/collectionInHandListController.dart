@@ -87,44 +87,99 @@ class CollectionInHandListController extends GetxController {
     getCollectionInHandList(page: page.value, empName: employee.value.text);
   }
 
+  // getCollectionInHandList({required int page, String? empName}) async {
+  //   final token = await AppPreferences.getToken();
+  //   try {
+  //     isLoading.value = true;
+  //     final response = await http.get(
+  //       Uri.parse(AppEnvironment.baseUrl +
+  //           AppURLs.getCollectionInHandlist(
+  //               page: page,
+  //               employee: empName,
+  //               pageSize: 10,
+  //               isPagination: true)),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": token!,
+  //       },
+  //     );
+  //     print("...........$response");
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //       final results = data['message']?['results'] as List<dynamic>;
+  //       final newItems =
+  //           results.map((e) => CollectionInhandResult.fromJson(e)).toList();
+
+  //       if (page == 1) {
+  //         collectionInHandList.value = newItems;
+  //       } else {
+  //         collectionInHandList.addAll(newItems);
+  //       }
+
+  //       hasNextPage.value = data['message']?['next'] != null;
+  //     } else {
+  //       final err = jsonDecode(response.body);
+  //       CustomSnackBar.show(
+  //           isIssue: true, message: err['message']['msg'] ?? "Error");
+  //     }
+  //   } catch (e) {
+  //     CustomSnackBar.show(isIssue: true, message: "$e");
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
   getCollectionInHandList({required int page, String? empName}) async {
-    final token = await AppPreferences.getToken();
-    try {
-      isLoading.value = true;
-      final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.getCollectionInHandlist(
-                page: page,
-                employee: empName,
-                pageSize: 10,
-                isPagination: true)),
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token!,
-        },
-      );
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final results = data['message']?['results'] as List<dynamic>;
-        final newItems =
-            results.map((e) => CollectionInhandResult.fromJson(e)).toList();
+  final token = await AppPreferences.getToken();
+  try {
+    isLoading.value = true;
 
-        if (page == 1) {
-          collectionInHandList.value = newItems;
-        } else {
-          collectionInHandList.addAll(newItems);
-        }
+    final url = AppEnvironment.baseUrl +
+        AppURLs.getCollectionInHandlist(
+          page: page,
+          employee: empName,
+          pageSize: 10,
+          isPagination: true,
+        );
 
-        hasNextPage.value = data['message']?['next'] != null;
+    print("🔹 Full API URL: $url");
+    print("🔹 Token: $token");
+
+    final response = await http.get(
+      Uri.parse(url),
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": token!,
+      },
+    );
+
+    print("🔹 Response Status: ${response.statusCode}");
+    print("🔹 Response Body: ${response.body}");
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final results = data['message']?['results'] as List<dynamic>;
+      final newItems =
+          results.map((e) => CollectionInhandResult.fromJson(e)).toList();
+
+      if (page == 1) {
+        collectionInHandList.value = newItems;
       } else {
-        final err = jsonDecode(response.body);
-        CustomSnackBar.show(
-            isIssue: true, message: err['message']['msg'] ?? "Error");
+        collectionInHandList.addAll(newItems);
       }
-    } catch (e) {
-      CustomSnackBar.show(isIssue: true, message: "$e");
-    } finally {
-      isLoading.value = false;
+
+      hasNextPage.value = data['message']?['next'] != null;
+    } else {
+      final err = jsonDecode(response.body);
+      CustomSnackBar.show(
+        isIssue: true,
+        message: err['message']['msg'] ?? "Error",
+      );
     }
+  } catch (e) {
+    CustomSnackBar.show(isIssue: true, message: "$e");
+  } finally {
+    isLoading.value = false;
   }
+}
+
 }

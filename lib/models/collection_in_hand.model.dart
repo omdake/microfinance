@@ -70,6 +70,7 @@ class CollectionInhandResult {
     this.loan,
     this.paymentProof,
     this.amountGivenEmp,
+    this.description,
     this.employeeEmployeeName,
   });
 
@@ -85,6 +86,7 @@ class CollectionInhandResult {
         loan: json["loan"],
         paymentProof: json["payment_proof"],
         amountGivenEmp: json["amount_given_emp"],
+        description: json["description"],
         employeeEmployeeName: json["employee_employee_name"],
       );
 
@@ -101,5 +103,6 @@ class CollectionInhandResult {
         "payment_proof": paymentProof,
         "amount_given_emp": amountGivenEmp,
         "employee_employee_name": employeeEmployeeName,
+        "description":description,
       };
 }
