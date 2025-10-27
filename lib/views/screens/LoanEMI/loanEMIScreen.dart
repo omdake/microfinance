@@ -16,7 +16,7 @@ class LoanEMIScreen extends StatelessWidget {
     final controller = Get.put(LoanEMIController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan EmI List"),
+      appBar: appBarWithTitle(title: "Due EMI List"),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
