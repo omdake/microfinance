@@ -64,7 +64,13 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                      hint: "Applicant"),
+                                          hint: "Applicant")
+                                      .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
                           ],
                         ),
@@ -88,6 +94,11 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Against loan",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ],
@@ -112,7 +123,13 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                      hint: "Sanctioned Loan Amount"),
+                                          hint: "Sanctioned Loan Amount")
+                                      .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
                           ],
                         ),
@@ -136,7 +153,13 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                      hint: "Current Disbursed Amount"),
+                                          hint: "Current Disbursed Amount")
+                                      .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
                           ],
                         ),
@@ -162,6 +185,11 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Monthly Repayment Amount",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ],
@@ -191,6 +219,11 @@ class DetailsScreen extends StatelessWidget {
                                       .textfieldDecorationicon(
                                     hint: "Disbursement Date",
                                     sufficIconOntap: null,
+                                  ).copyWith(
+                                    filled: true,
+                                    fillColor: controller.isFormEdit.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200,
                                   ),
                                 );
                               },
@@ -221,6 +254,11 @@ class DetailsScreen extends StatelessWidget {
                                       .textfieldDecorationicon(
                                     hint: "Repayment Start Date",
                                     sufficIconOntap: null,
+                                  ).copyWith(
+                                    filled: true,
+                                    fillColor: controller.isFormEdit.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200,
                                   ),
                                 );
                               },
@@ -246,8 +284,14 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                      hint: "Disbursed Amount"),
-                            ),
+                                          hint: "Disbursed Amount")
+                                      .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
+                            )
                           ],
                         ),
                         C10(),
@@ -272,11 +316,15 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Principal Amount Paid",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ],
                         ),
-                        C10(),
                         C10(),
                         paddingWidget(
                           [
@@ -298,6 +346,11 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Days Past Due",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ],
@@ -323,6 +376,11 @@ class DetailsScreen extends StatelessWidget {
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Status",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ],

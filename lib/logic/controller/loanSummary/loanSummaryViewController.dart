@@ -14,7 +14,6 @@ class LoanSummaryViewController extends GetxController {
   Rx<TextEditingController> payableAmount = TextEditingController().obs;
   Rx<TextEditingController> utrNumber = TextEditingController().obs;
   Rx<TextEditingController> remark = TextEditingController().obs;
-  Rx<TextEditingController> modeofPayment = TextEditingController().obs;
   RxString selectedApplicantId = ''.obs;
   RxBool isLoading = false.obs;
   RxBool isFormEdit = false.obs;
