@@ -54,7 +54,8 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "AadharCard Front Image",isRequired: true,
+                      label: "AadharCard Front Image",
+                      isRequired: true,
                       imageFile: controller.aadharImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImage ?? ''
@@ -64,7 +65,8 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "AadharCard Back Image",isRequired: true,
+                      label: "AadharCard Back Image",
+                      isRequired: true,
                       imageFile: controller.aadharbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImageBack ?? ''
@@ -93,7 +95,8 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "PanCard Front Image",isRequired: true,
+                      label: "PanCard Front Image",
+                      isRequired: true,
                       imageFile: controller.panImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImage ?? ''
@@ -155,7 +158,8 @@ class UploadDcumentSreen extends StatelessWidget {
                     C10(),
                     imagePickerField(
                       label: "Address Image",
-                      imageFile: controller.addressImage,isRequired: true,
+                      imageFile: controller.addressImage,
+                      isRequired: true,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].addressImage ?? ''
                           : ''),
@@ -165,41 +169,86 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                      label: "Home Image",isRequired: true,
+                      label: "Home Image",
+                      isRequired: true,
                       imageFile: controller.homeImage,
                       enableGeotag: true,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].homeImage ?? ''
                           : ''),
                       isFocused: controller.ishomeImageFocused,
+                      onGeotagCaptured: (position, address) {
+                        controller.latitude.value = position.latitude;
+                        controller.longitude.value = position.longitude;
+                        controller.geoLocation.value = address;
+                      },
                       onTap: () => controller.pickImage(controller.homeImage),
                     ),
                     C10(),
-                    Obx(() {
-                      if (!controller.isApiDataLoaded.value) return Container();
-                      return Column(
-                        children: [
-                          TextFormField(
-                            readOnly: true,
-                            controller: controller.homeLatController.value,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Latitude",
-                            ).copyWith(
-                                filled: true, fillColor: Colors.grey.shade200),
-                          ),
-                          C10(),
-                          TextFormField(
-                            readOnly: true,
-                            controller: controller.homeLongController.value,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Longitude",
-                            ).copyWith(
-                                filled: true, fillColor: Colors.grey.shade200),
-                          ),
-                        ],
-                      );
-                    }),
-                    C10(),
+                    Obx(() => Column(
+                          children: [
+                            if (controller.showOnlyGeoFields.value &&
+                                controller.homelatitude.value.text.isNotEmpty &&
+                                controller.homelatitude.value.text !=
+                                    '0.0') ...[
+                              paddingWidget([
+                                const LabelsWithMark(
+                                    label: "Latitude", isRequired: true),
+                                TextFormField(
+                                  readOnly: true,
+                                  controller: controller.homelatitude.value,
+                                  cursorColor: AppColors.primary,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    hint: "Latitude",
+                                  ),
+                                ),
+                              ]),
+                              C10(),
+                            ],
+                            if (controller.showOnlyGeoFields.value &&
+                                controller
+                                    .homelongitude.value.text.isNotEmpty &&
+                                controller.homelongitude.value.text !=
+                                    '0.0') ...[
+                              paddingWidget([
+                                const LabelsWithMark(
+                                    label: "Longitude", isRequired: true),
+                                TextFormField(
+                                  readOnly: true,
+                                  controller: controller.homelongitude.value,
+                                  cursorColor: AppColors.primary,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    hint: "Longitude",
+                                  ),
+                                ),
+                              ]),
+                              C10(),
+                            ],
+                            if (controller.showOnlyGeoFields.value &&
+                                controller
+                                    .homeGeoLocation.value.text.isNotEmpty) ...[
+                              paddingWidget([
+                                const LabelsWithMark(
+                                    label: "Geo Location", isRequired: true),
+                                TextFormField(
+                                  readOnly: true,
+                                  controller: controller.homeGeoLocation.value,
+                                  cursorColor: AppColors.primary,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    hint: "Geo Location",
+                                  ),
+                                ),
+                              ]),
+                              C10(),
+                            ],
+                          ],
+                        )),
                     paddingWidget(
                       [
                         const LabelsWithMark(
@@ -220,7 +269,8 @@ class UploadDcumentSreen extends StatelessWidget {
                     ),
                     C10(),
                     imagePickerField(
-                        label: "VoterId Front Image",isRequired: true,
+                        label: "VoterId Front Image",
+                        isRequired: true,
                         imageFile: controller.voterImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].voterIdImage ?? ''
@@ -231,7 +281,8 @@ class UploadDcumentSreen extends StatelessWidget {
                         }),
                     C20(),
                     imagePickerField(
-                        label: "VoterId Back Image",isRequired: true,
+                        label: "VoterId Back Image",
+                        isRequired: true,
                         imageFile: controller.voterbackImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
                             ? controller.loanMember[0].voterIdImageBack ?? ''

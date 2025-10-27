@@ -84,7 +84,7 @@ class MemberCreationController extends GetxController {
   RxInt selectedIndex = 0.obs;
   RxString selectedGroup = "".obs;
   RxString selectedGroupId = "".obs;
-  RxBool isApiDataLoaded = false.obs;
+  RxBool showOnlyGeoFields = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
   final List<String> genderList = ["Male", "Female", "Other"];
@@ -96,8 +96,12 @@ class MemberCreationController extends GetxController {
   RxString selectedAddressDocType = ''.obs;
   Rx<Position?> homeImagePosition = Rx<Position?>(null);
   RxString homeImageAddress = ''.obs;
-  Rx<TextEditingController> homeLatController = TextEditingController().obs;
-  Rx<TextEditingController> homeLongController = TextEditingController().obs;
+  RxDouble latitude = 0.0.obs;
+  RxDouble longitude = 0.0.obs;
+  RxString geoLocation = ''.obs;
+  Rx<TextEditingController> homelatitude = TextEditingController().obs;
+  Rx<TextEditingController> homelongitude = TextEditingController().obs;
+  Rx<TextEditingController> homeGeoLocation = TextEditingController().obs;
 
   @override
   void onInit() async {
@@ -112,13 +116,6 @@ class MemberCreationController extends GetxController {
       name.value = args['name'].toString();
       await getLoanMember(memberName: name.value);
     }
-  }
-
-  void updateHomeImageLocation(Position position, String address) {
-    homeImagePosition.value = position;
-    homeImageAddress.value = address;
-    homeLatController.value.text = position.latitude.toString();
-    homeLongController.value.text = position.longitude.toString();
   }
 
   void selectButton(
@@ -289,8 +286,9 @@ class MemberCreationController extends GetxController {
         'voter_id': voterId.value.text,
         "address_line_2": addressLineTwo.value.text,
         "mobile_no_2": alternateMobileNo.value.text,
-        "longitude": homeLongController.value.text,
-        "latitude": homeLatController.value.text,
+        "longitude": longitude.value.toString(),
+        "latitude": latitude.value.toString(),
+        "geo_location": geoLocation.value,
       });
 
       Map<String, Rx<File?>> imageFields = {
@@ -378,8 +376,9 @@ class MemberCreationController extends GetxController {
         'voter_id': voterId.value.text,
         "address_line_2": addressLineTwo.value.text,
         "mobile_no_2": alternateMobileNo.value.text,
-        "latitude": (memberImagePosition.value?.latitude ?? 0.0).toString(),
-        "longitude": (memberImagePosition.value?.longitude ?? 0.0).toString(),
+        "longitude": longitude.value.toString(),
+        "latitude": latitude.value.toString(),
+        "geo_location": geoLocation.value,
       };
       fields.removeWhere((key, value) => value.isEmpty);
       request.fields.addAll(fields);
@@ -463,7 +462,6 @@ class MemberCreationController extends GetxController {
           "Authorization": token!,
         },
       );
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final memberData = LoanMemberListResult.fromJson(data['message'][0]);
@@ -497,6 +495,12 @@ class MemberCreationController extends GetxController {
         dob.value.text = memberData.dob != null
             ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
             : '';
+        if (memberData.longitude != null && memberData.latitude != null) {
+          homelongitude.value.text = memberData.longitude.toString();
+          homelatitude.value.text = memberData.latitude.toString();
+          homeGeoLocation.value.text = memberData.geoLocation ?? '';
+          showOnlyGeoFields.value = true;
+        }
         if (memberData.dob != null) {
           isDobSelected.value = true;
           entryAge.value.text = memberData.entryAge?.toString() ?? '';
@@ -505,11 +509,6 @@ class MemberCreationController extends GetxController {
         selectedOccupation.value = memberData.occupation ?? '';
         selectedGroup.value = memberData.group ?? '';
         selectedState.value = memberData.state ?? '';
-
-        if (memberData.latitude != null && memberData.longitude != null) {
-          homeLatController.value.text = memberData.latitude.toString();
-          homeLongController.value.text = memberData.longitude.toString();
-        }
 
         memberImage.value = (memberData.memberImage != null &&
                 memberData.memberImage!.isNotEmpty &&
