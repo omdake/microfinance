@@ -39,25 +39,34 @@ class MemberListScreen extends StatelessWidget {
                     ),
                     value: controller.selectedGroup.value.isEmpty
                         ? null
-                        : controller.groupList.firstWhere(
+                        : controller.groupList.firstWhereOrNull(
                             (g) => g.name == controller.selectedGroup.value,
-                            orElse: () => controller.groupList.first,
                           ),
-                    items: controller.groupList.map((e) {
-                      return DropdownMenuItem<GroupListMessage>(
-                        value: e,
-                        child: Text(
-                          e.groupName ?? "",
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      );
-                    }).toList(),
+                    items: [
+                      const DropdownMenuItem<GroupListMessage>(
+                        value: null,
+                        child: Text(""),
+                      ),
+                      ...controller.groupList.map((e) {
+                        return DropdownMenuItem<GroupListMessage>(
+                          value: e,
+                          child: Text(
+                            e.groupName ?? "",
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        );
+                      }).toList(),
+                    ],
                     onChanged: (newValue) {
-                      if (newValue != null) {
-                        controller.selectedGroup.value = newValue.name ?? "";
-                        controller.page.value = 1;
-                        controller.loanMemberList.clear();
+                      controller.page.value = 1;
+                      controller.loanMemberList.clear();
 
+                      if (newValue == null) {
+                        controller.selectedGroup.value = "";
+                        controller.getLoanMemberList(
+                            Status: controller.status.value);
+                      } else {
+                        controller.selectedGroup.value = newValue.name ?? "";
                         controller.getLoanMemberList(
                             Status: controller.status.value);
                       }

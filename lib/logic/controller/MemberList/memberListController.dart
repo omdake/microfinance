@@ -39,7 +39,7 @@ class MemberListController extends GetxController {
     }
 
     getGroupList();
-    getLoanMemberList();
+    getLoanMemberList(Status: status.value);
   }
 
   getGroupList() async {
