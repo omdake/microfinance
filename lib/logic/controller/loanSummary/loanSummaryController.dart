@@ -17,6 +17,7 @@ class LoanSummaryController extends GetxController {
   RxString selectedGroupId = ''.obs;
   RxString selectedLoan = ''.obs;
   RxString selectedApplicantId = ''.obs;
+  Rx<TextEditingController> groupSearchController = TextEditingController().obs;
 
   void changeTab(int index) {
     selectedIndex.value = index;
@@ -86,7 +87,9 @@ class LoanSummaryController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
-      final url = AppEnvironment.baseUrl + AppURLs.getLoanDisbursementList(loanGroup: selecteddisbursementGroup.value);
+      final url = AppEnvironment.baseUrl +
+          AppURLs.getLoanDisbursementList(
+              loanGroup: selecteddisbursementGroup.value);
       final response = await http.get(
         Uri.parse(url),
         headers: {

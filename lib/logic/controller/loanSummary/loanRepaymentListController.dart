@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
@@ -14,7 +15,7 @@ class LoanSummaryListController extends GetxController {
   RxString selectedGroupId = ''.obs;
   RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
   RxList<RepaymentListResult> repaymentList = <RepaymentListResult>[].obs;
-
+  Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   RxInt page = 1.obs;
 
   @override

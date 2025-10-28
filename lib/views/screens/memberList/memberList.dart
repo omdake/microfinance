@@ -5,6 +5,7 @@ import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/MemberList/memberListController.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
@@ -61,6 +62,38 @@ class MemberListScreen extends StatelessWidget {
                         );
                       }).toList(),
                     ],
+                    dropdownSearchData: DropdownSearchData(
+                      searchController: controller.groupSearchController.value,
+                      searchInnerWidgetHeight: 50,
+                      searchInnerWidget: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: TextFormField(
+                          cursorColor: Colors.black,
+                          style: TextStyles.textfieldTextStyle,
+                          controller: controller.groupSearchController.value,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            sufficIconOntap: () {},
+                            sufficIcon: Icons.search,
+                            hint: 'Search group...',
+                          ),
+                        ),
+                      ),
+                      searchMatchFn: (item, searchValue) {
+                        if (searchValue.trim().length < 3) {
+                          return true;
+                        }
+                        return (item.child is Text &&
+                            (item.child as Text)
+                                .data!
+                                .toLowerCase()
+                                .contains(searchValue.toLowerCase()));
+                      },
+                    ),
+                    onMenuStateChange: (isOpen) {
+                      if (!isOpen) {
+                        controller.groupSearchController.value.clear();
+                      }
+                    },
                     onChanged: (newValue) {
                       controller.page.value = 1;
                       controller.loanMemberList.clear();

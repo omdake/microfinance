@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
@@ -18,6 +19,7 @@ class MemberListController extends GetxController {
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
   RxString screenTitle = ''.obs;
+  Rx<TextEditingController> groupSearchController = TextEditingController().obs;
 
   @override
   void onInit() {
