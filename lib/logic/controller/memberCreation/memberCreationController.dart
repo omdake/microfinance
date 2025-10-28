@@ -466,7 +466,7 @@ class MemberCreationController extends GetxController {
       );
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
-        final memberData = LoanMemberListResult.fromJson(data['message'][0]);
+        final memberData = LoanMemberListResult.fromJson(data['message']);
         loanMember.value = [memberData];
         name.value = memberData.name ?? '';
         memeberId.value.text = memberData.memberId ?? '';
