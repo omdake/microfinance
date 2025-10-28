@@ -8,6 +8,7 @@ import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
+import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class LoanApplicationList extends StatelessWidget {
@@ -23,7 +24,7 @@ class LoanApplicationList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-               Obx(() {
+              Obx(() {
                 return DropdownButtonFormField2<String>(
                   value: controller.selectedGroup.value.isEmpty
                       ? null
@@ -36,15 +37,21 @@ class LoanApplicationList extends StatelessWidget {
                       fontSize: 12,
                     ),
                   ),
-                  items: controller.groupList.map((e) {
-                    return DropdownMenuItem<String>(
-                      value: e.name ?? "",
-                      child: Text(
-                        e.groupName ?? "",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    );
-                  }).toList(),
+                  items: [
+                    const DropdownMenuItem<String>(
+                      value: "",
+                      child: Text(""),
+                    ),
+                    ...controller.groupList.map((e) {
+                      return DropdownMenuItem<String>(
+                        value: e.name ?? "",
+                        child: Text(
+                          e.groupName ?? "",
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      );
+                    }).toList(),
+                  ],
                   dropdownStyleData: DropdownStyleData(
                     maxHeight: 500,
                   ),
@@ -56,9 +63,14 @@ class LoanApplicationList extends StatelessWidget {
                     hint: '',
                   ),
                   onChanged: (newGroup) {
-                    controller.selectedGroup.value = newGroup!;
+                    controller.page.value = 1;
                     controller.loanApplicantList.clear();
-                    controller.getAplicantList();
+                    controller.selectedGroup.value = newGroup ?? "";
+                    if (controller.selectedGroup.value.isEmpty) {
+                      controller.getAplicantList(page: controller.page.value);
+                    } else {
+                      controller.getAplicantList(page: controller.page.value,loanGroup: controller.selectedGroup.value);
+                    }
                   },
                 );
               }),
@@ -67,18 +79,18 @@ class LoanApplicationList extends StatelessWidget {
                 child: Obx(() {
                   if (controller.isLoading.value) {
                     return const Center(
-                        child: CircularProgressIndicator(
-                      color: Colors.black,
-                    ));
+                      child: CircularProgressIndicator(color: Colors.black),
+                    );
                   }
+
                   if (controller.loanApplicantList.isEmpty) {
                     return const Center(child: Text("No members found"));
                   }
-                  return ListView.builder(
-                    itemCount: controller.loanApplicantList.length,
-                    itemBuilder: (context, index) {
-                      final user = controller.loanApplicantList[index];
 
+                  return LoadMoreListView(
+                    loadData: () => controller.getloadData(),
+                    loadMoreData: () => controller.getLoadMoreData(),
+                    children: controller.loanApplicantList.map((user) {
                       return Column(
                         children: [
                           GestureDetector(
@@ -149,7 +161,6 @@ class LoanApplicationList extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                       
                                         RichText(
                                           text: TextSpan(
                                             children: [
@@ -222,7 +233,7 @@ class LoanApplicationList extends StatelessWidget {
                           const Divider(color: Colors.grey),
                         ],
                       );
-                    },
+                    }).toList(),
                   );
                 }),
               ),
