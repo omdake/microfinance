@@ -16,7 +16,11 @@ class MemberListScreen extends StatelessWidget {
     final controller = Get.put(MemberListController());
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Member List"),
+      appBar: appBarWithTitle(
+        title: controller.screenTitle.value.isNotEmpty
+            ? controller.screenTitle.value
+            : "Member List",
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
