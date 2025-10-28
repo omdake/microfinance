@@ -17,12 +17,25 @@ class LoanApplicationListController extends GetxController {
   RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;
   RxBool isLoading = false.obs;
   RxString selectedGroup = "".obs;
-
+  RxBool hasNextPage = true.obs;
+  RxInt page = 1.obs;
   @override
   void onInit() async {
     super.onInit();
     getGroupList();
-    getAplicantList();
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
+  }
+
+  getloadData() {
+    page.value = 1;
+    loanApplicantList.clear();
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
+  }
+
+  getLoadMoreData() {
+    if (!hasNextPage.value) return;
+    page.value += 1;
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
   }
 
   getGroupList() async {
@@ -53,13 +66,17 @@ class LoanApplicationListController extends GetxController {
     }
   }
 
-  getAplicantList({int? page,String? loanGroup}) async {
+  getAplicantList({int? page, String? loanGroup}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final response = await http.get(
-        Uri.parse(
-            AppEnvironment.baseUrl + AppURLs.getApplicantList(page: page)),
+        Uri.parse(AppEnvironment.baseUrl +
+            AppURLs.getApplicantList(
+                page: page,
+                loanGroup: selectedGroup.value,
+                pageSize: 10,
+                isPagination: true)),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
@@ -68,11 +85,17 @@ class LoanApplicationListController extends GetxController {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
 
-        final message = data['message'];
-        final results = message['results'] as List<dynamic>;
-
-        loanApplicantList.value =
+        final results = data['message']?['results'] as List<dynamic>;
+        final newItems =
             results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
+
+        if (page == 1) {
+          loanApplicantList.value = newItems;
+        } else {
+          loanApplicantList.addAll(newItems);
+        }
+
+        hasNextPage.value = data['message']?['next'] != null;
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
