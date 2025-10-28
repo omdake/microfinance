@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
@@ -12,6 +13,8 @@ import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanApplicationListController extends GetxController {
+  Rx<TextEditingController> groupSearchController = TextEditingController().obs;
+
   RxList<LoanApplicantListResult> loanApplicantList =
       <LoanApplicantListResult>[].obs;
   RxList<GroupListMessage> groupList = <GroupListMessage>[].obs;

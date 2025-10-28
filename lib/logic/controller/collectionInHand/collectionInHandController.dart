@@ -36,6 +36,7 @@ class CollectionInHandController extends GetxController {
   RxBool isReadOnly = false.obs;
   RxBool hasNextPage = true.obs;
   RxString selectedType = ''.obs;
+  RxString loggedInUser = ''.obs;
   final List<String> giventoList = ["Employee", "Bank"];
   RxString selectedGivenTo = ''.obs;
   RxString selectedamountGivenTo = ''.obs;
@@ -90,6 +91,7 @@ class CollectionInHandController extends GetxController {
     final empName = await AppPreferences.getEmpName();
     if (empId != null && empId.isNotEmpty) {
       employee.value.text = empId;
+      loggedInUser.value = empId;
     }
     if (empName != null && empName.isNotEmpty) {
       employeeName.value.text = empName;

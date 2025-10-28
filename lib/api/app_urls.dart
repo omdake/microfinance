@@ -47,7 +47,7 @@ class AppURLs {
 
   static String get resetPasswordWithOtp => "api/method/ex_loan_management.api.forgot_password.reset_password_with_otp";
 
-  static String  getCollectionInHandlist({required int page,String? employee ,bool? isPagination,int? pageSize}) => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.collection_in_hand_list?is_pagination=$isPagination&employee=$employee&page=$page&page_size=$pageSize";
+  static String  getCollectionInHandlist({required int page,String? employee ,bool? isPagination,int? pageSize,String?date,String?status }) => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.collection_in_hand_list?is_pagination=$isPagination&employee=$employee&page=$page&page_size=$pageSize&posting_date=$date&status=$status";
 
   static String  getGroupCreationList({required int page,String? search ,bool? isPagination,int? pageSize}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/?is_pagination=$isPagination&search=$search&page=$page";
 
