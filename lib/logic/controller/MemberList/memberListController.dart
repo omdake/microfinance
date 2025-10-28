@@ -17,12 +17,16 @@ class MemberListController extends GetxController {
   RxBool isGroup = true.obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
+  RxString screenTitle = ''.obs;
 
   @override
   void onInit() {
     super.onInit();
 
     if (Get.arguments != null) {
+      if (Get.arguments['title'] != null) {
+        screenTitle.value = Get.arguments['title'];
+      }
       if (Get.arguments['status'] != null) {
         status.value = Get.arguments['status'];
       }

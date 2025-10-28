@@ -106,7 +106,7 @@ class DashboardScreen extends StatelessWidget {
                         subTitle: 'Total Members',
                         onTap: () => (
                           Get.toNamed(Routes.memberList,
-                              arguments: {"status": "", "group": ""}),
+                              arguments: {"status": "", "group": "","title": "Total Members",}),
                         ),
                       ),
                     ),
@@ -119,6 +119,7 @@ class DashboardScreen extends StatelessWidget {
                           Get.toNamed(
                             Routes.memberList,
                             arguments: {
+                              "title": "Verified Members",
                               "status": "Verified",
                               "group": controller.selectedGroup.value
                             },
@@ -138,6 +139,7 @@ class DashboardScreen extends StatelessWidget {
                           onTap: () => (Get.toNamed(
                                 Routes.memberList,
                                 arguments: {
+                                    "title": "Ungrouped Members",
                                   "is_group": false,
                                 },
                               ))),
@@ -151,6 +153,7 @@ class DashboardScreen extends StatelessWidget {
                           Get.toNamed(
                             Routes.memberList,
                             arguments: {
+                              "title": "Pending Verification",
                               "status": "pending",
                               "group": controller.selectedGroup.value
                             },
