@@ -240,7 +240,7 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                       C25(),
                       Obx(() {
                         if (controller.amountgivenTo.value.text ==
-                            controller.employee.value.text) {
+                            controller.loggedInUser.value) {
                           return SizedBox(
                             width: double.infinity,
                             child: Row(

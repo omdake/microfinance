@@ -19,6 +19,7 @@ class CollectionInHandListController extends GetxController {
           text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
+  Rx<TextEditingController> Status = TextEditingController().obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
   RxBool isPaymentProofImageFocused = false.obs;
   RxBool isLoading = false.obs;
@@ -26,19 +27,16 @@ class CollectionInHandListController extends GetxController {
   RxBool isFormEdit = false.obs;
   RxBool isReadOnly = false.obs;
   RxBool hasNextPage = true.obs;
+  RxString selectedDateText = ''.obs;
 
+  RxBool isStatusSearching = false.obs;
   RxList<CollectionInhandResult> collectionInHandList =
       <CollectionInhandResult>[].obs;
+  Rx<TextEditingController> selectedDateController =
+      TextEditingController().obs;
 
-  Future<void> selectDate(
-      BuildContext context, TextEditingController controller) async {
-    DateTime today = DateTime.now();
-
-    DateTime initialDate = today;
-    if (controller.text.isNotEmpty) {
-      initialDate = DateTime.tryParse(controller.text) ?? today;
-    }
-
+  Future<void> selectDate(BuildContext context,
+      {required bool isSelectedDate}) async {
     List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
       context: context,
       config: CalendarDatePicker2WithActionButtonsConfig(
@@ -47,17 +45,40 @@ class CollectionInHandListController extends GetxController {
         cancelButtonTextStyle: const TextStyle(color: Colors.black),
         selectedDayHighlightColor: Colors.grey,
         dayTextStyle: const TextStyle(color: Colors.black),
-        selectableDayPredicate: (day) => !day.isAfter(today),
       ),
-      value: [initialDate],
       dialogSize: const Size(350, 400),
       borderRadius: BorderRadius.circular(15),
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
-      controller.text = formatted;
+      String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
+      selectedDateController.value.text = formattedDate;
+      selectedDateText.value = formattedDate;
+
+      page.value = 1;
+      collectionInHandList.clear();
+      getCollectionInHandList(
+        page: page.value,
+        empName: employee.value.text,
+      );
     }
+  }
+
+  void clearSelectedDate() {
+    selectedDateText.value = '';
+    selectedDateController.value.clear();
+    page.value = 1;
+    collectionInHandList.clear();
+    getCollectionInHandList(
+      page: page.value,
+      empName: employee.value.text,
+    );
+  }
+
+  void onSearchChanged(String query) {
+    page.value = 1;
+    collectionInHandList.clear();
+    getCollectionInHandList(page: page.value, empName: employee.value.text);
   }
 
   @override
@@ -97,7 +118,9 @@ class CollectionInHandListController extends GetxController {
                 page: page,
                 employee: empName,
                 pageSize: 10,
-                isPagination: true)),
+                isPagination: true,
+                date: selectedDateController.value.text,
+                status: Status.value.text)),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
