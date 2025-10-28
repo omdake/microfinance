@@ -279,6 +279,30 @@ class RepaymentScreen extends StatelessWidget {
                                       ],
                                     ),
                                   ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: (user.workflowState == null ||
+                                              user.workflowState!.isEmpty)
+                                          ? Colors.white
+                                          : Colors.grey.shade600,
+                                      borderRadius: BorderRadius.circular(25),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 4),
+                                    child: Text(
+                                      user.workflowState?.isNotEmpty == true
+                                          ? user.workflowState!
+                                          : "",
+                                      style: TextStyle(
+                                        fontFamily: "Roboto-Medium",
+                                        fontSize: 13,
+                                        color: (user.workflowState == null ||
+                                                user.workflowState!.isEmpty)
+                                            ? Colors.black
+                                            : Colors.white,
+                                      ),
+                                    ),
+                                  )
                                 ],
                               ),
                             ),
