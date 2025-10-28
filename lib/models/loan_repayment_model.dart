@@ -79,6 +79,7 @@ class RepaymentListResult {
   dynamic manualRemarks;
   String? paymentAccount;
   String? applicantMemberName;
+  String? workflowState;
 
   RepaymentListResult({
     this.name,
@@ -116,6 +117,7 @@ class RepaymentListResult {
     this.manualRemarks,
     this.paymentAccount,
     this.applicantMemberName,
+    this.workflowState,
   });
 
   factory RepaymentListResult.fromJson(Map<String, dynamic> json) => RepaymentListResult(
@@ -154,6 +156,7 @@ class RepaymentListResult {
         manualRemarks: json["manual_remarks"],
         paymentAccount: json["payment_account"],
         applicantMemberName: json["applicant_member_name"],
+         workflowState: json["workflow_state"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -193,5 +196,6 @@ class RepaymentListResult {
         "manual_remarks": manualRemarks,
         "payment_account": paymentAccount,
         "applicant_member_name": applicantMemberName,
+        "workflow_state": workflowState,
       };
 }
