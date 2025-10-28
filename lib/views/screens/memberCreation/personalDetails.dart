@@ -203,13 +203,13 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   style: TextStyles.textfieldTextStyle,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
-                                          hint: "Age")
-                                        .copyWith(
-                                          filled: true,
-                                          fillColor: controller.isFormEdit.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200,
-                                        ),
+                                              hint: "Age")
+                                          .copyWith(
+                                    filled: true,
+                                    fillColor: controller.isFormEdit.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200,
+                                  ),
                                 ),
                               ],
                             ),
@@ -334,6 +334,31 @@ class PersonalDetailsScreen extends StatelessWidget {
                           );
                         })
                       ]),
+                      C10(),
+                      if (controller.isCreatedBy.value) ...[
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: "Created By", isRequired: true),
+                            TextFormField(
+                              enabled: controller.isFormEdit.value,
+                              controller: controller.createdBy.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Created By")
+                                      .copyWith(
+                                          filled: true,
+                                          fillColor: controller.isFormEdit.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
+                            ),
+                          ],
+                        ),
+                      ],
                       C10(),
                       paddingWidget([
                         LabelsWithMark(

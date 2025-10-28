@@ -75,6 +75,7 @@ class LoanMemberListResult {
   int? pancardVerified;
   int? addressVerified;
   int? cibilScore;
+  String? createdBy;
   dynamic cibilDate;
   dynamic bankName;
   dynamic accountNumber;
@@ -156,6 +157,7 @@ class LoanMemberListResult {
     this.longitude,
     this.latitude,
     this.geoLocation,
+    this.createdBy,
   });
 
   factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
@@ -177,6 +179,7 @@ class LoanMemberListResult {
         occupation: json["occupation"],
         group: json["group"],
         email: json["email"],
+        createdBy: json["created_by"],
         address: json["address"],
         nominee: json["nominee"],
         relation: json["relation"],
@@ -280,6 +283,7 @@ class LoanMemberListResult {
         "longitude": longitude,
         "latitude": latitude,
         "geo_location": geoLocation,
+        "created_by": createdBy,
       };
 }
 

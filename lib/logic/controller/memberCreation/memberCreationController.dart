@@ -47,6 +47,7 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> cibilDate = TextEditingController().obs;
   Rx<TextEditingController> addressDocType = TextEditingController().obs;
   Rx<TextEditingController> country = TextEditingController(text: "India").obs;
+  Rx<TextEditingController> createdBy = TextEditingController().obs;
   Rx<File?> aadharImage = Rx<File?>(null);
   Rx<File?> homeImage = Rx<File?>(null);
   Rx<File?> panImage = Rx<File?>(null);
@@ -85,6 +86,7 @@ class MemberCreationController extends GetxController {
   RxString selectedGroup = "".obs;
   RxString selectedGroupId = "".obs;
   RxBool showOnlyGeoFields = false.obs;
+  RxBool isCreatedBy = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
   final List<String> genderList = ["Male", "Female", "Other"];
@@ -492,6 +494,7 @@ class MemberCreationController extends GetxController {
         voterId.value.text = memberData.voterId ?? '';
         alternateMobileNo.value.text = memberData.mobileNoLine2 ?? '';
         addressLineTwo.value.text = memberData.addressLine2 ?? '';
+        createdBy.value.text = memberData.createdBy ?? '';
         dob.value.text = memberData.dob != null
             ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
             : '';
@@ -500,6 +503,10 @@ class MemberCreationController extends GetxController {
           homelatitude.value.text = memberData.latitude.toString();
           homeGeoLocation.value.text = memberData.geoLocation ?? '';
           showOnlyGeoFields.value = true;
+        }
+        if (memberData.createdBy != null) {
+          createdBy.value.text = memberData.createdBy ?? '';
+          isCreatedBy.value = true;
         }
         if (memberData.dob != null) {
           isDobSelected.value = true;
