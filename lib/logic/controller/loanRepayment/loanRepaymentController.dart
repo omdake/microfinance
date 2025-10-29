@@ -13,6 +13,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/get_Payable_Amount.model.dart';
 import 'package:microfinance/models/mode_of_payment.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanRepaymentController extends GetxController {
@@ -123,7 +124,9 @@ class LoanRepaymentController extends GetxController {
 
         modeOfPaymentList.value =
             messages.map((e) => ModeOfPaymentMessage.fromJson(e)).toList();
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
@@ -156,7 +159,9 @@ class LoanRepaymentController extends GetxController {
         final message = GetPayableAmountMessage.fromJson(data['message']);
         getPayableAmount.value = [message];
         payableAmount.value.text = message.payableAmount?.toString() ?? '0';
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']['msg'] ?? "Error");
       }
@@ -206,7 +211,9 @@ class LoanRepaymentController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
