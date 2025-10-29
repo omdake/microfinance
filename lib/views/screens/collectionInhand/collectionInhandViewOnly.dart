@@ -221,26 +221,26 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                           ),
                         ]),
                       C10(),
-                      Obx(() {
-                        return imagePickerField(
-                          // isEnabled: !controller.isReadOnly.value,
-                          label: "Payment Proof",
-                          imageFile: controller.paymentProofImage,
-                          imageUrl: RxString(
-                              controller.collectionInHandList.isNotEmpty
-                                  ? controller.collectionInHandList[0]
-                                          .paymentProof ??
-                                      ''
-                                  : ''),
-                          isFocused: controller.isPaymentProofImageFocused,
-                          onTap: () => controller
-                              .pickImage(controller.paymentProofImage),
-                        );
-                      }),
+                      imagePickerField(
+                        // isEnabled: !controller.isReadOnly.value,
+                        label: "Payment Proof",
+                        imageFile: controller.paymentProofImage,
+                        imageUrl: controller.paymentProofUrl,
+                        isFocused: controller.isPaymentProofImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.paymentProofImage),
+                      ),
                       C25(),
                       Obx(() {
-                        if (controller.amountgivenTo.value.text ==
-                            controller.loggedInUser.value) {
+                        final isGivenToLoggedUser =
+                            controller.amountgivenTo.value.text ==
+                                controller.loggedInUser.value;
+                        final currentStatus = controller.status.value;
+
+                        final isActionCompleted = currentStatus == "Approved" ||
+                            currentStatus == "Rejected";
+
+                        if (isGivenToLoggedUser && !isActionCompleted) {
                           return SizedBox(
                             width: double.infinity,
                             child: Row(
@@ -249,18 +249,14 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                                 Expanded(
                                   child: AppButton(
                                     title: "Approve",
-                                    onTap: () {
-                                      controller.approve();
-                                    },
+                                    onTap: controller.approve,
                                   ),
                                 ),
                                 C15(),
                                 Expanded(
                                   child: AppButton(
                                     title: "Reject",
-                                    onTap: () {
-                                      controller.rejecte();
-                                    },
+                                    onTap: controller.rejecte,
                                   ),
                                 ),
                               ],

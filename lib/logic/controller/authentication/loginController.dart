@@ -44,15 +44,15 @@ class LoginController extends GetxController {
           "password": password.text,
         },
       );
-
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Map<String, dynamic> data = jsonDecode(response.body);
         final apiKey = data["message"]["token"]["api_key"];
         final apiSecret = data["message"]["token"]["api_secret"];
-        final name = data["message"]["user"]["full_name"];
-        final emailId = data["message"]["user"]["email"];
-        final empId = data["message"]["user"]["emp_details"]["employee"];
-        final empName = data["message"]["user"]["emp_details"]["employee_name"];
+        final name = data["message"]["user"]["full_name"] ?? '';
+        final emailId = data["message"]["user"]["email"] ?? '';
+        final empId = data["message"]["user"]["emp_details"]["employee"] ?? '';
+        final empName =
+            data["message"]["user"]["emp_details"]["employee_name"] ?? '';
         final token = "token $apiKey:$apiSecret";
         await AppPreferences.setToken(token);
         await AppPreferences.setName(name);
@@ -146,13 +146,13 @@ class LoginController extends GetxController {
     if (newPassword.value.text.isEmpty || ConfirmPassword.value.text.isEmpty) {
       CustomSnackBar.show(
           isIssue: true, message: "Please fill both password fields");
-           isLoading.value = false;
+      isLoading.value = false;
       return;
     }
 
     if (newPassword.value.text != ConfirmPassword.value.text) {
       CustomSnackBar.show(isIssue: true, message: "Passwords do not match");
-       isLoading.value = false;
+      isLoading.value = false;
       return;
     }
     try {
