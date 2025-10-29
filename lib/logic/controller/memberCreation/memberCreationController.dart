@@ -15,6 +15,7 @@ import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/occupation_list.model.dart';
 import 'package:microfinance/models/state_list.model.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -329,7 +330,7 @@ class MemberCreationController extends GetxController {
         await getLoanMember(memberName: savedMemberData);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -421,7 +422,7 @@ class MemberCreationController extends GetxController {
         CustomSnackBar.show(isIssue: false, message: msg);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         String errorMsg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: errorMsg);
       }
@@ -448,7 +449,7 @@ class MemberCreationController extends GetxController {
         final Map<String, dynamic> data = jsonDecode(response.body);
         State state = State.fromJson(data);
         stateList.value = state.message?.results ?? [];
-      }else if (response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
@@ -582,7 +583,7 @@ class MemberCreationController extends GetxController {
             : null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -611,7 +612,8 @@ class MemberCreationController extends GetxController {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
-      }else if (response.statusCode == 401) {
+        Get.toNamed(Routes.dashboardScreen);
+      } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
