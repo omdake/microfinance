@@ -8,10 +8,12 @@ class Routes {
   static const loginWithEmailScreen = '/loginWithEmailScreen';
   static const loanApplication = '/loanApplication';
   static const loanApplicationList = '/loanApplicationList';
-  static const collectionInHandList = '/collectionInHandList';
+  static const collectionInHand = '/collectionInHand';
   static const createCollectionInHand = '/createCollectionInHand';
   static const loanApplicationViewonly = '/loanApplicationViewonly';
   static const loanRepaymentViewonly = '/loanRepaymentViewonly';
+  static const pendingRequest = '/pendingRequest';
+  static const pendingApproval = '/pendingApproval';
   static const otpScreen = '/otpScreen';
   static const dueEmi = '/dueEmi';
   static const resetPassword = '/resetPassword';
