@@ -8,6 +8,7 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_disbursement.model.dart';
 import 'package:microfinance/models/loan_list.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanSummaryController extends GetxController {
@@ -71,7 +72,9 @@ class LoanSummaryController extends GetxController {
         final List<dynamic> messages = data['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -102,7 +105,9 @@ class LoanSummaryController extends GetxController {
         final messages = data['message'] as List<dynamic>;
         loanDisbursementList.value =
             messages.map((e) => LoanDisbursementResult.fromJson(e)).toList();
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -130,7 +135,9 @@ class LoanSummaryController extends GetxController {
         final messages = data['message'] as List<dynamic>;
         loantList.value =
             messages.map((e) => LoanListMessage.fromJson(e)).toList();
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");

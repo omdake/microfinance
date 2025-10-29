@@ -7,6 +7,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/user_profile.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class ProfileScreenController extends GetxController {
@@ -70,7 +71,9 @@ class ProfileScreenController extends GetxController {
         } else {
           memberImageUrl.value = '';
         }
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final err = jsonDecode(response.body);
         String msg = err['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
