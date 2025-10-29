@@ -11,7 +11,7 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
-class CollectionInHandListController extends GetxController {
+class PendingApprovalListController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
@@ -33,7 +33,7 @@ class CollectionInHandListController extends GetxController {
   }
 
   RxBool isStatusSearching = false.obs;
-  RxList<CollectionInhandResult> collectionInHandList =<CollectionInhandResult>[].obs;
+  RxList<CollectionInhandResult> pendingApproval =<CollectionInhandResult>[].obs;
   Rx<TextEditingController> selectedDateController =TextEditingController().obs;
 
   Future<void> selectDate(BuildContext context,
@@ -55,10 +55,9 @@ class CollectionInHandListController extends GetxController {
       String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
       selectedDateController.value.text = formattedDate;
       selectedDateText.value = formattedDate;
-
       page.value = 1;
-      collectionInHandList.clear();
-      getpendingRequestList(page: page.value,empId: employee.value.text,);
+      pendingApproval.clear();
+      getpendingApprovalList(page: page.value,empId: employee.value.text,);
     }
   }
 
@@ -66,14 +65,17 @@ class CollectionInHandListController extends GetxController {
     selectedDateText.value = '';
     selectedDateController.value.clear();
     page.value = 1;
-    collectionInHandList.clear();
-    getpendingRequestList(page: page.value,empId: employee.value.text,);
+    pendingApproval.clear();
+    getpendingApprovalList(
+      page: page.value,
+      empId: employee.value.text,
+    );
   }
 
   void onSearchChanged(String query) {
     page.value = 1;
-    collectionInHandList.clear();
-    getpendingRequestList(page: page.value, empId: employee.value.text);
+    pendingApproval.clear();
+    getpendingApprovalList(page: page.value, empId: employee.value.text);
   }
 
   @override
@@ -87,30 +89,30 @@ class CollectionInHandListController extends GetxController {
     if (empName != null && empName.isNotEmpty) {
       employeeName.value.text = empName;
     }
-    getpendingRequestList(page: page.value, empId: employee.value.text);
+    getpendingApprovalList(page: page.value, empId: employee.value.text);
   }
 
   getloadData() {
     page.value = 1;
-    collectionInHandList.clear();
-    getpendingRequestList(page: page.value, empId: employee.value.text);
+    pendingApproval.clear();
+    getpendingApprovalList(page: page.value, empId: employee.value.text);
   }
 
   getLoadMoreData() {
     if (!hasNextPage.value) return;
     page.value += 1;
-    getpendingRequestList(page: page.value, empId: employee.value.text);
+    getpendingApprovalList(page: page.value, empId: employee.value.text);
   }
 
-  getpendingRequestList({required int page, String? empId}) async {
+  getpendingApprovalList({required int page, String? empId}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.getCollectionInHandlist(
+            AppURLs.getPendingApprovalList(
                 page: page,
-                employee: empId,
+                amountGivenEmp: empId,
                 pageSize: 10,
                 isPagination: true,
                 date: selectedDateController.value.text,
@@ -127,9 +129,9 @@ class CollectionInHandListController extends GetxController {
             results.map((e) => CollectionInhandResult.fromJson(e)).toList();
 
         if (page == 1) {
-          collectionInHandList.value = newItems;
+          pendingApproval.value = newItems;
         } else {
-          collectionInHandList.addAll(newItems);
+          pendingApproval.addAll(newItems);
         }
 
         hasNextPage.value = data['message']?['next'] != null;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/logic/controller/collectionInHand/collectionInHandListController.dart';
+import 'package:microfinance/logic/controller/collectionInHand/pendingApprovalListController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:intl/intl.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -9,12 +9,12 @@ import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
-class PendingRequest extends StatelessWidget {
-  const PendingRequest({super.key});
+class PendingApproval extends StatelessWidget {
+  const PendingApproval({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(CollectionInHandListController());
+    final controller = Get.put(PendingApprovalListController());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -129,14 +129,14 @@ class PendingRequest extends StatelessWidget {
               C25(),
               Expanded(
                 child: Obx(() {
-                  if (controller.collectionInHandList.isEmpty) {
+                  if (controller.pendingApproval.isEmpty) {
                     return const Center(child: Text("No records found"));
                   }
 
                   return LoadMoreListView(
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
-                    children: controller.collectionInHandList.map((user) {
+                    children: controller.pendingApproval.map((user) {
                       return Column(
                         children: [
                           GestureDetector(

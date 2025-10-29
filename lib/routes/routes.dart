@@ -16,9 +16,11 @@ import 'package:microfinance/views/screens/LoanRepayment/loanRepayment.dart';
 import 'package:microfinance/views/screens/authentication/forgotPassword.dart';
 import 'package:microfinance/views/screens/authentication/login.dart';
 import 'package:microfinance/views/screens/authentication/resetPasswordScreen.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionInHand.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandList.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInhandViewOnly.dart';
+import 'package:microfinance/views/screens/collectionInhand/pendingApproval.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupListScreen.dart';
@@ -108,9 +110,19 @@ class AppRoutes {
       page: () => LoanApplicationList(),
     ),
     GetPage(
-      name: Routes.collectionInHandList,
+      name: Routes.pendingRequest,
       //binding: LoanDetailsBindings(),
-      page: () => CollectionInHandList(),
+      page: () => PendingRequest(),
+    ),
+    GetPage(
+      name: Routes.collectionInHand,
+      //binding: LoanDetailsBindings(),
+      page: () => CollectionInHand(),
+    ),
+    GetPage(
+      name: Routes.pendingApproval,
+      //binding: LoanDetailsBindings(),
+      page: () => PendingApproval(),
     ),
     GetPage(
       name: Routes.createCollectionInHand,
