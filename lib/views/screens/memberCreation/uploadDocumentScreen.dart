@@ -107,6 +107,7 @@ class UploadDcumentSreen extends StatelessWidget {
                     C10(),
                     imagePickerField(
                       label: "PanCard Back Image",
+                      isRequired: true,
                       imageFile: controller.panbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].pancardImageBack ?? ''
