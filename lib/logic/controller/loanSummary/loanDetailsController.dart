@@ -10,6 +10,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/loan_disbursement.model.dart';
 import 'package:microfinance/models/loan_schedule.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanDetailsController extends GetxController {
@@ -86,7 +87,9 @@ class LoanDetailsController extends GetxController {
           repaymentSchedule.value =
               repaymentList.map((e) => RepaymentSchedule.fromJson(e)).toList();
         }
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

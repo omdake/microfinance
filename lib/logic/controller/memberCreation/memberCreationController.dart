@@ -15,6 +15,7 @@ import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/occupation_list.model.dart';
 import 'package:microfinance/models/state_list.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class MemberCreationController extends GetxController {
@@ -196,6 +197,8 @@ class MemberCreationController extends GetxController {
         final List<dynamic> messages = data['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -232,6 +235,8 @@ class MemberCreationController extends GetxController {
             occupation: e['occupation'] ?? '',
           );
         }).toList();
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -322,7 +327,9 @@ class MemberCreationController extends GetxController {
             json['message']?['data']?['name']?.toString() ?? '';
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         await getLoanMember(memberName: savedMemberData);
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -412,7 +419,9 @@ class MemberCreationController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         String msg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: false, message: msg);
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         String errorMsg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: errorMsg);
       }
@@ -439,6 +448,8 @@ class MemberCreationController extends GetxController {
         final Map<String, dynamic> data = jsonDecode(response.body);
         State state = State.fromJson(data);
         stateList.value = state.message?.results ?? [];
+      }else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -569,7 +580,9 @@ class MemberCreationController extends GetxController {
                 !memberData.voterIdImageBack!.startsWith('http'))
             ? File(memberData.voterIdImageBack!)
             : null;
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -598,6 +611,8 @@ class MemberCreationController extends GetxController {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
+      }else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
