@@ -9,6 +9,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_applicant_list.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -57,6 +58,8 @@ class LoanApplicationListController extends GetxController {
         final List<dynamic> messages = data['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -99,6 +102,8 @@ class LoanApplicationListController extends GetxController {
         }
 
         hasNextPage.value = data['message']?['next'] != null;
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
