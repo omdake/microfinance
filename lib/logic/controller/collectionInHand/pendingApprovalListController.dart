@@ -9,13 +9,16 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class PendingApprovalListController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
-  Rx<TextEditingController> postingDate = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now())).obs;
+  Rx<TextEditingController> postingDate = TextEditingController(
+          text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
+      .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<TextEditingController> Status = TextEditingController().obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
@@ -33,8 +36,10 @@ class PendingApprovalListController extends GetxController {
   }
 
   RxBool isStatusSearching = false.obs;
-  RxList<CollectionInhandResult> pendingApproval =<CollectionInhandResult>[].obs;
-  Rx<TextEditingController> selectedDateController =TextEditingController().obs;
+  RxList<CollectionInhandResult> pendingApproval =
+      <CollectionInhandResult>[].obs;
+  Rx<TextEditingController> selectedDateController =
+      TextEditingController().obs;
 
   Future<void> selectDate(BuildContext context,
       {required bool isSelectedDate}) async {
@@ -57,7 +62,10 @@ class PendingApprovalListController extends GetxController {
       selectedDateText.value = formattedDate;
       page.value = 1;
       pendingApproval.clear();
-      getpendingApprovalList(page: page.value,empId: employee.value.text,);
+      getpendingApprovalList(
+        page: page.value,
+        empId: employee.value.text,
+      );
     }
   }
 
@@ -135,6 +143,8 @@ class PendingApprovalListController extends GetxController {
         }
 
         hasNextPage.value = data['message']?['next'] != null;
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(

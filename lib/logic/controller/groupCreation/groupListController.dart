@@ -7,6 +7,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/groupCreation.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class GroupListController extends GetxController {
@@ -74,6 +75,8 @@ class GroupListController extends GetxController {
         }
 
         hasNextPage.value = data['message']?['next'] != null;
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(

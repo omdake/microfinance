@@ -12,6 +12,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/models/employee.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class CollectionInHandController extends GetxController {
@@ -150,6 +151,8 @@ class CollectionInHandController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -202,6 +205,8 @@ class CollectionInHandController extends GetxController {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
         employeeList.value = messages.map((e) => Employee.fromJson(e)).toList();
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -231,6 +236,8 @@ class CollectionInHandController extends GetxController {
         var json = jsonDecode(response.body);
         status.value = "Approved";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: json["message"]["msg"]);
@@ -260,6 +267,8 @@ class CollectionInHandController extends GetxController {
         var json = jsonDecode(response.body);
         status.value = "Rejected";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
