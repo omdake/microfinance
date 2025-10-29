@@ -26,6 +26,7 @@ class CollectionInHandController extends GetxController {
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<TextEditingController> givenTo = TextEditingController().obs;
+  RxString status = ''.obs;
 
   Rx<File?> paymentProofImage = Rx<File?>(null);
   RxString paymentProofImageUrl = ''.obs;
@@ -37,6 +38,8 @@ class CollectionInHandController extends GetxController {
   RxBool hasNextPage = true.obs;
   RxString selectedType = ''.obs;
   RxString loggedInUser = ''.obs;
+  RxString paymentProofUrl = ''.obs;
+
   final List<String> giventoList = ["Employee", "Bank"];
   RxString selectedGivenTo = ''.obs;
   RxString selectedamountGivenTo = ''.obs;
@@ -162,6 +165,7 @@ class CollectionInHandController extends GetxController {
   getLoanDataFromArg(CollectionInhandResult applicant,
       {bool readOnly = false}) async {
     isReadOnly.value = readOnly;
+    status.value = applicant.status ?? '';
     name.value.text = applicant.name ?? '';
     employee.value.text = applicant.employee ?? '';
     employeeName.value.text = applicant.employeeEmployeeName ?? '';
@@ -169,11 +173,15 @@ class CollectionInHandController extends GetxController {
     givenTo.value.text = applicant.givenTo ?? '';
     amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
     bankName.value.text = applicant.description ?? '';
-    paymentProofImage.value = (applicant.paymentProof != null &&
-            applicant.paymentProof!.isNotEmpty &&
-            !applicant.paymentProof!.startsWith('http'))
-        ? File(applicant.paymentProof!)
-        : null;
+    if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
+      if (applicant.paymentProof!.startsWith('http')) {
+        paymentProofUrl.value = applicant.paymentProof!;
+        paymentProofImage.value = null;
+      }
+    } else {
+      paymentProofImage.value = null;
+      paymentProofUrl.value = '';
+    }
     postingDate.value.text = applicant.postingDate != null
         ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
         : '';
@@ -221,6 +229,7 @@ class CollectionInHandController extends GetxController {
       );
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
+        status.value = "Approved";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
       } else {
         var json = jsonDecode(response.body);
@@ -249,6 +258,7 @@ class CollectionInHandController extends GetxController {
 
       if (response.statusCode == 200) {
         var json = jsonDecode(response.body);
+        status.value = "Rejected";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
