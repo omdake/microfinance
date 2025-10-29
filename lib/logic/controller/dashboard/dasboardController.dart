@@ -6,6 +6,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/loan_member.model.dart';
+import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:microfinance/models/total_loan_count.model.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
@@ -90,6 +91,9 @@ class DashboardController extends GetxController {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
+        if (response.statusCode == 401) {
+          await oauthService.handleExceptionLogout('AuthenticationError');
+        }
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -122,6 +126,9 @@ class DashboardController extends GetxController {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
+        if (response.statusCode == 401) {
+          await oauthService.handleExceptionLogout('AuthenticationError');
+        }
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
