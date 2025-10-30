@@ -302,17 +302,20 @@ class PersonalDetailsScreen extends StatelessWidget {
                       paddingWidget([
                         LabelsWithMark(
                           label: "Group",
-                          isRequired: true,
                         ),
                         Obx(() {
                           return DropdownButtonFormField<String>(
+                            isExpanded: true,
                             value: controller.selectedGroup.value.isEmpty
                                 ? null
                                 : controller.selectedGroup.value,
                             items: controller.groupList.map((e) {
                               return DropdownMenuItem(
                                 value: e.name.toString(),
-                                child: Text(e.groupName.toString()),
+                                child: Text(
+                                  e.groupName.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,

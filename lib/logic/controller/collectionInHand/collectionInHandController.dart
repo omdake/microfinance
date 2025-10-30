@@ -12,6 +12,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/models/employee.model.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -151,6 +152,7 @@ class CollectionInHandController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+        Get.offNamed(Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
