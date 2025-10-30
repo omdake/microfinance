@@ -28,6 +28,7 @@ class LoanApplicationController extends GetxController {
   RxList<ProductListResult> productList = <ProductListResult>[].obs;
   Rx<TextEditingController> loanAmount = TextEditingController().obs;
   Rx<TextEditingController> periods = TextEditingController().obs;
+  Rx<TextEditingController> group = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
   RxList<LoanApplicantListResult> loanApplicantList =
       <LoanApplicantListResult>[].obs;
@@ -137,7 +138,7 @@ class LoanApplicationController extends GetxController {
         selectedCoBorrower.value = '';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
@@ -183,7 +184,7 @@ class LoanApplicationController extends GetxController {
         selectednominee.value = '';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
       }
@@ -211,7 +212,7 @@ class LoanApplicationController extends GetxController {
 
         RelationList.value =
             messages.map((e) => RelationListMessage.fromJson(e)).toList();
-      }else if (response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
@@ -244,7 +245,7 @@ class LoanApplicationController extends GetxController {
           saveROI.value = productList[0].rateOfInterest?.toString() ?? '';
           saveIsTermLoan.value = productList[0].isTermLoan?.toString() ?? '';
         }
-      }else if (response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
         final err = jsonDecode(response.body);
@@ -293,7 +294,7 @@ class LoanApplicationController extends GetxController {
         });
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -327,7 +328,7 @@ class LoanApplicationController extends GetxController {
             results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
@@ -350,6 +351,7 @@ class LoanApplicationController extends GetxController {
     loanProduct.value.text = applicant.loanProduct ?? '';
     nominee.value.text = applicant.nomineeMemberName ?? '';
     relation.value.text = applicant.nomineeRelation ?? '';
+    group.value.text = applicant.group ?? '';
   }
 
   void resetForm() {
