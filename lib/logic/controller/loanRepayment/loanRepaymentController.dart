@@ -13,6 +13,7 @@ import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/get_Payable_Amount.model.dart';
 import 'package:microfinance/models/mode_of_payment.model.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -126,7 +127,7 @@ class LoanRepaymentController extends GetxController {
             messages.map((e) => ModeOfPaymentMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
@@ -161,9 +162,10 @@ class LoanRepaymentController extends GetxController {
         payableAmount.value.text = message.payableAmount?.toString() ?? '0';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: true, message: err['message']['msg'] ?? "Error");
+        CustomSnackBar.show(
+            isIssue: true, message: err['message']['msg'] ?? "Error");
       }
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
@@ -174,7 +176,6 @@ class LoanRepaymentController extends GetxController {
 
   saveRepayments() async {
     final token = await AppPreferences.getToken();
-    isLoading.value = true;
     try {
       var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
       var request = http.MultipartRequest('POST', uri);
@@ -209,13 +210,14 @@ class LoanRepaymentController extends GetxController {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        var json = jsonDecode(response.body);
+        final json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+        Get.until((route) => Get.currentRoute == Routes.loanSummaryScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+      } else {
+        final errorJson = jsonDecode(response.body);
+        final msg = errorJson['message']['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {
