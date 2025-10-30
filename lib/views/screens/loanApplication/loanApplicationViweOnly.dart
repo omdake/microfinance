@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
+import 'package:microfinance/logic/controller/loanApplication/loanApplicationViewOnlyController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
@@ -12,8 +12,8 @@ import 'package:microfinance/validator.dart';
 class LoanApplicationViewOnlyScreen extends StatelessWidget {
   LoanApplicationViewOnlyScreen({super.key});
   final _formKey = GlobalKey<FormState>();
-  final LoanApplicationController controller =
-      Get.put(LoanApplicationController());
+  final LoanApplicationViewOnlyController controller =
+      Get.put(LoanApplicationViewOnlyController());
 
   @override
   Widget build(BuildContext context) {

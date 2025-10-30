@@ -48,12 +48,6 @@ class LoanApplicationController extends GetxController {
   RxString selectedApplicant = "".obs;
   RxBool isReadOnly = false.obs;
   RxBool isFormEdit = false.obs;
-  Rx<TextEditingController> applicantName = TextEditingController().obs;
-  Rx<TextEditingController> coBorrower = TextEditingController().obs;
-  Rx<TextEditingController> loanProduct = TextEditingController().obs;
-  Rx<TextEditingController> period = TextEditingController().obs;
-  Rx<TextEditingController> nominee = TextEditingController().obs;
-  Rx<TextEditingController> relation = TextEditingController().obs;
 
   @override
   void onInit() async {
@@ -62,16 +56,6 @@ class LoanApplicationController extends GetxController {
     await getLoanMemberList();
     getProductList();
     getAplicantList();
-
-    final args = Get.arguments;
-    if (args != null && args['applicant'] != null) {
-      final applicant = args['applicant'];
-      final readOnly = args['isReadOnly'] ?? false;
-      getLoanDataFromArg(applicant as LoanApplicantListResult,
-          readOnly: readOnly);
-    } else {
-      resetForm();
-    }
   }
 
   getLoanMemberList() async {
@@ -290,7 +274,7 @@ class LoanApplicationController extends GetxController {
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         Future.delayed(const Duration(milliseconds: 300), () {
           resetForm();
-          Get.toNamed(Routes.dashboardScreen);
+          Get.offAllNamed(Routes.dashboardScreen);
         });
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -338,20 +322,6 @@ class LoanApplicationController extends GetxController {
     } finally {
       isLoading.value = false;
     }
-  }
-
-  getLoanDataFromArg(LoanApplicantListResult applicant,
-      {bool readOnly = true}) async {
-    isReadOnly.value = readOnly;
-    loanAmount.value.text = applicant.loanAmount?.toString() ?? '';
-    periods.value.text = applicant.repaymentPeriods?.toString() ?? '';
-    description.value.text = applicant.description ?? '';
-    applicantName.value.text = applicant.applicantName ?? '';
-    coBorrower.value.text = applicant.coBorrowerMemberName ?? '';
-    loanProduct.value.text = applicant.loanProduct ?? '';
-    nominee.value.text = applicant.nomineeMemberName ?? '';
-    relation.value.text = applicant.nomineeRelation ?? '';
-    group.value.text = applicant.group ?? '';
   }
 
   void resetForm() {

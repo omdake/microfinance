@@ -83,13 +83,20 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
-                                final selectedMember = controller.loanMemberAsPerGroup.firstWhere((e) => e.memberName == newValue);
-                                controller.selectedMemberName.value = selectedMember.memberName?.trim() ?? "";
-                                controller.selectedApplicantId.value = selectedMember.name ?? "";
-                                controller.selectedGroup.value = selectedMember.group ?? "";
+                                final selectedMember =
+                                    controller.loanMemberAsPerGroup.firstWhere(
+                                        (e) => e.memberName == newValue);
+                                controller.selectedMemberName.value =
+                                    selectedMember.memberName?.trim() ?? "";
+                                controller.selectedApplicantId.value =
+                                    selectedMember.name ?? "";
+                                controller.selectedGroup.value =
+                                    selectedMember.group ?? "";
 
-                                controller.getCoBorrowerList(controller.selectedGroup.value);
-                                controller.getNomineeList(controller.selectedGroup.value);
+                                controller.getCoBorrowerList(
+                                    controller.selectedGroup.value);
+                                controller.getNomineeList(
+                                    controller.selectedGroup.value);
                                 ;
                               }
                             },
@@ -105,12 +112,12 @@ class LoanApplicationScreen extends StatelessWidget {
                       C10(),
                       paddingWidget([
                         const LabelsWithMark(
-                            label: "Co-Borrower", isRequired: true),
+                            label: "Co-Borrower"),
                         Obx(() {
                           return DropdownButtonFormField<String>(
-                            value: controller.selectedCoBorrower.value.isEmpty
+                            value: controller.selectedCoBorrowerId.value.isEmpty
                                 ? null
-                                : controller.selectedCoBorrower.value,
+                                : controller.selectedCoBorrowerId.value,
                             hint: Text(
                               "Select A Co-Borrower Name",
                               style: TextStyle(
@@ -133,17 +140,16 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
-                                controller.selectedCoBorrower.value = newValue;
-                                final memberMap = {
-                                  for (var e in controller.coBorrowerList)
-                                    e.memberName!: e
-                                };
                                 controller.selectedCoBorrowerId.value =
-                                    memberMap[newValue]?.name ?? "";
+                                    newValue;
+                                final selected = controller.coBorrowerList
+                                    .firstWhere((e) => e.name == newValue);
+                                controller.selectedCoBorrower.value =
+                                    selected.memberName ?? "";
                               }
                             },
                           );
-                        })
+                        }),
                       ]),
                       C10(),
                       paddingWidget([
