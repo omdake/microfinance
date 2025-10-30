@@ -21,6 +21,7 @@ class DashboardController extends GetxController {
   RxInt verifiedMembers = 0.obs;
   RxInt ungroupedMembers = 0.obs;
   RxInt pendingVerification = 0.obs;
+  RxInt draftCount = 0.obs;
 
   RxInt todaysCollection = 0.obs;
   RxInt dueReport = 0.obs;
@@ -87,6 +88,7 @@ class DashboardController extends GetxController {
         verifiedMembers.value = message.verifiedCount ?? 0;
         ungroupedMembers.value = message.withoutGroupCount ?? 0;
         pendingVerification.value = message.nonVerifiedCount ?? 0;
+        draftCount.value = message.draftCount ?? 0;
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];

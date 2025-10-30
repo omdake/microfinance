@@ -304,13 +304,16 @@ class PersonalDetailsScreen extends StatelessWidget {
                           label: "Group",
                         ),
                         Obx(() {
+                          final selectedValue = controller.selectedGroup.value;
+
+                          final isValidValue = controller.groupList
+                              .any((e) => e.name.toString() == selectedValue);
+
                           return DropdownButtonFormField<String>(
                             isExpanded: true,
-                            value: controller.selectedGroup.value.isEmpty
-                                ? null
-                                : controller.selectedGroup.value,
+                            value: isValidValue ? selectedValue : null,
                             items: controller.groupList.map((e) {
-                              return DropdownMenuItem(
+                              return DropdownMenuItem<String>(
                                 value: e.name.toString(),
                                 child: Text(
                                   e.groupName.toString(),
@@ -322,14 +325,15 @@ class PersonalDetailsScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Group",
-                                sufficIconOntap: () {},
-                                sufficIcon: null),
+                              hint: "Select Group",
+                              sufficIconOntap: () {},
+                              sufficIcon: null,
+                            ),
                             onChanged: (value) {
-                              controller.selectedGroup.value = value!;
+                              controller.selectedGroup.value = value ?? '';
                             },
                             validator: (value) {
-                              if (value == null) {
+                              if (value == null || value.isEmpty) {
                                 return 'This field can\'t be empty';
                               }
                               return null;

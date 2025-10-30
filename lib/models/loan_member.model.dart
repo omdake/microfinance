@@ -3,7 +3,8 @@ class LoanMemberCount {
 
   LoanMemberCount({this.message});
 
-  factory LoanMemberCount.fromJson(Map<String, dynamic> json) => LoanMemberCount(
+  factory LoanMemberCount.fromJson(Map<String, dynamic> json) =>
+      LoanMemberCount(
         message: Message.fromJson(json["message"]),
       );
 
@@ -19,6 +20,7 @@ class Message {
   int? nonVerifiedCount;
   int? withoutGroupCount;
   int? assignedMembers;
+  int? draftCount;
 
   Message({
     this.loanMembers,
@@ -27,6 +29,7 @@ class Message {
     this.nonVerifiedCount,
     this.withoutGroupCount,
     this.assignedMembers,
+    this.draftCount,
   });
 
   factory Message.fromJson(Map<String, dynamic> json) => Message(
@@ -34,6 +37,7 @@ class Message {
         verifiedCount: json["verified_count"] ?? 0,
         rejectedCount: json["rejected_count"] ?? 0,
         nonVerifiedCount: json["non_verified_count"] ?? 0,
+        draftCount: json["draft_count"] ?? 0,
         withoutGroupCount: json["without_group_count"] ?? 0,
         assignedMembers: json["assigned_members"] ?? 0,
       );
@@ -45,5 +49,6 @@ class Message {
         "non_verified_count": nonVerifiedCount,
         "without_group_count": withoutGroupCount,
         "assigned_members": assignedMembers,
+         "draft_count": draftCount,
       };
 }
