@@ -13,31 +13,35 @@ import 'package:microfinance/validator.dart';
 
 class UploadDcumentSreen extends StatelessWidget {
   UploadDcumentSreen({super.key});
+
   final _formKey = GlobalKey<FormState>();
   final MemberCreationController controller =
       Get.put(MemberCreationController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Colors.white],
+              ),
             ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
+            width: double.infinity,
+            height: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Form(
                   key: _formKey,
-                  child: Column(children: [
-                    paddingWidget(
-                      [
+                  child: Column(
+                    children: [
+                      paddingWidget([
                         const LabelsWithMark(
                             label: "Aadhar Card Number", isRequired: true),
                         TextFormField(
@@ -45,39 +49,38 @@ class UploadDcumentSreen extends StatelessWidget {
                           cursorColor: AppColors.primary,
                           keyboardType: TextInputType.number,
                           validator: (value) => aadharValidator(value!.trim()),
-                          //autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Aadhar Number"),
+                            hint: "Aadhar Number",
+                          ),
                         ),
-                      ],
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "AadharCard Front Image",
-                      isRequired: true,
-                      imageFile: controller.aadharImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImage ?? ''
-                          : ''),
-                      isFocused: controller.isAadharImageFocused,
-                      onTap: () => controller.pickImage(controller.aadharImage),
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "AadharCard Back Image",
-                      isRequired: true,
-                      imageFile: controller.aadharbackImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImageBack ?? ''
-                          : ''),
-                      isFocused: controller.isAadharbackImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.aadharbackImage),
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
+                      ]),
+                      C10(),
+                      imagePickerField(
+                        label: "AadharCard Front Image",
+                        isRequired: true,
+                        imageFile: controller.aadharImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].aadharImage ?? ''
+                            : ''),
+                        isFocused: controller.isAadharImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.aadharImage),
+                      ),
+                      C10(),
+                      imagePickerField(
+                        label: "AadharCard Back Image",
+                        isRequired: true,
+                        imageFile: controller.aadharbackImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].aadharImageBack ?? ''
+                            : ''),
+                        isFocused: controller.isAadharbackImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.aadharbackImage),
+                      ),
+                      C10(),
+                      paddingWidget([
                         const LabelsWithMark(
                             label: "Pan Card Number", isRequired: true),
                         TextFormField(
@@ -86,10 +89,10 @@ class UploadDcumentSreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.characters,
                           keyboardType: TextInputType.text,
                           validator: (value) => panValidator(value!.trim()),
-                          //autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Pan Card Number"),
+                            hint: "Pan Card Number",
+                          ),
                         ),
                       ],
                     ),
@@ -127,8 +130,6 @@ class UploadDcumentSreen extends StatelessWidget {
                               hint: "Select Address Document",
                             ),
                             style: TextStyles.textfieldTextStyle,
-                            // autovalidateMode:
-                            //     AutovalidateMode.onUserInteraction,
                             items: controller.addressDocTypeList
                                 .map((addressDocType) {
                               return DropdownMenuItem<String>(
@@ -154,104 +155,119 @@ class UploadDcumentSreen extends StatelessWidget {
                             },
                           );
                         }),
-                      ],
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "Address Image",
-                      imageFile: controller.addressImage,
-                      isRequired: true,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].addressImage ?? ''
-                          : ''),
-                      isFocused: controller.isAddressImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.addressImage),
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "Home Image",
-                      isRequired: true,
-                      imageFile: controller.homeImage,
-                      enableGeotag: true,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].homeImage ?? ''
-                          : ''),
-                      isFocused: controller.ishomeImageFocused,
-                      onGeotagCaptured: (position, address) {
-                        controller.latitude.value = position.latitude;
-                        controller.longitude.value = position.longitude;
-                        controller.geoLocation.value = address;
-                      },
-                      onTap: () => controller.pickImage(controller.homeImage),
-                    ),
-                    C10(),
-                    Obx(() => Column(
-                          children: [
-                            if (controller.showOnlyGeoFields.value &&
-                                controller.homelatitude.value.text.isNotEmpty &&
-                                controller.homelatitude.value.text !=
-                                    '0.0') ...[
-                              paddingWidget([
-                                const LabelsWithMark(
-                                    label: "Latitude", isRequired: true),
-                                TextFormField(
-                                  readOnly: true,
-                                  controller: controller.homelatitude.value,
-                                  cursorColor: AppColors.primary,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    hint: "Latitude",
+                      ]),
+                      C10(),
+                      imagePickerField(
+                        label: "Address Image",
+                        isRequired: true,
+                        imageFile: controller.addressImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].addressImage ?? ''
+                            : ''),
+                        isFocused: controller.isAddressImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.addressImage),
+                      ),
+                      C10(),
+                      imagePickerField(
+                        label: "Home Image",
+                        isRequired: true,
+                        imageFile: controller.homeImage,
+                        enableGeotag: true,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].homeImage ?? ''
+                            : ''),
+                        isFocused: controller.ishomeImageFocused,
+                        onGeotagCaptured: (position, address) {
+                          controller.latitude.value = position.latitude;
+                          controller.longitude.value = position.longitude;
+                          controller.geoLocation.value = address;
+                        },
+                        onTap: () => controller.pickImage(controller.homeImage),
+                      ),
+                      C10(),
+                      Obx(() => Column(
+                            children: [
+                              if (controller.showOnlyGeoFields.value &&
+                                  controller
+                                      .homelatitude.value.text.isNotEmpty &&
+                                  controller.homelatitude.value.text !=
+                                      '0.0') ...[
+                                paddingWidget([
+                                  const LabelsWithMark(
+                                      label: "Latitude", isRequired: true),
+                                  TextFormField(
+                                    readOnly: true,
+                                    controller: controller.homelatitude.value,
+                                    cursorColor: AppColors.primary,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      hint: "Latitude",
+                                    ).copyWith(
+                                      filled: true,
+                                      fillColor: controller.isFormEdit.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200,
+                                    ),
                                   ),
-                                ),
-                              ]),
-                              C10(),
-                            ],
-                            if (controller.showOnlyGeoFields.value &&
-                                controller
-                                    .homelongitude.value.text.isNotEmpty &&
-                                controller.homelongitude.value.text !=
-                                    '0.0') ...[
-                              paddingWidget([
-                                const LabelsWithMark(
-                                    label: "Longitude", isRequired: true),
-                                TextFormField(
-                                  readOnly: true,
-                                  controller: controller.homelongitude.value,
-                                  cursorColor: AppColors.primary,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    hint: "Longitude",
+                                ]),
+                                C10(),
+                              ],
+                              if (controller.showOnlyGeoFields.value &&
+                                  controller
+                                      .homelongitude.value.text.isNotEmpty &&
+                                  controller.homelongitude.value.text !=
+                                      '0.0') ...[
+                                paddingWidget([
+                                  const LabelsWithMark(
+                                      label: "Longitude", isRequired: true),
+                                  TextFormField(
+                                    readOnly: true,
+                                    controller: controller.homelongitude.value,
+                                    cursorColor: AppColors.primary,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      hint: "Longitude",
+                                    ).copyWith(
+                                      filled: true,
+                                      fillColor: controller.isFormEdit.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200,
+                                    ),
                                   ),
-                                ),
-                              ]),
-                              C10(),
-                            ],
-                            if (controller.showOnlyGeoFields.value &&
-                                controller
-                                    .homeGeoLocation.value.text.isNotEmpty) ...[
-                              paddingWidget([
-                                const LabelsWithMark(
-                                    label: "Geo Location", isRequired: true),
-                                TextFormField(
-                                  readOnly: true,
-                                  controller: controller.homeGeoLocation.value,
-                                  cursorColor: AppColors.primary,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    hint: "Geo Location",
+                                ]),
+                                C10(),
+                              ],
+                              if (controller.showOnlyGeoFields.value &&
+                                  controller.homeGeoLocation.value.text
+                                      .isNotEmpty) ...[
+                                paddingWidget([
+                                  const LabelsWithMark(
+                                      label: "Geo Location", isRequired: true),
+                                  TextFormField(
+                                    readOnly: true,
+                                    controller:
+                                        controller.homeGeoLocation.value,
+                                    cursorColor: AppColors.primary,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      hint: "Geo Location",
+                                    ).copyWith(
+                                      filled: true,
+                                      fillColor: controller.isFormEdit.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200,
+                                    ),
                                   ),
-                                ),
-                              ]),
-                              C10(),
+                                ]),
+                                C10(),
+                              ],
                             ],
-                          ],
-                        )),
-                    paddingWidget(
-                      [
+                          )),
+                      paddingWidget([
                         const LabelsWithMark(
                             label: "Voter Id Number", isRequired: true),
                         TextFormField(
@@ -260,16 +276,14 @@ class UploadDcumentSreen extends StatelessWidget {
                           textCapitalization: TextCapitalization.characters,
                           keyboardType: TextInputType.text,
                           validator: (value) => voterIdValidator(value!.trim()),
-                          // autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Voter Id",
                           ),
                         ),
-                      ],
-                    ),
-                    C10(),
-                    imagePickerField(
+                      ]),
+                      C10(),
+                      imagePickerField(
                         label: "VoterId Front Image",
                         isRequired: true,
                         imageFile: controller.voterImage,
@@ -279,9 +293,10 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isvoterImageFocused,
                         onTap: () {
                           controller.pickImage(controller.voterImage);
-                        }),
-                    C20(),
-                    imagePickerField(
+                        },
+                      ),
+                      C20(),
+                      imagePickerField(
                         label: "VoterId Back Image",
                         isRequired: true,
                         imageFile: controller.voterbackImage,
@@ -291,13 +306,14 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isvoterbackImageFocused,
                         onTap: () {
                           controller.pickImage(controller.voterbackImage);
-                        }),
-                    C20(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: AppButton(
+                        },
+                      ),
+                      C20(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: AppButton(
                               title: "Save",
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
@@ -307,11 +323,12 @@ class UploadDcumentSreen extends StatelessWidget {
                                     massage: "Please fill all required fields",
                                   );
                                 }
-                              }),
-                        ),
-                        C10(),
-                        Expanded(
-                          child: AppButton(
+                              },
+                            ),
+                          ),
+                          C10(),
+                          Expanded(
+                            child: AppButton(
                               title: "Submit",
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
@@ -322,13 +339,35 @@ class UploadDcumentSreen extends StatelessWidget {
                                     massage: "Please fill all required fields",
                                   );
                                 }
-                              }),
-                        ),
-                      ],
-                    )
-                  ])),
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
           ),
-        ));
+          Obx(() {
+            if (controller.isLoading.value) {
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white.withOpacity(0.3),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
+                ),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+        ],
+      ),
+    );
   }
 }
