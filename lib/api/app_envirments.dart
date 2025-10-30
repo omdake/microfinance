@@ -8,7 +8,8 @@ class AtomURLType {
 
 class AppEnvironment {
   static const String _localUrl = "https://uatcustapi.allish.co.uk/";
-  static const String _devUrl = 'http://192.168.1.201:8005/';
+//static const String _devUrl = 'http://192.168.1.201:8005/';
+  static const String _devUrl = 'http://101.53.134.102:8000/';
   static const String _prodUrl = 'https://custapi.allish.co.uk/';
 
   static bool get baseProdInstance {
@@ -31,6 +32,4 @@ class AppEnvironment {
 
     return "http://43.204.117.226:3000/api/v1";
   }
-
-  
 }

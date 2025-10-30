@@ -590,6 +590,7 @@ class MemberCreationController extends GetxController {
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {
+      print(">>>>>>>>>>>>>>>>$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;

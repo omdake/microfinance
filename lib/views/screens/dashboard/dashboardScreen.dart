@@ -105,8 +105,12 @@ class DashboardScreen extends StatelessWidget {
                         title: "${controller.totalMembers.value}",
                         subTitle: 'Total Members',
                         onTap: () => (
-                          Get.toNamed(Routes.memberList,
-                              arguments: {"status": "", "group": "","title": "Total Members",}),
+                          Get.toNamed(Routes.memberList, arguments: {
+                            "status": "",
+                            "group": "",
+                            "title": "Total Members",
+                            "is_group": true,
+                          }),
                         ),
                       ),
                     ),
@@ -139,7 +143,7 @@ class DashboardScreen extends StatelessWidget {
                           onTap: () => (Get.toNamed(
                                 Routes.memberList,
                                 arguments: {
-                                    "title": "Ungrouped Members",
+                                  "title": "Ungrouped Members",
                                   "is_group": false,
                                 },
                               ))),
@@ -154,12 +158,29 @@ class DashboardScreen extends StatelessWidget {
                             Routes.memberList,
                             arguments: {
                               "title": "Pending Verification",
-                              "status": "pending",
+                              "status": "Pending",
                               "group": controller.selectedGroup.value
                             },
                           ),
                         ),
                       ),
+                    ),
+                  ],
+                ),
+                C10(),
+                Row(
+                  children: [
+                    Expanded(
+                      child: reusableCard(
+                          title: "${controller.draftCount.value}",
+                          subTitle: 'Draft Members',
+                          onTap: () => (Get.toNamed(
+                                Routes.memberList,
+                                arguments: {
+                                  "title": "Draft",
+                                  "status": "Draft",
+                                },
+                              ))),
                     ),
                   ],
                 ),

@@ -72,6 +72,8 @@ static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_
 
   static String  loanMemberList({ String? search, required String country, required String group,String? Status,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&page_size=$pagesize&page=$page";
 
+  static String  totalLoanMemberList({ String? search, required String country,bool? isGroup, required String group,String? Status,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&page_size=$pagesize&page=$page&is_group=$isGroup";
+
   static String  unGroupedloanMemberList({ String? search, required String country,bool? isGroup,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&country=$country&is_pagination=$isPagination&is_group=$isGroup&page_size=$pagesize&page=$page";
  
   static String  loanHeadList({ String? search, required String country,String? Status,bool? isGroup}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_list/?search=$search&&country=$country&status=$Status&is_group=$isGroup";

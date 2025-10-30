@@ -274,7 +274,7 @@ class LoanApplicationController extends GetxController {
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         Future.delayed(const Duration(milliseconds: 300), () {
           resetForm();
-          Get.offAllNamed(Routes.dashboardScreen);
+          Get.toNamed(Routes.loanApplicationList);
         });
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');

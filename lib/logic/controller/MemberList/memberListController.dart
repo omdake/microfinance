@@ -21,7 +21,16 @@ class MemberListController extends GetxController {
   RxBool hasNextPage = true.obs;
   RxString screenTitle = ''.obs;
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
-   Rx<TextEditingController> search = TextEditingController().obs;
+  Rx<TextEditingController> search = TextEditingController().obs;
+
+  void onSearchChanged(String query) {
+    if (isGroup.value == false) {
+      page.value = 1;
+      //loanMemberList.clear();
+      getUngroupedLoanMemberList(
+          isGroup: isGroup.value, search: search.value.text);
+    }
+  }
 
   @override
   void onInit() {
@@ -34,29 +43,27 @@ class MemberListController extends GetxController {
       if (Get.arguments['status'] != null) {
         status.value = Get.arguments['status'];
       }
-
       if (Get.arguments['group'] != null) {
         selectedGroup.value = Get.arguments['group'];
       }
-
       if (Get.arguments['is_group'] != null) {
         isGroup.value = Get.arguments['is_group'];
-        getUngroupedLoanMemberList(isGroup: isGroup.value,search: search.value.text);
+
+        if (isGroup.value) {
+          getGroupList();
+          totalLoanMemberList(Status: status.value, isGroup: isGroup.value);
+        } else {
+          getUngroupedLoanMemberList(
+            isGroup: isGroup.value,
+            search: search.value.text,
+          );
+        }
         return;
       }
     }
-
     getGroupList();
     getLoanMemberList(Status: status.value);
   }
-
- void onSearchChanged(String query) {
-  if (isGroup.value == false) {
-    page.value = 1;
-    //loanMemberList.clear();
-    getUngroupedLoanMemberList(isGroup: isGroup.value, search: search.value.text);
-  }
-}
 
   getGroupList() async {
     final token = await AppPreferences.getToken();
@@ -91,20 +98,20 @@ class MemberListController extends GetxController {
   getloadData() {
     page.value = 1;
     loanMemberList.value = [];
-    getLoanMemberList();
+    getLoanMemberList(Status: status.value);
   }
 
   getLoadMoreData() async {
     if (!hasNextPage.value || isLoading.value) return;
     page.value += 1;
     if (isGroup.value) {
-      await getLoanMemberList();
+      await getLoanMemberList(Status: status.value);
     } else {
       await getUngroupedLoanMemberList(isGroup: isGroup.value);
     }
   }
 
-  getUngroupedLoanMemberList({bool? isGroup,String?search}) async {
+  getUngroupedLoanMemberList({bool? isGroup, String? search}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
@@ -168,6 +175,55 @@ class MemberListController extends GetxController {
               page: page.value,
               pagesize: 10,
             )),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token!,
+        },
+      );
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        final message = data['message'];
+
+        final results = message['results'] as List<dynamic>;
+
+        final members =
+            results.map((e) => LoanMemberListResult.fromJson(e)).toList();
+
+        if (page.value == 1) {
+          loanMemberList.value = members;
+        } else {
+          loanMemberList.addAll(members);
+        }
+        hasNextPage.value = message['next'] != null;
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+      } else {
+        final Map<String, dynamic> errormsg = jsonDecode(response.body);
+        String msg = errormsg['message']['msg'];
+        CustomSnackBar.show(isIssue: true, message: msg);
+      }
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  totalLoanMemberList({String? Status, bool? isGroup}) async {
+    final token = await AppPreferences.getToken();
+    try {
+      isLoading.value = true;
+      final response = await http.get(
+        Uri.parse(AppEnvironment.baseUrl +
+            AppURLs.totalLoanMemberList(
+                country: "india",
+                group: selectedGroup.value,
+                search: "",
+                Status: Status ?? "",
+                isPagination: true,
+                page: page.value,
+                pagesize: 10,
+                isGroup: isGroup)),
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
