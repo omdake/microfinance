@@ -21,6 +21,7 @@ class MemberListController extends GetxController {
   RxBool hasNextPage = true.obs;
   RxString screenTitle = ''.obs;
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
+   Rx<TextEditingController> search = TextEditingController().obs;
 
   @override
   void onInit() {
@@ -40,7 +41,7 @@ class MemberListController extends GetxController {
 
       if (Get.arguments['is_group'] != null) {
         isGroup.value = Get.arguments['is_group'];
-        getUngroupedLoanMemberList(isGroup: isGroup.value);
+        getUngroupedLoanMemberList(isGroup: isGroup.value,search: search.value.text);
         return;
       }
     }
@@ -48,6 +49,14 @@ class MemberListController extends GetxController {
     getGroupList();
     getLoanMemberList(Status: status.value);
   }
+
+ void onSearchChanged(String query) {
+  if (isGroup.value == false) {
+    page.value = 1;
+    //loanMemberList.clear();
+    getUngroupedLoanMemberList(isGroup: isGroup.value, search: search.value.text);
+  }
+}
 
   getGroupList() async {
     final token = await AppPreferences.getToken();
@@ -95,14 +104,14 @@ class MemberListController extends GetxController {
     }
   }
 
-  getUngroupedLoanMemberList({bool? isGroup}) async {
+  getUngroupedLoanMemberList({bool? isGroup,String?search}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
             AppURLs.unGroupedloanMemberList(
-                search: "",
+                search: search,
                 country: "india",
                 isPagination: true,
                 page: page.value,
