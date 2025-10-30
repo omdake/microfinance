@@ -94,31 +94,34 @@ class UploadDcumentSreen extends StatelessWidget {
                             hint: "Pan Card Number",
                           ),
                         ),
-                      ]),
-                      C10(),
-                      imagePickerField(
-                        label: "PanCard Front Image",
-                        isRequired: true,
-                        imageFile: controller.panImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].pancardImage ?? ''
-                            : ''),
-                        isFocused: controller.isPanImageFocused,
-                        onTap: () => controller.pickImage(controller.panImage),
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "PanCard Back Image",
-                        imageFile: controller.panbackImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].pancardImageBack ?? ''
-                            : ''),
-                        isFocused: controller.isAadharbackImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.panbackImage),
-                      ),
-                      C10(),
-                      paddingWidget([
+                      ],
+                    ),
+                    C10(),
+                    imagePickerField(
+                      label: "PanCard Front Image",
+                      isRequired: true,
+                      imageFile: controller.panImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].pancardImage ?? ''
+                          : ''),
+                      isFocused: controller.isPanImageFocused,
+                      onTap: () => controller.pickImage(controller.panImage),
+                    ),
+                    C10(),
+                    imagePickerField(
+                      label: "PanCard Back Image",
+                      isRequired: true,
+                      imageFile: controller.panbackImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].pancardImageBack ?? ''
+                          : ''),
+                      isFocused: controller.isAadharbackImageFocused,
+                      onTap: () =>
+                          controller.pickImage(controller.panbackImage),
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
                         const LabelsWithMark(
                             label: "Address Document", isRequired: true),
                         Obx(() {

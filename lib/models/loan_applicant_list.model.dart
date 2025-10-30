@@ -112,7 +112,7 @@ class LoanApplicantListResult {
         company: json["company"],
         postingDate: DateTime.parse(json["posting_date"]),
         status: json["status"],
-        group: json["group"],
+        group: json["loan_group"],
         loanProduct: json["loan_product"],
         isTermLoan: json["is_term_loan"],
         description: json["description"],
@@ -143,7 +143,7 @@ class LoanApplicantListResult {
         "posting_date":
             "${postingDate!.year.toString().padLeft(4, '0')}-${postingDate!.month.toString().padLeft(2, '0')}-${postingDate!.day.toString().padLeft(2, '0')}",
         "status": status,
-        "group": group,
+        "loan_group": group,
         "loan_product": loanProduct,
         "is_term_loan": isTermLoan,
         "loan_amount": loanAmount,

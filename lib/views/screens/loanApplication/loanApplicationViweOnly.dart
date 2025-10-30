@@ -49,7 +49,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Applicant Name", isRequired: true),
+                              label: "Applicant Name"),
                           TextFormField(
                             controller: controller.applicantName.value,
                             enabled: controller.isFormEdit.value,
@@ -73,7 +73,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Co-Borrower", isRequired: true),
+                              label: "Co-Borrower"),
                           TextFormField(
                             controller: controller.coBorrower.value,
                             enabled: controller.isFormEdit.value,
@@ -97,7 +97,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Loan Product", isRequired: true),
+                              label: "Loan Product"),
                           TextFormField(
                             controller: controller.loanProduct.value,
                             enabled: controller.isFormEdit.value,
@@ -121,7 +121,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Amount", isRequired: true),
+                              label: "Amount"),
                           TextFormField(
                             controller: controller.loanAmount.value,
                             enabled: controller.isFormEdit.value,
@@ -145,7 +145,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Period", isRequired: true),
+                              label: "Period"),
                           TextFormField(
                             controller: controller.periods.value,
                             enabled: controller.isFormEdit.value,
@@ -169,7 +169,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       paddingWidget(
                         [
                           const LabelsWithMark(
-                              label: "Nominee", isRequired: true),
+                              label: "Nominee"),
                           TextFormField(
                             controller: controller.nominee.value,
                             enabled: controller.isFormEdit.value,
@@ -192,8 +192,31 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                       C10(),
                       paddingWidget(
                         [
+                          const LabelsWithMark(label: "Group"),
+                          TextFormField(
+                            controller: controller.group.value,
+                            enabled: controller.isFormEdit.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            validator: (value) => requiredValidator(value!),
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                    hint: "Loan Group")
+                                .copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
                           const LabelsWithMark(
-                              label: "Relation", isRequired: true),
+                              label: "Relation"),
                           TextFormField(
                             controller: controller.relation.value,
                             enabled: controller.isFormEdit.value,
