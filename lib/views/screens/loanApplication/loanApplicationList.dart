@@ -26,9 +26,7 @@ class LoanApplicationList extends StatelessWidget {
             children: [
               Obx(() {
                 return DropdownButtonFormField2<String>(
-                  value: controller.selectedGroup.value.isEmpty
-                      ? null
-                      : controller.selectedGroup.value,
+                  value: controller.selectedGroup.value,
                   hint: Text(
                     "Select A Group Name",
                     style: TextStyle(
@@ -40,7 +38,7 @@ class LoanApplicationList extends StatelessWidget {
                   items: [
                     const DropdownMenuItem<String>(
                       value: "",
-                      child: Text(""),
+                      child: Text("All Group"),
                     ),
                     ...controller.groupList.map((e) {
                       return DropdownMenuItem<String>(
@@ -97,7 +95,7 @@ class LoanApplicationList extends StatelessWidget {
                   onChanged: (newGroup) {
                     controller.page.value = 1;
                     controller.loanApplicantList.clear();
-                    controller.selectedGroup.value = newGroup ?? "";
+                    controller.selectedGroup.value = newGroup ?? "All Group";
                     if (controller.selectedGroup.value.isEmpty) {
                       controller.getAplicantList(page: controller.page.value);
                     } else {

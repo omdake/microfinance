@@ -38,6 +38,14 @@ class MemberListScreen extends StatelessWidget {
                         sufficIcon: null,
                         hint: '',
                       ),
+                      hint: Text(
+                        "Select Group Head",
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontFamily: "Roboto-Regular",
+                          fontSize: 12,
+                        ),
+                      ),
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 500,
                       ),
@@ -49,7 +57,7 @@ class MemberListScreen extends StatelessWidget {
                       items: [
                         const DropdownMenuItem<GroupListMessage>(
                           value: null,
-                          child: Text(""),
+                          child: Text("All Group"),
                         ),
                         ...controller.groupList.map((e) {
                           return DropdownMenuItem<GroupListMessage>(
@@ -96,9 +104,12 @@ class MemberListScreen extends StatelessWidget {
                         controller.loanMemberList.clear();
 
                         if (newValue == null) {
-                          controller.selectedGroup.value = "";
+                          controller.selectedGroup.value = "All Group";
                           controller.getLoanMemberList(
                               Status: controller.status.value);
+                          controller.totalLoanMemberList(
+                              Status: controller.status.value,
+                              isGroup: controller.isGroup.value);
                         } else {
                           controller.selectedGroup.value = newValue.name ?? "";
                           controller.getLoanMemberList(

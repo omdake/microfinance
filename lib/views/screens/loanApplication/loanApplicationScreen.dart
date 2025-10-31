@@ -78,6 +78,41 @@ class LoanApplicationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
+                            dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.loanApplicantSearchController.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.loanApplicantSearchController.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) {
+                                  return true;
+                                }
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen) {
+                                controller.loanApplicantSearchController.value.clear();
+                              }
+                            },
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
@@ -111,10 +146,9 @@ class LoanApplicationScreen extends StatelessWidget {
                       ]),
                       C10(),
                       paddingWidget([
-                        const LabelsWithMark(
-                            label: "Co-Borrower"),
+                        const LabelsWithMark(label: "Co-Borrower"),
                         Obx(() {
-                          return DropdownButtonFormField<String>(
+                          return DropdownButtonFormField2<String>(
                             value: controller.selectedCoBorrowerId.value.isEmpty
                                 ? null
                                 : controller.selectedCoBorrowerId.value,
@@ -126,6 +160,41 @@ class LoanApplicationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
+                             dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.coborrowerSearchController.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.coborrowerSearchController.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) {
+                                  return true;
+                                }
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen) {
+                                controller.coborrowerSearchController.value.clear();
+                              }
+                            },
                             items: controller.coBorrowerList.map((e) {
                               return DropdownMenuItem<String>(
                                 value: e.name ?? "",
@@ -181,19 +250,22 @@ class LoanApplicationScreen extends StatelessWidget {
                                       "Max Amount: ${e.maximumLoanAmount ?? ''}",
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.grey.shade700,fontFamily: "Roboto-regular"),
+                                          color: Colors.grey.shade700,
+                                          fontFamily: "Roboto-regular"),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     if (e.rateOfInterest != null) ...[
                                       Text(" , ",
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.grey.shade700,fontFamily: "Roboto-regular")),
+                                              color: Colors.grey.shade700,
+                                              fontFamily: "Roboto-regular")),
                                       Text(
                                         "ROI: ${e.rateOfInterest!}",
                                         style: TextStyle(
                                             fontSize: 12,
-                                            color: Colors.grey.shade700,fontFamily: "Roboto-regular"),
+                                            color: Colors.grey.shade700,
+                                            fontFamily: "Roboto-regular"),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],
@@ -269,7 +341,7 @@ class LoanApplicationScreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Nominee", isRequired: true),
                         Obx(() {
-                          return DropdownButtonFormField<String>(
+                          return DropdownButtonFormField2<String>(
                             value: controller.selectednominee.value.isEmpty
                                 ? null
                                 : controller.selectednominee.value,
@@ -281,6 +353,41 @@ class LoanApplicationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
+                            dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.nomineeSearchController.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.nomineeSearchController.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) {
+                                  return true;
+                                }
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen) {
+                                controller.nomineeSearchController.value.clear();
+                              }
+                            },
                             items: controller.nomineeList.map((e) {
                               return DropdownMenuItem<String>(
                                 value: e.memberName ?? "",

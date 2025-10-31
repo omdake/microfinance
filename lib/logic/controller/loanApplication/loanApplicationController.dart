@@ -30,6 +30,9 @@ class LoanApplicationController extends GetxController {
   Rx<TextEditingController> periods = TextEditingController().obs;
   Rx<TextEditingController> group = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
+  Rx<TextEditingController> loanApplicantSearchController = TextEditingController().obs;
+  Rx<TextEditingController> coborrowerSearchController = TextEditingController().obs;
+  Rx<TextEditingController> nomineeSearchController = TextEditingController().obs;
   RxList<LoanApplicantListResult> loanApplicantList =
       <LoanApplicantListResult>[].obs;
   RxString selectedMemberName = "".obs;

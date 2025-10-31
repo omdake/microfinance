@@ -23,9 +23,7 @@ class DisbursementScreen extends StatelessWidget {
             children: [
               Obx(() {
                 return DropdownButtonFormField2<String>(
-                  value: controller.selecteddisbursementGroup.value.isEmpty
-                      ? null
-                      : controller.selecteddisbursementGroup.value,
+                  value: controller.selecteddisbursementGroup.value,
                   hint: Text(
                     "Select A Group Name",
                     style: TextStyle(
@@ -37,7 +35,7 @@ class DisbursementScreen extends StatelessWidget {
                   items: [
                     const DropdownMenuItem<String>(
                       value: "",
-                      child: Text(""),
+                      child: Text("All Group"),
                     ),
                     ...controller.groupList.map((e) {
                       return DropdownMenuItem<String>(
@@ -92,7 +90,8 @@ class DisbursementScreen extends StatelessWidget {
                     hint: '',
                   ),
                   onChanged: (newGroup) {
-                    controller.selecteddisbursementGroup.value = newGroup ?? "";
+                    controller.selecteddisbursementGroup.value =
+                        newGroup ?? "All Group";
                     if (controller.selecteddisbursementGroup.value.isEmpty) {
                       controller.getLoanDisbursementList(
                           page: controller.page.value);

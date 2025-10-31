@@ -62,6 +62,41 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   child: Text(loan.name!),
                                 );
                               }).toList(),
+                               dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.groupSearch.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.groupSearch.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) {
+                                  return true;
+                                }
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen) {
+                                controller.groupSearch.value.clear();
+                              }
+                            },
                               onChanged: (value) {
                                 for (var loan in loanlist) {
                                   if (loan.name == value) {

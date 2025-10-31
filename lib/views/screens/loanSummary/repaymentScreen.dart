@@ -33,9 +33,7 @@ class RepaymentScreen extends StatelessWidget {
             children: [
               Obx(() {
                 return DropdownButtonFormField2<String>(
-                  value: controller.selectedGroup.value.isEmpty
-                      ? null
-                      : controller.selectedGroup.value,
+                  value: controller.selectedGroup.value,
                   hint: Text(
                     "Select A Group Name",
                     style: TextStyle(
@@ -47,7 +45,7 @@ class RepaymentScreen extends StatelessWidget {
                   items: [
                     const DropdownMenuItem<String>(
                       value: "",
-                      child: Text(""),
+                      child: Text("All Group"),
                     ),
                     ...controller.groupList.map((e) {
                       return DropdownMenuItem<String>(
@@ -102,7 +100,7 @@ class RepaymentScreen extends StatelessWidget {
                     hint: '',
                   ),
                   onChanged: (newGroup) {
-                    controller.selectedGroup.value = newGroup ?? "";
+                    controller.selectedGroup.value = newGroup ?? "All Group";
                     if (controller.selectedGroup.value.isEmpty) {
                       controller.getRepaymentList(page: controller.page.value);
                     } else {
