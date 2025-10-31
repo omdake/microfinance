@@ -77,7 +77,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
                                     sufficIcon: Icons.search,
-                                    hint: 'Search group...',
+                                    hint: 'Search loan Id...',
                                   ),
                                 ),
                               ),

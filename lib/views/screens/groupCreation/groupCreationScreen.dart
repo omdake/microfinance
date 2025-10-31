@@ -109,7 +109,7 @@ class GroupCreationScreen extends StatelessWidget {
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
                                     sufficIcon: Icons.search,
-                                    hint: 'Search group...',
+                                    hint: 'Search group head...',
                                   ),
                                 ),
                               ),

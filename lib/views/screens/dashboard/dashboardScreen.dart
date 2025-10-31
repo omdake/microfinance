@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/dev/dev_service.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/dashboard/dasboardController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -15,312 +14,385 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        backgroundColor: Colors.white,
-        drawer: customDrawer(context),
-        appBar: appBarWithTwoTitle(
-          title: controller.fullName.value,
-          subTitle: controller.email.value,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: InkWell(
-                onTap: () => moreMenu(context),
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.white),
-                  ),
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Icon(Icons.settings, color: Colors.white),
-                ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      drawer: customDrawer(context),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: const Text(
+          "Home",
+          style: TextStyle(
+              color: Colors.black,
+              fontFamily: "Roboto-Medium",
+              fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.menu, color: Colors.black),
+              onPressed: () => Scaffold.of(context).openDrawer(),
+            );
+          },
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Image.asset(
+                'assets/new/notification.png',
+                fit: BoxFit.contain,
               ),
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: Obx(() => buildBody(context)),
-        ),
-        // bottomNavigationBar: Obx(
-        //   () => BottomNavigationBar(
-        //     backgroundColor: Colors.grey,
-        //     currentIndex: controller.selectedIndex.value,
-        //     onTap: (index) => controller.selectedIndex.value = index,
-        //     type: BottomNavigationBarType.fixed,
-        //     selectedItemColor: AppColors.black,
-        //     unselectedItemColor: Colors.white,
-        //     showSelectedLabels: false,
-        //     showUnselectedLabels: false,
-        //     items: const [
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.home), label: 'Dashboard'),
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.person_add_alt_1_outlined),
-        //           label: 'Member Creation'),
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.note_add_outlined),
-        //           label: 'Loan Application'),
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.payments_outlined), label: 'Loan EMI'),
-        //       BottomNavigationBarItem(
-        //           icon: Icon(Icons.summarize_outlined), label: 'Loan Summary'),
-        //     ],
-        //   ),
-        // ),
+          ),
+        ],
       ),
+      body: Obx(() => buildBody(context)),
+      bottomNavigationBar: bottomNavBar(),
     );
   }
 
   Widget buildBody(BuildContext context) {
-    switch (controller.selectedIndex.value) {
-      case 0:
-        return homeSection(context);
-      case 1:
-        return const Center(child: Text(" Member Creation",style: TextStyle(fontFamily: "Roboto-regular"),));
-      case 2:
-        return const Center(child: Text("Loan Application",style: TextStyle(fontFamily: "Roboto-regular")));
-      case 3:
-        return const Center(child: Text("Loan EmI",style: TextStyle(fontFamily: "Roboto-regular")));
-      case 4:
-        return const Center(child: Text("Loan Summary",style: TextStyle(fontFamily: "Roboto-regular")));
-      default:
-        return const Center(child: Text("Invalid Tab",style: TextStyle(fontFamily: "Roboto-regular")));
-    }
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          collectionCard(context),
+          C15(),
+          Row(
+            children: [
+              Expanded(
+                  child: smallStatBox(
+                      "₹ ${controller.dueReport.value}", "OUTSTANDING REPORT")),
+              C10(),
+              Expanded(
+                child: smallStatBox(
+                    "₹ ${controller.collectionByCash.value}", "CASH PAYMENT",
+                    onTap: () => Get.toNamed(Routes.collectionInHand)),
+              ),
+            ],
+          ),
+          C20(),
+          memberStats(),
+          C20(),
+          menuButton(
+            "MEMBER CREATION",
+            Icons.recent_actors_outlined,
+            Routes.memberCreation,
+          ),
+          C10(),
+          menuButton(
+            "LOAN APPLICATION",
+            Icons.assignment,
+            Routes.loanApplicationList,
+          ),
+          C10(),
+          menuButton(
+            "DUE EMI",
+            Icons.today,
+            Routes.loanEMIScreen,
+          ),
+          C10(),
+          menuButton(
+            "PENDING EMI",
+            Icons.access_time_outlined,
+            Routes.dueEmi,
+          ),
+          C10(),
+          menuButton(
+            "GROUP CREATION",
+            Icons.group_add_outlined,
+            Routes.groupCreation,
+          ),
+          C10(),
+          menuButton(
+            "LOAN SUMMARY",
+            Icons.summarize_outlined,
+            Routes.loanSummaryScreen,
+          ),
+        ],
+      ),
+    );
   }
 
-  Widget homeSection(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      child: SingleChildScrollView(
+  Widget collectionCard(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFA52A2A),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        children: [
+          Text(
+            "${controller.fullName.value} ",
+            // - ${controller.employeeCode.value}",
+            style: const TextStyle(
+              color: Colors.white,
+              fontFamily: "Roboto-Medium",
+              fontSize: 14,
+            ),
+          ),
+          C5(),
+          const Text(
+            "TOTAL COLLECTION",
+            style: TextStyle(
+              color: Colors.white70,
+              fontFamily: "Roboto-Regular",
+              fontSize: 12,
+            ),
+          ),
+          C5(),
+          Text(
+            "₹ ${controller.todaysCollection.value}",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 26,
+              fontFamily: "Roboto-Bold",
+            ),
+          ),
+          C10(),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: List.generate(30, (index) {
+                  final heights = [
+                    30.0,
+                    25.0,
+                    15.0,
+                    30.0,
+                    15.0,
+                    20.0,
+                    22.0,
+                    14.0,
+                    19.0,
+                    30.0,
+                    20.0,
+                    15.0,
+                    15.0,
+                    30.0,
+                    21.0,
+                    30.0,
+                    19.0,
+                    20.0,
+                    30.0,
+                    15.0,
+                    15.0,
+                    30.0,
+                    21.0,
+                    20.0,
+                    30.0,
+                    20.0,
+                    25.0,
+                    15.0,
+                    20.0,
+                    30.0,
+                    21.0
+                  ];
+                  return Container(
+                    width: 3,
+                    height: heights[index],
+                    margin: const EdgeInsets.symmetric(horizontal: 3),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  );
+                }),
+              ),
+              Container(
+                height: 4,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.6),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ],
+          ),
+          C10(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text("Today",
+                  style: TextStyle(color: Colors.white70, fontSize: 10)),
+              divider(),
+              const Text("Yesterday",
+                  style: TextStyle(color: Colors.white70, fontSize: 10)),
+              divider(),
+              const Text("Week",
+                  style: TextStyle(color: Colors.white70, fontSize: 10)),
+              divider(),
+              const Text("Month",
+                  style: TextStyle(color: Colors.white70, fontSize: 10)),
+              divider(),
+              const Text("Year",
+                  style: TextStyle(color: Colors.white70, fontSize: 10)),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget divider() {
+    return Container(
+      height: 12,
+      width: 1,
+      color: Colors.white54,
+      margin: const EdgeInsets.symmetric(horizontal: 8),
+    );
+  }
+
+  Widget smallStatBox(String value, String label, {VoidCallback? onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFF7043),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        alignment: Alignment.center,
         child: Column(
           children: [
-            statsCard(
-              title: "My Member",
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.totalMembers.value}",
-                        subTitle: 'Total Members',
-                        onTap: () => (
-                          Get.toNamed(Routes.memberList, arguments: {
-                            "status": "",
-                            "group": "",
-                            "title": "Total Members",
-                            "is_group": true,
-                          }),
-                        ),
-                      ),
-                    ),
-                    C10(),
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.verifiedMembers.value}",
-                        subTitle: 'Verified Members',
-                        onTap: () => (
-                          Get.toNamed(
-                            Routes.memberList,
-                            arguments: {
-                              "title": "Verified Members",
-                              "status": "Verified",
-                              "group": controller.selectedGroup.value
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                C10(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableCard(
-                          title: "${controller.ungroupedMembers.value}",
-                          subTitle: 'Ungrouped Members',
-                          onTap: () => (Get.toNamed(
-                                Routes.memberList,
-                                arguments: {
-                                  "title": "Ungrouped Members",
-                                  "is_group": false,
-                                },
-                              ))),
-                    ),
-                    C10(),
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.pendingVerification.value}",
-                        subTitle: 'Pending Verification',
-                        onTap: () => (
-                          Get.toNamed(
-                            Routes.memberList,
-                            arguments: {
-                              "title": "Pending Verification",
-                              "status": "Pending",
-                              "group": controller.selectedGroup.value
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                C10(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableCard(
-                          title: "${controller.draftCount.value}",
-                          subTitle: 'Draft Members',
-                          onTap: () => (Get.toNamed(
-                                Routes.memberList,
-                                arguments: {
-                                  "title": "Draft",
-                                  "status": "Draft",
-                                },
-                              ))),
-                    ),
-                  ],
-                ),
-              ],
+            Text(
+              value,
+              style: const TextStyle(
+                color: Colors.white,
+                fontFamily: "Roboto-Bold",
+                fontSize: 16,
+              ),
             ),
-            C5(),
-            Divider(color: Colors.grey.shade400),
-            C5(),
-            statsCard(
-              title: "My Collection",
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.todaysCollection.value}",
-                        subTitle: 'Today Collection',
-                      ),
-                    ),
-                    C10(),
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.dueReport.value}",
-                        subTitle: 'Outstanding Report',
-                      ),
-                    ),
-                  ],
-                ),
-                C10(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.assignedGroup.value}",
-                        subTitle: 'Monthly Collection',
-                      ),
-                    ),
-                    C10(),
-                    Expanded(
-                      child: reusableCard(
-                        title: "${controller.collectionByCash.value}",
-                        subTitle: 'Collection By Cash',
-                        onTap: () => Get.toNamed(Routes.collectionInHand),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+            const SizedBox(height: 4),
+            Text(
+              label,
+              style: const TextStyle(
+                color: Colors.white,
+                fontFamily: "Roboto-Regular",
+                fontSize: 12,
+              ),
             ),
-            C5(),
-            Divider(color: Colors.grey.shade400),
-            C5(),
-            quickActionsCard(),
           ],
         ),
       ),
     );
   }
 
-  Widget statsCard({required String title, required List<Widget> children}) {
+  Widget memberStats() {
     return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF707070)),
-        borderRadius: BorderRadius.circular(25),
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          sectionTitle(title),
-          C15(),
-          ...children,
-        ],
-      ),
-    );
-  }
-
-  Widget quickActionsCard() {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF707070)),
-        borderRadius: BorderRadius.circular(25),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          sectionTitle("Quick Actions"),
-          C15(),
-          Row(
-            children: [
-              Expanded(
-                child: quickButton(
-                  title: "Member Creation",
-                  onTap: () => Get.toNamed(Routes.memberCreation),
-                ),
-              ),
-              C10(),
-              Expanded(
-                child: quickButton(
-                  title: "Loan Application",
-                  onTap: () => Get.toNamed(Routes.loanApplicationList),
-                ),
-              ),
-            ],
+          Text(
+            "MY MEMBERS",
+            style: TextStyle(
+              fontSize: 12,
+              fontFamily: "Roboto-Medium",
+              color: Colors.black87,
+            ),
           ),
           C10(),
           Row(
             children: [
               Expanded(
-                child: quickButton(
-                  title: "Due EMI",
-                  onTap: () => Get.toNamed(Routes.loanEMIScreen),
+                child: memberBox(
+                  "${controller.totalMembers.value}",
+                  "Total Members",
+                  onTap: () {
+                    Get.toNamed(Routes.memberList, arguments: {
+                      "status": "",
+                      "group": "",
+                      "title": "Total Members",
+                      "is_group": true,
+                    });
+                  },
                 ),
               ),
-              C10(),
+              C5(),
               Expanded(
-                child: quickButton(
-                  title: "Pending EMI",
-                  onTap: () => Get.toNamed(Routes.dueEmi),
+                child: memberBox(
+                  "${controller.verifiedMembers.value}",
+                  "Verified Members",
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.memberList,
+                      arguments: {
+                        "title": "Verified Members",
+                        "status": "Verified",
+                        "group": controller.selectedGroup.value
+                      },
+                    );
+                  },
                 ),
               ),
             ],
           ),
-          C10(),
+          C5(),
           Row(
             children: [
               Expanded(
-                child: quickButton(
-                  title: "Group Creation",
-                  onTap: () => Get.toNamed(Routes.groupList),
+                child: memberBox(
+                  "${controller.ungroupedMembers.value}",
+                  "Ungrouped Members",
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.memberList,
+                      arguments: {
+                        "title": "Ungrouped Members",
+                        "is_group": false,
+                      },
+                    );
+                  },
                 ),
               ),
-              C10(),
+              C5(),
               Expanded(
-                child: quickButton(
-                  title: "Loan Summary",
-                  onTap: () => Get.toNamed(Routes.loanSummaryScreen),
+                child: memberBox(
+                  "${controller.pendingVerification.value}",
+                  "Pending Verification",
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.memberList,
+                      arguments: {
+                        "title": "Pending Verification",
+                        "status": "Pending",
+                        "group": controller.selectedGroup.value
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          C5(),
+          Row(
+            children: [
+              Expanded(
+                child: memberBox(
+                  "${controller.ungroupedMembers.value}",
+                  "Draft Members",
+                  onTap: () {
+                    Get.toNamed(
+                      Routes.memberList,
+                      arguments: {
+                        "title": "Draft",
+                        "status": "Draft",
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -330,63 +402,77 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget sectionTitle(String title) => Text(
-        title,
-        style: const TextStyle(
-          fontFamily: "Roboto-Medium",
-          fontSize: 15,
-          color: Color(0xFF616161),
-        ),
-      );
-
-  Widget quickButton({required String title, required VoidCallback onTap}) {
-    return InkWell(
+  Widget memberBox(String count, String label, {VoidCallback? onTap}) {
+    return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
+        padding: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
-          color: Colors.grey.shade800,
-          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(10),
         ),
-        alignment: Alignment.center,
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white,
-            fontFamily: "Roboto-Medium",
-            fontSize: 13,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget reusableCard({
-    required String title,
-    required String subTitle,
-    VoidCallback? onTap,
-  }) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        decoration: BoxDecoration(
-          border: Border.all(color: const Color(0xFF707070)),
-          borderRadius: BorderRadius.circular(16),
-        ),
-        alignment: Alignment.center,
         child: Column(
           children: [
-            Text(title,
+            Text(
+              count,
+              style: const TextStyle(
+                  fontFamily: "Roboto-Bold", fontSize: 16, color: Colors.black),
+            ),
+            C5(),
+            Text(
+              label,
+              style: const TextStyle(
+                fontFamily: "Roboto-Regular",
+                fontSize: 10,
+                color: Colors.black54,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget menuButton(String title, IconData icon, String route) {
+    return InkWell(
+      onTap: () => Get.toNamed(route),
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: AppColors.primaryOrange,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 20,
+              ),
+            ),
+            C10(),
+            Expanded(
+              child: Text(
+                title,
                 style: const TextStyle(
-                    fontFamily: "Roboto-Bold",
-                    fontSize: 15,
-                    color: Colors.black)),
-            Text(subTitle,
-                style: const TextStyle(
-                    fontFamily: "Roboto-Regular",
-                    fontSize: 11,
-                    color: Color(0xFF939393))),
+                  fontFamily: "Roboto-Medium",
+                  fontSize: 14,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              color: Colors.black45,
+            ),
           ],
         ),
       ),
@@ -395,7 +481,7 @@ class DashboardScreen extends StatelessWidget {
 
   Drawer customDrawer(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.grey.shade800,
+      backgroundColor: AppColors.primaryRed,
       child: SafeArea(
         child: Column(
           children: [
@@ -526,10 +612,10 @@ class DashboardScreen extends StatelessWidget {
 
   Widget drawerTile(IconData icon, String title, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: Colors.black),
+      leading: Icon(icon, color: AppColors.primaryOrange),
       trailing: Icon(
         Icons.arrow_forward_ios_outlined,
-        color: Colors.grey,
+        color: AppColors.primaryOrange,
       ),
       title: Text(title),
       onTap: onTap,
@@ -651,6 +737,50 @@ class DashboardScreen extends StatelessWidget {
         child: Text(label, style: TextStyles.cardtitle),
       ),
       onTap: onTap,
+    );
+  }
+
+  Widget bottomNavBar() {
+    return Obx(
+      () => BottomNavigationBar(
+        currentIndex: controller.selectedIndex.value,
+        onTap: (index) => controller.selectedIndex.value = index,
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: const Color(0xFFA52A2A),
+        items: [
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/new/home.png',
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/new/note.png',
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/new/app.png',
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Image.asset(
+              'assets/new/message.png',
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person_outline,
+                size: 30,
+                color: Color(0xFF050708),
+              ),
+              label: ''),
+        ],
+      ),
     );
   }
 }
