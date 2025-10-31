@@ -253,7 +253,7 @@ class LoanApplicationList extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 4, vertical: 2),
                                     child: Text(
-                                      user.status ?? "-",
+                                      user.workflowState ?? "-",
                                       style: const TextStyle(
                                         fontFamily: "Roboto-Medium",
                                         fontSize: 13,

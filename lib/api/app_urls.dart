@@ -62,7 +62,7 @@ static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
-  static String  getLoanDisbursementList({String? loanGroup}) => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/?loan_group=$loanGroup";
+  static String  getLoanDisbursementList({String? loanGroup,int? page,bool? isPagination,int? pagesize}) => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/?loan_group=$loanGroup&is_pagination=$isPagination&page_size=$pagesize&page=$page";
 
   static String get groupList => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/";
 
