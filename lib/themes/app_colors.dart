@@ -8,6 +8,8 @@ import 'package:microfinance/app.dart';
 import 'package:microfinance/utils/app_enums.dart';
 
 class AppColors {
+  static const Color primaryRed = Color(0xFFAE282E);
+  static const Color primaryOrange = Color(0xFFF06321);
   static const Color subtitleColor = Color(0xFF667085);
   static const Color primaryLight = Color(0xFFa5f0ba);
   static const Color green = Color(0xFF618264);
