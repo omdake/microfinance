@@ -98,7 +98,15 @@ class MemberListController extends GetxController {
   getloadData() {
     page.value = 1;
     loanMemberList.value = [];
-    getLoanMemberList(Status: status.value);
+
+    if (isGroup.value) {
+      getLoanMemberList(Status: status.value);
+    } else {
+      getUngroupedLoanMemberList(
+        isGroup: isGroup.value,
+        search: search.value.text,
+      );
+    }
   }
 
   getLoadMoreData() async {
