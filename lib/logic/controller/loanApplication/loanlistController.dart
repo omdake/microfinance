@@ -75,7 +75,7 @@ class LoanApplicationListController extends GetxController {
   getAplicantList({int? page, String? loanGroup}) async {
     final token = await AppPreferences.getToken();
     try {
-      isLoading.value = true;
+      //isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
             AppURLs.getApplicantList(
@@ -112,7 +112,7 @@ class LoanApplicationListController extends GetxController {
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
-      isLoading.value = false;
+      //isLoading.value = false;
     }
   }
 }

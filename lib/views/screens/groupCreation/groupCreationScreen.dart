@@ -94,8 +94,41 @@ class GroupCreationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
-                            // autovalidateMode:
-                            //     AutovalidateMode.onUserInteraction,
+                            dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.groupSearchController.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.groupSearchController.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) {
+                                  return true;
+                                }
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen) {
+                                controller.groupSearchController.value.clear();
+                              }
+                            },
                             dropdownStyleData: DropdownStyleData(
                               maxHeight: 500,
                             ),
@@ -106,12 +139,6 @@ class GroupCreationScreen extends StatelessWidget {
                             onChanged: (value) {
                               controller.selectedGroupHead.value = value!;
                             },
-                            // validator: (value) {
-                            //   if (value == null) {
-                            //     return 'This field can\'t be empty';
-                            //   }
-                            //   return null;
-                            // },
                           );
                         })
                       ]),

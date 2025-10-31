@@ -27,6 +27,7 @@ class LoanRepaymentController extends GetxController {
   Rx<TextEditingController> payableAmount = TextEditingController().obs;
   Rx<TextEditingController> utrNumber = TextEditingController().obs;
   Rx<TextEditingController> remark = TextEditingController().obs;
+  Rx<TextEditingController> groupSearch = TextEditingController().obs;
   RxList<ModeOfPaymentMessage> modeOfPaymentList = <ModeOfPaymentMessage>[].obs;
   RxList<GetPayableAmountMessage> getPayableAmount =
       <GetPayableAmountMessage>[].obs;

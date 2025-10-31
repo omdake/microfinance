@@ -14,6 +14,7 @@ import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
 class GroupScreenController extends GetxController {
+  Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   Rx<TextEditingController> groupCode = TextEditingController().obs;
   Rx<TextEditingController> groupName = TextEditingController().obs;
   RxString selectedGroupHead = "".obs;
