@@ -124,7 +124,7 @@ class ScheduleScreen extends StatelessWidget {
                                                 "Total Payment",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                    fontFamily: "Alegreya_Sans",
+                                                    fontFamily: "Roboto-regular",
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 12),
                                               ),

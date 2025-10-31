@@ -46,7 +46,7 @@ class RoundedSearchBottomContainer extends StatelessWidget {
                           color: AppColors.white,
                           fontWeight: FontWeight.w400,
                           fontSize: FontSizes.s14,
-                          fontFamily: "Inter-Regular"),
+                          fontFamily: "Roboto-regular"),
                     ),
                     Text(
                       "${zipcode}",
@@ -54,7 +54,7 @@ class RoundedSearchBottomContainer extends StatelessWidget {
                       style: TextStyle(
                           color: AppColors.white,
                           fontSize: FontSizes.s14,
-                          fontFamily: "Inter-Bold",
+                          fontFamily: "Roboto-regular",
                           fontWeight: FontWeight.w700),
                     ),
                     Icon(
@@ -91,7 +91,7 @@ class RoundedSearchBottomContainer extends StatelessWidget {
                               color: AppColors.textFieldLableColor,
                               fontSize: FontSizes.s14,
                               fontWeight: FontWeight.w400,
-                              fontFamily: "Inter-Regular")),
+                              fontFamily: "Roboto-regular")),
                     ),
                   ),
                 ),

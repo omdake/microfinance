@@ -70,7 +70,7 @@ class AppButton extends StatelessWidget {
                     style: style ??
                         TextStyles.productTitle.copyWith(
                             fontWeight: FontWeight.w600,
-                            color: AppColors.white),
+                            color: AppColors.white,fontFamily: "Roboto-regular"),
                     textAlign: textAlign ?? TextAlign.center,
                   ),
                 ),
@@ -482,6 +482,7 @@ class AppTextButton extends StatelessWidget {
                     style: style ??
                         TextStyles.buttonText.copyWith(
                           color: AppColors.primary,
+                          fontFamily: "Roboto-regular"
                         ),
                     textAlign: textAlign ?? TextAlign.center,
                   ),

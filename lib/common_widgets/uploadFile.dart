@@ -205,7 +205,7 @@ Widget imagePickerField({
                                   child: Text(
                                     "Lat: ${filePosition.value!.latitude}, Long: ${filePosition.value!.longitude}\nAddress: ${fileAddress.value}",
                                     style: const TextStyle(
-                                        fontSize: 12, color: Colors.grey),
+                                        fontSize: 12, color: Colors.grey,fontFamily: "Roboto-regular"),
                                   ),
                                 ),
                               C10(),
@@ -213,7 +213,7 @@ Widget imagePickerField({
                                 onPressed: () => Get.back(),
                                 child: const Text(
                                   "Close",
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.black,fontFamily: "Roboto-regular"),
                                 ),
                               )
                             ],

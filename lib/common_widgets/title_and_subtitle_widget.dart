@@ -19,8 +19,8 @@ class TitleAndSubtitleText extends StatelessWidget {
           title1,
           style: TextStyle(
               fontSize: 12,
+              fontFamily: "Roboto-regular",
               color: AppColors.subtitleColor,
-              fontFamily: Font.interNormal,
               fontWeight: FontWeight.w400),
         ),
         C5(),
@@ -29,7 +29,7 @@ class TitleAndSubtitleText extends StatelessWidget {
           style: TextStyle(
               fontSize: 12,
               color: AppColors.black,
-              fontFamily: Font.interMedium,
+             fontFamily: "Roboto-regular",
               fontWeight: FontWeight.w500),
         ),
       ],
@@ -53,6 +53,7 @@ class SubtitleAndtitleText extends StatelessWidget {
           title2,
           style: TextStyle(
               fontSize: 12,
+              fontFamily: "Roboto-regular",
               color: AppColors.black,
               fontWeight: FontWeight.w700),
         ),
@@ -61,6 +62,7 @@ class SubtitleAndtitleText extends StatelessWidget {
           title1,
           style: TextStyle(
               fontSize: 12,
+              fontFamily: "Roboto-regular",
               color: AppColors.subtitleColor,
               fontWeight: FontWeight.w400),
         ),

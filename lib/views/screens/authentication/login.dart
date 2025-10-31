@@ -123,7 +123,7 @@ class LoginWithPassword extends StatelessWidget {
                     },
                     title: 'Forgot Password',
                     style: TextStyle(
-                        color: Colors.grey, fontFamily: "Inter-Regular"),
+                        color: Colors.grey, fontFamily: "Roboto-regular"),
                   ),
                 ],
               ),

@@ -30,7 +30,7 @@ class CustomPlaceholder extends StatelessWidget {
                   image: AssetImage(Assets.facebook),
                 ),
               ),
-              Center(child: Text("WIP")),
+              Center(child: Text("WIP",style: TextStyle(fontFamily: "Roboto-regular"),)),
               C50(),
               Padding(
                 padding: EdgeInsets.all(Sizes.s40),

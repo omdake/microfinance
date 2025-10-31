@@ -44,7 +44,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".dev"
             versionNameSuffix = "-dev"
-            manifestPlaceholders["appName"]="TejRaj-local"
+            manifestPlaceholders["appName"]="TejRaj-dev"
         }
 
         create("stage") {

@@ -181,19 +181,19 @@ class LoanApplicationScreen extends StatelessWidget {
                                       "Max Amount: ${e.maximumLoanAmount ?? ''}",
                                       style: TextStyle(
                                           fontSize: 12,
-                                          color: Colors.grey.shade700),
+                                          color: Colors.grey.shade700,fontFamily: "Roboto-regular"),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     if (e.rateOfInterest != null) ...[
                                       Text(" , ",
                                           style: TextStyle(
                                               fontSize: 12,
-                                              color: Colors.grey.shade700)),
+                                              color: Colors.grey.shade700,fontFamily: "Roboto-regular")),
                                       Text(
                                         "ROI: ${e.rateOfInterest!}",
                                         style: TextStyle(
                                             fontSize: 12,
-                                            color: Colors.grey.shade700),
+                                            color: Colors.grey.shade700,fontFamily: "Roboto-regular"),
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ],

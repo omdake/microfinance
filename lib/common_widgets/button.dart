@@ -43,9 +43,9 @@ class AppButton extends StatelessWidget {
     return InkWell(
       onTap: () async => onTap(),
       child: Container(
-        margin:Theme.of(context).platform == TargetPlatform.iOS
-                ? EdgeInsets.all(16)
-                : margin ?? EdgeInsets.zero,
+        margin: Theme.of(context).platform == TargetPlatform.iOS
+            ? EdgeInsets.all(16)
+            : margin ?? EdgeInsets.zero,
         height: 48,
         child: Row(
           children: <Widget>[
@@ -153,7 +153,7 @@ class AppOutlineButton extends StatelessWidget {
             padding: padding ??
                 EdgeInsets.symmetric(
                     horizontal: Sizes.s25, vertical: Sizes.s15),
-            margin:Theme.of(context).platform == TargetPlatform.iOS
+            margin: Theme.of(context).platform == TargetPlatform.iOS
                 ? EdgeInsets.all(16)
                 : margin ?? EdgeInsets.zero,
             child: Row(
@@ -263,7 +263,7 @@ class AppOutlineButtonForLogin2 extends StatelessWidget {
                     ]
                   : [],
             ),
-            margin:Theme.of(context).platform == TargetPlatform.iOS
+            margin: Theme.of(context).platform == TargetPlatform.iOS
                 ? EdgeInsets.all(16)
                 : margin ?? EdgeInsets.zero,
             child: Row(
@@ -283,7 +283,7 @@ class AppOutlineButtonForLogin2 extends StatelessWidget {
                           style: style ??
                               TextStyles.buttonText.copyWith(
                                   color: AppColors.primary,
-                                  fontFamily: "Inter-Medium",
+                                 fontFamily: "Roboto-regular",
                                   fontWeight: FontWeight.w500,
                                   fontSize: FontSizes.s16),
                           // textAlign: textAlign ?? TextAlign.center,
@@ -346,9 +346,9 @@ class AppOutlineButtonForLogin3 extends StatelessWidget {
                 ]
               : [],
         ),
-        margin:Theme.of(context).platform == TargetPlatform.iOS
-                ? EdgeInsets.all(16)
-                : margin ?? EdgeInsets.zero,
+        margin: Theme.of(context).platform == TargetPlatform.iOS
+            ? EdgeInsets.all(16)
+            : margin ?? EdgeInsets.zero,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -360,19 +360,19 @@ class AppOutlineButtonForLogin3 extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left:15.0),
+                      padding: const EdgeInsets.only(left: 15.0),
                       child: Text(
                         title,
                         style: style ??
                             TextStyles.buttonText.copyWith(
                                 color: AppColors.primary,
-                                fontFamily: "Inter-Medium",
+                                fontFamily: "Roboto-regular",
                                 fontWeight: FontWeight.w500,
                                 fontSize: FontSizes.s16),
-                     ),
+                      ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(right:10.0),
+                      padding: const EdgeInsets.only(right: 10.0),
                       child: Icon(
                         Icons.arrow_forward_ios_rounded,
                         color: AppColors.primary,
@@ -462,7 +462,7 @@ class AppOutlineButtonForLogin extends StatelessWidget {
                     ]
                   : [],
             ),
-            margin:Theme.of(context).platform == TargetPlatform.iOS
+            margin: Theme.of(context).platform == TargetPlatform.iOS
                 ? EdgeInsets.all(16)
                 : margin ?? EdgeInsets.zero,
             child: Row(
@@ -482,9 +482,9 @@ class AppOutlineButtonForLogin extends StatelessWidget {
                           style: style ??
                               TextStyles.buttonText.copyWith(
                                   color: Color(0xFF344054),
-                                  fontFamily: "Inter-Medium",
+                                  fontFamily: "Roboto-regular",
                                   fontWeight: FontWeight.w500,
-                                  fontSize: FontSizes.s16),
+                                  fontSize: FontSizes.s16,),
                           // textAlign: textAlign ?? TextAlign.center,
                         ),
                       ]),
@@ -547,7 +547,7 @@ class AppTextButton extends StatelessWidget {
             padding: padding ??
                 EdgeInsets.symmetric(
                     horizontal: Sizes.s25, vertical: Sizes.s15),
-            margin:Theme.of(context).platform == TargetPlatform.iOS
+            margin: Theme.of(context).platform == TargetPlatform.iOS
                 ? EdgeInsets.all(16)
                 : margin ?? EdgeInsets.zero,
             child: Row(
@@ -558,6 +558,7 @@ class AppTextButton extends StatelessWidget {
                     style: style ??
                         TextStyles.buttonText.copyWith(
                           color: AppColors.primary,
+                          fontFamily: "Roboto-regular"
                         ),
                     textAlign: textAlign ?? TextAlign.center,
                   ),
@@ -621,7 +622,7 @@ class AppSmallTextButton extends StatelessWidget {
                 },
           child: Container(
             padding: padding ?? EdgeInsets.symmetric(vertical: Sizes.s5),
-            margin:Theme.of(context).platform == TargetPlatform.iOS
+            margin: Theme.of(context).platform == TargetPlatform.iOS
                 ? EdgeInsets.all(16)
                 : margin ?? EdgeInsets.zero,
             child: isOnline
@@ -631,6 +632,7 @@ class AppSmallTextButton extends StatelessWidget {
                         TextStyles.buttonText.copyWith(
                           color: color ?? Colors.red,
                           fontSize: FontSizes.s12,
+                          fontFamily: "Roboto-regular"
                         ),
                     textAlign: textAlign ?? TextAlign.start,
                   )
@@ -684,6 +686,7 @@ class SmallButton extends StatelessWidget {
           style: TextStyles.defaultRegular.copyWith(
             fontSize: fontSize ?? FontSizes.s15,
             color: Colors.white,
+            fontFamily: "Roboto-regular"
           ),
         ),
       ),
@@ -799,7 +802,7 @@ class SmallDialogButton extends StatelessWidget {
           text,
           style: TextStyle(
               color: invertedColors ? AppColors.primary : AppColors.white,
-              fontSize: FontSizes.s14),
+              fontSize: FontSizes.s14,fontFamily: "Roboto-regular"),
         ));
   }
 }
@@ -827,7 +830,7 @@ class AppDialogButton extends StatelessWidget {
             style: TextStyles.defaultBold.copyWith(
                 color: AppColors.white,
                 fontSize: FontSizes.s15,
-                fontWeight: FontWeight.w700),
+                fontWeight: FontWeight.w700,fontFamily: "Roboto-regular"),
           ),
         ),
       ),

@@ -32,7 +32,7 @@ class CustomLocationPermissionDialog extends StatelessWidget {
             Text(
               "We couldn’t locate you",
               style: TextStyle(
-                  fontFamily: "Inter-Bold",
+                  fontFamily: "Roboto-regular",
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF1D2939)),
@@ -45,7 +45,7 @@ class CustomLocationPermissionDialog extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
                   color: Color(0xFF667085),
-                  fontFamily: "Inter-Regular"),
+                  fontFamily: "Roboto-regular"),
             ),
             C20(),
             InkWell(
@@ -60,7 +60,7 @@ class CustomLocationPermissionDialog extends StatelessWidget {
                   child: Text(
                     "Allow Location Access",
                     style: TextStyle(
-                        fontFamily: "Inter-SemiBold",
+                        fontFamily: "Roboto-regular",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white),
@@ -78,7 +78,7 @@ class CustomLocationPermissionDialog extends StatelessWidget {
                   style: TextStyle(
                       color: Color(0xFF667085),
                       fontSize: 14,
-                      fontFamily: "Inter-Regular",
+                     fontFamily: "Roboto-regular",
                       fontWeight: FontWeight.w400),
                 ),
                 Expanded(
@@ -104,7 +104,7 @@ class CustomLocationPermissionDialog extends StatelessWidget {
                       Text(
                         "Enter Pincode Manually",
                         style: TextStyle(
-                            fontFamily: "Inter-SemiBold",
+                            fontFamily: "Roboto-regular",
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                             color: AppColors.primary),
