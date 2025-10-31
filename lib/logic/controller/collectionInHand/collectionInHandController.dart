@@ -152,7 +152,7 @@ class CollectionInHandController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-        Get.offNamed(Routes.collectionInHand);
+        Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
@@ -238,6 +238,7 @@ class CollectionInHandController extends GetxController {
         var json = jsonDecode(response.body);
         status.value = "Approved";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
+        Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
@@ -269,6 +270,7 @@ class CollectionInHandController extends GetxController {
         var json = jsonDecode(response.body);
         status.value = "Rejected";
         CustomSnackBar.show(isIssue: false, message: json["message"]);
+        Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
