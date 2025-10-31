@@ -77,15 +77,15 @@ class DashboardScreen extends StatelessWidget {
       case 0:
         return homeSection(context);
       case 1:
-        return const Center(child: Text(" Member Creation"));
+        return const Center(child: Text(" Member Creation",style: TextStyle(fontFamily: "Roboto-regular"),));
       case 2:
-        return const Center(child: Text("Loan Application"));
+        return const Center(child: Text("Loan Application",style: TextStyle(fontFamily: "Roboto-regular")));
       case 3:
-        return const Center(child: Text("Loan EmI"));
+        return const Center(child: Text("Loan EmI",style: TextStyle(fontFamily: "Roboto-regular")));
       case 4:
-        return const Center(child: Text("Loan Summary"));
+        return const Center(child: Text("Loan Summary",style: TextStyle(fontFamily: "Roboto-regular")));
       default:
-        return const Center(child: Text("Invalid Tab"));
+        return const Center(child: Text("Invalid Tab",style: TextStyle(fontFamily: "Roboto-regular")));
     }
   }
 

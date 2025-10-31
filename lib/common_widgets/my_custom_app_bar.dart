@@ -18,12 +18,14 @@ Widget myCustomAppBar() {
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
+                    fontFamily: "Roboto-regular"
                   ),
                 ),
                 Text(
                   'Title 2',
                   style: TextStyle(
                     fontSize: 14.0,
+                    fontFamily: "Roboto-regular"
                   ),
                 ),
               ],

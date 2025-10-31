@@ -33,7 +33,7 @@ class LabelValueWidget extends StatelessWidget {
             Text(
               label.asEmptyIfEmptyOrNull,
               style: TextStyles.smallLabel.copyWith(
-                fontFamily: "Inter-Medium",
+                fontFamily: "Roboto-regular"
               ),
               textAlign: textAlign ?? TextAlign.start,
             ),
@@ -75,7 +75,7 @@ class LabelValueEndWidget extends StatelessWidget {
               label.asEmptyIfEmptyOrNull,
               style: labelStyle ??
                   TextStyles.labelStyle.copyWith(
-                    fontFamily: "Inter-Medium",
+                   fontFamily: "Roboto-regular"
                   ),
               textAlign: TextAlign.start,
             ),
@@ -116,7 +116,7 @@ class LabelsWithMark extends StatelessWidget {
           style: TextStyle(
               color: Color(0xFF667085),
               fontSize: FontSizes.s14,
-              fontFamily: "Inter-Medium",
+             fontFamily: "Roboto-regular",
               fontWeight: FontWeight.w500),
           children: isRequired == true
               ? <TextSpan>[
@@ -154,7 +154,7 @@ class LabelsWithMark1 extends StatelessWidget {
           text: label,
           style: TextStyle(
               color: Color(0xFF667085),
-              fontFamily: "Inter-Medium",
+              fontFamily: "Roboto-regular",
               fontSize: FontSizes.s14,
               fontWeight: FontWeight.w500),
           children: isRequired == true

@@ -167,72 +167,30 @@ class CollectionInHandController extends GetxController {
     }
   }
 
-  // getLoanDataFromArg(CollectionInhandResult applicant,
-  //     {bool readOnly = false}) async {
-  //   isReadOnly.value = readOnly;
-  //   status.value = applicant.status ?? '';
-  //   name.value.text = applicant.name ?? '';
-  //   employee.value.text = applicant.employee ?? '';
-  //   employeeName.value.text = applicant.employeeEmployeeName ?? '';
-  //   amount.value.text = applicant.amount?.toString() ?? '';
-  //   givenTo.value.text = applicant.givenTo ?? '';
-  //   amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
-  //   bankName.value.text = applicant.description ?? '';
-  //   if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
-  //     if (applicant.paymentProof!.startsWith('http')) {
-  //       paymentProofUrl.value = applicant.paymentProof!;
-  //       paymentProofImage.value = null;
-  //     }
-  //   } else {
-  //     paymentProofImage.value = null;
-  //     paymentProofUrl.value = '';
-  //   }
-  //   postingDate.value.text = applicant.postingDate != null
-  //       ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
-  //       : '';
-  // }
-
-  getLoanDataFromArg(CollectionInhandResult applicant, {bool readOnly = false}) async {
-  isReadOnly.value = readOnly;
-  status.value = applicant.status ?? '';
-  name.value.text = applicant.name ?? '';
-  employee.value.text = applicant.employee ?? '';
-  employeeName.value.text = applicant.employeeEmployeeName ?? '';
-  amount.value.text = applicant.amount?.toString() ?? '';
-  givenTo.value.text = applicant.givenTo ?? '';
-  amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
-  bankName.value.text = applicant.description ?? '';
-
-  if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
-    if (applicant.paymentProof!.startsWith('http')) {
-      paymentProofUrl.value = applicant.paymentProof!;
+  getLoanDataFromArg(CollectionInhandResult applicant,
+      {bool readOnly = false}) async {
+    isReadOnly.value = readOnly;
+    status.value = applicant.status ?? '';
+    name.value.text = applicant.name ?? '';
+    employee.value.text = applicant.employee ?? '';
+    employeeName.value.text = applicant.employeeEmployeeName ?? '';
+    amount.value.text = applicant.amount?.toString() ?? '';
+    givenTo.value.text = applicant.givenTo ?? '';
+    amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
+    bankName.value.text = applicant.description ?? '';
+    if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
+      if (applicant.paymentProof!.startsWith('http')) {
+        paymentProofUrl.value = applicant.paymentProof!;
+        paymentProofImage.value = null;
+      }
+    } else {
       paymentProofImage.value = null;
+      paymentProofUrl.value = '';
     }
-  } else {
-    paymentProofImage.value = null;
-    paymentProofUrl.value = '';
+    postingDate.value.text = applicant.postingDate != null
+        ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
+        : '';
   }
-
-  postingDate.value.text = applicant.postingDate != null
-      ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
-      : '';
-
-  // ✅ Debug print everything clearly
-  print("📋 --- Loan Data Loaded ---");
-  print("Status: ${status.value}");
-  print("Name: ${name.value.text}");
-  print("Employee: ${employee.value.text}");
-  print("Employee Name: ${employeeName.value.text}");
-  print("Amount: ${amount.value.text}");
-  print("Given To: ${givenTo.value.text}");
-  print("Amount Given To Emp: ${amountgivenTo.value.text}");
-  print("Bank Name / Description: ${bankName.value.text}");
-  print("Payment Proof URL: ${paymentProofUrl.value}");
-  print("Posting Date: ${postingDate.value.text}");
-  print("Read Only: $readOnly");
-  print("-----------------------------");
-}
-
 
   getemployeeList() async {
     final token = await AppPreferences.getToken();

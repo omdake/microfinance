@@ -322,8 +322,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                               );
                             }).toList(),
                             style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Select Group",
                               sufficIconOntap: () {},
@@ -331,12 +329,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                             ),
                             onChanged: (value) {
                               controller.selectedGroup.value = value ?? '';
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'This field can\'t be empty';
-                              }
-                              return null;
                             },
                           );
                         })

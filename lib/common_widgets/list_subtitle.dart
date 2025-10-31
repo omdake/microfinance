@@ -17,6 +17,7 @@ class ListSubtitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.normal,
+            fontFamily: "Roboto-regular"
           ),
         ),
         // Text widget
@@ -25,6 +26,7 @@ class ListSubtitle extends StatelessWidget {
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.normal,
+            fontFamily: "Roboto-regular"
           ),
         ),
       ],

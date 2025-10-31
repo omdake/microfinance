@@ -34,7 +34,7 @@ class ListSubtitleWithImages extends StatelessWidget {
               fontStyle: FontStyle.normal,
               color: AppColors.subtitleColor,
               height: 1.2,
-              fontFamily: "Inter-Regular"),
+              fontFamily: "Roboto-regular"),
         ),
       ],
     );
@@ -75,7 +75,7 @@ class ListSubtitleWithImages2 extends StatelessWidget {
               fontStyle: FontStyle.normal,
               color: AppColors.subtitleColor,
               height: 1.2,
-              fontFamily: "Inter-Regular"),
+              fontFamily: "Roboto-regular"),
         ),
         Text(
           value,
@@ -85,7 +85,7 @@ class ListSubtitleWithImages2 extends StatelessWidget {
               fontStyle: FontStyle.normal,
               color: AppColors.black,
               height: 1.2,
-              fontFamily: "Inter-SemiBold"),
+              fontFamily: "Roboto-regular"),
         ),
       ],
     );
@@ -127,7 +127,7 @@ class ListSubtitleWithImages4 extends StatelessWidget {
               fontStyle: FontStyle.normal,
               color: AppColors.black,
               height: 1.2,
-              fontFamily: "Inter-SemiBold"),
+              fontFamily: "Roboto-regular"),
         ),
       ],
     );
@@ -164,7 +164,7 @@ class ListSubtitleWithImages3 extends StatelessWidget {
               fontStyle: FontStyle.normal,
               color: AppColors.subtitleColor,
               height: 1.2,
-              fontFamily: "Inter-Regular"),
+              fontFamily: "Roboto-regular"),
         ),
       ],
     );

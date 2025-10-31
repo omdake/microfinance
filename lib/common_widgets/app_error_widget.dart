@@ -45,6 +45,7 @@ class AppErrorWidget extends StatelessWidget {
                 "crashFinalTitle",
                 style: TextStyles.defaultBold.copyWith(
                   fontSize: FontSizes.s20,
+                  fontFamily: "Roboto-regular"
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -53,6 +54,7 @@ class AppErrorWidget extends StatelessWidget {
                 "crashFinalMessage",
                 style: TextStyles.defaultRegular.copyWith(
                   fontSize: FontSizes.s18,
+                  fontFamily: "Roboto-regular"
                 ),
                 textAlign: TextAlign.justify,
               ),

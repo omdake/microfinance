@@ -26,7 +26,7 @@ class TwoInlineText extends StatelessWidget {
               style: TextStyle(
                   fontSize: FontSizes.s16,
                   color: AppColors.dashbordItemType,
-                  fontFamily: "Inter-Bold",
+                  fontFamily: "Roboto-regular",
                   fontWeight: FontWeight.w700),
             ),
             InkWell(
@@ -36,7 +36,7 @@ class TwoInlineText extends StatelessWidget {
                 style: TextStyle(
                     fontSize: FontSizes.s12,
                     color: AppColors.primary,
-                    fontFamily: "Inter-SemiBold",
+                    fontFamily: "Roboto-regular",
                     fontWeight: FontWeight.w600),
               ),
             ),

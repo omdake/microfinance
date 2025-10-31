@@ -12,7 +12,7 @@ ThemeData appTheme = ThemeData(
     brightness: Brightness.light,
     colorScheme: colorScheme,
     primaryColor: AppColors.primary,
-    fontFamily: "Inter-Regular",
+   fontFamily: "Roboto-regular",
     textTheme: GoogleFonts.poppinsTextTheme().apply(bodyColor: Colors.black),
     scaffoldBackgroundColor: AppColors.gray500,
     appBarTheme: appBarTheme);
