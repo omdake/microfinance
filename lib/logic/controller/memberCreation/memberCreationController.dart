@@ -476,7 +476,6 @@ class MemberCreationController extends GetxController {
           "Authorization": token!,
         },
       );
-      print("......${response.body}");
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final memberData = LoanMemberListResult.fromJson(data['message']);
@@ -590,7 +589,6 @@ class MemberCreationController extends GetxController {
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {
-      print(">>>>>>>>>>>>>>>>$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;
