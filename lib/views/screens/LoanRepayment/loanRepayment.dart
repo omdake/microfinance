@@ -21,9 +21,10 @@ class LoanRepaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: appBarWithTitle(title: "Loan Repayment"),
-        body: Container(
+      backgroundColor: Colors.white,
+      appBar: appBarWithTitle(title: "Loan Repayment"),
+      body: Stack(children: [
+        Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -330,7 +331,24 @@ class LoanRepaymentScreen extends StatelessWidget {
               ),
             ),
           ),
-        )
-        );
+        ),
+        Obx(() {
+          if (controller.isLoading.value) {
+            return Container(
+              width: double.infinity,
+              height: double.infinity,
+              color: Colors.white.withOpacity(0.3),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                ),
+              ),
+            );
+          } else {
+            return const SizedBox.shrink();
+          }
+        }),
+      ]),
+    );
   }
 }

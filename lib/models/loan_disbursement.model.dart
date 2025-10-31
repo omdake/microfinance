@@ -128,48 +128,59 @@ class LoanDisbursementResult {
     this.applicantMemberName,
   });
 
-  factory LoanDisbursementResult.fromJson(Map<String, dynamic> json) =>
-      LoanDisbursementResult(
-        name: json["name"],
-        againstLoan: json["against_loan"],
-        sanctionedLoanAmount: json["sanctioned_loan_amount"],
-        currentDisbursedAmount: json["current_disbursed_amount"],
-        postingDate: DateTime.parse(json["posting_date"]),
-        applicantType: json["applicant_type"],
-        loanProduct: json["loan_product"],
-        monthlyRepaymentAmount: json["monthly_repayment_amount"],
-        loanPartner: json["loan_partner"],
-        company: json["company"],
-        applicant: json["applicant"],
-        repaymentScheduleType: json["repayment_schedule_type"],
-        repaymentFrequency: json["repayment_frequency"],
-        repaymentMethod: json["repayment_method"],
-        tenure: json["tenure"],
-        repaymentStartDate: DateTime.parse(json["repayment_start_date"]),
-        isTermLoan: json["is_term_loan"],
-        withholdSecurityDeposit: json["withhold_security_deposit"],
-        repaymentDays: json["repayment_days"],
-        disbursementDate: DateTime.parse(json["disbursement_date"]),
-        clearanceDate: json["clearance_date"],
-        bpiDifferenceDate: json["bpi_difference_date"],
-        brokenPeriodInterestDays: json["broken_period_interest_days"],
-        disbursedAmount: json["disbursed_amount"],
-        brokenPeriodInterest: json["broken_period_interest"],
-        bpiAmountDifference: json["bpi_amount_difference"],
-        principalAmountPaid: json["principal_amount_paid"].toDouble(),
-        modeOfPayment: json["mode_of_payment"],
-        disbursementAccount: json["disbursement_account"],
-        refundAccount: json["refund_account"],
-        loanAccount: json["loan_account"],
-        bankAccount: json["bank_account"],
-        costCenter: json["cost_center"],
-        referenceDate: json["reference_date"],
-        daysPastDue: json["days_past_due"],
-        status: json["status"],
-        referenceNumber: json["reference_number"],
-        amendedFrom: json["amended_from"],
-         applicantMemberName: json["applicant_member_name"],
-      );
+ factory LoanDisbursementResult.fromJson(Map<String, dynamic> json) =>
+    LoanDisbursementResult(
+      name: json["name"] ?? "",
+      againstLoan: json["against_loan"] ?? "",
+      sanctionedLoanAmount:
+          (json["sanctioned_loan_amount"] ?? 0).toDouble(),
+      currentDisbursedAmount:
+          (json["current_disbursed_amount"] ?? 0).toDouble(),
+      postingDate: json["posting_date"] != null
+          ? DateTime.tryParse(json["posting_date"])
+          : null,
+      applicantType: json["applicant_type"] ?? "",
+      loanProduct: json["loan_product"]?.toString() ?? "",
+      monthlyRepaymentAmount:
+          (json["monthly_repayment_amount"] ?? 0).toDouble(),
+      loanPartner: json["loan_partner"],
+      company: json["company"] ?? "",
+      applicant: json["applicant"] ?? "",
+      repaymentScheduleType: json["repayment_schedule_type"] ?? "",
+      repaymentFrequency: json["repayment_frequency"] ?? "",
+      repaymentMethod: json["repayment_method"] ?? "",
+      tenure: json["tenure"] ?? 0,
+      repaymentStartDate: json["repayment_start_date"] != null
+          ? DateTime.tryParse(json["repayment_start_date"])
+          : null,
+      isTermLoan: json["is_term_loan"] ?? 0,
+      withholdSecurityDeposit: json["withhold_security_deposit"] ?? 0,
+      repaymentDays: json["repayment_days"] ?? 0,
+      disbursementDate: json["disbursement_date"] != null
+          ? DateTime.tryParse(json["disbursement_date"])
+          : null,
+      clearanceDate: json["clearance_date"],
+      bpiDifferenceDate: json["bpi_difference_date"],
+      brokenPeriodInterestDays: json["broken_period_interest_days"] ?? 0,
+      disbursedAmount: (json["disbursed_amount"] ?? 0).toDouble(),
+      brokenPeriodInterest: (json["broken_period_interest"] ?? 0).toDouble(),
+      bpiAmountDifference: (json["bpi_amount_difference"] ?? 0).toDouble(),
+      principalAmountPaid:
+          (json["principal_amount_paid"] ?? 0).toDouble(),
+      modeOfPayment: json["mode_of_payment"] ?? "",
+      disbursementAccount: json["disbursement_account"] ?? "",
+      refundAccount: json["refund_account"],
+      loanAccount: json["loan_account"] ?? "",
+      bankAccount: json["bank_account"],
+      costCenter: json["cost_center"] ?? "",
+      referenceDate: json["reference_date"],
+      daysPastDue: json["days_past_due"] ?? 0,
+      status: json["status"] ?? "",
+      referenceNumber: json["reference_number"],
+      amendedFrom: json["amended_from"] ?? "",
+      applicantMemberName: json["applicant_member_name"] ?? "",
+    );
+
 
   Map<String, dynamic> toJson() => {
         "name": name,

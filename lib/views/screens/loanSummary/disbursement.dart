@@ -6,6 +6,7 @@ import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 
 class DisbursementScreen extends StatelessWidget {
   DisbursementScreen({super.key});
@@ -93,9 +94,11 @@ class DisbursementScreen extends StatelessWidget {
                   onChanged: (newGroup) {
                     controller.selecteddisbursementGroup.value = newGroup ?? "";
                     if (controller.selecteddisbursementGroup.value.isEmpty) {
-                      controller.getLoanDisbursementList();
+                      controller.getLoanDisbursementList(
+                          page: controller.page.value);
                     } else {
-                      controller.getLoanDisbursementList();
+                      controller.getLoanDisbursementList(
+                          page: controller.page.value);
                     }
                   },
                 );
@@ -112,11 +115,10 @@ class DisbursementScreen extends StatelessWidget {
                     return const Center(child: Text("No members found"));
                   }
 
-                  return ListView.builder(
-                    itemCount: controller.loanDisbursementList.length,
-                    itemBuilder: (context, index) {
-                      final user = controller.loanDisbursementList[index];
-
+                  return LoadMoreListView(
+                    loadData: () => controller.getloadData(),
+                    loadMoreData: () => controller.getLoadMoreData(),
+                    children: controller.loanDisbursementList.map((user) {
                       return Column(
                         children: [
                           InkWell(
@@ -209,7 +211,7 @@ class DisbursementScreen extends StatelessWidget {
                           const Divider(color: Colors.grey),
                         ],
                       );
-                    },
+                    }).toList(), // ✅ added .toList()
                   );
                 }),
               ),
