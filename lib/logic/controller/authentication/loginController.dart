@@ -15,6 +15,7 @@ class LoginController extends GetxController {
   final showOtpSection = false.obs;
   RxString verifyEmail = "".obs;
   RxInt resetpasswordotp = 0.obs;
+  RxBool hidePassword = true.obs;
   final username = TextEditingController();
   final password = TextEditingController();
   Rx<TextEditingController> email = TextEditingController().obs;

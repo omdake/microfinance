@@ -83,20 +83,37 @@ class LoginWithPassword extends StatelessWidget {
                       LabelText(
                         label: Strings.Password,
                         isRequired: true,
-                        child: TextFormField(
-                          controller: controller.password,
-                          obscureText: true,
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                            hintText: "Enter Your Password",
-                            hintStyle: TextStyle(
-                              fontFamily: "Roboto-Regular",
-                              fontSize: 14,
-                              color: Colors.grey.shade500,
+                        child: Obx(
+                          () => TextFormField(
+                            obscureText: controller.hidePassword.value,
+                            controller: controller.password,
+                            autovalidateMode: AutovalidateMode.disabled,
+                            cursorColor: Colors.black,
+                            decoration: InputDecoration(
+                              hintText: "Enter Password",
+                              hintStyle: const TextStyle(
+                                fontFamily: "Roboto-Regular",
+                                fontSize: 14,
+                                color: Color(0xFF616161),
+                              ),
+                              border: _greyBorder(),
+                              enabledBorder: _greyBorder(),
+                              focusedBorder: _greyBorder(),
+                              errorBorder: _greyBorder(),
+                              disabledBorder: _greyBorder(),
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  controller.hidePassword.value =
+                                      !controller.hidePassword.value;
+                                },
+                                icon: Icon(
+                                  controller.hidePassword.value
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: Colors.grey,
+                                ),
+                              ),
                             ),
-                            border: _greyBorder(),
-                            enabledBorder: _greyBorder(),
-                            focusedBorder: _greyBorder(),
                           ),
                         ),
                       ),

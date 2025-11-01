@@ -93,7 +93,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
                                     sufficIcon: Icons.search,
-                                    hint: 'Search group...',
+                                    hint: 'Search Applicant...',
                                   ),
                                 ),
                               ),
@@ -175,7 +175,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
                                     sufficIcon: Icons.search,
-                                    hint: 'Search group...',
+                                    hint: 'Search Co-Borrower...',
                                   ),
                                 ),
                               ),
@@ -368,7 +368,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
                                     sufficIcon: Icons.search,
-                                    hint: 'Search group...',
+                                    hint: 'Search nominee...',
                                   ),
                                 ),
                               ),
