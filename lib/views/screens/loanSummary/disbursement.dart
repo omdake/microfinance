@@ -88,6 +88,8 @@ class DisbursementScreen extends StatelessWidget {
                     sufficIconOntap: () {},
                     sufficIcon: null,
                     hint: '',
+                  ).copyWith(
+                    contentPadding: EdgeInsets.zero,
                   ),
                   onChanged: (newGroup) {
                     controller.selecteddisbursementGroup.value =

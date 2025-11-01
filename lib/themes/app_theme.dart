@@ -9,10 +9,16 @@ export '../utils/assets.dart';
 export 'app_colors.dart';
 
 ThemeData appTheme = ThemeData(
-    brightness: Brightness.light,
-    colorScheme: colorScheme,
-    primaryColor: AppColors.primary,
-   fontFamily: "Roboto-regular",
-    textTheme: GoogleFonts.poppinsTextTheme().apply(bodyColor: Colors.black),
-    scaffoldBackgroundColor: AppColors.gray500,
-    appBarTheme: appBarTheme);
+  brightness: Brightness.light,
+  colorScheme: colorScheme,
+  primaryColor: AppColors.primary,
+  fontFamily: "Roboto-regular",
+  textTheme: GoogleFonts.poppinsTextTheme().apply(bodyColor: Colors.black),
+  scaffoldBackgroundColor: AppColors.gray500,
+  appBarTheme: appBarTheme,
+  textSelectionTheme: TextSelectionThemeData(
+    selectionColor: Colors.blue.shade100,
+    cursorColor: Colors.black,
+    selectionHandleColor: Colors.blueAccent,
+  ),
+);

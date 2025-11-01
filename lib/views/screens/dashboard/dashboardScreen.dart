@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
@@ -11,7 +13,7 @@ import 'package:microfinance/utils/ui_helper_widgets.dart';
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
   final controller = Get.put(DashboardController());
-
+  final random = Random();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,7 +107,7 @@ class DashboardScreen extends StatelessWidget {
           menuButton(
             "GROUP CREATION",
             Icons.group_add_outlined,
-            Routes.groupCreation,
+            Routes.groupList,
           ),
           C10(),
           menuButton(
@@ -157,47 +159,17 @@ class DashboardScreen extends StatelessWidget {
           ),
           C10(),
           Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: List.generate(30, (index) {
-                  final heights = [
-                    30.0,
-                    25.0,
-                    15.0,
-                    30.0,
-                    15.0,
-                    20.0,
-                    22.0,
-                    14.0,
-                    19.0,
-                    30.0,
-                    20.0,
-                    15.0,
-                    15.0,
-                    30.0,
-                    21.0,
-                    30.0,
-                    19.0,
-                    20.0,
-                    30.0,
-                    15.0,
-                    15.0,
-                    30.0,
-                    21.0,
-                    20.0,
-                    30.0,
-                    20.0,
-                    25.0,
-                    15.0,
-                    20.0,
-                    30.0,
-                    21.0
-                  ];
+                  int height = 10 + random.nextInt(50);
+
                   return Container(
                     width: 3,
-                    height: heights[index],
+                    height: height.toDouble(),
                     margin: const EdgeInsets.symmetric(horizontal: 3),
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.8),

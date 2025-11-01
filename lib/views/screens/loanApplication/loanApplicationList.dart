@@ -91,6 +91,8 @@ class LoanApplicationList extends StatelessWidget {
                     sufficIconOntap: () {},
                     sufficIcon: null,
                     hint: '',
+                  ).copyWith(
+                    contentPadding: EdgeInsets.zero,
                   ),
                   onChanged: (newGroup) {
                     controller.page.value = 1;

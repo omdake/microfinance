@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/logic/controller/authentication/loginController.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/themes/app_theme.dart';
 import 'package:microfinance/utils/strings.dart';
 import 'package:microfinance/utils/ui_helper.dart/lable_widget.dart';
@@ -63,16 +64,16 @@ class LoginWithPassword extends StatelessWidget {
                         label: Strings.UserName,
                         isRequired: true,
                         child: TextFormField(
+                          style: TextStyles.textfieldTextStyle,
                           controller: controller.username,
                           keyboardType: TextInputType.text,
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
                             hintText: "Enter Mobile/Email/Employee ID",
                             hintStyle: TextStyle(
-                              fontFamily: "Roboto-Regular",
-                              fontSize: 14,
-                              color: Colors.grey.shade500,
-                            ),
+                                color: Colors.grey.shade600,
+                                fontFamily: "Roboto-Regular",
+                                fontSize: 12),
                             border: _greyBorder(),
                             enabledBorder: _greyBorder(),
                             focusedBorder: _greyBorder(),
@@ -85,17 +86,17 @@ class LoginWithPassword extends StatelessWidget {
                         isRequired: true,
                         child: Obx(
                           () => TextFormField(
+                            style: TextStyles.textfieldTextStyle,
                             obscureText: controller.hidePassword.value,
                             controller: controller.password,
                             autovalidateMode: AutovalidateMode.disabled,
                             cursorColor: Colors.black,
                             decoration: InputDecoration(
                               hintText: "Enter Password",
-                              hintStyle: const TextStyle(
-                                fontFamily: "Roboto-Regular",
-                                fontSize: 14,
-                                color: Color(0xFF616161),
-                              ),
+                              hintStyle: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontFamily: "Roboto-Regular",
+                                  fontSize: 12),
                               border: _greyBorder(),
                               enabledBorder: _greyBorder(),
                               focusedBorder: _greyBorder(),
@@ -180,8 +181,8 @@ class LoginWithPassword extends StatelessWidget {
 
   OutlineInputBorder _greyBorder() {
     return OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
-      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Color(0xFFEAECF0)),
+      borderRadius: BorderRadius.circular(10),
     );
   }
 }

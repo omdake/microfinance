@@ -101,17 +101,16 @@ class GroupCreationScreen extends StatelessWidget {
                               searchInnerWidget: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: TextFormField(
-                                  cursorColor: Colors.black,
-                                  style: TextStyles.textfieldTextStyle,
-                                  controller:
-                                      controller.groupSearchController.value,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    sufficIconOntap: () {},
-                                    sufficIcon: Icons.search,
-                                    hint: 'Search group head...',
-                                  ),
-                                ),
+                                    cursorColor: Colors.black,
+                                    style: TextStyles.textfieldTextStyle,
+                                    controller:
+                                        controller.groupSearchController.value,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      sufficIconOntap: () {},
+                                      sufficIcon: Icons.search,
+                                      hint: 'Search group head...',
+                                    )),
                               ),
                               searchMatchFn: (item, searchValue) {
                                 if (searchValue.trim().length < 3) {
@@ -133,9 +132,12 @@ class GroupCreationScreen extends StatelessWidget {
                               maxHeight: 500,
                             ),
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "",
-                                sufficIconOntap: () {},
-                                sufficIcon: null),
+                                    hint: "",
+                                    sufficIconOntap: () {},
+                                    sufficIcon: null)
+                                .copyWith(
+                              contentPadding: EdgeInsets.zero,
+                            ),
                             onChanged: (value) {
                               controller.selectedGroupHead.value = value!;
                             },
