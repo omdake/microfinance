@@ -69,6 +69,8 @@ class LoanApplicationScreen extends StatelessWidget {
                               hint: "",
                               sufficIconOntap: () {},
                               sufficIcon: null,
+                            ).copyWith(
+                              contentPadding: EdgeInsets.zero,
                             ),
                             hint: Text(
                               "Select Applicant",
@@ -206,6 +208,8 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                               hint: '',
+                            ).copyWith(
+                              contentPadding: EdgeInsets.zero,
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
@@ -399,6 +403,8 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                               hint: '',
+                            ).copyWith(
+                              contentPadding: EdgeInsets.zero,
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {

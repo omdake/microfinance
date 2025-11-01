@@ -37,14 +37,8 @@ class MemberListScreen extends StatelessWidget {
                         sufficIconOntap: () {},
                         sufficIcon: null,
                         hint: '',
-                      ),
-                      hint: Text(
-                        "Select Group Head",
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontFamily: "Roboto-Regular",
-                          fontSize: 12,
-                        ),
+                      ).copyWith(
+                        contentPadding: EdgeInsets.zero,
                       ),
                       dropdownStyleData: DropdownStyleData(
                         maxHeight: 500,
