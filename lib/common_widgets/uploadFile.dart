@@ -439,19 +439,20 @@ Widget imagePickerField({
                     fieldState.errorText!,
                     style: TextStyle(
                       color: AppColors.primaryRed,
-                      fontSize: 13,
+                      fontSize: 12,
                     ),
                   ),
                 )
               else if (showError?.value == true && !hasFile)
                 Padding(
-                  padding: const EdgeInsets.only(top: 5),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                   child: Text(
                     "Please upload a file",
                     style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 12,
-                        fontFamily: "Roboto-regular"),
+                      color: AppColors.primaryRed,
+                      fontSize: 12,
+                    ),
                   ),
                 )
             ],

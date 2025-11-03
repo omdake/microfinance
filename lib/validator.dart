@@ -1,3 +1,5 @@
+import 'dart:io';
+
 String? commonValidator(String value) {
   if (value.isEmpty) {
     return 'This field is required';
@@ -154,6 +156,20 @@ String? loginPasswordValidator(String value) {
   final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$');
   if (!passwordRegex.hasMatch(value)) {
     return 'Password must contain letters and numbers';
+  }
+  return null;
+}
+
+String? imageFileValidator({
+  required File? localFile,
+  required String? networkUrl,
+  required String fieldName,
+}) {
+  final hasLocalFile = localFile != null;
+  final hasNetworkFile = networkUrl != null && networkUrl.isNotEmpty;
+
+  if (!hasLocalFile && !hasNetworkFile) {
+    return '$fieldName is required';
   }
   return null;
 }

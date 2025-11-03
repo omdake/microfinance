@@ -78,11 +78,12 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "First Name").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                    hint: "First Name")
+                                .copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -102,11 +103,12 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Middle Name").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                    hint: "Middle Name")
+                                .copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -126,11 +128,12 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Last Name").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                    hint: "Last Name")
+                                .copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -153,10 +156,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Email",
                             ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                filled: true,
+                                fillColor: !controller.isReadOnly.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -173,10 +176,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Select Gender",
                               ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                      filled: true,
+                                      fillColor: !controller.isReadOnly.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200),
                               style: TextStyles.textfieldTextStyle,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -234,10 +237,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 sufficIconOntap: () => controller.selectDate(
                                     context, controller.dob.value),
                               ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                      filled: true,
+                                      fillColor: !controller.isReadOnly.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200),
                             ),
                           ),
                         ],
@@ -323,10 +326,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Mobile Number",
                           ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                              filled: true,
+                              fillColor: !controller.isReadOnly.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200),
                           inputFormatters: [
                             MobileNumberPrefixFormatter(),
                           ],
@@ -348,10 +351,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Mobile Number",
                             ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                filled: true,
+                                fillColor: !controller.isReadOnly.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200),
                             inputFormatters: [
                               MobileNumberPrefixFormatter(),
                             ],
@@ -371,10 +374,13 @@ class PersonalDetailsScreen extends StatelessWidget {
                         onTap: () =>
                             controller.pickImage(controller.memberImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                        validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].memberImage
+                              : null,
+                          fieldName: 'Member Image',
+                        ),
                       ),
                       C10(),
                       paddingWidget([
@@ -406,10 +412,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                filled: true,
+                                fillColor: !controller.isReadOnly.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200),
                             onChanged: isEnabled
                                 ? (value) {
                                     controller.selectedGroup.value =
@@ -457,10 +463,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                filled: true,
+                                fillColor: !controller.isReadOnly.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200),
                             onChanged: isEnabled
                                 ? (value) {
                                     controller.selectedOccupation.value =
@@ -493,6 +499,13 @@ class PersonalDetailsScreen extends StatelessWidget {
                       ]),
                       C10(),
                       Obx(() {
+                        if (controller.isLoading.value) {
+                          return Center(
+                            child: CircularProgressIndicator(
+                                color: AppColors.primary),
+                          );
+                        }
+
                         return AppButton(
                           title:
                               controller.isMemberId.value ? "Update" : "Save",
