@@ -15,7 +15,7 @@ class SplashController extends GetxController {
   Future<void> getScreen() async {
     final token = await AppPreferences.getToken() ?? "";
     if (token.isNotEmpty) {
-      Get.offAllNamed(Routes.dashboardScreen);
+      Get.offAllNamed(Routes.homeScreen);
     } else {
       Get.offAllNamed(Routes.loginScreen);
     }

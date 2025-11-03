@@ -5,27 +5,40 @@ class MobileNumberPrefixFormatter extends TextInputFormatter {
 
   @override
   TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
-    if (!newValue.text.startsWith(prefix)) {
-      return oldValue;
-    }
-    String afterPrefix = newValue.text.substring(prefix.length);
-    afterPrefix = afterPrefix.replaceAll(RegExp(r'[^0-9]'), '');
-    if (afterPrefix.length > 10) {
-      afterPrefix = afterPrefix.substring(0, 10);
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    String newText = newValue.text;
+    if (!newText.startsWith(prefix)) {
+      if (newText.length < prefix.length) {
+        return TextEditingValue(
+          text: prefix,
+          selection: const TextSelection.collapsed(offset: 3),
+        );
+      }
+
+      newText = prefix + newText.replaceAll(RegExp(r'[^0-9]'), '');
+    } else {
+      String afterPrefix = newText.substring(prefix.length);
+      afterPrefix = afterPrefix.replaceAll(RegExp(r'[^0-9]'), '');
+
+      if (afterPrefix.length > 10) {
+        afterPrefix = afterPrefix.substring(0, 10);
+      }
+
+      newText = prefix + afterPrefix;
     }
 
-    final updatedText = prefix + afterPrefix;
-    int selectionIndex = newValue.selection.end;
-    if (selectionIndex < prefix.length) {
-      selectionIndex = prefix.length;
-    } else if (selectionIndex > updatedText.length) {
-      selectionIndex = updatedText.length;
+    int cursorPosition = newValue.selection.end;
+    if (cursorPosition < prefix.length) {
+      cursorPosition = prefix.length;
+    } else if (cursorPosition > newText.length) {
+      cursorPosition = newText.length;
     }
 
     return TextEditingValue(
-      text: updatedText,
-      selection: TextSelection.collapsed(offset: selectionIndex),
+      text: newText,
+      selection: TextSelection.collapsed(offset: cursorPosition),
     );
   }
 }

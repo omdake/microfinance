@@ -39,6 +39,7 @@ class AddressDetailsScreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Address Line 1", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.address.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -47,7 +48,11 @@ class AddressDetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Address Line 1"),
+                              hint: "Address Line 1").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -56,6 +61,7 @@ class AddressDetailsScreen extends StatelessWidget {
                       [
                         const LabelsWithMark(label: "Address Line 2",isRequired: true,),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.addressLineTwo.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -64,7 +70,11 @@ class AddressDetailsScreen extends StatelessWidget {
                            validator: (value) => requiredValidator(value!),
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Address line 2"),
+                              hint: "Address line 2").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -87,7 +97,11 @@ class AddressDetailsScreen extends StatelessWidget {
                           decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Select State",
                               sufficIconOntap: () {},
-                              sufficIcon: null),
+                              sufficIcon: null).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           onChanged: (value) {
                             controller.selectedState.value = value!;
                           },
@@ -106,6 +120,7 @@ class AddressDetailsScreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Country", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.country.value,
                           readOnly: true,
                           cursorColor: AppColors.primary,
@@ -115,7 +130,11 @@ class AddressDetailsScreen extends StatelessWidget {
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Country",
-                          ),
+                          ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -124,6 +143,7 @@ class AddressDetailsScreen extends StatelessWidget {
                       [
                         const LabelsWithMark(label: "City", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.city.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -132,7 +152,11 @@ class AddressDetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "City"),
+                              hint: "City").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -142,6 +166,7 @@ class AddressDetailsScreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Pin Code", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.pincode.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -150,7 +175,11 @@ class AddressDetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Pin Code"),
+                              hint: "Pin Code").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),

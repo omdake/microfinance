@@ -21,7 +21,6 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 
 class MemberCreationController extends GetxController {
   Rx<TextEditingController> dob = TextEditingController().obs;
-  Rx<TextEditingController> memeberId = TextEditingController().obs;
   Rx<TextEditingController> firstName = TextEditingController().obs;
   Rx<TextEditingController> middleName = TextEditingController().obs;
   Rx<TextEditingController> lastName = TextEditingController().obs;
@@ -50,6 +49,7 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> addressDocType = TextEditingController().obs;
   Rx<TextEditingController> country = TextEditingController(text: "India").obs;
   Rx<TextEditingController> createdBy = TextEditingController().obs;
+  Rx<TextEditingController> memberId = TextEditingController().obs;
   Rx<File?> aadharImage = Rx<File?>(null);
   Rx<File?> homeImage = Rx<File?>(null);
   Rx<File?> panImage = Rx<File?>(null);
@@ -60,6 +60,7 @@ class MemberCreationController extends GetxController {
   Rx<File?> aadharbackImage = Rx<File?>(null);
   Rx<File?> panbackImage = Rx<File?>(null);
   Rx<File?> voterbackImage = Rx<File?>(null);
+  final RxBool memberError = false.obs;
   RxBool isvoterImageFocused = false.obs;
   RxBool ishomeImageFocused = false.obs;
   RxBool isAadharImageFocused = false.obs;
@@ -89,6 +90,7 @@ class MemberCreationController extends GetxController {
   RxString selectedGroupId = "".obs;
   RxBool showOnlyGeoFields = false.obs;
   RxBool isCreatedBy = false.obs;
+  RxBool isMemberId = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
   final List<String> genderList = ["Male", "Female", "Other"];
@@ -106,6 +108,7 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> homelatitude = TextEditingController().obs;
   Rx<TextEditingController> homelongitude = TextEditingController().obs;
   Rx<TextEditingController> homeGeoLocation = TextEditingController().obs;
+  RxBool isReadOnly = false.obs;
 
   @override
   void onInit() async {
@@ -119,6 +122,10 @@ class MemberCreationController extends GetxController {
     if (args != null && args['name'] != null) {
       name.value = args['name'].toString();
       await getLoanMember(memberName: name.value);
+    }
+
+    if (args?['isReadOnly'] != null) {
+      isReadOnly.value = args?['isReadOnly'] as bool? ?? false;
     }
   }
 
@@ -264,7 +271,6 @@ class MemberCreationController extends GetxController {
       request.headers['Authorization'] = token!;
       request.fields.addAll({
         'first_name': firstName.value.text,
-        'member_id': memeberId.value.text,
         'middle_name': middleName.value.text,
         'last_name': lastName.value.text,
         'gender': selectedGender.value,
@@ -356,7 +362,7 @@ class MemberCreationController extends GetxController {
       Map<String, String> fields = {
         'name': name.value,
         'first_name': firstName.value.text,
-        'member_id': memeberId.value.text,
+        'member_id': memberId.value.text,
         'middle_name': middleName.value.text,
         'last_name': lastName.value.text,
         'gender': selectedGender.value,
@@ -481,7 +487,6 @@ class MemberCreationController extends GetxController {
         final memberData = LoanMemberListResult.fromJson(data['message']);
         loanMember.value = [memberData];
         name.value = memberData.name ?? '';
-        memeberId.value.text = memberData.memberId ?? '';
         firstName.value.text = memberData.firstName ?? '';
         middleName.value.text = memberData.middleName ?? '';
         cibilScore.value.text = memberData.cibilScore.toString();
@@ -515,6 +520,10 @@ class MemberCreationController extends GetxController {
           homelatitude.value.text = memberData.latitude.toString();
           homeGeoLocation.value.text = memberData.geoLocation ?? '';
           showOnlyGeoFields.value = true;
+        }
+        if (memberData.memberId != null) {
+          memberId.value.text = memberData.memberId ?? '';
+          isMemberId.value = true;
         }
         if (memberData.createdBy != null) {
           createdBy.value.text = memberData.createdBy ?? '';
@@ -612,7 +621,7 @@ class MemberCreationController extends GetxController {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
-        Get.toNamed(Routes.dashboardScreen);
+        Get.toNamed(Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
@@ -628,7 +637,6 @@ class MemberCreationController extends GetxController {
   }
 
   void clearAllFields() {
-    memeberId.value.clear();
     firstName.value.clear();
     middleName.value.clear();
     lastName.value.clear();

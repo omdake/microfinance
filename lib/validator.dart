@@ -143,3 +143,17 @@ String? pincodeValidator(String value) {
   if (!regex.hasMatch(value)) return 'Please enter a valid 6-digit pincode';
   return null;
 }
+
+String? loginPasswordValidator(String value) {
+  if (value.isEmpty) {
+    return 'Password field is required';
+  } 
+  if (value.length < 6) {
+    return 'Password must be at least 6 characters long';
+  }
+  final passwordRegex = RegExp(r'^(?=.*[A-Za-z])(?=.*\d).+$');
+  if (!passwordRegex.hasMatch(value)) {
+    return 'Password must contain letters and numbers';
+  }
+  return null;
+}

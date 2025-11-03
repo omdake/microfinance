@@ -39,7 +39,7 @@ class ResetPasswordController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-         Get.until((route) => Get.currentRoute == Routes.dashboardScreen);
+         Get.until((route) => Get.currentRoute == Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       }else {

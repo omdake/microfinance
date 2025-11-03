@@ -45,19 +45,24 @@ class UploadDcumentSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Aadhar Card Number", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.aadharNumber.value,
                           cursorColor: AppColors.primary,
                           keyboardType: TextInputType.number,
                           validator: (value) => aadharValidator(value!.trim()),
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Aadhar Number",
-                          ),
+                            hint: "Aadhar Card Number",
+                          ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ]),
                       C10(),
                       imagePickerField(
-                        label: "AadharCard Front Image",
+                        label: "Aadhar Card Front Image",
                         isRequired: true,
                         imageFile: controller.aadharImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -66,10 +71,15 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isAadharImageFocused,
                         onTap: () =>
                             controller.pickImage(controller.aadharImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C10(),
                       imagePickerField(
-                        label: "AadharCard Back Image",
+                        label: "Aadhar Card Back Image",
                         isRequired: true,
                         imageFile: controller.aadharbackImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -78,57 +88,85 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isAadharbackImageFocused,
                         onTap: () =>
                             controller.pickImage(controller.aadharbackImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
+                      ),
+                      C10(),
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "Pan Card Number", isRequired: true),
+                          TextFormField(
+                            enabled: !controller.isReadOnly.value,
+                            controller: controller.panNumber.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.characters,
+                            keyboardType: TextInputType.text,
+                            validator: (value) => panValidator(value!.trim()),
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              hint: "Pan Card Number",
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
+                          ),
+                        ],
+                      ),
+                      C10(),
+                      imagePickerField(
+                        label: "Pan Card Front Image",
+                        isRequired: true,
+                        imageFile: controller.panImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].pancardImage ?? ''
+                            : ''),
+                        isFocused: controller.isPanImageFocused,
+                        onTap: () => controller.pickImage(controller.panImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
+                      ),
+                      C10(),
+                      imagePickerField(
+                        label: "Pan Card Back Image",
+                        isRequired: true,
+                        imageFile: controller.panbackImage,
+                        imageUrl: RxString(controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].pancardImageBack ?? ''
+                            : ''),
+                        isFocused: controller.isAadharbackImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.panbackImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C10(),
                       paddingWidget([
                         const LabelsWithMark(
-                            label: "Pan Card Number", isRequired: true),
-                        TextFormField(
-                          controller: controller.panNumber.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.characters,
-                          keyboardType: TextInputType.text,
-                          validator: (value) => panValidator(value!.trim()),
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Pan Card Number",
-                          ),
+                          label: "Address Document",
+                          isRequired: true,
                         ),
-                      ],
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "PanCard Front Image",
-                      isRequired: true,
-                      imageFile: controller.panImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].pancardImage ?? ''
-                          : ''),
-                      isFocused: controller.isPanImageFocused,
-                      onTap: () => controller.pickImage(controller.panImage),
-                    ),
-                    C10(),
-                    imagePickerField(
-                      label: "PanCard Back Image",
-                      isRequired: true,
-                      imageFile: controller.panbackImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].pancardImageBack ?? ''
-                          : ''),
-                      isFocused: controller.isAadharbackImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.panbackImage),
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Address Document", isRequired: true),
                         Obx(() {
+                          final isEnabled = !controller.isReadOnly.value;
+
                           return DropdownButtonFormField<String>(
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Select Address Document",
-                            ),
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                             style: TextStyles.textfieldTextStyle,
                             items: controller.addressDocTypeList
                                 .map((addressDocType) {
@@ -141,11 +179,18 @@ class UploadDcumentSreen extends StatelessWidget {
                                     .selectedAddressDocType.value.isNotEmpty
                                 ? controller.selectedAddressDocType.value
                                 : null,
-                            onChanged: (value) {
-                              if (value != null) {
-                                controller.selectedAddressDocType.value = value;
-                              }
-                            },
+                            onChanged: isEnabled
+                                ? (value) {
+                                    if (value != null) {
+                                      controller.selectedAddressDocType.value =
+                                          value;
+                                    }
+                                  }
+                                : null,
+                            disabledHint: controller
+                                    .selectedAddressDocType.value.isNotEmpty
+                                ? Text(controller.selectedAddressDocType.value)
+                                : const Text("Select Address Document"),
                             validator: (value) {
                               if (controller
                                   .selectedAddressDocType.value.isEmpty) {
@@ -167,6 +212,11 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isAddressImageFocused,
                         onTap: () =>
                             controller.pickImage(controller.addressImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C10(),
                       imagePickerField(
@@ -184,6 +234,11 @@ class UploadDcumentSreen extends StatelessWidget {
                           controller.geoLocation.value = address;
                         },
                         onTap: () => controller.pickImage(controller.homeImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C10(),
                       Obx(() => Column(
@@ -198,6 +253,7 @@ class UploadDcumentSreen extends StatelessWidget {
                                       label: "Latitude", isRequired: true),
                                   TextFormField(
                                     readOnly: true,
+                                    enabled: !controller.isReadOnly.value,
                                     controller: controller.homelatitude.value,
                                     cursorColor: AppColors.primary,
                                     style: TextStyles.textfieldTextStyle,
@@ -223,6 +279,7 @@ class UploadDcumentSreen extends StatelessWidget {
                                   const LabelsWithMark(
                                       label: "Longitude", isRequired: true),
                                   TextFormField(
+                                    enabled: !controller.isReadOnly.value,
                                     readOnly: true,
                                     controller: controller.homelongitude.value,
                                     cursorColor: AppColors.primary,
@@ -248,6 +305,7 @@ class UploadDcumentSreen extends StatelessWidget {
                                       label: "Geo Location", isRequired: true),
                                   TextFormField(
                                     readOnly: true,
+                                    enabled: !controller.isReadOnly.value,
                                     controller:
                                         controller.homeGeoLocation.value,
                                     cursorColor: AppColors.primary,
@@ -271,6 +329,7 @@ class UploadDcumentSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Voter Id Number", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.voterId.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.characters,
@@ -278,13 +337,17 @@ class UploadDcumentSreen extends StatelessWidget {
                           validator: (value) => voterIdValidator(value!.trim()),
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Voter Id",
-                          ),
+                            hint: "Voter Id Number",
+                          ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ]),
                       C10(),
                       imagePickerField(
-                        label: "VoterId Front Image",
+                        label: "Voter Id Front Image",
                         isRequired: true,
                         imageFile: controller.voterImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -294,10 +357,15 @@ class UploadDcumentSreen extends StatelessWidget {
                         onTap: () {
                           controller.pickImage(controller.voterImage);
                         },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C20(),
                       imagePickerField(
-                        label: "VoterId Back Image",
+                        label: "Voter Id Back Image",
                         isRequired: true,
                         imageFile: controller.voterbackImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -306,6 +374,11 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isvoterbackImageFocused,
                         onTap: () {
                           controller.pickImage(controller.voterbackImage);
+                        },
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
                         },
                       ),
                       C20(),

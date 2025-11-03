@@ -6,23 +6,26 @@ import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart'
     show imagePickerField;
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/groupCreation/groupScreenController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/validator.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
   final _formKey = GlobalKey<FormState>();
   final GroupScreenController controller = Get.put(GroupScreenController());
-
+  final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Group Create"),
+      // bottomNavigationBar: const CustomBottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
@@ -61,6 +64,7 @@ class GroupCreationScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             keyboardType: TextInputType.name,
+                            validator: (value) => requiredValidator(value!),
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Enter Group Name"),
@@ -136,7 +140,7 @@ class GroupCreationScreen extends StatelessWidget {
                                     sufficIconOntap: () {},
                                     sufficIcon: null)
                                 .copyWith(
-                              contentPadding: EdgeInsets.zero,
+                              contentPadding: EdgeInsets.all(-5),
                             ),
                             onChanged: (value) {
                               controller.selectedGroupHead.value = value!;
