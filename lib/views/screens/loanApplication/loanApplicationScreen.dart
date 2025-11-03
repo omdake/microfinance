@@ -90,12 +90,12 @@ class LoanApplicationScreen extends StatelessWidget {
                             label: "Applicant Name", isRequired: true),
                         Obx(() {
                           return DropdownButtonFormField2<String>(
-                            value: controller.selectedMemberName.value.isEmpty
+                            value: controller.selectedApplicantId.value.isEmpty
                                 ? null
-                                : controller.selectedMemberName.value,
+                                : controller.selectedApplicantId.value,
                             items: controller.loanMemberAsPerGroup.map((e) {
                               return DropdownMenuItem<String>(
-                                value: e.memberName ?? "",
+                                value: e.name ?? "",
                                 child: Text(e.memberName ?? ""),
                               );
                             }).toList(),
@@ -158,9 +158,9 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
-                                final selectedMember =
-                                    controller.loanMemberAsPerGroup.firstWhere(
-                                        (e) => e.memberName == newValue);
+                                final selectedMember = controller
+                                    .loanMemberAsPerGroup
+                                    .firstWhere((e) => e.name == newValue);
                                 controller.selectedMemberName.value =
                                     selectedMember.memberName?.trim() ?? "";
                                 controller.selectedApplicantId.value =
@@ -172,7 +172,10 @@ class LoanApplicationScreen extends StatelessWidget {
                                     controller.selectedGroup.value);
                                 controller.getNomineeList(
                                     controller.selectedGroup.value);
-                                ;
+                                controller.selectedCoBorrowerId.value = "";
+                                controller.selectedCoBorrower.value = "";
+                                controller.selectednominee.value = "";
+                                controller.selectedNomineeId.value = "";
                               }
                             },
                             validator: (value) {
@@ -188,81 +191,105 @@ class LoanApplicationScreen extends StatelessWidget {
                       paddingWidget([
                         const LabelsWithMark(label: "Co-Borrower"),
                         Obx(() {
-                          return DropdownButtonFormField2<String>(
-                            value: controller.selectedCoBorrowerId.value.isEmpty
-                                ? null
-                                : controller.selectedCoBorrowerId.value,
-                            hint: Text(
-                              "Select A Co-Borrower Name",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontFamily: "Roboto-Regular",
-                                fontSize: 12,
-                              ),
-                            ),
-                            dropdownSearchData: DropdownSearchData(
-                              searchController:
-                                  controller.coborrowerSearchController.value,
-                              searchInnerWidgetHeight: 50,
-                              searchInnerWidget: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: TextFormField(
-                                  cursorColor: Colors.black,
-                                  style: TextStyles.textfieldTextStyle,
-                                  controller: controller
-                                      .coborrowerSearchController.value,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    sufficIconOntap: () {},
-                                    sufficIcon: Icons.search,
-                                    hint: 'Search Co-Borrower...',
+                          return Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              DropdownButtonFormField2<String>(
+                                value: controller
+                                        .selectedCoBorrowerId.value.isEmpty
+                                    ? null
+                                    : controller.selectedCoBorrowerId.value,
+                                hint: Text(
+                                  "Select A Co-Borrower Name",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontFamily: "Roboto-Regular",
+                                    fontSize: 12,
                                   ),
                                 ),
+                                dropdownSearchData: DropdownSearchData(
+                                  searchController: controller
+                                      .coborrowerSearchController.value,
+                                  searchInnerWidgetHeight: 50,
+                                  searchInnerWidget: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      style: TextStyles.textfieldTextStyle,
+                                      controller: controller
+                                          .coborrowerSearchController.value,
+                                      decoration: TextFieldDecoration
+                                          .textfieldDecoration(
+                                        sufficIconOntap: () {},
+                                        sufficIcon: Icons.search,
+                                        hint: 'Search Co-Borrower...',
+                                      ),
+                                    ),
+                                  ),
+                                  searchMatchFn: (item, searchValue) {
+                                    if (searchValue.trim().length < 3) {
+                                      return true;
+                                    }
+                                    return (item.child is Text &&
+                                        (item.child as Text)
+                                            .data!
+                                            .toLowerCase()
+                                            .contains(
+                                                searchValue.toLowerCase()));
+                                  },
+                                ),
+                                onMenuStateChange: (isOpen) {
+                                  if (!isOpen) {
+                                    controller.coborrowerSearchController.value
+                                        .clear();
+                                  }
+                                },
+                                items: controller.coBorrowerList.map((e) {
+                                  return DropdownMenuItem<String>(
+                                    value: e.name ?? "",
+                                    child: Text(e.memberName ?? ""),
+                                  );
+                                }).toList(),
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                  hint: '',
+                                  sufficIcon: null,
+                                ).copyWith(
+                                  contentPadding: EdgeInsets.all(-5),
+                                ),
+                                dropdownStyleData: DropdownStyleData(
+                                  maxHeight: 500,
+                                ),
+                                onChanged: (newValue) {
+                                  if (newValue != null) {
+                                    controller.selectedCoBorrowerId.value =
+                                        newValue;
+                                    final selected = controller.coBorrowerList
+                                        .firstWhere((e) => e.name == newValue);
+                                    controller.selectedCoBorrower.value =
+                                        selected.memberName ?? "";
+                                  }
+                                },
                               ),
-                              searchMatchFn: (item, searchValue) {
-                                if (searchValue.trim().length < 3) {
-                                  return true;
-                                }
-                                return (item.child is Text &&
-                                    (item.child as Text)
-                                        .data!
-                                        .toLowerCase()
-                                        .contains(searchValue.toLowerCase()));
-                              },
-                            ),
-                            onMenuStateChange: (isOpen) {
-                              if (!isOpen) {
-                                controller.coborrowerSearchController.value
-                                    .clear();
-                              }
-                            },
-                            items: controller.coBorrowerList.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e.name ?? "",
-                                child: Text(e.memberName ?? ""),
-                              );
-                            }).toList(),
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              sufficIconOntap: () {},
-                              sufficIcon: null,
-                              hint: '',
-                            ).copyWith(
-                              contentPadding: EdgeInsets.all(-5),
-                            ),
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 500,
-                            ),
-                            onChanged: (newValue) {
-                              if (newValue != null) {
-                                controller.selectedCoBorrowerId.value =
-                                    newValue;
-                                final selected = controller.coBorrowerList
-                                    .firstWhere((e) => e.name == newValue);
-                                controller.selectedCoBorrower.value =
-                                    selected.memberName ?? "";
-                              }
-                            },
+                              if (controller
+                                  .selectedCoBorrowerId.value.isNotEmpty)
+                                Positioned(
+                                  right: 40,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.selectedCoBorrowerId.value =
+                                          "";
+                                      controller.selectedCoBorrower.value = "";
+                                    },
+                                    child: const Icon(
+                                      Icons.close,
+                                      size: 18,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           );
                         }),
                       ]),
