@@ -72,10 +72,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         onTap: () =>
                             controller.pickImage(controller.aadharImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                           validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].aadharImage
+                              : null,
+                          fieldName: 'Aadhar Card Front Image',
+                        ),
                       ),
                       C10(),
                       imagePickerField(
@@ -89,10 +92,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         onTap: () =>
                             controller.pickImage(controller.aadharbackImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].aadharImageBack
+                              : null,
+                          fieldName: 'Aadhar Card Back Image',
+                        ),
                       ),
                       C10(),
                       paddingWidget(
@@ -128,10 +134,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         isFocused: controller.isPanImageFocused,
                         onTap: () => controller.pickImage(controller.panImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].pancardImage
+                              : null,
+                          fieldName: 'Pan Card Front Image',
+                        ),
                       ),
                       C10(),
                       imagePickerField(
@@ -145,10 +154,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         onTap: () =>
                             controller.pickImage(controller.panbackImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].pancardImageBack
+                              : null,
+                          fieldName: 'Pan Card Back Image',
+                        ),
                       ),
                       C10(),
                       paddingWidget([
@@ -213,10 +225,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         onTap: () =>
                             controller.pickImage(controller.addressImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].addressImage
+                              : null,
+                          fieldName: 'Address Image',
+                        ),
                       ),
                       C10(),
                       imagePickerField(
@@ -235,10 +250,13 @@ class UploadDcumentSreen extends StatelessWidget {
                         },
                         onTap: () => controller.pickImage(controller.homeImage),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                         validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].homeImage
+                              : null,
+                          fieldName: 'Home Image',
+                        ),
                       ),
                       C10(),
                       Obx(() => Column(
@@ -358,10 +376,13 @@ class UploadDcumentSreen extends StatelessWidget {
                           controller.pickImage(controller.voterImage);
                         },
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].voterIdImage
+                              : null,
+                          fieldName: 'Voter Id Front Image',
+                        ),
                       ),
                       C20(),
                       imagePickerField(
@@ -376,10 +397,13 @@ class UploadDcumentSreen extends StatelessWidget {
                           controller.pickImage(controller.voterbackImage);
                         },
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) {
-                          if (file == null) return "This field is required";
-                          return null;
-                        },
+                          validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].voterIdImageBack
+                              : null,
+                          fieldName: 'Voter Id Back Image',
+                        ),
                       ),
                       C20(),
                       Row(
