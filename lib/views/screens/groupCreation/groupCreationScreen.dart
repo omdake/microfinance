@@ -75,78 +75,102 @@ class GroupCreationScreen extends StatelessWidget {
                       paddingWidget([
                         LabelsWithMark(label: "Group Head"),
                         Obx(() {
-                          return DropdownButtonFormField2<String>(
-                            value: controller.selectedGroupHead.value.isEmpty
-                                ? null
-                                : controller.selectedGroupHead.value,
-                            isExpanded: true,
-                            items: controller.groupheadList.map((e) {
-                              return DropdownMenuItem(
-                                value: e.name.toString(),
-                                child: Text(
-                                  e.memberName ?? '',
-                                  overflow: TextOverflow.ellipsis,
+                          return Stack(
+                            alignment: Alignment.centerRight,
+                            children: [
+                              DropdownButtonFormField2<String>(
+                                value:
+                                    controller.selectedGroupHead.value.isEmpty
+                                        ? null
+                                        : controller.selectedGroupHead.value,
+                                isExpanded: true,
+                                items: controller.groupheadList.map((e) {
+                                  return DropdownMenuItem(
+                                    value: e.name.toString(),
+                                    child: Text(
+                                      e.memberName ?? '',
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  );
+                                }).toList(),
+                                style: TextStyles.textfieldTextStyle,
+                                hint: Text(
+                                  "Select Group Head",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontFamily: "Roboto-Regular",
+                                    fontSize: 12,
+                                  ),
                                 ),
-                              );
-                            }).toList(),
-                            style: TextStyles.textfieldTextStyle,
-                            hint: Text(
-                              "Select Group Head",
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontFamily: "Roboto-Regular",
-                                fontSize: 12,
+                                dropdownSearchData: DropdownSearchData(
+                                  searchController:
+                                      controller.groupSearchController.value,
+                                  searchInnerWidgetHeight: 50,
+                                  searchInnerWidget: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      style: TextStyles.textfieldTextStyle,
+                                      controller: controller
+                                          .groupSearchController.value,
+                                      decoration: TextFieldDecoration
+                                          .textfieldDecoration(
+                                        sufficIconOntap: () {},
+                                        sufficIcon: Icons.search,
+                                        hint: 'Search group head...',
+                                      ),
+                                    ),
+                                  ),
+                                  searchMatchFn: (item, searchValue) {
+                                    if (searchValue.trim().length < 3) {
+                                      return true;
+                                    }
+                                    return (item.child is Text &&
+                                        (item.child as Text)
+                                            .data!
+                                            .toLowerCase()
+                                            .contains(
+                                                searchValue.toLowerCase()));
+                                  },
+                                ),
+                                onMenuStateChange: (isOpen) {
+                                  if (!isOpen) {
+                                    controller.groupSearchController.value
+                                        .clear();
+                                  }
+                                },
+                                dropdownStyleData: DropdownStyleData(
+                                  maxHeight: 500,
+                                ),
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                  hint: "",
+                                  sufficIconOntap: () {},
+                                  sufficIcon: null,
+                                ).copyWith(
+                                  contentPadding: const EdgeInsets.all(-5),
+                                ),
+                                onChanged: (value) {
+                                  controller.selectedGroupHead.value = value!;
+                                },
                               ),
-                            ),
-                            dropdownSearchData: DropdownSearchData(
-                              searchController:
-                                  controller.groupSearchController.value,
-                              searchInnerWidgetHeight: 50,
-                              searchInnerWidget: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: TextFormField(
-                                    cursorColor: Colors.black,
-                                    style: TextStyles.textfieldTextStyle,
-                                    controller:
-                                        controller.groupSearchController.value,
-                                    decoration:
-                                        TextFieldDecoration.textfieldDecoration(
-                                      sufficIconOntap: () {},
-                                      sufficIcon: Icons.search,
-                                      hint: 'Search group head...',
-                                    )),
-                              ),
-                              searchMatchFn: (item, searchValue) {
-                                if (searchValue.trim().length < 3) {
-                                  return true;
-                                }
-                                return (item.child is Text &&
-                                    (item.child as Text)
-                                        .data!
-                                        .toLowerCase()
-                                        .contains(searchValue.toLowerCase()));
-                              },
-                            ),
-                            onMenuStateChange: (isOpen) {
-                              if (!isOpen) {
-                                controller.groupSearchController.value.clear();
-                              }
-                            },
-                            dropdownStyleData: DropdownStyleData(
-                              maxHeight: 500,
-                            ),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "",
-                                    sufficIconOntap: () {},
-                                    sufficIcon: null)
-                                .copyWith(
-                              contentPadding: EdgeInsets.all(-5),
-                            ),
-                            onChanged: (value) {
-                              controller.selectedGroupHead.value = value!;
-                            },
+                              if (controller.selectedGroupHead.value.isNotEmpty)
+                                Positioned(
+                                  right: 40,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      controller.selectedGroupHead.value = "";
+                                    },
+                                    child: const Icon(
+                                      Icons.close,
+                                      size: 18,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           );
-                        })
+                        }),
                       ]),
                       C10(),
                       imagePickerField(
@@ -157,7 +181,6 @@ class GroupCreationScreen extends StatelessWidget {
                         isEnabled: !controller.isReadOnly.value,
                         onTap: () =>
                             controller.pickImage(controller.groupImage),
-                        isRequired: false,
                       ),
                       C50(),
                       Obx(

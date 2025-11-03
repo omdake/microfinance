@@ -25,6 +25,8 @@ class LoanEmiListMessage {
   String? applicant;
   String? memberName;
   String? group;
+  String? mobileNo;
+  String? mobileNo2;
   double? amountPaid;
   String? paymentStatus;
   double? remainingAmount;
@@ -37,6 +39,8 @@ class LoanEmiListMessage {
     this.totalPayment,
     this.balanceLoanAmount,
     this.loan,
+    this.mobileNo,
+    this.mobileNo2,
     this.applicantType,
     this.applicant,
     this.memberName,
@@ -64,6 +68,8 @@ class LoanEmiListMessage {
         amountPaid: (json["amount_paid"] as num?)?.toDouble(),
         paymentStatus: json["payment_status"],
         remainingAmount: (json["remaining_amount"] as num?)?.toDouble(),
+        mobileNo: json["mobile_no"],
+        mobileNo2: json["mobile_no_2"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,5 +87,7 @@ class LoanEmiListMessage {
         "amount_paid": amountPaid,
         "payment_status": paymentStatus,
         "remaining_amount": remainingAmount,
+        "mobile_no": mobileNo,
+        "mobile_no_2": mobileNo2,
       };
 }

@@ -8,6 +8,7 @@ import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LoanEMIScreen extends StatelessWidget {
   const LoanEMIScreen({super.key});
@@ -58,7 +59,7 @@ class LoanEMIScreen extends StatelessWidget {
                     itemCount: controller.loanEMIList.length,
                     itemBuilder: (context, index) {
                       final user = controller.loanEMIList[index];
-
+                      final phoneNumber = user.mobileNo ?? '';
                       return Column(
                         children: [
                           Container(
@@ -74,26 +75,26 @@ class LoanEMIScreen extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Member Name: ${user.memberName ?? ""}",
+                                        "Name: ${user.memberName ?? ""}",
                                         style: const TextStyle(
-                                          fontFamily: "Roboto-Medium",
-                                          fontSize: 15,
+                                          fontFamily: "Roboto-Regular",
+                                          fontSize: 14,
                                           color: Colors.black,
                                         ),
                                       ),
                                       Text(
                                         "Loan ID: ${user.loan ?? ""}",
                                         style: const TextStyle(
-                                          fontFamily: "Roboto-Medium",
-                                          fontSize: 15,
+                                          fontFamily: "Roboto-Regular",
+                                          fontSize: 14,
                                           color: Colors.black,
                                         ),
                                       ),
                                       Text(
                                         "Total Amt: ${user.totalPayment?.toStringAsFixed(2) ?? "0.00"}",
                                         style: const TextStyle(
-                                          fontFamily: "Roboto-Medium",
-                                          fontSize: 15,
+                                          fontFamily: "Roboto-Regular",
+                                          fontSize: 14,
                                           color: Colors.black,
                                         ),
                                       ),
@@ -117,25 +118,53 @@ class LoanEMIScreen extends StatelessWidget {
                                       },
                                     );
                                   },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade500,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 20, vertical: 8),
-                                      child: Center(
-                                        child: Text(
-                                          "Pay",
-                                          style: const TextStyle(
-                                            fontFamily: "Roboto-Medium",
-                                            fontSize: 15,
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () async {
+                                          if (phoneNumber.isNotEmpty) {
+                                            final Uri phoneUri = Uri(
+                                                scheme: 'tel',
+                                                path: phoneNumber);
+                                            if (await canLaunchUrl(phoneUri)) {
+                                              await launchUrl(phoneUri);
+                                            }
+                                          }
+                                        },
+                                        child: CircleAvatar(
+                                          radius: 18,
+                                          backgroundColor:
+                                              Colors.green.shade900,
+                                          child: const Icon(
+                                            Icons.call,
                                             color: Colors.white,
+                                            size: 20,
                                           ),
                                         ),
                                       ),
-                                    ),
+                                      C15(),
+                                      Container(
+                                        decoration: BoxDecoration(
+                                          color: Colors.grey.shade500,
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 8),
+                                          child: Center(
+                                            child: Text(
+                                              "Pay",
+                                              style: const TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 15,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],
