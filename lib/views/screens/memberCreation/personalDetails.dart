@@ -38,6 +38,31 @@ class PersonalDetailsScreen extends StatelessWidget {
                 child: Form(
                     key: _formKey,
                     child: Column(children: [
+                      if (controller.isMemberId.value) ...[
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: "MemberId", isRequired: true),
+                            TextFormField(
+                              enabled: controller.isFormEdit.value,
+                              controller: controller.memberId.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "memberId")
+                                      .copyWith(
+                                          filled: true,
+                                          fillColor: controller.isFormEdit.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
+                            ),
+                          ],
+                        ),
+                      ],
+                      C10(),
                       paddingWidget(
                         [
                           const LabelsWithMark(
@@ -45,6 +70,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                           TextFormField(
                             controller: controller.firstName.value,
                             cursorColor: AppColors.primary,
+                            enabled: !controller.isReadOnly.value,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:
@@ -52,7 +78,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "First Name"),
+                                hint: "First Name").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -63,6 +93,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               label: "Middle Name", isRequired: true),
                           TextFormField(
                             controller: controller.middleName.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
@@ -71,7 +102,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Middle Name"),
+                                hint: "Middle Name").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -82,6 +117,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               label: "Last Name", isRequired: true),
                           TextFormField(
                             controller: controller.lastName.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
@@ -90,7 +126,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Last Name"),
+                                hint: "Last Name").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -101,6 +141,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               label: "Email", isRequired: true),
                           TextFormField(
                             controller: controller.email.value,
+                            enabled: !controller.isReadOnly.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
                             keyboardType: TextInputType.emailAddress,
@@ -111,7 +152,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 commonValidator(value!.trim()),
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Email",
-                            ),
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           ),
                         ],
                       ),
@@ -121,11 +166,17 @@ class PersonalDetailsScreen extends StatelessWidget {
                           const LabelsWithMark(
                               label: "Gender", isRequired: true),
                           Obx(() {
+                            final isEnabled = !controller.isReadOnly.value;
+
                             return DropdownButtonFormField<String>(
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Select Gender",
-                              ),
+                              ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                               style: TextStyles.textfieldTextStyle,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -138,11 +189,17 @@ class PersonalDetailsScreen extends StatelessWidget {
                               value: controller.selectedGender.value.isNotEmpty
                                   ? controller.selectedGender.value
                                   : null,
-                              onChanged: (value) {
-                                if (value != null) {
-                                  controller.selectedGender.value = value;
-                                }
-                              },
+                              onChanged: isEnabled
+                                  ? (value) {
+                                      if (value != null) {
+                                        controller.selectedGender.value = value;
+                                      }
+                                    }
+                                  : null,
+                              disabledHint:
+                                  controller.selectedGender.value.isNotEmpty
+                                      ? Text(controller.selectedGender.value)
+                                      : const Text("Select Gender"),
                               validator: (value) {
                                 if (controller.selectedGender.value.isEmpty) {
                                   return 'Gender is required';
@@ -160,6 +217,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               label: "Date Of Birth", isRequired: true),
                           Obx(
                             () => TextFormField(
+                              enabled: !controller.isReadOnly.value,
                               controller: controller.dob.value,
                               cursorColor: AppColors.primary,
                               readOnly: true,
@@ -175,7 +233,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 sufficIcon: Icons.calendar_today,
                                 sufficIconOntap: () => controller.selectDate(
                                     context, controller.dob.value),
-                              ),
+                              ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                             ),
                           ),
                         ],
@@ -250,6 +312,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Mobile Number", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.mobileNo.value,
                           cursorColor: AppColors.primary,
                           keyboardType: TextInputType.phone,
@@ -259,7 +322,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                               mobileNoValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Mobile Number",
-                          ),
+                          ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           inputFormatters: [
                             MobileNumberPrefixFormatter(),
                           ],
@@ -272,6 +339,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                             label: "Alternate Mobile Number",
                           ),
                           TextFormField(
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.alternateMobileNo.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -279,7 +347,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Mobile Number",
-                            ),
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                             inputFormatters: [
                               MobileNumberPrefixFormatter(),
                             ],
@@ -289,6 +361,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                       C10(),
                       imagePickerField(
                         label: "Member Image",
+                        showError: controller.memberError,
                         isRequired: true,
                         imageFile: controller.memberImage,
                         imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -297,6 +370,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                         isFocused: controller.isMemberImageFocused,
                         onTap: () =>
                             controller.pickImage(controller.memberImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) {
+                          if (file == null) return "This field is required";
+                          return null;
+                        },
                       ),
                       C10(),
                       paddingWidget([
@@ -305,9 +383,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                         ),
                         Obx(() {
                           final selectedValue = controller.selectedGroup.value;
-
                           final isValidValue = controller.groupList
                               .any((e) => e.name.toString() == selectedValue);
+
+                          final isEnabled = !controller.isReadOnly.value;
 
                           return DropdownButtonFormField<String>(
                             isExpanded: true,
@@ -326,38 +405,31 @@ class PersonalDetailsScreen extends StatelessWidget {
                               hint: "Select Group",
                               sufficIconOntap: () {},
                               sufficIcon: null,
-                            ),
-                            onChanged: (value) {
-                              controller.selectedGroup.value = value ?? '';
-                            },
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
+                            onChanged: isEnabled
+                                ? (value) {
+                                    controller.selectedGroup.value =
+                                        value ?? '';
+                                  }
+                                : null,
+                            disabledHint: isValidValue
+                                ? Text(
+                                    controller.groupList
+                                            .firstWhereOrNull((e) =>
+                                                e.name.toString() ==
+                                                selectedValue)
+                                            ?.groupName ??
+                                        '',
+                                    overflow: TextOverflow.ellipsis,
+                                  )
+                                : const Text("Select Group"),
                           );
                         })
                       ]),
-                      C10(),
-                      if (controller.isCreatedBy.value) ...[
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "Created By", isRequired: true),
-                            TextFormField(
-                              enabled: controller.isFormEdit.value,
-                              controller: controller.createdBy.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                          hint: "Created By")
-                                      .copyWith(
-                                          filled: true,
-                                          fillColor: controller.isFormEdit.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                            ),
-                          ],
-                        ),
-                      ],
                       C10(),
                       paddingWidget([
                         LabelsWithMark(
@@ -365,6 +437,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                           isRequired: true,
                         ),
                         Obx(() {
+                          final isEnabled = !controller.isReadOnly.value;
+
                           return DropdownButtonFormField<String>(
                             value: controller.selectedOccupation.value.isEmpty
                                 ? null
@@ -379,33 +453,64 @@ class PersonalDetailsScreen extends StatelessWidget {
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Occupation",
-                                sufficIconOntap: () {},
-                                sufficIcon: null),
-                            onChanged: (value) {
-                              controller.selectedOccupation.value = value!;
-                            },
+                              hint: "Select Occupation",
+                              sufficIconOntap: () {},
+                              sufficIcon: null,
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
+                            onChanged: isEnabled
+                                ? (value) {
+                                    controller.selectedOccupation.value =
+                                        value ?? '';
+                                  }
+                                : null,
+                            disabledHint:
+                                controller.selectedOccupation.value.isNotEmpty
+                                    ? Text(
+                                        controller.occupationList
+                                                .firstWhereOrNull(
+                                                  (e) =>
+                                                      e.name.toString() ==
+                                                      controller
+                                                          .selectedOccupation
+                                                          .value,
+                                                )
+                                                ?.occupation ??
+                                            '',
+                                      )
+                                    : const Text("Select Occupation"),
                             validator: (value) {
-                              if (value == null) {
+                              if (controller.selectedOccupation.value.isEmpty) {
                                 return 'This field can\'t be empty';
                               }
                               return null;
                             },
                           );
-                        })
+                        }),
                       ]),
                       C10(),
-                      AppButton(
-                          title: "save",
+                      Obx(() {
+                        return AppButton(
+                          title:
+                              controller.isMemberId.value ? "Update" : "Save",
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
-                              controller.saveLoanMember();
+                              if (controller.isMemberId.value) {
+                                controller.updateLoanMember();
+                              } else {
+                                controller.saveLoanMember();
+                              }
                             } else {
                               AppTostMassage.showTostMassage(
                                 massage: "Please fill all required fields",
                               );
                             }
-                          })
+                          },
+                        );
+                      }),
                     ])),
               ),
             ),

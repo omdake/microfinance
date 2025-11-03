@@ -8,10 +8,12 @@ import 'package:microfinance/themes/app_theme.dart';
 import 'package:microfinance/utils/strings.dart';
 import 'package:microfinance/utils/ui_helper.dart/lable_widget.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/validator.dart';
 
 class LoginWithPassword extends StatelessWidget {
   LoginWithPassword({super.key});
   final controller = Get.put(LoginController());
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,8 @@ class LoginWithPassword extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 15, vertical: 23),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 23),
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
@@ -47,52 +50,31 @@ class LoginWithPassword extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        "Login",
-                        style: TextStyle(
-                          fontFamily: "Roboto-Medium",
-                          fontSize: 22,
-                          color: Color(0xFF17243E),
-                        ),
-                      ),
-                      C15(),
-                      LabelText(
-                        label: Strings.UserName,
-                        isRequired: true,
-                        child: TextFormField(
-                          style: TextStyles.textfieldTextStyle,
-                          controller: controller.username,
-                          keyboardType: TextInputType.text,
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                            hintText: "Enter Mobile/Email/Employee ID",
-                            hintStyle: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontFamily: "Roboto-Regular",
-                                fontSize: 12),
-                            border: _greyBorder(),
-                            enabledBorder: _greyBorder(),
-                            focusedBorder: _greyBorder(),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontFamily: "Roboto-Medium",
+                            fontSize: 22,
+                            color: Color(0xFF17243E),
                           ),
                         ),
-                      ),
-                      C10(),
-                      LabelText(
-                        label: Strings.Password,
-                        isRequired: true,
-                        child: Obx(
-                          () => TextFormField(
+                        C15(),
+                        LabelText(
+                          label: Strings.UserName,
+                          isRequired: true,
+                          child: TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             style: TextStyles.textfieldTextStyle,
-                            obscureText: controller.hidePassword.value,
-                            controller: controller.password,
-                            autovalidateMode: AutovalidateMode.disabled,
-                            cursorColor: Colors.black,
+                            controller: controller.username,
                             decoration: InputDecoration(
-                              hintText: "Enter Password",
+                              hintText: "Enter Username",
                               hintStyle: TextStyle(
                                   color: Colors.grey.shade600,
                                   fontFamily: "Roboto-Regular",
@@ -100,75 +82,100 @@ class LoginWithPassword extends StatelessWidget {
                               border: _greyBorder(),
                               enabledBorder: _greyBorder(),
                               focusedBorder: _greyBorder(),
-                              errorBorder: _greyBorder(),
-                              disabledBorder: _greyBorder(),
-                              suffixIcon: IconButton(
-                                onPressed: () {
-                                  controller.hidePassword.value =
-                                      !controller.hidePassword.value;
-                                },
-                                icon: Icon(
-                                  controller.hidePassword.value
-                                      ? Icons.visibility_off_outlined
-                                      : Icons.visibility_outlined,
-                                  color: Colors.grey,
+                              errorBorder: _errorBorder(),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Username is required";
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        C10(),
+                        LabelText(
+                          label: Strings.Password,
+                          isRequired: true,
+                          child: Obx(
+                            () => TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              style: TextStyles.textfieldTextStyle,
+                              obscureText: controller.hidePassword.value,
+                              controller: controller.password,
+                              decoration: InputDecoration(
+                                hintText: "Enter Password",
+                                hintStyle: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontFamily: "Roboto-Regular",
+                                    fontSize: 12),
+                                border: _greyBorder(),
+                                enabledBorder: _greyBorder(),
+                                focusedBorder: _greyBorder(),
+                                errorBorder: _errorBorder(),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    controller.hidePassword.value =
+                                        !controller.hidePassword.value;
+                                  },
+                                  icon: Icon(
+                                    controller.hidePassword.value
+                                        ? Icons.visibility_off_outlined
+                                        : Icons.visibility_outlined,
+                                  ),
                                 ),
                               ),
+                              validator: (value) =>
+                                  loginPasswordValidator(value!.trim()),
                             ),
                           ),
                         ),
-                      ),
-                      C20(),
-                      Obx(
-                        () => SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFA52A2A),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                        C20(),
+                        Obx(
+                          () => SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFFA52A2A),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 14),
-                            ),
-                            onPressed: () async {
-                              FocusScope.of(context).unfocus();
-                              await controller.login();
-                            },
-                            child: controller.isLoading.value
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
+                              onPressed: () async {
+                                FocusScope.of(context).unfocus();
+                                if (_formKey.currentState!.validate()) {
+                                  await controller.login();
+                                }
+                              },
+                              child: controller.isLoading.value
+                                  ? const CircularProgressIndicator(
                                       color: Colors.white,
                                       strokeWidth: 2,
+                                    )
+                                  : const Text(
+                                      "SIGN IN",
+                                      style: TextStyle(
+                                        fontFamily: "Roboto-Medium",
+                                        fontSize: 16,
+                                        color: Colors.white,
+                                      ),
                                     ),
-                                  )
-                                : const Text(
-                                    "SING IN",
-                                    style: TextStyle(
-                                      fontFamily: "Roboto-Medium",
-                                      fontSize: 16,
-                                      letterSpacing: 1.2,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                            ),
                           ),
                         ),
-                      ),
-                      C5(),
-                      Center(
-                        child: AppTextButton(
-                          onTap: () {
-                            Get.offAndToNamed(Routes.forgotPasswordScreen);
-                          },
-                          title: 'Forgot Password?',
-                          style: const TextStyle(
-                            color: Colors.grey,
-                            fontFamily: "Roboto-Regular",
+                        C5(),
+                        Center(
+                          child: AppTextButton(
+                            onTap: () {
+                              Get.offAndToNamed(Routes.forgotPasswordScreen);
+                            },
+                            title: 'Forgot Password?',
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -179,10 +186,13 @@ class LoginWithPassword extends StatelessWidget {
     );
   }
 
-  OutlineInputBorder _greyBorder() {
-    return OutlineInputBorder(
-      borderSide: BorderSide(color: Color(0xFFEAECF0)),
-      borderRadius: BorderRadius.circular(10),
-    );
-  }
+  OutlineInputBorder _greyBorder() => OutlineInputBorder(
+        borderSide: const BorderSide(color: Color(0xFFEAECF0)),
+        borderRadius: BorderRadius.circular(10),
+      );
+
+  OutlineInputBorder _errorBorder() => OutlineInputBorder(
+        borderSide: const BorderSide(color: Colors.red),
+        borderRadius: BorderRadius.circular(10),
+      );
 }

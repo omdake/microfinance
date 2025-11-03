@@ -60,7 +60,7 @@ class LoginController extends GetxController {
         await AppPreferences.setEmailId(emailId);
         await AppPreferences.setEmpName(empName);
         await AppPreferences.setEmpId(empId);
-        await Get.offAllNamed(Routes.dashboardScreen);
+        await Get.offAllNamed(Routes.homeScreen);
       } else {
         Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];

@@ -40,13 +40,18 @@ class CibilDetailscSreen extends StatelessWidget {
                           label: "Cibil Score",
                         ),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.cibilScore.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Cibil Score"),
+                              hint: "Cibil Score").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -58,6 +63,7 @@ class CibilDetailscSreen extends StatelessWidget {
                         ),
                         Obx(
                           () => TextFormField(
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.cibilDate.value,
                             cursorColor: AppColors.primary,
                             readOnly: true,
@@ -70,7 +76,11 @@ class CibilDetailscSreen extends StatelessWidget {
                               sufficIcon: Icons.calendar_today,
                               sufficIconOntap: () => controller.selectDate(
                                   context, controller.cibilDate.value),
-                            ),
+                            ).copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                           ),
                         ),
                       ],

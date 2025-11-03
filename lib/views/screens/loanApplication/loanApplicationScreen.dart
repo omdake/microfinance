@@ -2,9 +2,9 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
@@ -22,7 +22,43 @@ class LoanApplicationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Application Creation"),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text(
+          "Loan Application",
+          style: TextStyles.appbartitle,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Get.offAllNamed(Routes.homeScreen);
+            },
+            icon: Container(
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, border: Border.all()),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ),
+            )),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: Container(
+              padding: const EdgeInsets.all(8),
+              child: Image.asset(
+                'assets/new/notification.png',
+                fit: BoxFit.contain,
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
@@ -50,7 +86,8 @@ class LoanApplicationScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       paddingWidget([
-                        LabelsWithMark(label: "Applicant Name"),
+                        LabelsWithMark(
+                            label: "Applicant Name", isRequired: true),
                         Obx(() {
                           return DropdownButtonFormField2<String>(
                             value: controller.selectedMemberName.value.isEmpty
@@ -70,7 +107,7 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIconOntap: () {},
                               sufficIcon: null,
                             ).copyWith(
-                              contentPadding: EdgeInsets.zero,
+                              contentPadding: EdgeInsets.all(-5),
                             ),
                             hint: Text(
                               "Select Applicant",
@@ -81,16 +118,16 @@ class LoanApplicationScreen extends StatelessWidget {
                               ),
                             ),
                             dropdownSearchData: DropdownSearchData(
-                              searchController:
-                                  controller.loanApplicantSearchController.value,
+                              searchController: controller
+                                  .loanApplicantSearchController.value,
                               searchInnerWidgetHeight: 50,
                               searchInnerWidget: Padding(
                                 padding: const EdgeInsets.all(8),
                                 child: TextFormField(
                                   cursorColor: Colors.black,
                                   style: TextStyles.textfieldTextStyle,
-                                  controller:
-                                      controller.loanApplicantSearchController.value,
+                                  controller: controller
+                                      .loanApplicantSearchController.value,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
@@ -112,7 +149,8 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onMenuStateChange: (isOpen) {
                               if (!isOpen) {
-                                controller.loanApplicantSearchController.value.clear();
+                                controller.loanApplicantSearchController.value
+                                    .clear();
                               }
                             },
                             dropdownStyleData: DropdownStyleData(
@@ -162,7 +200,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                 fontSize: 12,
                               ),
                             ),
-                             dropdownSearchData: DropdownSearchData(
+                            dropdownSearchData: DropdownSearchData(
                               searchController:
                                   controller.coborrowerSearchController.value,
                               searchInnerWidgetHeight: 50,
@@ -171,8 +209,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                 child: TextFormField(
                                   cursorColor: Colors.black,
                                   style: TextStyles.textfieldTextStyle,
-                                  controller:
-                                      controller.coborrowerSearchController.value,
+                                  controller: controller
+                                      .coborrowerSearchController.value,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
                                     sufficIconOntap: () {},
@@ -194,7 +232,8 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onMenuStateChange: (isOpen) {
                               if (!isOpen) {
-                                controller.coborrowerSearchController.value.clear();
+                                controller.coborrowerSearchController.value
+                                    .clear();
                               }
                             },
                             items: controller.coBorrowerList.map((e) {
@@ -209,7 +248,10 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIcon: null,
                               hint: '',
                             ).copyWith(
-                              contentPadding: EdgeInsets.zero,
+                              contentPadding: EdgeInsets.all(-5),
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 500,
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
@@ -302,6 +344,12 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIcon: null,
                               hint: "",
                             ),
+                            validator: (value) {
+                              if (value == null) {
+                                return 'This field can\'t be empty';
+                              }
+                              return null;
+                            },
                           );
                         })
                       ]),
@@ -315,7 +363,7 @@ class LoanApplicationScreen extends StatelessWidget {
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
+                            keyboardType: TextInputType.number,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Amount"),
@@ -331,7 +379,7 @@ class LoanApplicationScreen extends StatelessWidget {
                             controller: controller.periods.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
+                            keyboardType: TextInputType.number,
                             style: TextStyles.textfieldTextStyle,
                             validator: (value) => requiredValidator(value!),
                             decoration: TextFieldDecoration.textfieldDecoration(
@@ -389,9 +437,13 @@ class LoanApplicationScreen extends StatelessWidget {
                             ),
                             onMenuStateChange: (isOpen) {
                               if (!isOpen) {
-                                controller.nomineeSearchController.value.clear();
+                                controller.nomineeSearchController.value
+                                    .clear();
                               }
                             },
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 500,
+                            ),
                             items: controller.nomineeList.map((e) {
                               return DropdownMenuItem<String>(
                                 value: e.memberName ?? "",
@@ -404,7 +456,7 @@ class LoanApplicationScreen extends StatelessWidget {
                               sufficIcon: null,
                               hint: '',
                             ).copyWith(
-                              contentPadding: EdgeInsets.zero,
+                              contentPadding: EdgeInsets.all(-5),
                             ),
                             onChanged: (newValue) {
                               if (newValue != null) {
@@ -418,6 +470,12 @@ class LoanApplicationScreen extends StatelessWidget {
 
                                 controller.getRelationList();
                               }
+                            },
+                            validator: (value) {
+                              if (value == null) {
+                                return 'This field can\'t be empty';
+                              }
+                              return null;
                             },
                           );
                         })
@@ -456,6 +514,12 @@ class LoanApplicationScreen extends StatelessWidget {
                                 if (newValue != null) {
                                   controller.selectedRelation.value = newValue;
                                 }
+                              },
+                              validator: (value) {
+                                if (value == null) {
+                                  return 'This field can\'t be empty';
+                                }
+                                return null;
                               },
                             );
                           })

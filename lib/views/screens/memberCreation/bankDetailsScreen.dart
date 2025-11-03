@@ -40,6 +40,7 @@ class BankDetailscSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Bank Name", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.bankName.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -48,7 +49,11 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Bank Name"),
+                              hint: "Bank Name").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -58,6 +63,7 @@ class BankDetailscSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Account Number", isRequired: true),
                         TextFormField(
+                            enabled: !controller.isReadOnly.value,
                             controller: controller.accountNumber.value,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
@@ -67,7 +73,11 @@ class BankDetailscSreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Account Number")),
+                                hint: "Account Number").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200)),
                       ],
                     ),
                     C10(),
@@ -76,6 +86,7 @@ class BankDetailscSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Holder Name", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.holderName.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -84,7 +95,11 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Holder Name"),
+                              hint: "Holder Name").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -93,6 +108,7 @@ class BankDetailscSreen extends StatelessWidget {
                       [
                         const LabelsWithMark(label: "Branch", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.branch.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -101,7 +117,11 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Branch"),
+                              hint: "Branch").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -111,6 +131,7 @@ class BankDetailscSreen extends StatelessWidget {
                         const LabelsWithMark(
                             label: "Ifsc Code", isRequired: true),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.ifscCode.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
@@ -119,7 +140,11 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Ifsc Code"),
+                              hint: "Ifsc Code").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -128,13 +153,18 @@ class BankDetailscSreen extends StatelessWidget {
                       [
                         const LabelsWithMark(label: "Bank Address"),
                         TextFormField(
+                          enabled: !controller.isReadOnly.value,
                           controller: controller.bankAddress.value,
                           cursorColor: AppColors.primary,
                           textCapitalization: TextCapitalization.sentences,
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Bank Address"),
+                              hint: "Bank Address").copyWith(
+                                          filled: true,
+                                          fillColor: !controller.isReadOnly.value
+                                              ? Colors.white
+                                              : Colors.grey.shade200),
                         ),
                       ],
                     ),

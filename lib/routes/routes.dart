@@ -22,6 +22,7 @@ import 'package:microfinance/views/screens/collectionInhand/collectionInHandScre
 import 'package:microfinance/views/screens/collectionInhand/collectionInhandViewOnly.dart';
 import 'package:microfinance/views/screens/collectionInhand/pendingApproval.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
+import 'package:microfinance/views/screens/dashboard/homeScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupListScreen.dart';
 import 'package:microfinance/views/screens/loanApplication/loanApplicationList.dart';
@@ -167,6 +168,11 @@ class AppRoutes {
       name: Routes.resetPassword,
       binding: ResetPassowordBindings(),
       page: () => ResetPassword(),
+    ),
+     GetPage(
+      name: Routes.homeScreen,
+      binding: HomeBindings(),
+      page: () => HomeScreen(),
     ),
   ];
 }

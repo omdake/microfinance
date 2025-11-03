@@ -1,3 +1,419 @@
+// import 'package:dropdown_button2/dropdown_button2.dart';
+// import 'package:flutter/material.dart';
+// import 'package:get/get.dart';
+// import 'package:microfinance/common_widgets/buttons.dart';
+// import 'package:microfinance/common_widgets/custom_app_bar.dart';
+// import 'package:microfinance/common_widgets/label_value_widget.dart';
+// import 'package:microfinance/common_widgets/uploadFile.dart';
+// import 'package:microfinance/logic/controller/loanRepayment/loanRepaymentController.dart';
+// import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
+// import 'package:microfinance/themes/app_colors.dart';
+// import 'package:microfinance/themes/app_textstyles.dart';
+// import 'package:microfinance/utils/text_field_decoration.dart';
+// import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
+// import 'package:microfinance/utils/ui_helper_widgets.dart';
+// import 'package:microfinance/validator.dart';
+
+// class LoanRepaymentScreen extends StatelessWidget {
+//   LoanRepaymentScreen({super.key});
+//   final _formKey = GlobalKey<FormState>();
+//   final LoanRepaymentController controller = Get.put(LoanRepaymentController());
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: appBarWithTitle(title: "New Loan Repayment"),
+//       body: Stack(children: [
+//         Container(
+//           decoration: BoxDecoration(
+//             gradient: LinearGradient(
+//               begin: Alignment.topCenter,
+//               end: Alignment.bottomCenter,
+//               colors: [Colors.white, Colors.white],
+//             ),
+//           ),
+//           width: double.infinity,
+//           height: double.infinity,
+//           child: Padding(
+//             padding: const EdgeInsets.all(16.0),
+//             child: SafeArea(
+//               child: SingleChildScrollView(
+//                 child: Form(
+//                     key: _formKey,
+//                     child: Column(children: [
+//                       paddingWidget([
+//                         const LabelsWithMark(
+//                             label: "Loan Id", isRequired: true),
+//                         Obx(() {
+//                           final LoanSummaryController? loanSummaryController =
+//                               Get.isRegistered<LoanSummaryController>()
+//                                   ? Get.find<LoanSummaryController>()
+//                                   : null;
+//                           final loanlist =
+//                               loanSummaryController?.loantList ?? [];
+//                           if (loanlist.isNotEmpty) {
+//                             return DropdownButtonFormField2<String>(
+//                               value: controller.loanId.value.text.isEmpty
+//                                   ? null
+//                                   : controller.loanId.value.text,
+//                               items: loanlist.map((loan) {
+//                                 return DropdownMenuItem<String>(
+//                                   value: loan.name!,
+//                                   child: Text(loan.name!),
+//                                 );
+//                               }).toList(),
+//                               dropdownSearchData: DropdownSearchData(
+//                                 searchController: controller.groupSearch.value,
+//                                 searchInnerWidgetHeight: 50,
+//                                 searchInnerWidget: Padding(
+//                                   padding: const EdgeInsets.all(8),
+//                                   child: TextFormField(
+//                                     cursorColor: Colors.black,
+//                                     style: TextStyles.textfieldTextStyle,
+//                                     controller: controller.groupSearch.value,
+//                                     decoration:
+//                                         TextFieldDecoration.textfieldDecoration(
+//                                       sufficIconOntap: () {},
+//                                       sufficIcon: Icons.search,
+//                                       hint: 'Search loan Id...',
+//                                     ),
+//                                   ),
+//                                 ),
+//                                 searchMatchFn: (item, searchValue) {
+//                                   if (searchValue.trim().length < 3) {
+//                                     return true;
+//                                   }
+//                                   return (item.child is Text &&
+//                                       (item.child as Text)
+//                                           .data!
+//                                           .toLowerCase()
+//                                           .contains(searchValue.toLowerCase()));
+//                                 },
+//                               ),
+//                               onMenuStateChange: (isOpen) {
+//                                 if (!isOpen) {
+//                                   controller.groupSearch.value.clear();
+//                                 }
+//                               },
+//                               onChanged: (value) {
+//                                 for (var loan in loanlist) {
+//                                   if (loan.name == value) {
+//                                     controller.applicantName.value.text =
+//                                         loan.applicantName!;
+//                                     controller.loanId.value.text = loan.name!;
+
+//                                     controller.valueDate.value.text = '';
+//                                     controller.selectedValueDate.value = '';
+//                                     controller.payableAmount.value.text = '';
+//                                   }
+//                                 }
+//                               },
+//                               hint: Text(
+//                                 "Select A Loan Id",
+//                                 style: TextStyle(
+//                                   color: Colors.grey.shade600,
+//                                   fontFamily: "Roboto-Regular",
+//                                   fontSize: 12,
+//                                 ),
+//                               ),
+//                               style: TextStyles.textfieldTextStyle,
+//                               dropdownStyleData:
+//                                   DropdownStyleData(maxHeight: 500),
+//                               decoration:
+//                                   TextFieldDecoration.textfieldDecoration(
+//                                           hint: '')
+//                                       .copyWith(
+//                                 contentPadding: EdgeInsets.zero,
+//                               ),
+//                               validator: (value) => requiredValidator(value!),
+//                             );
+//                           } else {
+//                             return TextFormField(
+//                               controller: controller.loanId.value,
+//                               cursorColor: AppColors.primary,
+//                               enabled: controller.isFormEdit.value,
+//                               textCapitalization: TextCapitalization.sentences,
+//                               validator: (value) => requiredValidator(value!),
+//                               autovalidateMode:
+//                                   AutovalidateMode.onUserInteraction,
+//                               keyboardType: TextInputType.name,
+//                               style: TextStyles.textfieldTextStyle,
+//                               decoration:
+//                                   TextFieldDecoration.textfieldDecoration(
+//                                 hint: "Loan ID",
+//                               ).copyWith(
+//                                 filled: true,
+//                                 fillColor: controller.isFormEdit.value
+//                                     ? Colors.white
+//                                     : Colors.grey.shade200,
+//                               ),
+//                             );
+//                           }
+//                         }),
+//                       ]),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           const LabelsWithMark(
+//                               label: "Value Date", isRequired: true),
+//                           Obx(
+//                             () => TextFormField(
+//                               controller: controller.valueDate.value,
+//                               cursorColor: AppColors.primary,
+//                               readOnly: true,
+//                               onTap: () async {
+//                                 await controller.selectDate(
+//                                     context,
+//                                     controller.valueDate.value,
+//                                     controller.selectedValueDate);
+//                                 if (controller.loanId.value.text.isNotEmpty &&
+//                                     controller
+//                                         .selectedValueDate.value.isNotEmpty) {
+//                                   controller.getRepaymentAmount();
+//                                 }
+//                               },
+//                               validator: (value) => requiredValidator(value!),
+//                               autovalidateMode:
+//                                   AutovalidateMode.onUserInteraction,
+//                               style: TextStyles.textfieldTextStyle,
+//                               decoration:
+//                                   TextFieldDecoration.textfieldDecorationicon(
+//                                 hint: "Value Date",
+//                                 sufficIcon: Icons.calendar_today,
+//                                 sufficIconOntap: () => controller.selectDate(
+//                                     context,
+//                                     controller.valueDate.value,
+//                                     controller.selectedValueDate),
+//                               ).copyWith(
+//                                 filled: true,
+//                                 fillColor: controller.isFormEdit.value
+//                                     ? Colors.white
+//                                     : Colors.grey.shade200,
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           const LabelsWithMark(
+//                               label: "Applicant Name", isRequired: true),
+//                           TextFormField(
+//                             controller: controller.applicantName.value,
+//                             enabled: controller.isFormEdit.value,
+//                             cursorColor: AppColors.primary,
+//                             textCapitalization: TextCapitalization.sentences,
+//                             validator: (value) => requiredValidator(value!),
+//                             autovalidateMode:
+//                                 AutovalidateMode.onUserInteraction,
+//                             keyboardType: TextInputType.name,
+//                             style: TextStyles.textfieldTextStyle,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                                     hint: "Applicant Name ")
+//                                 .copyWith(
+//                               filled: true,
+//                               fillColor: controller.isFormEdit.value
+//                                   ? Colors.white
+//                                   : Colors.grey.shade200,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           const LabelsWithMark(
+//                               label: "Payable Amount", isRequired: true),
+//                           TextFormField(
+//                             controller: controller.payableAmount.value,
+//                             cursorColor: AppColors.primary,
+//                             enabled: controller.isFormEdit.value,
+//                             readOnly: true,
+//                             textCapitalization: TextCapitalization.sentences,
+//                             validator: (value) => requiredValidator(value!),
+//                             autovalidateMode:
+//                                 AutovalidateMode.onUserInteraction,
+//                             keyboardType: TextInputType.name,
+//                             style: TextStyles.textfieldTextStyle,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                                     hint: "Payable Amount")
+//                                 .copyWith(
+//                               filled: true,
+//                               fillColor: controller.isFormEdit.value
+//                                   ? Colors.white
+//                                   : Colors.grey.shade200,
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       paddingWidget([
+//                         LabelsWithMark(
+//                           label: "Mode Of Payment",
+//                           isRequired: true,
+//                         ),
+//                         Obx(() {
+//                           return DropdownButtonFormField<String>(
+//                             value:
+//                                 controller.selectedModeOfPayment.value.isEmpty
+//                                     ? null
+//                                     : controller.selectedModeOfPayment.value,
+//                             items: controller.modeOfPaymentList.map((e) {
+//                               return DropdownMenuItem(
+//                                 value: e.name.toString(),
+//                                 child: Text(e.name.toString()),
+//                               );
+//                             }).toList(),
+//                             style: TextStyles.textfieldTextStyle,
+//                             autovalidateMode:
+//                                 AutovalidateMode.onUserInteraction,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                                 hint: "Select Mode Of Payment",
+//                                 sufficIconOntap: () {},
+//                                 sufficIcon: null),
+//                             onChanged: (value) {
+//                               controller.selectedModeOfPayment.value = value!;
+//                             },
+//                             validator: (value) {
+//                               if (value == null) {
+//                                 return 'This field can\'t be empty';
+//                               }
+//                               return null;
+//                             },
+//                           );
+//                         })
+//                       ]),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           const LabelsWithMark(
+//                               label: "Amount Paid", isRequired: true),
+//                           TextFormField(
+//                             controller: controller.amountPaid.value,
+//                             cursorColor: AppColors.primary,
+//                             textCapitalization: TextCapitalization.sentences,
+//                             validator: (value) => requiredValidator(value!),
+//                             autovalidateMode:
+//                                 AutovalidateMode.onUserInteraction,
+//                             keyboardType: TextInputType.name,
+//                             style: TextStyles.textfieldTextStyle,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                                 hint: "Paid Amount"),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           const LabelsWithMark(label: "Reference Date"),
+//                           Obx(
+//                             () => TextFormField(
+//                               controller: controller.referenceDate.value,
+//                               cursorColor: AppColors.primary,
+//                               readOnly: true,
+//                               onTap: () => controller.selectDate(
+//                                   context,
+//                                   controller.referenceDate.value,
+//                                   controller.selectedReferenceDate),
+//                               style: TextStyles.textfieldTextStyle,
+//                               decoration:
+//                                   TextFieldDecoration.textfieldDecorationicon(
+//                                 hint: "Reference Date",
+//                                 sufficIcon: Icons.calendar_today,
+//                                 sufficIconOntap: () => controller.selectDate(
+//                                     context,
+//                                     controller.referenceDate.value,
+//                                     controller.selectedReferenceDate),
+//                               ).copyWith(
+//                                 filled: true,
+//                                 fillColor: controller.isFormEdit.value
+//                                     ? Colors.white
+//                                     : Colors.grey.shade200,
+//                               ),
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       imagePickerField(
+//                         label: "Payment Proof",
+//                         imageFile: controller.paymentProofImage,
+//                         // imageUrl: RxString(controller.loanMember.isNotEmpty
+//                         //     ? controller.loanMember[0].memberImage ?? ''
+//                         //     : ''),
+//                         isFocused: controller.isPaymentProofImageFocused,
+//                         onTap: () =>
+//                             controller.pickImage(controller.paymentProofImage),
+//                       ),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           LabelsWithMark(label: "UTR Number"),
+//                           TextFormField(
+//                             controller: controller.utrNumber.value,
+//                             cursorColor: AppColors.primary,
+//                             textCapitalization: TextCapitalization.sentences,
+//                             keyboardType: TextInputType.name,
+//                             style: TextStyles.textfieldTextStyle,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                                 hint: "UTR Number"),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       paddingWidget(
+//                         [
+//                           LabelsWithMark(label: "Remark"),
+//                           TextFormField(
+//                             controller: controller.remark.value,
+//                             cursorColor: AppColors.primary,
+//                             textCapitalization: TextCapitalization.none,
+//                             keyboardType: TextInputType.emailAddress,
+//                             style: TextStyles.textfieldTextStyle,
+//                             decoration: TextFieldDecoration.textfieldDecoration(
+//                               hint: "Remark",
+//                             ),
+//                           ),
+//                         ],
+//                       ),
+//                       C10(),
+//                       AppButton(
+//                           title: "save",
+//                           onTap: () async {
+//                             if (_formKey.currentState!.validate()) {
+//                               controller.saveRepayments();
+//                             } else {
+//                               AppTostMassage.showTostMassage(
+//                                 massage: "Please fill all required fields",
+//                               );
+//                             }
+//                           })
+//                     ])),
+//               ),
+//             ),
+//           ),
+//         ),
+//         Obx(() {
+//           if (controller.isLoading.value) {
+//             return Container(
+//               width: double.infinity,
+//               height: double.infinity,
+//               color: Colors.white.withOpacity(0.3),
+//               child: Center(
+//                 child: CircularProgressIndicator(
+//                   color: AppColors.primary,
+//                 ),
+//               ),
+//             );
+//           } else {
+//             return const SizedBox.shrink();
+//           }
+//         }),
+//       ]),
+//     );
+//   }
+// }
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,136 +434,143 @@ class LoanRepaymentScreen extends StatelessWidget {
   LoanRepaymentScreen({super.key});
   final _formKey = GlobalKey<FormState>();
   final LoanRepaymentController controller = Get.put(LoanRepaymentController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Repayment"),
-      body: Stack(children: [
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
+      appBar: appBarWithTitle(title: "New Loan Repayment"),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Colors.white, Colors.white],
+              ),
             ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Form(
+            width: double.infinity,
+            height: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Form(
                     key: _formKey,
-                    child: Column(children: [
-                      paddingWidget([
-                        const LabelsWithMark(
-                            label: "Loan Id", isRequired: true),
-                        Obx(() {
-                          final LoanSummaryController? loanSummaryController =
-                              Get.isRegistered<LoanSummaryController>()
-                                  ? Get.find<LoanSummaryController>()
-                                  : null;
-                          final loanlist =
-                              loanSummaryController?.loantList ?? [];
-                          if (loanlist.isNotEmpty) {
-                            return DropdownButtonFormField2<String>(
-                              value: controller.loanId.value.text.isEmpty
-                                  ? null
-                                  : controller.loanId.value.text,
-                              items: loanlist.map((loan) {
-                                return DropdownMenuItem<String>(
-                                  value: loan.name!,
-                                  child: Text(loan.name!),
-                                );
-                              }).toList(),
-                               dropdownSearchData: DropdownSearchData(
-                              searchController:
-                                  controller.groupSearch.value,
-                              searchInnerWidgetHeight: 50,
-                              searchInnerWidget: Padding(
-                                padding: const EdgeInsets.all(8),
-                                child: TextFormField(
-                                  cursorColor: Colors.black,
-                                  style: TextStyles.textfieldTextStyle,
-                                  controller:
-                                      controller.groupSearch.value,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    sufficIconOntap: () {},
-                                    sufficIcon: Icons.search,
-                                    hint: 'Search loan Id...',
+                    child: Column(
+                      children: [
+                        paddingWidget([
+                          const LabelsWithMark(label: "Loan Id", isRequired: true),
+                          Obx(() {
+                            final LoanSummaryController? loanSummaryController =
+                                Get.isRegistered<LoanSummaryController>()
+                                    ? Get.find<LoanSummaryController>()
+                                    : null;
+                            final loanlist = loanSummaryController?.loantList ?? [];
+                            if (loanlist.isNotEmpty) {
+                              return DropdownButtonFormField2<String>(
+                                value: controller.loanId.value.text.isEmpty
+                                    ? null
+                                    : controller.loanId.value.text,
+                                items: loanlist.map((loan) {
+                                  return DropdownMenuItem<String>(
+                                    value: loan.name!,
+                                    child: Text(loan.name!),
+                                  );
+                                }).toList(),
+                                dropdownSearchData: DropdownSearchData(
+                                  searchController: controller.groupSearch.value,
+                                  searchInnerWidgetHeight: 50,
+                                  searchInnerWidget: Padding(
+                                    padding: const EdgeInsets.all(8),
+                                    child: TextFormField(
+                                      cursorColor: Colors.black,
+                                      style: TextStyles.textfieldTextStyle,
+                                      controller: controller.groupSearch.value,
+                                      decoration:
+                                          TextFieldDecoration.textfieldDecoration(
+                                        sufficIconOntap: () {},
+                                        sufficIcon: Icons.search,
+                                        hint: 'Search loan Id...',
+                                      ),
+                                    ),
+                                  ),
+                                  searchMatchFn: (item, searchValue) {
+                                    if (searchValue.trim().length < 3) {
+                                      return true;
+                                    }
+                                    return (item.child is Text &&
+                                        (item.child as Text)
+                                            .data!
+                                            .toLowerCase()
+                                            .contains(searchValue.toLowerCase()));
+                                  },
+                                ),
+                                onMenuStateChange: (isOpen) {
+                                  if (!isOpen) {
+                                    controller.groupSearch.value.clear();
+                                  }
+                                },
+                                onChanged: (value) {
+                                  for (var loan in loanlist) {
+                                    if (loan.name == value) {
+                                      controller.applicantName.value.text =
+                                          loan.applicantName!;
+                                      controller.loanId.value.text = loan.name!;
+                                      controller.valueDate.value.text = '';
+                                      controller.selectedValueDate.value = '';
+                                      controller.payableAmount.value.text = '';
+                                    }
+                                  }
+                                },
+                                hint: Text(
+                                  "Select A Loan Id",
+                                  style: TextStyle(
+                                    color: Colors.grey.shade600,
+                                    fontFamily: "Roboto-Regular",
+                                    fontSize: 12,
                                   ),
                                 ),
-                              ),
-                              searchMatchFn: (item, searchValue) {
-                                if (searchValue.trim().length < 3) {
-                                  return true;
-                                }
-                                return (item.child is Text &&
-                                    (item.child as Text)
-                                        .data!
-                                        .toLowerCase()
-                                        .contains(searchValue.toLowerCase()));
-                              },
-                            ),
-                            onMenuStateChange: (isOpen) {
-                              if (!isOpen) {
-                                controller.groupSearch.value.clear();
-                              }
-                            },
-                              onChanged: (value) {
-                                for (var loan in loanlist) {
-                                  if (loan.name == value) {
-                                    controller.applicantName.value.text =
-                                        loan.applicantName!;
-                                    controller.loanId.value.text = loan.name!;
-
-                                    controller.valueDate.value.text = '';
-                                    controller.selectedValueDate.value = '';
-                                    controller.payableAmount.value.text = '';
-                                  }
-                                }
-                              },
-                              hint: Text(
-                                "Select A Loan Id",
-                                style: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontFamily: "Roboto-Regular",
-                                  fontSize: 12,
+                                style: TextStyles.textfieldTextStyle,
+                                dropdownStyleData:
+                                    DropdownStyleData(maxHeight: 500),
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(hint: '')
+                                        .copyWith(
+                                  contentPadding: EdgeInsets.all(-5),
                                 ),
-                              ),
-                              style: TextStyles.textfieldTextStyle,
-                              dropdownStyleData:
-                                  DropdownStyleData(maxHeight: 500),
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                      hint: ''),
-                              validator: (value) => requiredValidator(value!),
-                            );
-                          } else {
-                            return TextFormField(
-                              controller: controller.loanId.value,
-                              cursorColor: AppColors.primary,
-                              enabled: controller.isFormEdit.value,
-                              textCapitalization: TextCapitalization.sentences,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Loan ID",
-                              ),
-                            );
-                          }
-                        }),
-                      ]),
-                      C10(),
-                      paddingWidget(
-                        [
+                                validator: (value) =>
+                                    value == null || value.trim().isEmpty
+                                        ? 'Loan ID is required'
+                                        : null,
+                              );
+                            } else {
+                              return TextFormField(
+                                controller: controller.loanId.value,
+                                cursorColor: AppColors.primary,
+                                enabled: controller.isFormEdit.value,
+                                textCapitalization: TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                  hint: "Loan ID",
+                                ).copyWith(
+                                  filled: true,
+                                  fillColor: controller.isFormEdit.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                ),
+                              );
+                            }
+                          }),
+                        ]),
+                        C10(),
+                        paddingWidget([
                           const LabelsWithMark(
                               label: "Value Date", isRequired: true),
                           Obx(
@@ -178,14 +601,17 @@ class LoanRepaymentScreen extends StatelessWidget {
                                     context,
                                     controller.valueDate.value,
                                     controller.selectedValueDate),
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
                               ),
                             ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
+                        ]),
+                        C10(),
+                        paddingWidget([
                           const LabelsWithMark(
                               label: "Applicant Name", isRequired: true),
                           TextFormField(
@@ -198,14 +624,19 @@ class LoanRepaymentScreen extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Applicant Name "),
+                            decoration:
+                                TextFieldDecoration.textfieldDecoration(
+                              hint: "Applicant Name ",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
+                        ]),
+                        C10(),
+                        paddingWidget([
                           const LabelsWithMark(
                               label: "Payable Amount", isRequired: true),
                           TextFormField(
@@ -219,48 +650,52 @@ class LoanRepaymentScreen extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Payable Amount"),
+                            decoration:
+                                TextFieldDecoration.textfieldDecoration(
+                              hint: "Payable Amount",
+                            ).copyWith(
+                              filled: true,
+                              fillColor: controller.isFormEdit.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200,
+                            ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget([
-                        LabelsWithMark(label: "Mode Of Payment"),
-                        Obx(() {
-                          return DropdownButtonFormField<String>(
-                            value:
-                                controller.selectedModeOfPayment.value.isEmpty
-                                    ? null
-                                    : controller.selectedModeOfPayment.value,
-                            items: controller.modeOfPaymentList.map((e) {
-                              return DropdownMenuItem(
-                                value: e.name.toString(),
-                                child: Text(e.name.toString()),
-                              );
-                            }).toList(),
-                            style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Mode Of Payment",
-                                sufficIconOntap: () {},
-                                sufficIcon: null),
-                            onChanged: (value) {
-                              controller.selectedModeOfPayment.value = value!;
-                            },
-                            validator: (value) {
-                              if (value == null) {
-                                return 'This field can\'t be empty';
-                              }
-                              return null;
-                            },
-                          );
-                        })
-                      ]),
-                      C10(),
-                      paddingWidget(
-                        [
+                        ]),
+                        C10(),
+                        paddingWidget([
+                          LabelsWithMark(label: "Mode Of Payment", isRequired: true),
+                          Obx(() {
+                            return DropdownButtonFormField<String>(
+                              value:
+                                  controller.selectedModeOfPayment.value.isEmpty
+                                      ? null
+                                      : controller.selectedModeOfPayment.value,
+                              items: controller.modeOfPaymentList.map((e) {
+                                return DropdownMenuItem(
+                                  value: e.name.toString(),
+                                  child: Text(e.name.toString()),
+                                );
+                              }).toList(),
+                              style: TextStyles.textfieldTextStyle,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                      hint: "Select Mode Of Payment",
+                                      sufficIconOntap: () {},
+                                      sufficIcon: null),
+                              onChanged: (value) {
+                                controller.selectedModeOfPayment.value = value!;
+                              },
+                              validator: (value) =>
+                                  value == null || value.trim().isEmpty
+                                      ? 'Mode of Payment is required'
+                                      : null,
+                            );
+                          })
+                        ]),
+                        C10(),
+                        paddingWidget([
                           const LabelsWithMark(
                               label: "Amount Paid", isRequired: true),
                           TextFormField(
@@ -273,15 +708,13 @@ class LoanRepaymentScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Paid Amount"),
+                              hint: "Paid Amount",
+                            ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Reference Date", isRequired: true),
+                        ]),
+                        C10(),
+                        paddingWidget([
+                          const LabelsWithMark(label: "Reference Date"),
                           Obx(
                             () => TextFormField(
                               controller: controller.referenceDate.value,
@@ -291,9 +724,6 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   context,
                                   controller.referenceDate.value,
                                   controller.selectedReferenceDate),
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecorationicon(
@@ -303,25 +733,20 @@ class LoanRepaymentScreen extends StatelessWidget {
                                     context,
                                     controller.referenceDate.value,
                                     controller.selectedReferenceDate),
-                              ),
+                              )
                             ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "Payment Proof",
-                        imageFile: controller.paymentProofImage,
-                        // imageUrl: RxString(controller.loanMember.isNotEmpty
-                        //     ? controller.loanMember[0].memberImage ?? ''
-                        //     : ''),
-                        isFocused: controller.isPaymentProofImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.paymentProofImage),
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
+                        ]),
+                        C10(),
+                        imagePickerField(
+                          label: "Payment Proof",
+                          imageFile: controller.paymentProofImage,
+                          isFocused: controller.isPaymentProofImageFocused,
+                          onTap: () =>
+                              controller.pickImage(controller.paymentProofImage),
+                        ),
+                        C10(),
+                        paddingWidget([
                           LabelsWithMark(label: "UTR Number"),
                           TextFormField(
                             controller: controller.utrNumber.value,
@@ -330,13 +755,12 @@ class LoanRepaymentScreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "UTR Number"),
+                              hint: "UTR Number",
+                            ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
+                        ]),
+                        C10(),
+                        paddingWidget([
                           LabelsWithMark(label: "Remark"),
                           TextFormField(
                             controller: controller.remark.value,
@@ -348,12 +772,12 @@ class LoanRepaymentScreen extends StatelessWidget {
                               hint: "Remark",
                             ),
                           ),
-                        ],
-                      ),
-                      C10(),
-                      AppButton(
+                        ]),
+                        C10(),
+                        AppButton(
                           title: "save",
                           onTap: () async {
+                            FocusScope.of(context).unfocus();
                             if (_formKey.currentState!.validate()) {
                               controller.saveRepayments();
                             } else {
@@ -361,29 +785,33 @@ class LoanRepaymentScreen extends StatelessWidget {
                                 massage: "Please fill all required fields",
                               );
                             }
-                          })
-                    ])),
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        Obx(() {
-          if (controller.isLoading.value) {
-            return Container(
-              width: double.infinity,
-              height: double.infinity,
-              color: Colors.white.withOpacity(0.3),
-              child: Center(
-                child: CircularProgressIndicator(
-                  color: AppColors.primary,
+          Obx(() {
+            if (controller.isLoading.value) {
+              return Container(
+                width: double.infinity,
+                height: double.infinity,
+                color: Colors.white.withOpacity(0.3),
+                child: Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.primary,
+                  ),
                 ),
-              ),
-            );
-          } else {
-            return const SizedBox.shrink();
-          }
-        }),
-      ]),
+              );
+            } else {
+              return const SizedBox.shrink();
+            }
+          }),
+        ],
+      ),
     );
   }
 }

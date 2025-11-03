@@ -232,12 +232,18 @@ class MemberListScreen extends StatelessWidget {
                                           ],
                                         ),
                                       ),
-                                      const SizedBox(width: 10),
+                                     C10(),
                                       GestureDetector(
                                         onTap: () async {
                                           Get.toNamed(
                                             Routes.memberCreation,
-                                            arguments: {'name': user.name},
+                                            arguments: {
+                                              'name': user.name,
+                                              'status':
+                                                  user.status,
+                                              'isReadOnly': user.status ==
+                                                  "Pending",
+                                            },
                                           );
                                         },
                                         child: Container(
