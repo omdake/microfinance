@@ -51,7 +51,7 @@ class TextStyles {
 
   static TextStyle get appBarTitle => TextStyle(
       fontSize: FontSizes.s20,
-      color: Colors.white,
+      color: Colors.black,
       height: 0.0,
       inherit: false,
       fontFamily: "Roboto-regular");

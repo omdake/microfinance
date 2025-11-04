@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/mobileFormatter_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart';
@@ -21,308 +20,322 @@ class PersonalDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-          backgroundColor: Colors.white,
-          body: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white, Colors.white],
-              ),
+        backgroundColor: Colors.white,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white, Colors.white],
             ),
-            width: double.infinity,
-            height: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Form(
-                    key: _formKey,
-                    child: Column(children: [
-                      if (controller.isMemberId.value) ...[
-                        paddingWidget(
-                          [
-                            const LabelsWithMark(
-                                label: "MemberId", isRequired: true),
-                            TextFormField(
-                              enabled: controller.isFormEdit.value,
-                              controller: controller.memberId.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                          hint: "memberId")
-                                      .copyWith(
-                                          filled: true,
-                                          fillColor: controller.isFormEdit.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                            ),
-                          ],
+          ),
+          width: double.infinity,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Form(
+                  key: _formKey,
+                  child: Column(children: [
+                    if (controller.isMemberId.value) ...[
+                      paddingWidget(
+                        [
+                          const LabelsWithMark(
+                              label: "MemberId", isRequired: true),
+                          TextFormField(
+                            enabled: controller.isFormEdit.value,
+                            controller: controller.memberId.value,
+                            cursorColor: AppColors.primary,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.name,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                                    hint: "memberId")
+                                .copyWith(
+                                    filled: true,
+                                    fillColor: controller.isFormEdit.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200),
+                          ),
+                        ],
+                      ),
+                    ],
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(
+                            label: "First Name", isRequired: true),
+                        TextFormField(
+                          controller: controller.firstName.value, 
+                          cursorColor: AppColors.primary,
+                          enabled: !controller.isReadOnly.value,
+                          textCapitalization: TextCapitalization.sentences,
+                          validator: (value) => requiredValidator(value!),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.name,
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                                  hint: "First Name")
+                              .copyWith(
+                            filled: true,
+                            fillColor: !controller.isReadOnly.value
+                                ? Colors.white
+                                : Colors.grey.shade200,
+                          ),
                         ),
                       ],
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "First Name", isRequired: true),
-                          TextFormField(
-                            controller: controller.firstName.value,
-                            cursorColor: AppColors.primary,
-                            enabled: !controller.isReadOnly.value,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(
+                            label: "Middle Name", isRequired: true),
+                        TextFormField(
+                          controller: controller.middleName.value,
+                          enabled: !controller.isReadOnly.value,
+                          cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.sentences,
+                          validator: (value) => requiredValidator(value!),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.name,
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                                  hint: "Middle Name")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
+                        ),
+                      ],
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(
+                            label: "Last Name", isRequired: true),
+                        TextFormField(
+                          controller: controller.lastName.value,
+                          enabled: !controller.isReadOnly.value,
+                          cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.sentences,
+                          validator: (value) => requiredValidator(value!),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.name,
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                                  hint: "Last Name")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
+                        ),
+                      ],
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(label: "Email", isRequired: true),
+                        TextFormField(
+                          controller: controller.email.value,
+                          enabled: !controller.isReadOnly.value,
+                          cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.none,
+                          keyboardType: TextInputType.emailAddress,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          style: TextStyles.textfieldTextStyle,
+                          validator: (value) => commonValidator(value!.trim()),
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            hint: "Email",
+                          ).copyWith(
+                              filled: true,
+                              fillColor: !controller.isReadOnly.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200),
+                        ),
+                      ],
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(label: "Gender", isRequired: true),
+                        Obx(() {
+                          final isEnabled = !controller.isReadOnly.value;
+
+                          return DropdownButtonFormField<String>(
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "First Name")
-                                .copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Middle Name", isRequired: true),
-                          TextFormField(
-                            controller: controller.middleName.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Middle Name")
-                                .copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Last Name", isRequired: true),
-                          TextFormField(
-                            controller: controller.lastName.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Last Name")
-                                .copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Email", isRequired: true),
-                          TextFormField(
-                            controller: controller.email.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) =>
-                                commonValidator(value!.trim()),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Email",
+                              hint: "Select Gender",
                             ).copyWith(
                                 filled: true,
                                 fillColor: !controller.isReadOnly.value
                                     ? Colors.white
                                     : Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Gender", isRequired: true),
-                          Obx(() {
-                            final isEnabled = !controller.isReadOnly.value;
-
-                            return DropdownButtonFormField<String>(
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                hint: "Select Gender",
-                              ).copyWith(
-                                      filled: true,
-                                      fillColor: !controller.isReadOnly.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200),
-                              style: TextStyles.textfieldTextStyle,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              items: controller.genderList.map((gender) {
-                                return DropdownMenuItem<String>(
-                                  value: gender,
-                                  child: Text(gender),
-                                );
-                              }).toList(),
-                              value: controller.selectedGender.value.isNotEmpty
-                                  ? controller.selectedGender.value
-                                  : null,
-                              onChanged: isEnabled
-                                  ? (value) {
-                                      if (value != null) {
-                                        controller.selectedGender.value = value;
-                                      }
+                            style: TextStyles.textfieldTextStyle,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            items: controller.genderList.map((gender) {
+                              return DropdownMenuItem<String>(
+                                value: gender,
+                                child: Text(gender),
+                              );
+                            }).toList(),
+                            value: controller.selectedGender.value.isNotEmpty
+                                ? controller.selectedGender.value
+                                : null,
+                            onChanged: isEnabled
+                                ? (value) {
+                                    if (value != null) {
+                                      controller.selectedGender.value = value;
                                     }
-                                  : null,
-                              disabledHint:
-                                  controller.selectedGender.value.isNotEmpty
-                                      ? Text(controller.selectedGender.value)
-                                      : const Text("Select Gender"),
-                              validator: (value) {
-                                if (controller.selectedGender.value.isEmpty) {
-                                  return 'Gender is required';
-                                }
-                                return null;
-                              },
-                            );
-                          }),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Date Of Birth", isRequired: true),
-                          Obx(
-                            () => TextFormField(
-                              enabled: !controller.isReadOnly.value,
-                              controller: controller.dob.value,
-                              cursorColor: AppColors.primary,
-                              readOnly: true,
-                              onTap: () => controller.selectDate(
+                                  }
+                                : null,
+                            disabledHint:
+                                controller.selectedGender.value.isNotEmpty
+                                    ? Text(controller.selectedGender.value)
+                                    : const Text("Select Gender"),
+                            validator: (value) {
+                              if (controller.selectedGender.value.isEmpty) {
+                                return 'Gender is required';
+                              }
+                              return null;
+                            },
+                          );
+                        }),
+                      ],
+                    ),
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(
+                            label: "Date Of Birth", isRequired: true),
+                        Obx(
+                          () => TextFormField(
+                            enabled: !controller.isReadOnly.value,
+                            controller: controller.dob.value,
+                            cursorColor: AppColors.primary,
+                            readOnly: true,
+                            onTap: () => controller.selectDate(
+                                context, controller.dob.value),
+                            validator: (value) => requiredValidator(value!),
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            style: TextStyles.textfieldTextStyle,
+                            decoration:
+                                TextFieldDecoration.textfieldDecorationicon(
+                              hint: "Date Of Birth",
+                              sufficIcon: Icons.calendar_today,
+                              sufficIconOntap: () => controller.selectDate(
                                   context, controller.dob.value),
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecorationicon(
-                                hint: "Date Of Birth",
-                                sufficIcon: Icons.calendar_today,
-                                sufficIconOntap: () => controller.selectDate(
-                                    context, controller.dob.value),
-                              ).copyWith(
-                                      filled: true,
-                                      fillColor: !controller.isReadOnly.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200),
-                            ),
+                            ).copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200),
+                          ),
+                        ),
+                      ],
+                    ),
+                    C10(),
+                    Obx(() {
+                      if (!controller.isDobSelected.value) return SizedBox();
+                      return Column(
+                        children: [
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Entry Age", isRequired: true),
+                              TextFormField(
+                                enabled: controller.isFormEdit.value,
+                                controller: controller.entryAge.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Age")
+                                        .copyWith(
+                                  filled: true,
+                                  fillColor: controller.isFormEdit.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                ),
+                              ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Completed Age", isRequired: true),
+                              TextFormField(
+                                enabled: controller.isFormEdit.value,
+                                controller: controller.completedAge.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.number,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Age")
+                                        .copyWith(
+                                  filled: true,
+                                  fillColor: controller.isFormEdit.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
+                      );
+                    }),
+                    C10(),
+                    paddingWidget([
+                      const LabelsWithMark(
+                          label: "Mobile Number", isRequired: true),
+                      TextFormField(
+                        enabled: !controller.isReadOnly.value,
+                        controller: controller.mobileNo.value,
+                        cursorColor: AppColors.primary,
+                        keyboardType: TextInputType.phone,
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        style: TextStyles.textfieldTextStyle,
+                        validator: (value) => mobileNoValidator(value!.trim()),
+                        decoration: TextFieldDecoration.textfieldDecoration(
+                          hint: "Mobile Number",
+                        ).copyWith(
+                            filled: true,
+                            fillColor: !controller.isReadOnly.value
+                                ? Colors.white
+                                : Colors.grey.shade200),
+                        inputFormatters: [
+                          MobileNumberPrefixFormatter(),
+                        ],
                       ),
-                      C10(),
-                      Obx(() {
-                        if (!controller.isDobSelected.value) return SizedBox();
-                        return Column(
-                          children: [
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "Entry Age", isRequired: true),
-                                TextFormField(
-                                  enabled: controller.isFormEdit.value,
-                                  controller: controller.entryAge.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  validator: (value) =>
-                                      requiredValidator(value!),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.number,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "Age")
-                                          .copyWith(
-                                    filled: true,
-                                    fillColor: controller.isFormEdit.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            C10(),
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "Completed Age", isRequired: true),
-                                TextFormField(
-                                  enabled: controller.isFormEdit.value,
-                                  controller: controller.completedAge.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  validator: (value) =>
-                                      requiredValidator(value!),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.number,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "Age")
-                                          .copyWith(
-                                    filled: true,
-                                    fillColor: controller.isFormEdit.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        );
-                      }),
-                      C10(),
-                      paddingWidget([
+                    ]),
+                    C10(),
+                    paddingWidget(
+                      [
                         const LabelsWithMark(
-                            label: "Mobile Number", isRequired: true),
+                          label: "Alternate Mobile Number",
+                        ),
                         TextFormField(
                           enabled: !controller.isReadOnly.value,
-                          controller: controller.mobileNo.value,
+                          controller: controller.alternateMobileNo.value,
                           cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.sentences,
                           keyboardType: TextInputType.phone,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
                           style: TextStyles.textfieldTextStyle,
-                          validator: (value) =>
-                              mobileNoValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
                             hint: "Mobile Number",
                           ).copyWith(
@@ -334,200 +347,186 @@ class PersonalDetailsScreen extends StatelessWidget {
                             MobileNumberPrefixFormatter(),
                           ],
                         ),
-                      ]),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                            label: "Alternate Mobile Number",
-                          ),
-                          TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.alternateMobileNo.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.phone,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Mobile Number",
-                            ).copyWith(
-                                filled: true,
-                                fillColor: !controller.isReadOnly.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200),
-                            inputFormatters: [
-                              MobileNumberPrefixFormatter(),
-                            ],
-                          ),
-                        ],
+                      ],
+                    ),
+                    C10(),
+                    imagePickerField(
+                      label: "Member Image",
+                      showError: controller.memberError,
+                      isRequired: true,
+                      imageFile: controller.memberImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].memberImage ?? ''
+                          : ''),
+                      isFocused: controller.isMemberImageFocused,
+                      onTap: () => controller.pickImage(controller.memberImage),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (file) => imageFileValidator(
+                        localFile: file,
+                        networkUrl: controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].memberImage
+                            : null,
+                        fieldName: 'Member Image',
                       ),
-                      C10(),
-                      imagePickerField(
-                        label: "Member Image",
-                        showError: controller.memberError,
-                        isRequired: true,
-                        imageFile: controller.memberImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].memberImage ?? ''
-                            : ''),
-                        isFocused: controller.isMemberImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.memberImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].memberImage
-                              : null,
-                          fieldName: 'Member Image',
-                        ),
+                    ),
+                    C10(),
+                    paddingWidget([
+                      LabelsWithMark(
+                        label: "Group",
                       ),
-                      C10(),
-                      paddingWidget([
-                        LabelsWithMark(
-                          label: "Group",
-                        ),
-                        Obx(() {
-                          final selectedValue = controller.selectedGroup.value;
-                          final isValidValue = controller.groupList
-                              .any((e) => e.name.toString() == selectedValue);
-
-                          final isEnabled = !controller.isReadOnly.value;
-
-                          return DropdownButtonFormField<String>(
-                            isExpanded: true,
-                            value: isValidValue ? selectedValue : null,
-                            items: controller.groupList.map((e) {
-                              return DropdownMenuItem<String>(
-                                value: e.name.toString(),
-                                child: Text(
-                                  e.groupName.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              );
-                            }).toList(),
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Group",
-                              sufficIconOntap: () {},
-                              sufficIcon: null,
-                            ).copyWith(
-                                filled: true,
-                                fillColor: !controller.isReadOnly.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200),
-                            onChanged: isEnabled
-                                ? (value) {
-                                    controller.selectedGroup.value =
-                                        value ?? '';
-                                  }
-                                : null,
-                            disabledHint: isValidValue
-                                ? Text(
-                                    controller.groupList
-                                            .firstWhereOrNull((e) =>
-                                                e.name.toString() ==
-                                                selectedValue)
-                                            ?.groupName ??
-                                        '',
-                                    overflow: TextOverflow.ellipsis,
-                                  )
-                                : const Text("Select Group"),
-                          );
-                        })
-                      ]),
-                      C10(),
-                      paddingWidget([
-                        LabelsWithMark(
-                          label: "Occupation",
-                          isRequired: true,
-                        ),
-                        Obx(() {
-                          final isEnabled = !controller.isReadOnly.value;
-
-                          return DropdownButtonFormField<String>(
-                            value: controller.selectedOccupation.value.isEmpty
-                                ? null
-                                : controller.selectedOccupation.value,
-                            items: controller.occupationList.map((e) {
-                              return DropdownMenuItem(
-                                value: e.name.toString(),
-                                child: Text(e.occupation.toString()),
-                              );
-                            }).toList(),
-                            style: TextStyles.textfieldTextStyle,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Occupation",
-                              sufficIconOntap: () {},
-                              sufficIcon: null,
-                            ).copyWith(
-                                filled: true,
-                                fillColor: !controller.isReadOnly.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200),
-                            onChanged: isEnabled
-                                ? (value) {
-                                    controller.selectedOccupation.value =
-                                        value ?? '';
-                                  }
-                                : null,
-                            disabledHint:
-                                controller.selectedOccupation.value.isNotEmpty
-                                    ? Text(
-                                        controller.occupationList
-                                                .firstWhereOrNull(
-                                                  (e) =>
-                                                      e.name.toString() ==
-                                                      controller
-                                                          .selectedOccupation
-                                                          .value,
-                                                )
-                                                ?.occupation ??
-                                            '',
-                                      )
-                                    : const Text("Select Occupation"),
-                            validator: (value) {
-                              if (controller.selectedOccupation.value.isEmpty) {
-                                return 'This field can\'t be empty';
-                              }
-                              return null;
-                            },
-                          );
-                        }),
-                      ]),
-                      C10(),
                       Obx(() {
-                        if (controller.isLoading.value) {
-                          return Center(
-                            child: CircularProgressIndicator(
-                                color: AppColors.primary),
-                          );
-                        }
+                        final selectedValue = controller.selectedGroup.value;
+                        final isValidValue = controller.groupList
+                            .any((e) => e.name.toString() == selectedValue);
 
-                        return AppButton(
-                          title:
-                              controller.isMemberId.value ? "Update" : "Save",
+                        final isEnabled = !controller.isReadOnly.value;
+
+                        return DropdownButtonFormField<String>(
+                          isExpanded: true,
+                          value: isValidValue ? selectedValue : null,
+                          items: controller.groupList.map((e) {
+                            return DropdownMenuItem<String>(
+                              value: e.name.toString(),
+                              child: Text(
+                                e.groupName.toString(),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            );
+                          }).toList(),
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            hint: "Select Group",
+                            sufficIconOntap: () {},
+                            sufficIcon: null,
+                          ).copyWith(
+                              filled: true,
+                              fillColor: !controller.isReadOnly.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200),
+                          onChanged: isEnabled
+                              ? (value) {
+                                  controller.selectedGroup.value = value ?? '';
+                                }
+                              : null,
+                          disabledHint: isValidValue
+                              ? Text(
+                                  controller.groupList
+                                          .firstWhereOrNull((e) =>
+                                              e.name.toString() ==
+                                              selectedValue)
+                                          ?.groupName ??
+                                      '',
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                              : const Text("Select Group"),
+                        );
+                      })
+                    ]),
+                    C10(),
+                    paddingWidget([
+                      LabelsWithMark(
+                        label: "Occupation",
+                        isRequired: true,
+                      ),
+                      Obx(() {
+                        final isEnabled = !controller.isReadOnly.value;
+
+                        return DropdownButtonFormField<String>(
+                          value: controller.selectedOccupation.value.isEmpty
+                              ? null
+                              : controller.selectedOccupation.value,
+                          items: controller.occupationList.map((e) {
+                            return DropdownMenuItem(
+                              value: e.name.toString(),
+                              child: Text(e.occupation.toString()),
+                            );
+                          }).toList(),
+                          style: TextStyles.textfieldTextStyle,
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            hint: "Select Occupation",
+                            sufficIconOntap: () {},
+                            sufficIcon: null,
+                          ).copyWith(
+                              filled: true,
+                              fillColor: !controller.isReadOnly.value
+                                  ? Colors.white
+                                  : Colors.grey.shade200),
+                          onChanged: isEnabled
+                              ? (value) {
+                                  controller.selectedOccupation.value =
+                                      value ?? '';
+                                }
+                              : null,
+                          disabledHint:
+                              controller.selectedOccupation.value.isNotEmpty
+                                  ? Text(
+                                      controller.occupationList
+                                              .firstWhereOrNull(
+                                                (e) =>
+                                                    e.name.toString() ==
+                                                    controller
+                                                        .selectedOccupation
+                                                        .value,
+                                              )
+                                              ?.occupation ??
+                                          '',
+                                    )
+                                  : const Text("Select Occupation"),
+                          validator: (value) {
+                            if (controller.selectedOccupation.value.isEmpty) {
+                              return 'This field can\'t be empty';
+                            }
+                            return null;
+                          },
+                        );
+                      }),
+                    ]),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: GestureDetector(
                           onTap: () async {
                             if (_formKey.currentState!.validate()) {
                               if (controller.isMemberId.value) {
-                                controller.updateLoanMember();
+                                await controller.updateLoanMember();
                               } else {
-                                controller.saveLoanMember();
+                                await controller.saveLoanMember();
                               }
+                              controller.selectedIndex.value = 1;
                             } else {
                               AppTostMassage.showTostMassage(
                                 massage: "Please fill all required fields",
                               );
                             }
                           },
-                        );
-                      }),
-                    ])),
-              ),
+                          child: Container(
+                            padding: const EdgeInsets.all(12.0),
+                            decoration: const BoxDecoration(
+                              color: AppColors.primaryOrange,
+                              shape: BoxShape.circle,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  blurRadius: 8,
+                                  offset: Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ])),
             ),
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

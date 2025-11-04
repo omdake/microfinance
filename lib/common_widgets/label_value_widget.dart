@@ -114,9 +114,9 @@ class LabelsWithMark extends StatelessWidget {
         text: TextSpan(
           text: label,
           style: TextStyle(
-              color: Color(0xFF667085),
-              fontSize: FontSizes.s14,
-             fontFamily: "Roboto-regular",
+              color: Colors.black,
+              fontSize: FontSizes.s12,
+             fontFamily: "Roboto-Regular",
               fontWeight: FontWeight.w500),
           children: isRequired == true
               ? <TextSpan>[

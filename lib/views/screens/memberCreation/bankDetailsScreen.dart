@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -49,11 +48,12 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Bank Name").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                  hint: "Bank Name")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -73,11 +73,12 @@ class BankDetailscSreen extends StatelessWidget {
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
-                                hint: "Account Number").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200)),
+                                    hint: "Account Number")
+                                .copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200)),
                       ],
                     ),
                     C10(),
@@ -95,11 +96,12 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Holder Name").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                  hint: "Holder Name")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -117,11 +119,12 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Branch").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                  hint: "Branch")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -140,11 +143,12 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Ifsc Code").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                  hint: "Ifsc Code")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
                         ),
                       ],
                     ),
@@ -160,26 +164,81 @@ class BankDetailscSreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Bank Address").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                                  hint: "Bank Address")
+                              .copyWith(
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200),
                         ),
                       ],
                     ),
                     C20(),
-                    AppButton(
-                        title: "save",
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            controller.updateLoanMember();
-                          } else {
-                            AppTostMassage.showTostMassage(
-                              massage: "Please fill all required fields",
-                            );
-                          }
-                        })
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 20.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                controller.selectedIndex.value = 1;
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primaryOrange,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_back_ios,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  controller.updateLoanMember();
+                                } else {
+                                  AppTostMassage.showTostMassage(
+                                    massage: "Please fill all required fields",
+                                  );
+                                }
+                                controller.selectedIndex.value = 3;
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(12.0),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primaryOrange,
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black26,
+                                      blurRadius: 8,
+                                      offset: Offset(0, 4),
+                                    ),
+                                  ],
+                                ),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ])),
             ),
           ),

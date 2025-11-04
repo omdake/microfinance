@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/buttons.dart';
-import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/common_widgets/uploadFile.dart';
+import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
-import 'package:microfinance/themes/app_textstyles.dart';
-import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
-import 'package:microfinance/utils/ui_helper_widgets.dart';
-import 'package:microfinance/validator.dart';
+import 'package:microfinance/views/screens/memberCreation/aaharPopupScreen.dart';
+import 'package:microfinance/views/screens/memberCreation/addressDocScreen.dart';
+import 'package:microfinance/views/screens/memberCreation/homePopupScreen.dart';
+import 'package:microfinance/views/screens/memberCreation/memberCreationSuccess.dart';
+import 'package:microfinance/views/screens/memberCreation/panCardPopupScreen.dart';
+import 'package:microfinance/views/screens/memberCreation/voterCardPopupScreen.dart';
 
 class UploadDcumentSreen extends StatelessWidget {
   UploadDcumentSreen({super.key});
 
-  final _formKey = GlobalKey<FormState>();
   final MemberCreationController controller =
       Get.put(MemberCreationController());
 
@@ -24,447 +23,257 @@ class UploadDcumentSreen extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white, Colors.white],
-              ),
-            ),
-            width: double.infinity,
-            height: double.infinity,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      paddingWidget([
-                        const LabelsWithMark(
-                            label: "Aadhar Card Number", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.aadharNumber.value,
-                          cursorColor: AppColors.primary,
-                          keyboardType: TextInputType.number,
-                          validator: (value) => aadharValidator(value!.trim()),
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Aadhar Card Number",
-                          ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                        ),
-                      ]),
-                      C10(),
-                      imagePickerField(
-                        label: "Aadhar Card Front Image",
-                        isRequired: true,
-                        imageFile: controller.aadharImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].aadharImage ?? ''
-                            : ''),
-                        isFocused: controller.isAadharImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.aadharImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                           validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].aadharImage
-                              : null,
-                          fieldName: 'Aadhar Card Front Image',
-                        ),
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "Aadhar Card Back Image",
-                        isRequired: true,
-                        imageFile: controller.aadharbackImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].aadharImageBack ?? ''
-                            : ''),
-                        isFocused: controller.isAadharbackImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.aadharbackImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].aadharImageBack
-                              : null,
-                          fieldName: 'Aadhar Card Back Image',
-                        ),
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Pan Card Number", isRequired: true),
-                          TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.panNumber.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.characters,
-                            keyboardType: TextInputType.text,
-                            validator: (value) => panValidator(value!.trim()),
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Pan Card Number",
-                            ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "Pan Card Front Image",
-                        isRequired: true,
-                        imageFile: controller.panImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].pancardImage ?? ''
-                            : ''),
-                        isFocused: controller.isPanImageFocused,
-                        onTap: () => controller.pickImage(controller.panImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].pancardImage
-                              : null,
-                          fieldName: 'Pan Card Front Image',
-                        ),
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "Pan Card Back Image",
-                        isRequired: true,
-                        imageFile: controller.panbackImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].pancardImageBack ?? ''
-                            : ''),
-                        isFocused: controller.isAadharbackImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.panbackImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].pancardImageBack
-                              : null,
-                          fieldName: 'Pan Card Back Image',
-                        ),
-                      ),
-                      C10(),
-                      paddingWidget([
-                        const LabelsWithMark(
-                          label: "Address Document",
-                          isRequired: true,
-                        ),
-                        Obx(() {
-                          final isEnabled = !controller.isReadOnly.value;
-
-                          return DropdownButtonFormField<String>(
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Select Address Document",
-                            ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                            style: TextStyles.textfieldTextStyle,
-                            items: controller.addressDocTypeList
-                                .map((addressDocType) {
-                              return DropdownMenuItem<String>(
-                                value: addressDocType,
-                                child: Text(addressDocType),
-                              );
-                            }).toList(),
-                            value: controller
-                                    .selectedAddressDocType.value.isNotEmpty
-                                ? controller.selectedAddressDocType.value
-                                : null,
-                            onChanged: isEnabled
-                                ? (value) {
-                                    if (value != null) {
-                                      controller.selectedAddressDocType.value =
-                                          value;
-                                    }
-                                  }
-                                : null,
-                            disabledHint: controller
-                                    .selectedAddressDocType.value.isNotEmpty
-                                ? Text(controller.selectedAddressDocType.value)
-                                : const Text("Select Address Document"),
-                            validator: (value) {
-                              if (controller
-                                  .selectedAddressDocType.value.isEmpty) {
-                                return 'Address Document is required';
-                              }
-                              return null;
-                            },
-                          );
-                        }),
-                      ]),
-                      C10(),
-                      imagePickerField(
-                        label: "Address Image",
-                        isRequired: true,
-                        imageFile: controller.addressImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].addressImage ?? ''
-                            : ''),
-                        isFocused: controller.isAddressImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.addressImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].addressImage
-                              : null,
-                          fieldName: 'Address Image',
-                        ),
-                      ),
-                      C10(),
-                      imagePickerField(
-                        label: "Home Image",
-                        isRequired: true,
-                        imageFile: controller.homeImage,
-                        enableGeotag: true,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].homeImage ?? ''
-                            : ''),
-                        isFocused: controller.ishomeImageFocused,
-                        onGeotagCaptured: (position, address) {
-                          controller.latitude.value = position.latitude;
-                          controller.longitude.value = position.longitude;
-                          controller.geoLocation.value = address;
-                        },
-                        onTap: () => controller.pickImage(controller.homeImage),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                         validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].homeImage
-                              : null,
-                          fieldName: 'Home Image',
-                        ),
-                      ),
-                      C10(),
-                      Obx(() => Column(
-                            children: [
-                              if (controller.showOnlyGeoFields.value &&
-                                  controller
-                                      .homelatitude.value.text.isNotEmpty &&
-                                  controller.homelatitude.value.text !=
-                                      '0.0') ...[
-                                paddingWidget([
-                                  const LabelsWithMark(
-                                      label: "Latitude", isRequired: true),
-                                  TextFormField(
-                                    readOnly: true,
-                                    enabled: !controller.isReadOnly.value,
-                                    controller: controller.homelatitude.value,
-                                    cursorColor: AppColors.primary,
-                                    style: TextStyles.textfieldTextStyle,
-                                    decoration:
-                                        TextFieldDecoration.textfieldDecoration(
-                                      hint: "Latitude",
-                                    ).copyWith(
-                                      filled: true,
-                                      fillColor: controller.isFormEdit.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200,
-                                    ),
-                                  ),
-                                ]),
-                                C10(),
-                              ],
-                              if (controller.showOnlyGeoFields.value &&
-                                  controller
-                                      .homelongitude.value.text.isNotEmpty &&
-                                  controller.homelongitude.value.text !=
-                                      '0.0') ...[
-                                paddingWidget([
-                                  const LabelsWithMark(
-                                      label: "Longitude", isRequired: true),
-                                  TextFormField(
-                                    enabled: !controller.isReadOnly.value,
-                                    readOnly: true,
-                                    controller: controller.homelongitude.value,
-                                    cursorColor: AppColors.primary,
-                                    style: TextStyles.textfieldTextStyle,
-                                    decoration:
-                                        TextFieldDecoration.textfieldDecoration(
-                                      hint: "Longitude",
-                                    ).copyWith(
-                                      filled: true,
-                                      fillColor: controller.isFormEdit.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200,
-                                    ),
-                                  ),
-                                ]),
-                                C10(),
-                              ],
-                              if (controller.showOnlyGeoFields.value &&
-                                  controller.homeGeoLocation.value.text
-                                      .isNotEmpty) ...[
-                                paddingWidget([
-                                  const LabelsWithMark(
-                                      label: "Geo Location", isRequired: true),
-                                  TextFormField(
-                                    readOnly: true,
-                                    enabled: !controller.isReadOnly.value,
-                                    controller:
-                                        controller.homeGeoLocation.value,
-                                    cursorColor: AppColors.primary,
-                                    style: TextStyles.textfieldTextStyle,
-                                    decoration:
-                                        TextFieldDecoration.textfieldDecoration(
-                                      hint: "Geo Location",
-                                    ).copyWith(
-                                      filled: true,
-                                      fillColor: controller.isFormEdit.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200,
-                                    ),
-                                  ),
-                                ]),
-                                C10(),
-                              ],
-                            ],
-                          )),
-                      paddingWidget([
-                        const LabelsWithMark(
-                            label: "Voter Id Number", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.voterId.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.characters,
-                          keyboardType: TextInputType.text,
-                          validator: (value) => voterIdValidator(value!.trim()),
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Voter Id Number",
-                          ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                        ),
-                      ]),
-                      C10(),
-                      imagePickerField(
-                        label: "Voter Id Front Image",
-                        isRequired: true,
-                        imageFile: controller.voterImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].voterIdImage ?? ''
-                            : ''),
-                        isFocused: controller.isvoterImageFocused,
-                        onTap: () {
-                          controller.pickImage(controller.voterImage);
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].voterIdImage
-                              : null,
-                          fieldName: 'Voter Id Front Image',
-                        ),
-                      ),
-                      C20(),
-                      imagePickerField(
-                        label: "Voter Id Back Image",
-                        isRequired: true,
-                        imageFile: controller.voterbackImage,
-                        imageUrl: RxString(controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].voterIdImageBack ?? ''
-                            : ''),
-                        isFocused: controller.isvoterbackImageFocused,
-                        onTap: () {
-                          controller.pickImage(controller.voterbackImage);
-                        },
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (file) => imageFileValidator(
-                          localFile: file,
-                          networkUrl: controller.loanMember.isNotEmpty
-                              ? controller.loanMember[0].voterIdImageBack
-                              : null,
-                          fieldName: 'Voter Id Back Image',
-                        ),
-                      ),
-                      C20(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: AppButton(
-                              title: "Save",
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  controller.updateLoanMember();
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                          C10(),
-                          Expanded(
-                            child: AppButton(
-                              title: "Submit",
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  await controller.submitLoanMember(
-                                      memberName: controller.name.value);
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+          Obx(
+            () => ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                documentTile(
+                    icon: Icons.folder_open,
+                    title: "Aadhar Card",
+                    value: () => controller.aadharNumber.value.text.isNotEmpty
+                        ? controller.aadharNumber.value.text
+                        : "Aadhar Card Details",
+                    onTap: () {
+                      Get.dialog(AadharPopup());
+                    }),
+                documentTile(
+                    icon: Icons.folder_open,
+                    title: "PAN Card",
+                    value: () => controller.panNumber.value.text.isNotEmpty
+                        ? controller.panNumber.value.text
+                        : "Pan Card Details",
+                    onTap: () {
+                      Get.dialog(PanCardPopup());
+                    }),
+                documentTile(
+                    icon: Icons.folder_open,
+                    title: "Voter ID",
+                    value: () => controller.voterId.value.text.isNotEmpty
+                        ? controller.voterId.value.text
+                        : "Voter Id Details",
+                    onTap: () {
+                      Get.dialog(VoterIdPopup());
+                    }),
+                documentTile(
+                    icon: Icons.folder_open,
+                    title: "Address Document",
+                    value: () =>
+                        controller.selectedAddressDocType.value.isNotEmpty
+                            ? controller.selectedAddressDocType.value
+                            : "Address Document Details",
+                    onTap: () {
+                      Get.dialog(AddressDocPopup());
+                    }),
+                documentTile(
+                    icon: Icons.folder_open,
+                    title: "Home Image",
+                    value: () {
+                      if (controller.homeImage.value != null) {
+                        return "Uploaded";
+                      } else if (controller.loanMember.isNotEmpty &&
+                          controller.loanMember[0].homeImage != null &&
+                          controller.loanMember[0].homeImage!.isNotEmpty) {
+                        return "Uploaded";
+                      } else {
+                        return "Home Details";
+                      }
+                    },
+                    onTap: () {
+                      Get.dialog(HomePopup());
+                    }),
+              ],
             ),
           ),
           Obx(() {
-            if (controller.isLoading.value) {
-              return Container(
-                width: double.infinity,
-                height: double.infinity,
-                color: Colors.white.withOpacity(0.3),
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primary,
-                  ),
-                ),
-              );
-            } else {
-              return const SizedBox.shrink();
-            }
+            return controller.isLoading.value
+                ? Container(
+                    color: Colors.white.withOpacity(0.3),
+                    child: const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryOrange,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink();
           }),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      controller.selectedIndex.value = 3;
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryOrange,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      if (controller.aadharNumber.value.text.isNotEmpty &&
+                          controller.panNumber.value.text.isNotEmpty &&
+                          controller.voterId.value.text.isNotEmpty &&
+                          controller.selectedAddressDocType.value.isNotEmpty &&
+                          (controller.homeImage.value != null ||
+                              controller
+                                      .loanMember.first.homeImage?.isNotEmpty ==
+                                  true)) {
+                        controller.isLoading.value = true;
+                        await controller.updateLoanMember();
+                        controller.isLoading.value = false;
+
+                        showSubmitConfirmationDialog();
+                      } else {
+                        AppTostMassage.showTostMassage(
+                          massage: "Please fill all required fields",
+                        );
+                      }
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.all(12.0),
+                      decoration: const BoxDecoration(
+                        color: AppColors.primaryOrange,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8,
+                            offset: Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.arrow_forward_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget documentTile({
+    required IconData icon,
+    required String title,
+    required VoidCallback onTap,
+    required String Function() value,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        margin: const EdgeInsets.only(bottom: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Color(0xFF707070)),
+        ),
+        child: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                border: Border.all(color: AppColors.primary),
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Icon(
+                icon,
+                color: Colors.black54,
+              ),
+            ),
+            C15(),
+            Expanded(
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(title.toUpperCase(),
+                        style: TextStyle(
+                            color: Color(0xFF17243E),
+                            fontSize: 12,
+                            fontFamily: "Roboto-Medium")),
+                    const SizedBox(height: 4),
+                    Text(
+                      value(),
+                      style: TextStyle(
+                        color: Color(0xFF17243E),
+                        fontSize: 14,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  ]),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: Color(0xFFC1CAC7),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void showSubmitConfirmationDialog() {
+    Get.dialog(
+      AlertDialog(
+        content: const Text("Are you sure you want to Submit?"),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actions: [
+          ElevatedButton(
+            onPressed: () async {
+              Get.back();
+              controller.isLoading.value = true;
+
+              controller.isLoading.value = false;
+
+              Get.offAll(() => MemberCreatedSuccessScreen(
+                    applicationId: controller.memberId.value.text,
+                    memberName: controller.name.value,
+                    city: controller.city.value.text,
+                    state: controller.selectedState.value,
+                  ));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.black,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text("Yes"),
+          ),
+          ElevatedButton(
+            onPressed: () => Get.back(),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red[100],
+              foregroundColor: Colors.red[900],
+            ),
+            child: const Text("No"),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
     );
   }
 }
