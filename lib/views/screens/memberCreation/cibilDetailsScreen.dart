@@ -19,139 +19,132 @@ class CibilDetailscSreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
-            ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.5),
+                width: 1.5,
+              )),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                          label: "Cibil Score",
-                        ),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.cibilScore.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Cibil Score")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                          label: "Cibil Date",
-                        ),
-                        Obx(
-                          () => TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.cibilDate.value,
-                            cursorColor: AppColors.primary,
-                            readOnly: true,
-                            onTap: () => controller.selectDate(
-                                context, controller.cibilDate.value),
-                            style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecorationicon(
-                              hint: "Cibil Date",
-                              sufficIcon: Icons.calendar_today,
-                              sufficIconOntap: () => controller.selectDate(
-                                  context, controller.cibilDate.value),
-                            ).copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                label: "Cibil Score",
+                              ),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.cibilScore.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Cibil Score")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
+                              ),
+                            ],
                           ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                label: "Cibil Date",
+                              ),
+                              Obx(
+                                () => TextFormField(
+                                  enabled: !controller.isReadOnly.value,
+                                  controller: controller.cibilDate.value,
+                                  cursorColor: AppColors.primary,
+                                  readOnly: true,
+                                  onTap: () => controller.selectDate(
+                                      context, controller.cibilDate.value),
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration: TextFieldDecoration
+                                      .textfieldDecorationicon(
+                                    hint: "Cibil Date",
+                                    sufficIcon: Icons.calendar_today,
+                                    sufficIconOntap: () =>
+                                        controller.selectDate(context,
+                                            controller.cibilDate.value),
+                                  ).copyWith(
+                                      filled: true,
+                                      fillColor: !controller.isReadOnly.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ])),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.selectedIndex.value = 2;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
                         ),
-                      ],
-                    ),
-                    C20(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                controller.selectedIndex.value = 2;
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
-                              ),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  controller.updateLoanMember();
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                                controller.selectedIndex.value = 4;
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ])),
+                    InkWell(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          controller.updateLoanMember();
+                        } else {
+                          AppTostMassage.showTostMassage(
+                            massage: "Please fill all required fields",
+                          );
+                        }
+                        controller.selectedIndex.value = 4;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ));

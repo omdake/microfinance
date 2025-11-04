@@ -20,226 +20,240 @@ class BankDetailscSreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(
+              color: AppColors.primary.withOpacity(0.5),
+              width: 1.5,
             ),
           ),
-          width: double.infinity,
-          height: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Bank Name", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.bankName.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Bank Name")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Account Number", isRequired: true),
-                        TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.accountNumber.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Account Number")
-                                .copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200)),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Holder Name", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.holderName.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Holder Name")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(label: "Branch", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.branch.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Branch")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Ifsc Code", isRequired: true),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.ifscCode.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Ifsc Code")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(label: "Bank Address"),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.bankAddress.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Bank Address")
-                              .copyWith(
-                                  filled: true,
-                                  fillColor: !controller.isReadOnly.value
-                                      ? Colors.white
-                                      : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C20(),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16.0, vertical: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                controller.selectedIndex.value = 1;
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_back_ios,
-                                  color: Colors.white,
-                                ),
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Bank Name", isRequired: true),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.bankName.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Bank Name")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  controller.updateLoanMember();
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                                controller.selectedIndex.value = 3;
-                              },
-                              child: Container(
-                                padding: const EdgeInsets.all(12.0),
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black26,
-                                      blurRadius: 8,
-                                      offset: Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
-                                ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Account Number", isRequired: true),
+                              TextFormField(
+                                  enabled: !controller.isReadOnly.value,
+                                  controller: controller.accountNumber.value,
+                                  cursorColor: AppColors.primary,
+                                  textCapitalization:
+                                      TextCapitalization.sentences,
+                                  validator: (value) =>
+                                      requiredValidator(value!),
+                                  autovalidateMode:
+                                      AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.name,
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                              hint: "Account Number")
+                                          .copyWith(
+                                              filled: true,
+                                              fillColor:
+                                                  !controller.isReadOnly.value
+                                                      ? Colors.white
+                                                      : Colors.grey.shade200)),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Holder Name", isRequired: true),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.holderName.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Holder Name")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
                               ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Branch", isRequired: true),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.branch.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Branch")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
+                              ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                  label: "Ifsc Code", isRequired: true),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.ifscCode.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Ifsc Code")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
+                              ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(label: "Bank Address"),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.bankAddress.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Bank Address")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
+                              ),
+                            ],
+                          ),
+                        ])),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.selectedIndex.value = 1;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
                             ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ])),
+                    InkWell(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          controller.updateLoanMember();
+                        } else {
+                          AppTostMassage.showTostMassage(
+                            massage: "Please fill all required fields",
+                          );
+                        }
+                        controller.selectedIndex.value = 3;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ));

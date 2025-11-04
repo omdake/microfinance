@@ -73,14 +73,7 @@ class MemberCreationScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: Card(
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: const BorderSide(color: Color(0xFF667085)),
-                          ),
-                          child: screen,
-                        ),
+                        child: screen,
                       )
                     ],
                   ),

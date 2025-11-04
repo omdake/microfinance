@@ -115,6 +115,7 @@ class TextFieldDecoration {
           IconData? sufficIcon}) =>
       InputDecoration(
           filled: true,
+          isDense: true,
           fillColor: AppColors.white,
           contentPadding:
               const EdgeInsets.symmetric(vertical: 12.0, horizontal: 12),

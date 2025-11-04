@@ -21,157 +21,167 @@ class UploadDcumentSreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Obx(
-            () => ListView(
-              padding: const EdgeInsets.all(16),
-              children: [
-                documentTile(
-                    icon: Icons.folder_open,
-                    title: "Aadhar Card",
-                    value: () => controller.aadharNumber.value.text.isNotEmpty
-                        ? controller.aadharNumber.value.text
-                        : "Aadhar Card Details",
-                    onTap: () {
-                      Get.dialog(AadharPopup());
-                    }),
-                documentTile(
-                    icon: Icons.folder_open,
-                    title: "PAN Card",
-                    value: () => controller.panNumber.value.text.isNotEmpty
-                        ? controller.panNumber.value.text
-                        : "Pan Card Details",
-                    onTap: () {
-                      Get.dialog(PanCardPopup());
-                    }),
-                documentTile(
-                    icon: Icons.folder_open,
-                    title: "Voter ID",
-                    value: () => controller.voterId.value.text.isNotEmpty
-                        ? controller.voterId.value.text
-                        : "Voter Id Details",
-                    onTap: () {
-                      Get.dialog(VoterIdPopup());
-                    }),
-                documentTile(
-                    icon: Icons.folder_open,
-                    title: "Address Document",
-                    value: () =>
-                        controller.selectedAddressDocType.value.isNotEmpty
-                            ? controller.selectedAddressDocType.value
-                            : "Address Document Details",
-                    onTap: () {
-                      Get.dialog(AddressDocPopup());
-                    }),
-                documentTile(
-                    icon: Icons.folder_open,
-                    title: "Home Image",
-                    value: () {
-                      if (controller.homeImage.value != null) {
-                        return "Uploaded";
-                      } else if (controller.loanMember.isNotEmpty &&
-                          controller.loanMember[0].homeImage != null &&
-                          controller.loanMember[0].homeImage!.isNotEmpty) {
-                        return "Uploaded";
-                      } else {
-                        return "Home Details";
-                      }
-                    },
-                    onTap: () {
-                      Get.dialog(HomePopup());
-                    }),
-              ],
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AppColors.primary.withOpacity(0.5),
+            width: 1.5,
           ),
-          Obx(() {
-            return controller.isLoading.value
-                ? Container(
-                    color: Colors.white.withOpacity(0.3),
-                    child: const Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryOrange,
-                      ),
-                    ),
-                  )
-                : const SizedBox.shrink();
-          }),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Stack(
+            children: [
+              Column(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      controller.selectedIndex.value = 3;
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryOrange,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
-                          ),
+                  Expanded(
+                    child: Obx(
+                      () => ListView(
+                        children: [
+                          documentTile(
+                              icon: Icons.folder_open,
+                              title: "Aadhar Card",
+                              value: () =>
+                                  controller.aadharNumber.value.text.isNotEmpty
+                                      ? controller.aadharNumber.value.text
+                                      : "Aadhar Card Details",
+                              onTap: () {
+                                Get.dialog(AadharPopup());
+                              }),
+                          documentTile(
+                              icon: Icons.folder_open,
+                              title: "PAN Card",
+                              value: () =>
+                                  controller.panNumber.value.text.isNotEmpty
+                                      ? controller.panNumber.value.text
+                                      : "Pan Card Details",
+                              onTap: () {
+                                Get.dialog(PanCardPopup());
+                              }),
+                          documentTile(
+                              icon: Icons.folder_open,
+                              title: "Voter ID",
+                              value: () =>
+                                  controller.voterId.value.text.isNotEmpty
+                                      ? controller.voterId.value.text
+                                      : "Voter Id Details",
+                              onTap: () {
+                                Get.dialog(VoterIdPopup());
+                              }),
+                          documentTile(
+                              icon: Icons.folder_open,
+                              title: "Address Document",
+                              value: () => controller
+                                      .selectedAddressDocType.value.isNotEmpty
+                                  ? controller.selectedAddressDocType.value
+                                  : "Address Document Details",
+                              onTap: () {
+                                Get.dialog(AddressDocPopup());
+                              }),
+                          documentTile(
+                              icon: Icons.folder_open,
+                              title: "Home Image",
+                              value: () {
+                                if (controller.homeImage.value != null) {
+                                  return "Uploaded";
+                                } else if (controller.loanMember.isNotEmpty &&
+                                    controller.loanMember[0].homeImage !=
+                                        null &&
+                                    controller
+                                        .loanMember[0].homeImage!.isNotEmpty) {
+                                  return "Uploaded";
+                                } else {
+                                  return "Home Details";
+                                }
+                              },
+                              onTap: () {
+                                Get.dialog(HomePopup());
+                              }),
                         ],
-                      ),
-                      child: const Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.white,
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () async {
-                      if (controller.aadharNumber.value.text.isNotEmpty &&
-                          controller.panNumber.value.text.isNotEmpty &&
-                          controller.voterId.value.text.isNotEmpty &&
-                          controller.selectedAddressDocType.value.isNotEmpty &&
-                          (controller.homeImage.value != null ||
-                              controller
-                                      .loanMember.first.homeImage?.isNotEmpty ==
-                                  true)) {
-                        controller.isLoading.value = true;
-                        await controller.updateLoanMember();
-                        controller.isLoading.value = false;
-
-                        showSubmitConfirmationDialog();
-                      } else {
-                        AppTostMassage.showTostMassage(
-                          massage: "Please fill all required fields",
-                        );
-                      }
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(12.0),
-                      decoration: const BoxDecoration(
-                        color: AppColors.primaryOrange,
-                        shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 8,
-                            offset: Offset(0, 4),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          controller.selectedIndex.value = 3;
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryOrange,
+                            shape: BoxShape.circle,
                           ),
-                        ],
+                          child: Directionality(
+                            textDirection: TextDirection.rtl,
+                            child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: const Icon(
+                                Icons.arrow_forward_ios,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: Colors.white,
+                      InkWell(
+                        onTap: () async {
+                          if (controller.aadharNumber.value.text.isNotEmpty &&
+                              controller.panNumber.value.text.isNotEmpty &&
+                              controller.voterId.value.text.isNotEmpty &&
+                              controller
+                                  .selectedAddressDocType.value.isNotEmpty &&
+                              (controller.homeImage.value != null ||
+                                  controller.loanMember.first.homeImage
+                                          ?.isNotEmpty ==
+                                      true)) {
+                            controller.isLoading.value = true;
+                            await controller.updateLoanMember();
+                            controller.isLoading.value = false;
+
+                            showSubmitConfirmationDialog();
+                          } else {
+                            AppTostMassage.showTostMassage(
+                              massage: "Please fill all required fields",
+                            );
+                          }
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.primaryOrange,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ),
+              Obx(() {
+                return controller.isLoading.value
+                    ? Container(
+                        color: Colors.white.withOpacity(0.3),
+                        child: const Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryOrange,
+                          ),
+                        ),
+                      )
+                    : const SizedBox.shrink();
+              }),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
