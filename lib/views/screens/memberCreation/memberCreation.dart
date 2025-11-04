@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
-import 'package:microfinance/themes/app_colors.dart';
-import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/views/screens/memberCreation/cibilDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
 import 'package:microfinance/views/screens/memberCreation/addressDetailsScreen.dart';
@@ -15,101 +13,74 @@ class MemberCreationScreen extends StatelessWidget {
 
   final MemberCreationController controller =
       Get.put(MemberCreationController());
-
   final List<String> labels = [
-    "Personal Details",
-    "Address Details",
-    "Bank Details",
-    "Cibil Details",
-    "Upload Document",
+    "PERSONAL DETAILS",
+    "ADDRESS DETAILS",
+    "BANK DETAILS",
+    "CIBIL SCORE DETAILS",
+    "DOCUMENT UPLOAD",
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Member Creation"),
+      appBar: appBarWithTitle1(
+        title: "Create Member",
+      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: List.generate(labels.length, (index) {
-                  return Expanded(
-                    child: Obx(() {
-                      final isSelected =
-                          controller.selectedIndex.value == index;
-                      return InkWell(
-                        onTap: () => controller.selectButton(index),
-                        child: Container(
-                          decoration: BoxDecoration(
-                             borderRadius: BorderRadiusDirectional.circular(10),
-                            color: isSelected
-                                ? Colors.grey.shade400
-                                : Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                final index = controller.selectedIndex.value;
+
+                Widget screen;
+                switch (index) {
+                  case 0:
+                    screen = PersonalDetailsScreen();
+                    break;
+                  case 1:
+                    screen = AddressDetailsScreen();
+                    break;
+                  case 2:
+                    screen = BankDetailscSreen();
+                    break;
+                  case 3:
+                    screen = CibilDetailscSreen();
+                    break;
+                  case 4:
+                    screen = UploadDcumentSreen();
+                    break;
+                  default:
+                    screen = const SizedBox();
+                }
+
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          labels[index],
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Medium",
+                            fontSize: 12,
                           ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 6, vertical: 2),
-                            child: Text(
-                              labels[index],
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontFamily: "Roboto-Medium",
-                                fontSize: 13,
-                              ),
-                            ),
-                          ),
+                          textAlign: TextAlign.center,
                         ),
-                      );
-                    }),
-                  );
-                }),
-              ),
-              C10(),
-              Expanded(
-                child: Obx(() {
-                  final index = controller.selectedIndex.value;
-
-                  Widget screen;
-                  switch (index) {
-                    case 0:
-                      screen = PersonalDetailsScreen();
-                      break;
-                    case 1:
-                      screen = AddressDetailsScreen();
-                      break;
-                    case 2:
-                      screen = BankDetailscSreen();
-                      break;
-                    case 3:
-                      screen = CibilDetailscSreen();
-                      case 4:
-                      screen = UploadDcumentSreen();
-                      break;
-                    default:
-                      screen = const SizedBox();
-                  }
-
-                  return Card(
-                    color: AppColors.white,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: screen,
-                    ),
-                  );
-                }),
-              ),
-            ],
-          ),
+                      ),
+                      Expanded(
+                        child: screen,
+                      )
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );

@@ -30,9 +30,12 @@ class LoanApplicationController extends GetxController {
   Rx<TextEditingController> periods = TextEditingController().obs;
   Rx<TextEditingController> group = TextEditingController().obs;
   Rx<TextEditingController> description = TextEditingController().obs;
-  Rx<TextEditingController> loanApplicantSearchController = TextEditingController().obs;
-  Rx<TextEditingController> coborrowerSearchController = TextEditingController().obs;
-  Rx<TextEditingController> nomineeSearchController = TextEditingController().obs;
+  Rx<TextEditingController> loanApplicantSearchController =
+      TextEditingController().obs;
+  Rx<TextEditingController> coborrowerSearchController =
+      TextEditingController().obs;
+  Rx<TextEditingController> nomineeSearchController =
+      TextEditingController().obs;
   RxList<LoanApplicantListResult> loanApplicantList =
       <LoanApplicantListResult>[].obs;
   RxString selectedMemberName = "".obs;
@@ -111,7 +114,6 @@ class LoanApplicationController extends GetxController {
           "Authorization": token!,
         },
       );
-
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;

@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/background_widget.dart';
 import 'package:microfinance/common_widgets/text_field.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -26,8 +27,41 @@ AppBar appBarWithTitle({
     titleSpacing: 10,
     title: titleWidget,
     actions: actions,
-    backgroundColor: Colors.grey.shade600,
-    iconTheme: IconThemeData(color: Colors.white),
+    backgroundColor: Colors.grey.shade300,
+    iconTheme: IconThemeData(color: Colors.black),
+  );
+}
+
+AppBar appBarWithTitle1({
+  required String? title,
+  List<Widget>? actions,
+  Function()? onBackPressed,
+}) {
+  return AppBar(
+    backgroundColor: Colors.grey.shade300,
+    elevation: 0,
+    centerTitle: true,
+    title: Text(
+      title ?? "",
+      style: TextStyles.appbartitle,
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    ),
+    leading: IconButton(
+      onPressed: onBackPressed ?? () => Get.back(),
+      icon: Container(
+        decoration: BoxDecoration(
+            shape: BoxShape.circle, color: AppColors.primaryOrange),
+        child: const Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ),
+    actions: actions,
   );
 }
 
@@ -64,7 +98,7 @@ AppBar appBarWithTwoTitle({
           Text(
             subTitle,
             style: TextStyles.defaultRegular
-                .copyWith(color: Colors.white, fontSize: FontSizes.s15),
+                .copyWith(color: Colors.black, fontSize: FontSizes.s15),
           ),
         ],
       ),

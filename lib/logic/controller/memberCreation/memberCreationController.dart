@@ -15,7 +15,6 @@ import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/occupation_list.model.dart';
 import 'package:microfinance/models/state_list.model.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -621,7 +620,7 @@ class MemberCreationController extends GetxController {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
-        Get.toNamed(Routes.homeScreen);
+        //Get.toNamed(Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/buttons.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -20,84 +19,132 @@ class CibilDetailscSreen extends StatelessWidget {
         backgroundColor: Colors.white,
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
-            ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.5),
+                width: 1.5,
+              )),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Form(
-                  key: _formKey,
-                  child: Column(children: [
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                          label: "Cibil Score",
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                label: "Cibil Score",
+                              ),
+                              TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.cibilScore.value,
+                                cursorColor: AppColors.primary,
+                                textCapitalization:
+                                    TextCapitalization.sentences,
+                                keyboardType: TextInputType.name,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                            hint: "Cibil Score")
+                                        .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                !controller.isReadOnly.value
+                                                    ? Colors.white
+                                                    : Colors.grey.shade200),
+                              ),
+                            ],
+                          ),
+                          C10(),
+                          paddingWidget(
+                            [
+                              const LabelsWithMark(
+                                label: "Cibil Date",
+                              ),
+                              Obx(
+                                () => TextFormField(
+                                  enabled: !controller.isReadOnly.value,
+                                  controller: controller.cibilDate.value,
+                                  cursorColor: AppColors.primary,
+                                  readOnly: true,
+                                  onTap: () => controller.selectDate(
+                                      context, controller.cibilDate.value),
+                                  style: TextStyles.textfieldTextStyle,
+                                  decoration: TextFieldDecoration
+                                      .textfieldDecorationicon(
+                                    hint: "Cibil Date",
+                                    sufficIcon: Icons.calendar_today,
+                                    sufficIconOntap: () =>
+                                        controller.selectDate(context,
+                                            controller.cibilDate.value),
+                                  ).copyWith(
+                                      filled: true,
+                                      fillColor: !controller.isReadOnly.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ])),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        controller.selectedIndex.value = 2;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
                         ),
-                        TextFormField(
-                          enabled: !controller.isReadOnly.value,
-                          controller: controller.cibilScore.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Cibil Score").copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
-                        ),
-                      ],
-                    ),
-                    C10(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                          label: "Cibil Date",
-                        ),
-                        Obx(
-                          () => TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.cibilDate.value,
-                            cursorColor: AppColors.primary,
-                            readOnly: true,
-                            onTap: () => controller.selectDate(
-                                context, controller.cibilDate.value),
-                            style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecorationicon(
-                              hint: "Cibil Date",
-                              sufficIcon: Icons.calendar_today,
-                              sufficIconOntap: () => controller.selectDate(
-                                  context, controller.cibilDate.value),
-                            ).copyWith(
-                                          filled: true,
-                                          fillColor: !controller.isReadOnly.value
-                                              ? Colors.white
-                                              : Colors.grey.shade200),
+                        child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ],
+                      ),
                     ),
-                    C20(),
-                    AppButton(
-                        title: "save",
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            controller.updateLoanMember();
-                          } else {
-                            AppTostMassage.showTostMassage(
-                              massage: "Please fill all required fields",
-                            );
-                          }
-                        })
-                  ])),
+                    InkWell(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          controller.updateLoanMember();
+                        } else {
+                          AppTostMassage.showTostMassage(
+                            massage: "Please fill all required fields",
+                          );
+                        }
+                        controller.selectedIndex.value = 4;
+                      },
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: AppColors.primaryOrange,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: const Icon(
+                            Icons.arrow_forward_ios,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ));
