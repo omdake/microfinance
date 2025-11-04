@@ -1,11 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:microfinance/logic/controller/loanApplication/loanlistController.dart';
-
 import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
@@ -13,12 +13,172 @@ import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class LoanApplicationList extends StatelessWidget {
   const LoanApplicationList({super.key});
+  String formatAmount(num? amount) {
+    final format = NumberFormat.currency(
+      locale: 'en_IN',
+      symbol: '',
+      decimalDigits: 2,
+    );
+    return format.format(amount ?? 0);
+  }
+
+  Color statusColor(String? status) {
+    switch (status?.toLowerCase()) {
+      case "approved":
+        return const Color(0xFFAE282E);
+      case "pending":
+        return const Color(0xFFF06321);
+      case "rejected":
+        return const Color(0xFF5F5F5F);
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Widget loanCard({
+    required LoanApplicantListResult user,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE6E6E6)),
+        ),
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFE6E6E6),
+                    width: 2,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xFFD9D9D9),
+                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                ),
+              ),
+              C15(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user.applicantName ?? "-",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                    C2(),
+                    Text(
+                      "ID ${user.name ?? "-"}",
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
+                      ),
+                    ),
+                    Text(
+                      "Loan Product: ${user.loanProduct ?? "-"}",
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 1,
+                  height: double.infinity,
+                  color: const Color(0xFFE6E6E6),
+                ),
+              ),
+              C15(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Loan Amount",
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF050708),
+                      fontFamily: "Roboto-Regular",
+                    ),
+                  ),
+                  Text(
+                    formatAmount(user.loanAmount),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontFamily: "Roboto-Bold",
+                    ),
+                  ),
+                  C5(),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: statusColor(user.workflowState),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      user.workflowState?.toUpperCase() ?? "-",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Colors.white,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoanApplicationListController());
+
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Application List"),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text("Loan Application", style: TextStyles.appbartitle),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Get.offAllNamed(Routes.homeScreen),
+          icon: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(Icons.arrow_back, color: Colors.black, size: 20),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
@@ -67,9 +227,7 @@ class LoanApplicationList extends StatelessWidget {
                       ),
                     ),
                     searchMatchFn: (item, searchValue) {
-                      if (searchValue.trim().length < 3) {
-                        return true;
-                      }
+                      if (searchValue.trim().length < 3) return true;
                       return (item.child is Text &&
                           (item.child as Text)
                               .data!
@@ -82,30 +240,24 @@ class LoanApplicationList extends StatelessWidget {
                       controller.groupSearchController.value.clear();
                     }
                   },
-                  dropdownStyleData: const DropdownStyleData(
-                    maxHeight: 500,
-                  ),
+                  dropdownStyleData: const DropdownStyleData(maxHeight: 500),
                   isExpanded: true,
                   style: TextStyles.textfieldTextStyle,
                   decoration: TextFieldDecoration.textfieldDecoration(
                     sufficIconOntap: () {},
                     sufficIcon: null,
                     hint: '',
-                  ).copyWith(
-                    contentPadding: EdgeInsets.zero,
-                  ),
+                  ).copyWith(contentPadding: EdgeInsets.zero),
                   onChanged: (newGroup) {
                     controller.page.value = 1;
                     controller.loanApplicantList.clear();
                     controller.selectedGroup.value = newGroup ?? "All Group";
-                    if (controller.selectedGroup.value.isEmpty) {
-                      controller.getAplicantList(page: controller.page.value);
-                    } else {
-                      controller.getAplicantList(
-                        page: controller.page.value,
-                        loanGroup: controller.selectedGroup.value,
-                      );
-                    }
+                    controller.getAplicantList(
+                      page: controller.page.value,
+                      loanGroup: controller.selectedGroup.value.isEmpty
+                          ? null
+                          : controller.selectedGroup.value,
+                    );
                   },
                 );
               }),
@@ -126,147 +278,14 @@ class LoanApplicationList extends StatelessWidget {
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.loanApplicantList.map((user) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              final args = {
-                                "applicant": user,
-                                "isReadOnly": true,
-                              };
-                              Get.toNamed(
-                                Routes.loanApplicationViewonly,
-                                arguments: args,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 6,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Applicant Id: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "${user.name ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Applicant Name: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.applicantName ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Loan Product: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.loanProduct ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Loan Amount: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.loanAmount ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade600,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 2),
-                                    child: Text(
-                                      user.workflowState ?? "-",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto-Medium",
-                                        fontSize: 13,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(color: Colors.grey),
-                        ],
+                      return loanCard(
+                        user: user,
+                        onTap: () {
+                          Get.toNamed(
+                            Routes.loanApplicationViewonly,
+                            arguments: {"applicant": user, "isReadOnly": true},
+                          );
+                        },
                       );
                     }).toList(),
                   );
@@ -278,16 +297,32 @@ class LoanApplicationList extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Get.toNamed(Routes.loanApplication);
-          final newApplicant = LoanApplicantListResult(); // empty model
+          final newApplicant = LoanApplicantListResult();
           Get.toNamed(Routes.loanApplication, arguments: {
             "applicant": newApplicant,
             "isReadOnly": false,
           });
         },
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.add),
-        tooltip: "Add Payment Proof",
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightElevation: 0,
+        tooltip: "Add Loan Application",
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.primaryOrange,
+            border: Border.all(
+              color: AppColors.primaryOrange,
+              width: 2,
+            ),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: const Icon(
+            Icons.add,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }
