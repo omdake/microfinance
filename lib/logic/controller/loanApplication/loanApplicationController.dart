@@ -12,7 +12,6 @@ import 'package:microfinance/models/loan_memberList_aspergroup.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/nominee_relation.model.dart';
 import 'package:microfinance/models/product_list.model.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -279,7 +278,6 @@ class LoanApplicationController extends GetxController {
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         Future.delayed(const Duration(milliseconds: 300), () {
           resetForm();
-          Get.toNamed(Routes.loanApplicationList);
         });
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
