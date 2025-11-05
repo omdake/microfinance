@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/logic/controller/collectionInHand/collectionInHandListController.dart';
+import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
-import 'package:intl/intl.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
@@ -11,6 +12,176 @@ import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class PendingRequest extends StatelessWidget {
   const PendingRequest({super.key});
+  String formatAmount(num? amount) {
+    final format = NumberFormat.currency(
+      locale: 'en_IN',
+      symbol: '',
+      decimalDigits: 2,
+    );
+    return format.format(amount ?? 0);
+  }
+
+  Color statusColor(String? status) {
+    switch (status?.toLowerCase()) {
+      case "approved":
+        return const Color(0xFFAE282E);
+      case "pending":
+        return const Color(0xFFF06321);
+      case "rejected":
+        return const Color(0xFF5F5F5F);
+      default:
+        return Colors.grey;
+    }
+  }
+
+  Widget loanCard({
+    required CollectionInhandResult user,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(12),
+      child: Container(
+        padding: const EdgeInsets.all(14),
+        margin: const EdgeInsets.symmetric(vertical: 6),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: const Color(0xFFE6E6E6)),
+        ),
+        child: IntrinsicHeight(
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFE6E6E6),
+                    width: 2,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xFFD9D9D9),
+                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                ),
+              ),
+              C15(),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    C2(),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Agent Id: ",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF050708),
+                              fontFamily: "Roboto-Regular",
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${user.employee ?? ""}",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF050708),
+                              fontFamily: "Roboto-Regular",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Agent Name: ",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF050708),
+                              fontFamily: "Roboto-Regular",
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${user.employeeEmployeeName ?? ""}",
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Color(0xFF050708),
+                              fontFamily: "Roboto-Regular",
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 1,
+                  height: double.infinity,
+                  color: const Color(0xFFE6E6E6),
+                ),
+              ),
+              C15(),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Date: ",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF050708),
+                            fontFamily: "Roboto-Regular",
+                          ),
+                        ),
+                        TextSpan(
+                          text: user.postingDate != null
+                              ? DateFormat('yyyy-MM-dd')
+                                  .format(user.postingDate!)
+                              : "",
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: Color(0xFF050708),
+                            fontFamily: "Roboto-Regular",
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  C5(),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: statusColor(user.status),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Text(
+                      user.status?.isNotEmpty == true ? user.status! : "",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Colors.white,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -137,135 +308,18 @@ class PendingRequest extends StatelessWidget {
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.collectionInHandList.map((user) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              final args = {
-                                "applicant": user,
-                                "isReadOnly": true,
-                              };
-                              Get.toNamed(
-                                Routes.collectionInhandView,
-                                arguments: args,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 6,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Employee Id: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "${user.employee ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Employee Name: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.employeeEmployeeName ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Date: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: user.postingDate != null
-                                                    ? DateFormat('yyyy-MM-dd')
-                                                        .format(
-                                                            user.postingDate!)
-                                                    : "",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: (user.status == null ||
-                                              user.status!.isEmpty)
-                                          ? Colors.white
-                                          : Colors.grey.shade600,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    child: Text(
-                                      user.status?.isNotEmpty == true
-                                          ? user.status!
-                                          : "",
-                                      style: TextStyle(
-                                        fontFamily: "Roboto-Medium",
-                                        fontSize: 13,
-                                        color: (user.status == null ||
-                                                user.status!.isEmpty)
-                                            ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(color: Colors.grey),
-                        ],
+                      return loanCard(
+                        user: user,
+                        onTap: () {
+                          final args = {
+                            "applicant": user,
+                            "isReadOnly": true,
+                          };
+                          Get.toNamed(
+                            Routes.collectionInhandView,
+                            arguments: args,
+                          );
+                        },
                       );
                     }).toList(),
                   );
@@ -279,9 +333,26 @@ class PendingRequest extends StatelessWidget {
         onPressed: () {
           Get.toNamed(Routes.createCollectionInHand);
         },
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.add),
-        tooltip: "Add Payment Proof",
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightElevation: 0,
+        tooltip: "Add Loan Application",
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.primaryOrange,
+            border: Border.all(
+              color: AppColors.primaryOrange,
+              width: 2,
+            ),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: const Icon(
+            Icons.add,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }

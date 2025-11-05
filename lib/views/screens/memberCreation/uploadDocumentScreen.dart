@@ -259,7 +259,8 @@ class UploadDcumentSreen extends StatelessWidget {
               controller.isLoading.value = true;
 
               controller.isLoading.value = false;
-
+              await controller.submitLoanMember(
+                  memberName: controller.name.value);
               Get.offAll(() => MemberCreatedSuccessScreen(
                     applicationId: controller.memberId.value.text,
                     memberName: controller.name.value,
