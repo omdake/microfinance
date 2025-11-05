@@ -75,9 +75,10 @@ class TextFieldDecoration {
       InputDecoration(
           filled: true,
           fillColor: AppColors.white,
-          contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 16),
           focusedBorder: const OutlineInputBorder(
-            borderRadius:  BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(color: AppColors.grey, width: 0.25),
           ),
           enabledBorder: const OutlineInputBorder(
@@ -104,10 +105,10 @@ class TextFieldDecoration {
             ),
           ),
           hintText: hint,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
+              color: Colors.grey.shade600,
               fontFamily: "Roboto-Regular",
-              fontSize: 14,
-              color: Color(0xFF616161)));
+              fontSize: 12));
 
   static InputDecoration textfieldDecorationicon(
           {required String hint,
@@ -195,7 +196,7 @@ class TextFieldDecoration {
                 )
               : null,
           hintText: hint,
-          hintStyle:  TextStyle(
+          hintStyle: TextStyle(
               color: Colors.grey.shade600,
               fontFamily: "Roboto-Regular",
               fontSize: 12));
@@ -237,9 +238,7 @@ class TextFieldDecoration {
               : null,
           hintText: hint,
           hintStyle: const TextStyle(
-              color: Colors.black,
-              fontFamily: "Roboto-Regular",
-              fontSize: 12));
+              color: Colors.black, fontFamily: "Roboto-Regular", fontSize: 12));
 
   static InputDecoration textfieldDecorationForSaveCard({String? hintText}) =>
       InputDecoration(

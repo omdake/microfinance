@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/buttons.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/resetPassword/resetPasswordController.dart';
+import 'package:microfinance/routes/routes_string.dart' show Routes;
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
@@ -21,7 +21,32 @@ class ResetPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Reset Password"),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text(
+          "Reset Password",
+          style: TextStyles.appbartitle,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Get.offAllNamed(Routes.homeScreen);
+            },
+            icon: Container(
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, border: Border.all()),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ),
+            )),
+      ),
+      bottomNavigationBar: CustomBottomNavBar(),
       body: Obx(() {
         return Container(
           decoration: BoxDecoration(

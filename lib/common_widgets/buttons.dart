@@ -82,13 +82,13 @@ class AppButton extends StatelessWidget {
                 Radius.circular(Sizes.s15),
               ),
               color: isEnabled
-                  ? (color ?? Colors.grey.shade800)
+                  ? (color ?? AppColors.primaryOrange)
                   : AppColors.pinkishGrey,
               boxShadow: boxShadow
                   ? [
                       if (!isEnabled)
                         BoxShadow(
-                          color: Colors.grey.shade300,
+                          color: Colors.grey.shade200,
                           blurRadius: Sizes.s10,
                           spreadRadius: Sizes.s1,
                         ),
