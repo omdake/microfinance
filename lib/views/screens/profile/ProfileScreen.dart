@@ -1,10 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
+import 'package:microfinance/AppPreferences/app_areferences.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
 import 'package:microfinance/logic/controller/profile/profileScreenController.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -19,7 +22,57 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Personal Details"),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text(
+          "Profile",
+          style: TextStyles.appbartitle,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Get.offAllNamed(Routes.homeScreen);
+            },
+            icon: Container(
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(),
+                  ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ),
+            )),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: InkWell(
+                onTap: () {
+                  moreMenu(context);
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: AppColors.primaryOrange),
+                      color: AppColors.primaryOrange),
+                  child: Padding(
+                    padding: const EdgeInsets.all(6.0),
+                    child: Icon(
+                      Icons.settings,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                )),
+          ),
+        ],
+      ),
+      bottomNavigationBar: CustomBottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
@@ -41,7 +94,8 @@ class ProfileScreen extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              border: Border.all(color: Colors.grey, width: 2),
+                              border: Border.all(
+                                  color: AppColors.primaryOrange, width: 2),
                             ),
                             padding: const EdgeInsets.all(4),
                             child: Obx(() {
@@ -91,10 +145,10 @@ class ProfileScreen extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
-                              color: AppColors.grey,
+                              color: AppColors.primaryRed,
                             ),
                             padding: const EdgeInsets.symmetric(
-                                vertical: 4, horizontal: 35),
+                                vertical: 8, horizontal: 45),
                             child: Text(
                               statusText,
                               style: const TextStyle(
@@ -117,9 +171,20 @@ class ProfileScreen extends StatelessWidget {
                 () => Text(
                   getValue(controller.empName.value.text, 'NA'),
                   style: const TextStyle(
-                      color: Color(0xFF33475B),
+                      color: Color(0xFF050708),
                       fontSize: 16,
                       fontFamily: "Roboto-Bold"),
+                ),
+              ),
+            ),
+            Center(
+              child: Obx(
+                () => Text(
+                  getValue(controller.email.value.text, 'NA'),
+                  style: const TextStyle(
+                      color: Color(0xFF33475B),
+                      fontSize: 16,
+                      fontFamily: "Roboto-Regular"),
                 ),
               ),
             ),
@@ -175,12 +240,193 @@ class ProfileScreen extends StatelessWidget {
                 icon: Icons.calendar_today,
                 title: 'Join Date',
                 subtitle: getValue(controller.dojoining.value.text, 'NA'),
+                isShow: true,
               ),
             ]),
-            const C30(),
           ],
         );
       }),
+    );
+  }
+
+  void moreMenu(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 12, horizontal: 10),
+                    child: Column(
+                      children: [
+                        optionTile(
+                          "Reset Password",
+                          () => Get.toNamed(Routes.resetPassword),
+                        ),
+                        Divider(
+                          color: Colors.grey.shade200,
+                          indent: 10,
+                          endIndent: 10,
+                        ),
+                        optionTile("Logout", () async {
+                          showLogoutConfirmation(context);
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 50),
+                Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                        onTap: () {
+                          Get.back();
+                        },
+                        child: Icon(
+                          Icons.cancel_outlined,
+                          color: AppColors.white,
+                          size: 60,
+                        ))),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget optionTile(String label, VoidCallback onTap) {
+    return ListTile(
+      title: Center(
+          child: Text(
+        label,
+        style: TextStyles.cardtitle,
+      )),
+      onTap: onTap,
+    );
+  }
+
+  void showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          backgroundColor: Colors.transparent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Card(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  elevation: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 40),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          "Are you sure you want to logout?",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontFamily: "Roboto-Medium",
+                              color: Colors.black),
+                          textAlign: TextAlign.center,
+                        ),
+                        C20(),
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () async {
+                                  await AppPreferences.clearPreferences();
+                                  Get.offAllNamed(Routes.loginScreen);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryRed,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 14),
+                                ),
+                                child: const Text(
+                                  "YES",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Roboto-Medium",
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 12),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: () => Get.back(),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primaryOrange,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 14),
+                                ),
+                                child: const Text(
+                                  "NO",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontFamily: "Roboto-Medium",
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                C20(),
+                // Align(
+                //   alignment: Alignment.center,
+                //   child: InkWell(
+                //     onTap: () {
+                //       Get.back();
+                //     },
+                //     child: Icon(
+                //       Icons.cancel_outlined,
+                //       color: AppColors.white,
+                //       size: 60,
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
