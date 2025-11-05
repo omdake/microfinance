@@ -4,13 +4,28 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanRepaymentListController.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
-import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 
 class RepaymentScreen extends StatelessWidget {
-  const RepaymentScreen({super.key});
+  RepaymentScreen({super.key});
+
+  Color statusColor(String? status) {
+    switch (status?.toUpperCase()) {
+      case "SUBMITTED":
+        return AppColors.primaryOrange;
+      case "CLOSED":
+        return const Color(0xFFAE282E);
+      case "CANCELLED":
+        return const Color(0xFFAE282E);
+      default:
+        return Colors.grey.shade600;
+    }
+  }
+
   String _formatDate(DateTime? date) {
     if (date == null) return 'N/A';
     try {
@@ -18,6 +33,199 @@ class RepaymentScreen extends StatelessWidget {
     } catch (e) {
       return 'N/A';
     }
+  }
+
+  Widget _buildDisbursementItem(dynamic user) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFE6E6E6),
+                    width: 2,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xFFD9D9D9),
+                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                ),
+              ),
+            ),
+            C10(),
+            Expanded(
+              flex: 6,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: " Name: ",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${user.applicantMemberName ?? ""}",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: " Id: ",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${user.applicant ?? ""}",
+                          style: TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.grey.shade700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: " Loan: ",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${user.againstLoan ?? ""}",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Amount Paid: ",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "${user.amountPaid ?? ""}",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Posting date: ",
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                        TextSpan(
+                          text: _formatDate(user.valueDate),
+                          style: const TextStyle(
+                            fontFamily: "Roboto-Regular",
+                            fontSize: 11,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 1,
+                  height: double.infinity,
+                  color: const Color(0xFFE6E6E6),
+                ),
+              ),
+            ),
+            //C10(),
+            Expanded(
+                flex: 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: (user.workflowState == null ||
+                            user.workflowState!.isEmpty)
+                        ? Colors.white
+                        : Colors.grey.shade600,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  child: Text(
+                    user.workflowState?.isNotEmpty == true
+                        ? user.workflowState!
+                        : "",
+                    style: TextStyle(
+                      fontFamily: "Roboto-Medium",
+                      fontSize: 13,
+                      color: (user.workflowState == null ||
+                              user.workflowState!.isEmpty)
+                          ? Colors.black
+                          : Colors.white,
+                    ),
+                  ),
+                )),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -113,6 +321,8 @@ class RepaymentScreen extends StatelessWidget {
                 );
               }),
               C20(),
+
+              // List
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
@@ -129,186 +339,20 @@ class RepaymentScreen extends StatelessWidget {
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.repaymentList.map((user) {
-                      return Column(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              final args = {
-                                "applicant": user,
-                                "isReadOnly": true,
-                              };
-                              Get.toNamed(
-                                Routes.loanRepaymentViewonly,
-                                arguments: args,
-                              );
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 6,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            RichText(
-                                              text: TextSpan(
-                                                children: [
-                                                  TextSpan(
-                                                    text: "Applicant Id: ",
-                                                    style: TextStyle(
-                                                      fontFamily:
-                                                          "Roboto-Medium",
-                                                      fontSize: 15,
-                                                      color:
-                                                          Colors.grey.shade700,
-                                                    ),
-                                                  ),
-                                                  TextSpan(
-                                                    text:
-                                                        "${user.applicant ?? ""}",
-                                                    style: const TextStyle(
-                                                      fontFamily:
-                                                          "Roboto-Medium",
-                                                      fontSize: 15,
-                                                      color: Colors.black,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Applicant Name: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.applicantMemberName ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Against Loan: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.againstLoan ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Amount Paid: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.amountPaid ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Posting date: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    _formatDate(user.valueDate),
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: (user.workflowState == null ||
-                                              user.workflowState!.isEmpty)
-                                          ? Colors.white
-                                          : Colors.grey.shade600,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 4),
-                                    child: Text(
-                                      user.workflowState?.isNotEmpty == true
-                                          ? user.workflowState!
-                                          : "",
-                                      style: TextStyle(
-                                        fontFamily: "Roboto-Medium",
-                                        fontSize: 13,
-                                        color: (user.workflowState == null ||
-                                                user.workflowState!.isEmpty)
-                                            ? Colors.black
-                                            : Colors.white,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          Divider(color: Colors.grey),
-                        ],
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          final args = {
+                            "applicant": user,
+                            "isReadOnly": true,
+                          };
+                          Get.toNamed(
+                            Routes.loanRepaymentViewonly,
+                            arguments: args,
+                          );
+                        },
+                        child: _buildDisbursementItem(user),
                       );
                     }).toList(),
                   );
@@ -322,9 +366,26 @@ class RepaymentScreen extends StatelessWidget {
         onPressed: () {
           Get.toNamed(Routes.loanRepayment);
         },
-        backgroundColor: Colors.black,
-        child: const Icon(Icons.add),
-        tooltip: "Add Repayment",
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        highlightElevation: 0,
+        tooltip: "Add Loan Application",
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.primaryOrange,
+            border: Border.all(
+              color: AppColors.primaryOrange,
+              width: 2,
+            ),
+          ),
+          padding: const EdgeInsets.all(10),
+          child: const Icon(
+            Icons.add,
+            color: AppColors.white,
+          ),
+        ),
       ),
     );
   }

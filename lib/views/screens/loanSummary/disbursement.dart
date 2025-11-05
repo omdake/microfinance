@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
 import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
@@ -11,9 +12,127 @@ import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 class DisbursementScreen extends StatelessWidget {
   DisbursementScreen({super.key});
 
+  Color statusColor(String? status) {
+    switch (status?.toUpperCase()) {
+      case "SUBMITTED":
+        return AppColors.primaryOrange;
+      case "CLOSED":
+        return const Color(0xFFAE282E);
+      case "CANCELLED":
+        return const Color(0xFFAE282E);
+      default:
+        return Colors.grey.shade600;
+    }
+  }
+
+  Widget _buildDisbursementItem(dynamic user) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: IntrinsicHeight(
+        child: Row(
+          children: [
+            Expanded(
+              flex: 2,
+              child: Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFE6E6E6),
+                    width: 2,
+                  ),
+                ),
+                child: const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Color(0xFFD9D9D9),
+                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                ),
+              ),
+            ),
+            C10(),
+            Expanded(
+              flex: 6,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    (user.applicantMemberName ?? "-").toString().toUpperCase(),
+                    style: const TextStyle(
+                      fontFamily: "Roboto-Medium",
+                      fontSize: 12,
+                    ),
+                  ),
+                  C2(),
+                  Text(
+                    "ID ${user.name ?? "-"}",
+                    style: TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                  C2(),
+                  Text(
+                    "Loan Product: ${user.loanProduct ?? "-"}",
+                    style: TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  width: 1,
+                  height: double.infinity,
+                  color: const Color(0xFFE6E6E6),
+                ),
+              ),
+            ),
+            //C10(),
+            Expanded(
+              flex: 3,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: statusColor(user.status),
+                  borderRadius: BorderRadius.circular(6),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                  child: Text(
+                    (user.status ?? "-").toString().toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: "Roboto-Medium",
+                      fontSize: 11,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoanSummaryController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -64,9 +183,7 @@ class DisbursementScreen extends StatelessWidget {
                       ),
                     ),
                     searchMatchFn: (item, searchValue) {
-                      if (searchValue.trim().length < 3) {
-                        return true;
-                      }
+                      if (searchValue.trim().length < 3) return true;
                       return (item.child is Text &&
                           (item.child as Text)
                               .data!
@@ -75,36 +192,31 @@ class DisbursementScreen extends StatelessWidget {
                     },
                   ),
                   onMenuStateChange: (isOpen) {
-                    if (!isOpen) {
-                      controller.groupSearchController.value.clear();
-                    }
+                    if (!isOpen) controller.groupSearchController.value.clear();
                   },
-                  dropdownStyleData: DropdownStyleData(
-                    maxHeight: 500,
-                  ),
+                  dropdownStyleData: const DropdownStyleData(maxHeight: 500),
                   isExpanded: true,
                   style: TextStyles.textfieldTextStyle,
                   decoration: TextFieldDecoration.textfieldDecoration(
                     sufficIconOntap: () {},
                     sufficIcon: null,
                     hint: '',
-                  ).copyWith(
-                    contentPadding: EdgeInsets.zero,
-                  ),
+                  ).copyWith(contentPadding: EdgeInsets.zero),
                   onChanged: (newGroup) {
                     controller.selecteddisbursementGroup.value =
                         newGroup ?? "All Group";
-                    if (controller.selecteddisbursementGroup.value.isEmpty) {
-                      controller.getLoanDisbursementList(
-                          page: controller.page.value);
-                    } else {
-                      controller.getLoanDisbursementList(
-                          page: controller.page.value);
-                    }
+                    // refresh list (controller handles filtering)
+                    controller.page.value = 1;
+                    controller.loanDisbursementList.clear();
+                    controller.getLoanDisbursementList(
+                        page: controller.page.value);
                   },
                 );
               }),
+
               C20(),
+
+              // List
               Expanded(
                 child: Obx(() {
                   if (controller.isLoading.value) {
@@ -112,6 +224,7 @@ class DisbursementScreen extends StatelessWidget {
                       child: CircularProgressIndicator(color: Colors.black),
                     );
                   }
+
                   if (controller.loanDisbursementList.isEmpty) {
                     return const Center(child: Text("No members found"));
                   }
@@ -120,99 +233,16 @@ class DisbursementScreen extends StatelessWidget {
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.loanDisbursementList.map((user) {
-                      return Column(
-                        children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () {
-                              Get.toNamed(Routes.loanDetailsScreen,
-                                  arguments: user);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Id: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text: "${user.name ?? ""}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        RichText(
-                                          text: TextSpan(
-                                            children: [
-                                              TextSpan(
-                                                text: "Applicant: ",
-                                                style: TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.grey.shade700,
-                                                ),
-                                              ),
-                                              TextSpan(
-                                                text:
-                                                    "${user.applicantMemberName ?? "-"}",
-                                                style: const TextStyle(
-                                                  fontFamily: "Roboto-Medium",
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.grey.shade600,
-                                      borderRadius: BorderRadius.circular(25),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 4, vertical: 2),
-                                    child: Text(
-                                      user.status ?? "-",
-                                      style: const TextStyle(
-                                        fontFamily: "Roboto-Medium",
-                                        fontSize: 13,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const Divider(color: Colors.grey),
-                        ],
+                      return InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          Get.toNamed(Routes.loanDetailsScreen,
+                              arguments: user);
+                        },
+                        child: _buildDisbursementItem(user),
                       );
-                    }).toList(), // ✅ added .toList()
+                    }).toList(),
                   );
                 }),
               ),

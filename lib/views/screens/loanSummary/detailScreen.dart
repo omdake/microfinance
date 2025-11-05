@@ -32,10 +32,10 @@ class DetailsScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             body: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.white, Colors.white],
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.primary.withOpacity(0.5),
                 ),
               ),
               width: double.infinity,

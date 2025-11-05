@@ -9,105 +9,95 @@ import 'package:microfinance/views/screens/loanSummary/scheduleScreen.dart';
 
 class LoanDetails extends StatelessWidget {
   LoanDetails({super.key});
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoanDetailsController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan Details"),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: Obx(() {
-                      final isSelected = controller.selectedIndex.value == 0;
-                      return InkWell(
-                        onTap: () => controller.changeTab(0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(10),
-                            color: isSelected
-                                ? Colors.grey.shade400
-                                : Colors.white,
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 16),
-                            child: Text(
-                              "Details",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Roboto-Medium"),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  C10(),
-                  Expanded(
-                    child: Obx(() {
-                      final isSelected = controller.selectedIndex.value == 1;
-                      return InkWell(
-                        onTap: () => controller.changeTab(1),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(10),
-                            color: isSelected
-                               ? Colors.grey.shade400
-                                : Colors.white,
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 16),
-                            child: Text(
-                              "Schedule",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Roboto-Medium"),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
-              ),
-              C10(),
-              Expanded(
-                child: Obx(() {
-                  final index = controller.selectedIndex.value;
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                Widget screen;
+                switch (controller.selectedIndex.value) {
+                  case 0:
+                    screen = DetailsScreen();
+                    break;
+                  case 1:
+                    screen = ScheduleScreen();
+                    break;
+                  default:
+                    screen = const SizedBox();
+                }
 
-                  Widget screen;
-                  switch (index) {
-                    case 0:
-                      screen = DetailsScreen();
-                      break;
-                    case 1:
-                      screen = ScheduleScreen();
-                      break;
-
-                    default:
-                      screen = const SizedBox();
-                  }
-
-                  return Card(
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
                     color: AppColors.white,
-                    child: Center(child: screen),
-                  );
-                }),
+                    child: screen,
+                  ),
+                );
+              }),
+            ),
+            Obx(() {
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    _bottomTab(title: "DETAILS", index: 0),
+                    Container(
+                      width: 1,
+                      height: 45,
+                      color: Colors.grey.shade300,
+                    ),
+                    _bottomTab(title: "SCHEDULE", index: 1),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomTab({required String title, required int index}) {
+    final controller = Get.find<LoanDetailsController>();
+    final bool isSelected = controller.selectedIndex.value == index;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => controller.changeTab(index),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            C10(),
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: "Roboto-Medium",
+                fontSize: 13,
+                color: Colors.black,
               ),
-            ],
-          ),
+            ),
+            C5(),
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Container(
+                height: kBottomNavigationBarHeight * 0.07,
+                color:
+                    isSelected ? AppColors.primaryOrange : Colors.transparent,
+              ),
+            ),
+          ],
         ),
       ),
     );
