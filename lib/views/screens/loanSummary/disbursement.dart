@@ -72,7 +72,7 @@ class DisbursementScreen extends StatelessWidget {
                   ),
                   C2(),
                   Text(
-                    "ID ${user.name ?? "-"}",
+                    "ID: ${user.name ?? "-"}",
                     style: TextStyle(
                       fontFamily: "Roboto-Regular",
                       fontSize: 11,

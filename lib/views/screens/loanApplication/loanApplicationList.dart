@@ -140,7 +140,7 @@ class LoanApplicationList extends StatelessWidget {
                     ),
                     C2(),
                     Text(
-                      "ID ${user.name ?? "-"}",
+                      "ID: ${user.name ?? "-"}",
                       style: const TextStyle(
                         fontSize: 10,
                         color: Color(0xFF050708),

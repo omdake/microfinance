@@ -27,12 +27,13 @@ class ScheduleMessage {
     this.results,
   });
 
-  factory ScheduleMessage.fromJson(Map<String, dynamic> json) => ScheduleMessage(
+  factory ScheduleMessage.fromJson(Map<String, dynamic> json) =>
+      ScheduleMessage(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results:
-            List<ScheduleResult>.from(json["results"].map((x) => ScheduleResult.fromJson(x))),
+        results: List<ScheduleResult>.from(
+            json["results"].map((x) => ScheduleResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,9 +48,9 @@ class ScheduleResult {
   String? name;
   String? loan;
   String? loanDisbursement;
-  int? loanAmount;
-  int? currentPrincipalAmount;
-  int? rateOfInterest;
+  double? loanAmount; // changed
+  double? currentPrincipalAmount; // changed
+  double? rateOfInterest; // changed
   String? company;
   DateTime? postingDate;
   String? repaymentFrequency;
@@ -64,19 +65,19 @@ class ScheduleResult {
   int? repaymentPeriods;
   String? repaymentScheduleType;
   String? repaymentDateOn;
-  int? disbursedAmount;
-  int? monthlyRepaymentAmount;
-  int? partnerMonthlyRepaymentAmount;
+  double? disbursedAmount; // changed
+  double? monthlyRepaymentAmount;
+  double? partnerMonthlyRepaymentAmount; // changed
   dynamic loanRestructure;
   String? restructureType;
-  int? brokenPeriodInterest;
+  double? brokenPeriodInterest; // changed
   String? status;
   dynamic amendedFrom;
   String? moratoriumType;
   int? moratoriumTenure;
   String? treatmentOfInterest;
   dynamic moratoriumEndDate;
-  int? adjustedInterest;
+  double? adjustedInterest; // changed
   int? brokenPeriodInterestDays;
   List<RepaymentSchedule>? repaymentSchedule;
 
@@ -122,9 +123,10 @@ class ScheduleResult {
         name: json["name"],
         loan: json["loan"],
         loanDisbursement: json["loan_disbursement"],
-        loanAmount: json["loan_amount"],
-        currentPrincipalAmount: json["current_principal_amount"],
-        rateOfInterest: json["rate_of_interest"],
+        loanAmount: (json["loan_amount"] ?? 0).toDouble(),
+        currentPrincipalAmount:
+            (json["current_principal_amount"] ?? 0).toDouble(),
+        rateOfInterest: (json["rate_of_interest"] ?? 0).toDouble(),
         company: json["company"],
         postingDate: DateTime.parse(json["posting_date"]),
         repaymentFrequency: json["repayment_frequency"],
@@ -139,19 +141,21 @@ class ScheduleResult {
         repaymentPeriods: json["repayment_periods"],
         repaymentScheduleType: json["repayment_schedule_type"],
         repaymentDateOn: json["repayment_date_on"],
-        disbursedAmount: json["disbursed_amount"],
-        monthlyRepaymentAmount: json["monthly_repayment_amount"],
-        partnerMonthlyRepaymentAmount: json["partner_monthly_repayment_amount"],
+        disbursedAmount: (json["disbursed_amount"] ?? 0).toDouble(),
+        monthlyRepaymentAmount:
+            (json["monthly_repayment_amount"] ?? 0).toDouble(),
+        partnerMonthlyRepaymentAmount:
+            (json["partner_monthly_repayment_amount"] ?? 0).toDouble(),
         loanRestructure: json["loan_restructure"],
         restructureType: json["restructure_type"],
-        brokenPeriodInterest: json["broken_period_interest"],
+        brokenPeriodInterest: (json["broken_period_interest"] ?? 0).toDouble(),
         status: json["status"],
         amendedFrom: json["amended_from"],
         moratoriumType: json["moratorium_type"],
         moratoriumTenure: json["moratorium_tenure"],
         treatmentOfInterest: json["treatment_of_interest"],
         moratoriumEndDate: json["moratorium_end_date"],
-        adjustedInterest: json["adjusted_interest"],
+        adjustedInterest: (json["adjusted_interest"] ?? 0).toDouble(),
         brokenPeriodInterestDays: json["broken_period_interest_days"],
         repaymentSchedule: List<RepaymentSchedule>.from(
             json["repayment_schedule"]
