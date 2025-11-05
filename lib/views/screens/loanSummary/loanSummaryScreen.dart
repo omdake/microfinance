@@ -1,113 +1,98 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
-import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
 import 'package:microfinance/themes/app_colors.dart';
+import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/views/screens/loanSummary/disbursement.dart';
 import 'package:microfinance/views/screens/loanSummary/repaymentScreen.dart';
 
 class LoanSummaryScreen extends StatelessWidget {
   LoanSummaryScreen({super.key});
+  final controller = Get.put(LoanSummaryController());
+
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoanSummaryController());
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan Summary List"),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: Obx(() {
-                      final isSelected = controller.selectedIndex.value == 0;
-                      return InkWell(
-                        onTap: () => controller.changeTab(0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(10),
-                            color: isSelected
-                                ? Colors.grey.shade400
-                                : Colors.white,
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 16),
-                            child: Text(
-                              "Disbursement",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Roboto-Medium"),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                  C10(),
-                  Expanded(
-                    child: Obx(() {
-                      final isSelected = controller.selectedIndex.value == 1;
-                      return InkWell(
-                        onTap: () => controller.changeTab(1),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadiusDirectional.circular(10),
-                            color: isSelected
-                               ? Colors.grey.shade400
-                                : Colors.white,
-                          ),
-                          alignment: Alignment.center,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 16),
-                            child: Text(
-                              "Repayment",
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontFamily: "Roboto-Medium"),
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
-                  ),
-                ],
+        child: Column(
+          children: [
+            Expanded(
+              child: Obx(() {
+                Widget screen;
+                switch (controller.selectedIndex.value) {
+                  case 0:
+                    screen = DisbursementScreen();
+                    break;
+                  case 1:
+                    screen = RepaymentScreen();
+                    break;
+                  default:
+                    screen = const SizedBox();
+                }
+
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: screen,
+                );
+              }),
+            ),
+            Obx(() {
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.grey.shade300)),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    _bottomTab(title: "DISBURSEMENT", index: 0),
+                    Container(
+                      width: 1,
+                      height: 45,
+                      color: Colors.grey.shade300,
+                    ),
+                    _bottomTab(title: "REPAYMENT", index: 1),
+                  ],
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _bottomTab({required String title, required int index}) {
+    final bool isSelected = controller.selectedIndex.value == index;
+
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => controller.changeTab(index),
+        behavior: HitTestBehavior.opaque,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            C10(),
+            Text(
+              title,
+              style: TextStyle(
+                fontFamily: "Roboto-Medium",
+                fontSize: 13,
+                color: Colors.black,
               ),
-              C10(),
-              Expanded(
-                child: Obx(() {
-                  final index = controller.selectedIndex.value;
-
-                  Widget screen;
-                  switch (index) {
-                    case 0:
-                      screen = DisbursementScreen();
-                      break;
-                    case 1:
-                      screen = RepaymentScreen();
-                      break;
-
-                    default:
-                      screen = const SizedBox();
-                  }
-
-                  return Card(
-                    color: AppColors.white,
-                    child: Center(child: screen),
-                  );
-                }),
+            ),
+            C5(),
+            Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Container(
+                height: kBottomNavigationBarHeight * 0.07,
+                color:
+                    isSelected ? AppColors.primaryOrange : Colors.transparent,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

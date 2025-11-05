@@ -28,237 +28,233 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
           ));
         }
 
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.5),
+              ),
             ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Applicant Name"),
-                          TextFormField(
-                            controller: controller.applicantName.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Applicant Name")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+            width: double.infinity,
+            height: double.infinity,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Applicant Name"),
+                            TextFormField(
+                              controller: controller.applicantName.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Applicant Name")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Co-Borrower"),
-                          TextFormField(
-                            controller: controller.coBorrower.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Co-Borrower")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Co-Borrower"),
+                            TextFormField(
+                              controller: controller.coBorrower.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Co-Borrower")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Loan Product"),
-                          TextFormField(
-                            controller: controller.loanProduct.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Loan Product")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Loan Product"),
+                            TextFormField(
+                              controller: controller.loanProduct.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Loan Product")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Amount"),
-                          TextFormField(
-                            controller: controller.loanAmount.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Amount")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Amount"),
+                            TextFormField(
+                              controller: controller.loanAmount.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Amount")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Period"),
-                          TextFormField(
-                            controller: controller.periods.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) => requiredValidator(value!),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Period",
-                            ).copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Period"),
+                            TextFormField(
+                              controller: controller.periods.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Period",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Nominee"),
-                          TextFormField(
-                            controller: controller.nominee.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Nominee")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Nominee"),
+                            TextFormField(
+                              controller: controller.nominee.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Nominee")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(label: "Group"),
-                          TextFormField(
-                            controller: controller.group.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Loan Group")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Group"),
+                            TextFormField(
+                              controller: controller.group.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Loan Group")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Relation"),
-                          TextFormField(
-                            controller: controller.relation.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Relation")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(label: "Relation"),
+                            TextFormField(
+                              controller: controller.relation.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Relation")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          LabelsWithMark(label: "Description"),
-                          TextFormField(
-                            controller: controller.description.value,
-                            enabled: controller.isFormEdit.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Description")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            LabelsWithMark(label: "Description"),
+                            TextFormField(
+                              controller: controller.description.value,
+                              enabled: controller.isFormEdit.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Description")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
