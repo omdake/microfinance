@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/views/screens/memberCreation/cibilDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
@@ -28,6 +29,7 @@ class MemberCreationScreen extends StatelessWidget {
       appBar: appBarWithTitle1(
         title: "Create Member",
       ),
+      bottomNavigationBar: CustomBottomNavBar(),
       body: SafeArea(
         child: Column(
           children: [
