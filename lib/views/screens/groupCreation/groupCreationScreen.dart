@@ -13,6 +13,7 @@ import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
+import 'package:microfinance/views/screens/groupCreation/groupCreationSuccess.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
@@ -263,6 +264,13 @@ class GroupCreationScreen extends StatelessWidget {
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
                                     controller.saveGroup();
+                                    Get.off(() => GroupCreationSuccess(
+                                         
+                                          applicantName:
+                                              controller.groupName.value.text,
+                                          group:
+                                              controller.selectedGroupHead.value,
+                                        ));
                                   } else {
                                     AppTostMassage.showTostMassage(
                                       massage: "Please fill all required fields",

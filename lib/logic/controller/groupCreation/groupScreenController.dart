@@ -9,7 +9,6 @@ import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
 
@@ -76,7 +75,7 @@ class GroupScreenController extends GetxController {
         var json = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearFields;
-        Get.until((route) => Get.currentRoute == Routes.groupList);
+        //Get.until((route) => Get.currentRoute == Routes.groupList);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
