@@ -10,6 +10,7 @@ import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
+import 'package:microfinance/views/screens/collectionInhand/cashCollectionSuccess.dart';
 
 class CollectionInHandScreen extends StatelessWidget {
   CollectionInHandScreen({super.key});
@@ -338,6 +339,14 @@ class CollectionInHandScreen extends StatelessWidget {
                               onTap: () async {
                                 if (_formKey.currentState!.validate()) {
                                   controller.saveCollectionInHand();
+                                  Get.off(() => LoanCashCollectionSuccess(
+                                          crNo: controller
+                                              .employee.value.text,
+                                          applicantName:
+                                              controller.employeeName.value.text,
+                                          amount:
+                                              controller.amount.value.text,
+                                        ));
                                 } else {
                                   AppTostMassage.showTostMassage(
                                     massage: "Please fill all required fields",
