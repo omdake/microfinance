@@ -127,41 +127,50 @@ class UploadDcumentSreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: () async {
-                          if (controller.aadharNumber.value.text.isNotEmpty &&
-                              controller.panNumber.value.text.isNotEmpty &&
-                              controller.voterId.value.text.isNotEmpty &&
-                              controller
-                                  .selectedAddressDocType.value.isNotEmpty &&
-                              (controller.homeImage.value != null ||
-                                  controller.loanMember.first.homeImage
-                                          ?.isNotEmpty ==
-                                      true)) {
-                            controller.isLoading.value = true;
-                            await controller.updateLoanMember();
-                            controller.isLoading.value = false;
+                      Obx(
+                        () {
+                          // Hide the button if read-only
+                          if (controller.isReadOnly.value)
+                            return SizedBox.shrink();
 
-                            showSubmitConfirmationDialog();
-                          } else {
-                            AppTostMassage.showTostMassage(
-                              massage: "Please fill all required fields",
-                            );
-                          }
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryOrange,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
+                          return InkWell(
+                            onTap: () async {
+                              if (controller
+                                      .aadharNumber.value.text.isNotEmpty &&
+                                  controller.panNumber.value.text.isNotEmpty &&
+                                  controller.voterId.value.text.isNotEmpty &&
+                                  controller.selectedAddressDocType.value
+                                      .isNotEmpty &&
+                                  (controller.homeImage.value != null ||
+                                      controller.loanMember.first.homeImage
+                                              ?.isNotEmpty ==
+                                          true)) {
+                                controller.isLoading.value = true;
+                                await controller.updateLoanMember();
+                                controller.isLoading.value = false;
+
+                                showSubmitConfirmationDialog();
+                              } else {
+                                AppTostMassage.showTostMassage(
+                                  massage: "Please fill all required fields",
+                                );
+                              }
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+                          );
+                        },
                       ),
                     ],
                   ),
@@ -257,8 +266,11 @@ class UploadDcumentSreen extends StatelessWidget {
             onPressed: () async {
               Get.back();
               controller.isLoading.value = true;
-
               controller.isLoading.value = false;
+              if (controller.isReadOnly.value) {
+                controller.selectedIndex.value = 1;
+                return;
+              }
               await controller.submitLoanMember(
                   memberName: controller.name.value);
               final appId = controller.memberId.value.text;
