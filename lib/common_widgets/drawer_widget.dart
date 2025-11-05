@@ -33,11 +33,25 @@ class CustomDrawer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Row(
         children: [
-          const CircleAvatar(
-            radius: 30,
-            child: Text("Hi", style: TextStyle(color: Colors.black)),
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: AppColors.primaryRed,
+                width: 2,
+              ),
+            ),
+            child: const CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.white,
+              child: Text(
+                "Hi",
+                style: TextStyle(color: Colors.black),
+              ),
+            ),
           ),
-           C15(),
+          C15(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,11 +63,11 @@ class CustomDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-               C5(),
-              // Text(
-              //   controller.email,
-              //   style: const TextStyle(color: Colors.white70, fontSize: 14),
-              // ),
+              C5(),
+              Text(
+                controller.email.value,
+                style: const TextStyle(color: Color(0xFFE3F1E3), fontSize: 14),
+              ),
             ],
           ),
         ],
@@ -66,53 +80,92 @@ class CustomDrawer extends StatelessWidget {
       borderRadius: const BorderRadius.only(topRight: Radius.circular(35)),
       child: Container(
         color: Colors.white,
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Column(
           children: [
-            drawerTile(Icons.person_outline, "Profile",
-                () => Get.toNamed(Routes.profile)),
-            listDivider(),
-            drawerTile(Icons.person_add_outlined, "Member Creation",
-                () => Get.toNamed(Routes.memberCreation)),
-            listDivider(),
-            drawerTile(Icons.note_add_outlined, "Loan Application",
-                () => Get.toNamed(Routes.loanApplicationList)),
-            listDivider(),
-            drawerTile(Icons.payments_outlined, "Loan EMI",
-                () => Get.toNamed(Routes.loanEMIScreen)),
-            listDivider(),
-            drawerTile(Icons.summarize_outlined, "Loan Summary",
-                () => Get.toNamed(Routes.loanSummaryScreen)),
-            listDivider(),
-            drawerTile(
-                Icons.logout_outlined, "Logout", showLogoutConfirmationDialog),
-            listDivider(),
-            drawerTile(Icons.settings, "Reset Password",
-                () => Get.toNamed(Routes.resetPassword)),
-            listDivider(),
-            Obx(() => Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).padding.bottom + 12,
-                  ),
-                  child: Center(
-                    child: Text(
-                      "${controller.appName.value} v${controller.version.value}",
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                  ),
-                )),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.only(top: 10),
+                children: [
+                  drawerTile("Profile", () => Get.toNamed(Routes.profile)),
+                  listDivider(),
+                  drawerTile("Member Creation",
+                      () => Get.toNamed(Routes.memberCreation)),
+                  listDivider(),
+                  drawerTile("Loan Application",
+                      () => Get.toNamed(Routes.loanApplicationList)),
+                  listDivider(),
+                  drawerTile(
+                      "Due EMI", () => Get.toNamed(Routes.loanEMIScreen)),
+                  listDivider(),
+                  drawerTile("Pending EMI", () => Get.toNamed(Routes.dueEmi)),
+                  listDivider(),
+                  drawerTile("Loan Summary",
+                      () => Get.toNamed(Routes.loanSummaryScreen)),
+                  listDivider(),
+                  drawerTile("Cash Collection",
+                      () => Get.toNamed(Routes.collectionInHand)),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  footerText("TERMS AND CONDITION", () {}),
+                  footerDivider(),
+                  footerText("PRIVACY POLICY", () {}),
+                  C25(),
+                  Obx(() => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          "${controller.appName.value} v${controller.version.value}",
+                          style: const TextStyle(
+                              fontSize: 10, color: Color(0xFF5D6675)),
+                        ),
+                      )),
+                  C20(),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  Widget drawerTile(IconData icon, String title, VoidCallback? onTap) {
-    return ListTile(
-      leading: Icon(icon, color: AppColors.primaryOrange),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Colors.grey),
-      title: Text(title, style: const TextStyle(color: Colors.black)),
+  Widget footerText(String title, VoidCallback? onTap) {
+    return InkWell(
       onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+        child: Text(
+          title,
+          style: const TextStyle(fontSize: 10, color: Color(0xFF5D6675)),
+        ),
+      ),
+    );
+  }
+
+  Divider footerDivider() {
+    return const Divider(
+      thickness: 0.4,
+      color: Colors.grey,
+      indent: 10,
+      // endIndent: 30,
+    );
+  }
+
+  Widget drawerTile(String title, VoidCallback? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+        child: Text(
+          title,
+          style: const TextStyle(color: Colors.black, fontSize: 15),
+        ),
+      ),
     );
   }
 
@@ -120,39 +173,8 @@ class CustomDrawer extends StatelessWidget {
     return const Divider(
       thickness: 0.4,
       color: Colors.grey,
-      indent: 50,
+      indent: 20,
       endIndent: 30,
-    );
-  }
-
-  void showLogoutConfirmationDialog() {
-    Get.dialog(
-      AlertDialog(
-        content: const Text("Are you sure you want to logout?"),
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        actions: [
-          ElevatedButton(
-            onPressed: () async {
-              await AppPreferences.clearPreferences();
-              Get.offAllNamed(Routes.loginScreen);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.black,
-              foregroundColor: Colors.white,
-            ),
-            child: const Text("Yes"),
-          ),
-          ElevatedButton(
-            onPressed: () => Get.back(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red[100],
-              foregroundColor: Colors.red[900],
-            ),
-            child: const Text("No"),
-          ),
-        ],
-      ),
-      barrierDismissible: false,
     );
   }
 }
