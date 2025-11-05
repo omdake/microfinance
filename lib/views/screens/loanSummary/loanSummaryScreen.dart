@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
+import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/views/screens/loanSummary/disbursement.dart';
 import 'package:microfinance/views/screens/loanSummary/repaymentScreen.dart';
@@ -15,7 +16,25 @@ class LoanSummaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Summary List"),
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text("Loan Summary List", style: TextStyles.appbartitle),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () => Get.offAllNamed(Routes.homeScreen),
+          icon: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(Icons.arrow_back, color: Colors.black, size: 20),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [

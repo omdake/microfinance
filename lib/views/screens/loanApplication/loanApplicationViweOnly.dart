@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/loanApplication/loanApplicationViewOnlyController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -20,6 +21,7 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: appBarWithTitle(title: "Loan Application Creation"),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(
@@ -59,9 +61,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Applicant Name")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Applicant Name")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -82,9 +85,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Co-Borrower")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Co-Borrower")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -105,9 +109,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Loan Product")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Loan Product")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -128,9 +133,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Amount")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Amount")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -151,7 +157,8 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyles.textfieldTextStyle,
                               validator: (value) => requiredValidator(value!),
-                              decoration: TextFieldDecoration.textfieldDecoration(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
                                 hint: "Period",
                               ).copyWith(
                                 filled: true,
@@ -174,9 +181,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Nominee")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Nominee")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -197,9 +205,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Loan Group")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Loan Group")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -220,9 +229,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               validator: (value) => requiredValidator(value!),
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Relation")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Relation")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
@@ -242,9 +252,10 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
                               textCapitalization: TextCapitalization.sentences,
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration.textfieldDecoration(
-                                      hint: "Description")
-                                  .copyWith(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecoration(
+                                          hint: "Description")
+                                      .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
                                     ? Colors.white
