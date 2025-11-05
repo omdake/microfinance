@@ -20,7 +20,7 @@ class GroupListController extends GetxController {
   RxBool hasNextPage = true.obs;
   Rx<File?> groupImage = Rx<File?>(null);
   RxString groupImageUrl = ''.obs;
-
+  RxString token = ''.obs;
   RxBool isGroupImageFocused = false.obs;
   RxList<GroupCreationResult> groupList = <GroupCreationResult>[].obs;
 
@@ -50,7 +50,7 @@ class GroupListController extends GetxController {
   }
 
   getGroupList({required int page, String? search}) async {
-    final token = await AppPreferences.getToken();
+    token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final response = await http.get(
@@ -59,7 +59,7 @@ class GroupListController extends GetxController {
                 page: page, search: search, pageSize: 10, isPagination: true)),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token!,
+          "Authorization": token.value,
         },
       );
       if (response.statusCode == 200) {
