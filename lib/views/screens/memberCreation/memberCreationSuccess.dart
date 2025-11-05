@@ -44,7 +44,7 @@ class MemberCreatedSuccessScreen extends StatelessWidget {
               ),
               C25(),
               const Text(
-                "MEMBER CREATED\nSUCCESSFULLY",
+                "MEMBER SUBMITTED\nSUCCESSFULLY",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 18,
@@ -56,14 +56,6 @@ class MemberCreatedSuccessScreen extends StatelessWidget {
               C30(),
               Column(
                 children: [
-                  const Text(
-                    "LOAN APPLICATION",
-                    style: TextStyle(
-                      fontSize: 12,
-                      letterSpacing: 1.2,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
                   Text(
                     "ID NO: $applicationId",
                     style: const TextStyle(

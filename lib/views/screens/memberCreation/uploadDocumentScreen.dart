@@ -261,11 +261,20 @@ class UploadDcumentSreen extends StatelessWidget {
               controller.isLoading.value = false;
               await controller.submitLoanMember(
                   memberName: controller.name.value);
+              final appId = controller.memberId.value.text;
+              final fullName = [
+                controller.firstName.value.text,
+                controller.middleName.value.text,
+                controller.lastName.value.text,
+              ].where((namePart) => namePart.trim().isNotEmpty).join(' ');
+
+              final city = controller.city.value.text;
+              final state = controller.selectedState.value;
               Get.offAll(() => MemberCreatedSuccessScreen(
-                    applicationId: controller.memberId.value.text,
-                    memberName: controller.name.value,
-                    city: controller.city.value.text,
-                    state: controller.selectedState.value,
+                    applicationId: appId,
+                    memberName: fullName,
+                    city: city,
+                    state: state,
                   ));
             },
             style: ElevatedButton.styleFrom(
