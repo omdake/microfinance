@@ -51,6 +51,7 @@ class LoanDetailsController extends GetxController {
   Rx<TextEditingController> status = TextEditingController().obs;
   RxString loanId = "".obs;
   RxList<RepaymentSchedule> repaymentSchedule = <RepaymentSchedule>[].obs;
+  RxList<ScheduleResult> repaymentSchedulecard = <ScheduleResult>[].obs;
   @override
   void onInit() {
     super.onInit();
@@ -77,6 +78,7 @@ class LoanDetailsController extends GetxController {
           "Authorization": token!,
         },
       );
+      print("....${response.body}");
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;
@@ -86,15 +88,18 @@ class LoanDetailsController extends GetxController {
               messages[0]['repayment_schedule'] as List<dynamic>;
           repaymentSchedule.value =
               repaymentList.map((e) => RepaymentSchedule.fromJson(e)).toList();
+
+          repaymentSchedulecard.value = [ScheduleResult.fromJson(messages[0])];
         }
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
     } catch (e) {
+      print("**************$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;

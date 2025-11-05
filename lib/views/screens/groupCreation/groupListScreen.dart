@@ -22,6 +22,8 @@ class GroupListScreen extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
+     splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.all(14),
@@ -269,10 +271,7 @@ class GroupListScreen extends StatelessWidget {
                         user: user,
                         token: controller.token.value,
                         onTap: () {
-                          Get.toNamed(
-                            Routes.loanApplicationViewonly,
-                            arguments: {"applicant": user, "isReadOnly": true},
-                          );
+                          
                         },
                       );
                     }).toList(),

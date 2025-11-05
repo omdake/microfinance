@@ -104,6 +104,8 @@ class AddressDetailsScreen extends StatelessWidget {
                                 isRequired: true,
                               ),
                               Obx(() {
+                                final isEnabled = !controller.isReadOnly.value;
+
                                 return DropdownButtonFormField<String>(
                                   value: controller.selectedState.value.isEmpty
                                       ? null
@@ -119,24 +121,40 @@ class AddressDetailsScreen extends StatelessWidget {
                                       AutovalidateMode.onUserInteraction,
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
-                                              hint: "Select State")
-                                          .copyWith(
-                                              filled: true,
-                                              fillColor:
-                                                  !controller.isReadOnly.value
-                                                      ? Colors.white
-                                                      : Colors.grey.shade200),
-                                  onChanged: (value) {
-                                    controller.selectedState.value = value!;
-                                  },
+                                    hint: "Select State",
+                                  ).copyWith(
+                                    filled: true,
+                                    fillColor: !controller.isReadOnly.value
+                                        ? Colors.white
+                                        : Colors.grey.shade200,
+                                  ),
+                                  onChanged: isEnabled
+                                      ? (value) {
+                                          controller.selectedState.value =
+                                              value!;
+                                        }
+                                      : null,
+                                  disabledHint:
+                                      controller.selectedState.value.isNotEmpty
+                                          ? Text(controller.stateList
+                                                  .firstWhereOrNull(
+                                                    (e) =>
+                                                        e.stateCode ==
+                                                        controller.selectedState
+                                                            .value,
+                                                  )
+                                                  ?.stateName ??
+                                              '')
+                                          : const Text("Select State"),
                                   validator: (value) {
-                                    if (value == null) {
+                                    if (controller
+                                        .selectedState.value.isEmpty) {
                                       return 'This field can\'t be empty';
                                     }
                                     return null;
                                   },
                                 );
-                              })
+                              }),
                             ]),
                             C10(),
                             paddingWidget(
