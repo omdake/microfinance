@@ -20,6 +20,8 @@ class DisbursementScreen extends StatelessWidget {
         return const Color(0xFFAE282E);
       case "CANCELLED":
         return const Color(0xFFAE282E);
+        case "OPENED":
+        return AppColors.primaryRed;
       default:
         return Colors.grey.shade600;
     }
