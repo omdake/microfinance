@@ -256,6 +256,10 @@ class AddressDetailsScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () async {
+                          if (controller.isReadOnly.value) {
+                            controller.selectedIndex.value = 2;
+                            return;
+                          }
                           if (_formKey.currentState!.validate()) {
                             controller.updateLoanMember();
                             controller.selectedIndex.value = 2;

@@ -533,13 +533,16 @@ class PersonalDetailsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Button Row at Bottom
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     InkWell(
                       onTap: () async {
+                        if (controller.isReadOnly.value) {
+                          controller.selectedIndex.value = 1;
+                          return;
+                        }
+
                         if (_formKey.currentState!.validate()) {
                           if (controller.isMemberId.value) {
                             await controller.updateLoanMember();

@@ -228,6 +228,10 @@ class BankDetailscSreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
+                        if (controller.isReadOnly.value) {
+                          controller.selectedIndex.value = 3;
+                          return;
+                        }
                         if (_formKey.currentState!.validate()) {
                           controller.updateLoanMember();
                         } else {

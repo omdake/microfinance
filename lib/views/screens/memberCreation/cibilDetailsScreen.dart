@@ -119,6 +119,10 @@ class CibilDetailscSreen extends StatelessWidget {
                     ),
                     InkWell(
                       onTap: () async {
+                        if (controller.isReadOnly.value) {
+                          controller.selectedIndex.value = 4;
+                          return;
+                        }
                         if (_formKey.currentState!.validate()) {
                           controller.updateLoanMember();
                         } else {
