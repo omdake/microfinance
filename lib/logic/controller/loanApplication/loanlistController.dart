@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,10 @@ class LoanApplicationListController extends GetxController {
   RxString selectedGroup = "".obs;
   RxBool hasNextPage = true.obs;
   RxInt page = 1.obs;
+    Rx<File?> loanApplicationImage = Rx<File?>(null);
+  RxString loanApplicationImageUrl = ''.obs;
+  RxString token = ''.obs;
+  RxBool isloanApplicationFocused = false.obs;
   @override
   void onInit() async {
     super.onInit();
@@ -43,14 +48,14 @@ class LoanApplicationListController extends GetxController {
   }
 
   getGroupList() async {
-    final token = await AppPreferences.getToken();
+    token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token!,
+          "Authorization": token.value,
         },
       );
       if (response.statusCode == 200) {
