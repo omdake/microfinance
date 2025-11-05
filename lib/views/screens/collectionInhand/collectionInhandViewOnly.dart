@@ -31,92 +31,117 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
           ));
         }
 
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [Colors.white, Colors.white],
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.primary.withOpacity(0.5),
+              ),
             ),
-          ),
-          width: double.infinity,
-          height: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Employee", isRequired: true),
-                          TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.employee.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Employee")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
-                            ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          LabelsWithMark(label: "Employee Name"),
-                          TextFormField(
-                            enabled: !controller.isReadOnly.value,
-                            controller: controller.employeeName.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.name,
-                            style: TextStyles.textfieldTextStyle,
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                                    hint: "Employee Name")
-                                .copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
-                            ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Posting Date", isRequired: true),
-                          Obx(
-                            () => TextFormField(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: "Employee", isRequired: true),
+                            TextFormField(
                               enabled: !controller.isReadOnly.value,
-                              controller: controller.postingDate.value,
+                              controller: controller.employee.value,
                               cursorColor: AppColors.primary,
-                              readOnly: true,
-                              onTap: () => controller.selectDate(
-                                  context, controller.postingDate.value),
+                              textCapitalization: TextCapitalization.sentences,
                               validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
+                              keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecorationicon(
-                                hint: " Enter Posting Date",
-                                sufficIcon: Icons.calendar_today,
-                                sufficIconOntap: () => controller.selectDate(
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Employee")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
+                            ),
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            LabelsWithMark(label: "Employee Name"),
+                            TextFormField(
+                              enabled: !controller.isReadOnly.value,
+                              controller: controller.employeeName.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.name,
+                              style: TextStyles.textfieldTextStyle,
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                      hint: "Employee Name")
+                                  .copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
+                            ),
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: "Posting Date", isRequired: true),
+                            Obx(
+                              () => TextFormField(
+                                enabled: !controller.isReadOnly.value,
+                                controller: controller.postingDate.value,
+                                cursorColor: AppColors.primary,
+                                readOnly: true,
+                                onTap: () => controller.selectDate(
                                     context, controller.postingDate.value),
+                                validator: (value) => requiredValidator(value!),
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                style: TextStyles.textfieldTextStyle,
+                                decoration:
+                                    TextFieldDecoration.textfieldDecorationicon(
+                                  hint: " Enter Posting Date",
+                                  sufficIcon: Icons.calendar_today,
+                                  sufficIconOntap: () => controller.selectDate(
+                                      context, controller.postingDate.value),
+                                ).copyWith(
+                                  filled: true,
+                                  fillColor: controller.isFormEdit.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: "Amount", isRequired: true),
+                            TextFormField(
+                              controller: controller.amount.value,
+                              enabled: !controller.isReadOnly.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Enter Amount",
                               ).copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -124,149 +149,125 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                                     : Colors.grey.shade200,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: "Amount", isRequired: true),
-                          TextFormField(
-                            controller: controller.amount.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) => requiredValidator(value!),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Enter Amount",
-                            ).copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        paddingWidget(
+                          [
+                            const LabelsWithMark(
+                                label: " Give To", isRequired: true),
+                            TextFormField(
+                              controller: controller.givenTo.value,
+                              enabled: !controller.isReadOnly.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Enter Amount",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      paddingWidget(
-                        [
-                          const LabelsWithMark(
-                              label: " Give To", isRequired: true),
-                          TextFormField(
-                            controller: controller.givenTo.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) => requiredValidator(value!),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Enter Amount",
-                            ).copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ],
+                        ),
+                        C10(),
+                        if (controller.givenTo.value.text == "Employee")
+                          paddingWidget([
+                            const LabelsWithMark(
+                                label: "Amount Given To", isRequired: true),
+                            TextFormField(
+                              controller: controller.amountgivenTo.value,
+                              enabled: !controller.isReadOnly.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Enter Amount Given To",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      C10(),
-                      if (controller.givenTo.value.text == "Employee")
-                        paddingWidget([
-                          const LabelsWithMark(
-                              label: "Amount Given To", isRequired: true),
-                          TextFormField(
-                            controller: controller.amountgivenTo.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) => requiredValidator(value!),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Enter Amount Given To",
-                            ).copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
+                          ])
+                        else if (controller.givenTo.value.text == "Bank")
+                          paddingWidget([
+                            const LabelsWithMark(
+                                label: "Bank Name", isRequired: true),
+                            TextFormField(
+                              controller: controller.bankName.value,
+                              enabled: !controller.isReadOnly.value,
+                              cursorColor: AppColors.primary,
+                              textCapitalization: TextCapitalization.none,
+                              keyboardType: TextInputType.text,
+                              style: TextStyles.textfieldTextStyle,
+                              validator: (value) => requiredValidator(value!),
+                              decoration: TextFieldDecoration.textfieldDecoration(
+                                hint: "Enter Bank Name",
+                              ).copyWith(
+                                filled: true,
+                                fillColor: controller.isFormEdit.value
+                                    ? Colors.white
+                                    : Colors.grey.shade200,
+                              ),
                             ),
-                          ),
-                        ])
-                      else if (controller.givenTo.value.text == "Bank")
-                        paddingWidget([
-                          const LabelsWithMark(
-                              label: "Bank Name", isRequired: true),
-                          TextFormField(
-                            controller: controller.bankName.value,
-                            enabled: !controller.isReadOnly.value,
-                            cursorColor: AppColors.primary,
-                            textCapitalization: TextCapitalization.none,
-                            keyboardType: TextInputType.text,
-                            style: TextStyles.textfieldTextStyle,
-                            validator: (value) => requiredValidator(value!),
-                            decoration: TextFieldDecoration.textfieldDecoration(
-                              hint: "Enter Bank Name",
-                            ).copyWith(
-                              filled: true,
-                              fillColor: controller.isFormEdit.value
-                                  ? Colors.white
-                                  : Colors.grey.shade200,
-                            ),
-                          ),
-                        ]),
-                      C10(),
-                      imagePickerField(
-                        // isEnabled: !controller.isReadOnly.value,
-                        label: "Payment Proof",
-                        imageFile: controller.paymentProofImage,
-                        imageUrl: controller.paymentProofUrl,
-                        isFocused: controller.isPaymentProofImageFocused,
-                        onTap: () =>
-                            controller.pickImage(controller.paymentProofImage),
-                      ),
-                      C25(),
-                      Obx(() {
-                        final isGivenToLoggedUser =
-                            controller.amountgivenTo.value.text ==
-                                controller.loggedInUser.value;
-                        final currentStatus = controller.status.value;
-
-                        final isActionCompleted = currentStatus == "Approved" ||
-                            currentStatus == "Rejected";
-
-                        if (isGivenToLoggedUser && !isActionCompleted) {
-                          return SizedBox(
-                            width: double.infinity,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  child: AppButton(
-                                    title: "Approve",
-                                    onTap: controller.approve,
+                          ]),
+                        C10(),
+                        imagePickerField(
+                          // isEnabled: !controller.isReadOnly.value,
+                          label: "Payment Proof",
+                          imageFile: controller.paymentProofImage,
+                          imageUrl: controller.paymentProofUrl,
+                          isFocused: controller.isPaymentProofImageFocused,
+                          onTap: () =>
+                              controller.pickImage(controller.paymentProofImage),
+                        ),
+                        C25(),
+                        Obx(() {
+                          final isGivenToLoggedUser =
+                              controller.amountgivenTo.value.text ==
+                                  controller.loggedInUser.value;
+                          final currentStatus = controller.status.value;
+          
+                          final isActionCompleted = currentStatus == "Approved" ||
+                              currentStatus == "Rejected";
+          
+                          if (isGivenToLoggedUser && !isActionCompleted) {
+                            return SizedBox(
+                              width: double.infinity,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Expanded(
+                                    child: AppButton(
+                                      title: "Approve",
+                                      onTap: controller.approve,
+                                    ),
                                   ),
-                                ),
-                                C15(),
-                                Expanded(
-                                  child: AppButton(
-                                    title: "Reject",
-                                    onTap: controller.rejecte,
+                                  C15(),
+                                  Expanded(
+                                    child: AppButton(
+                                      title: "Reject",
+                                      onTap: controller.rejecte,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        } else {
-                          return const SizedBox();
-                        }
-                      })
-                    ],
+                                ],
+                              ),
+                            );
+                          } else {
+                            return const SizedBox();
+                          }
+                        })
+                      ],
+                    ),
                   ),
                 ),
               ),
