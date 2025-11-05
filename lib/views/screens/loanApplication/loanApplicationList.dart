@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/loanApplication/loanlistController.dart';
 import 'package:microfinance/models/loan_applicant_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
@@ -179,6 +180,7 @@ class LoanApplicationList extends StatelessWidget {
           ),
         ),
       ),
+       bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

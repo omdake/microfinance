@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart';
 
 import 'package:microfinance/logic/controller/loanRepayment/loanRepaymentController.dart';
@@ -48,6 +49,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                 ),
               )),
         ),
+         bottomNavigationBar: const CustomBottomNavBar(),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
@@ -479,35 +481,38 @@ class LoanRepaymentScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                FocusScope.of(context).unfocus();
-                                if (_formKey.currentState!.validate()) {
-                                  controller.saveRepayments();
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: const EdgeInsets.all(10.0),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.arrow_forward_ios,
-                                    color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  FocusScope.of(context).unfocus();
+                                  if (_formKey.currentState!.validate()) {
+                                    controller.saveRepayments();
+                                  } else {
+                                    AppTostMassage.showTostMassage(
+                                      massage: "Please fill all required fields",
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryOrange,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  padding: const EdgeInsets.all(10.0),
+                                  child: const Center(
+                                    child: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         )
                       ],
                     ),
