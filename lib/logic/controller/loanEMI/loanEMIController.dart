@@ -50,11 +50,11 @@ class LoanEMIController extends GetxController {
       selectedDate: selectedDate.value,
     );
   }
-
+RxString token = ''.obs;
   getLoanEMIList({
     String? selectedDate,
   }) async {
-    final token = await AppPreferences.getToken();
+     token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final url = AppEnvironment.baseUrl +
@@ -71,7 +71,7 @@ class LoanEMIController extends GetxController {
         Uri.parse(url),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token!,
+          "Authorization": token.value,
         },
       );
       if (response.statusCode == 200) {

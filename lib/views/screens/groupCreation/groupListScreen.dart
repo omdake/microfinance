@@ -14,6 +14,17 @@ import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class GroupListScreen extends StatelessWidget {
   const GroupListScreen({super.key});
+  String _getInitials(String? name) {
+    if (name == null || name.trim().isEmpty) {
+      return "?";
+    }
+    final parts = name.trim().split(" ");
+    if (parts.length == 1) {
+      return parts[0][0].toUpperCase();
+    } else {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+  }
 
   Widget loanCard({
     required GroupCreationResult user,
@@ -22,7 +33,7 @@ class GroupListScreen extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
-     splashColor: Colors.transparent,
+      splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
@@ -96,9 +107,15 @@ class GroupListScreen extends StatelessWidget {
                                 headers: {'Authorization': token},
                               )
                             : null,
-                    child: user.groupImage == null || user.groupImage!.isEmpty
-                        ? const Icon(Icons.person,
-                            color: Colors.white, size: 22)
+                    child: (user.groupImage == null || user.groupImage!.isEmpty)
+                        ? Text(
+                            _getInitials(user.groupName),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
                         : null,
                   ),
                 ),
@@ -270,9 +287,7 @@ class GroupListScreen extends StatelessWidget {
                       return loanCard(
                         user: user,
                         token: controller.token.value,
-                        onTap: () {
-                          
-                        },
+                        onTap: () {},
                       );
                     }).toList(),
                   );

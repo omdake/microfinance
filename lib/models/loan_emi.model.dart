@@ -30,6 +30,7 @@ class LoanEmiListMessage {
   double? amountPaid;
   String? paymentStatus;
   double? remainingAmount;
+  String? memberImage;
 
   LoanEmiListMessage({
     this.loanRepaymentSchedule,
@@ -48,6 +49,7 @@ class LoanEmiListMessage {
     this.amountPaid,
     this.paymentStatus,
     this.remainingAmount,
+    this.memberImage,
   });
 
   factory LoanEmiListMessage.fromJson(Map<String, dynamic> json) =>
@@ -70,6 +72,7 @@ class LoanEmiListMessage {
         remainingAmount: (json["remaining_amount"] as num?)?.toDouble(),
         mobileNo: json["mobile_no"],
         mobileNo2: json["mobile_no_2"],
+        memberImage: json["member_image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -89,5 +92,6 @@ class LoanEmiListMessage {
         "remaining_amount": remainingAmount,
         "mobile_no": mobileNo,
         "mobile_no_2": mobileNo2,
+        "member_image": memberImage,
       };
 }

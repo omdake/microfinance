@@ -15,6 +15,18 @@ class MemberListScreen extends StatelessWidget {
   MemberListScreen({super.key});
 
   Widget _buildMemberListItem(dynamic user) {
+    String _getInitials(String? name) {
+      if (name == null || name.trim().isEmpty) {
+        return "?";
+      }
+      final parts = name.trim().split(" ");
+      if (parts.length == 1) {
+        return parts[0][0].toUpperCase();
+      } else {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
+    }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -37,10 +49,23 @@ class MemberListScreen extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 25,
-                  backgroundColor: Color(0xFFD9D9D9),
-                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                  backgroundColor: const Color(0xFFD9D9D9),
+                  backgroundImage:
+                      user.memberImage != null && user.memberImage!.isNotEmpty
+                          ? NetworkImage(user.memberImage!)
+                          : null,
+                  child: (user.memberImage == null || user.memberImage!.isEmpty)
+                      ? Text(
+                          _getInitials(user.memberName),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
                 ),
               ),
             ),
@@ -135,22 +160,57 @@ class MemberListScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              Obx(() {
-                if (controller.isGroup.value) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: DropdownButtonFormField2<GroupListMessage>(
+              Column(
+                children: [
+                  TextField(
+                    controller: controller.search.value,
+                    style: TextStyles.textfieldTextStyle,
+                    cursorColor: Colors.black,
+                    onChanged: (value) {
+                      if (value.length >= 3 || value.isEmpty) {
+                        controller.onSearchChanged(value);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Search Members",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontFamily: "Roboto-Regular",
+                        fontSize: 14,
+                      ),
+                      suffixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 2,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  ),
+                  C10(),
+                  Obx(() {
+                    if (!controller.isGroup.value)
+                      return const SizedBox.shrink();
+
+                    return DropdownButtonFormField2<GroupListMessage>(
                         isExpanded: true,
                         decoration: TextFieldDecoration.textfieldDecoration(
                           sufficIconOntap: () {},
                           sufficIcon: null,
                           hint: '',
-                        ).copyWith(
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: 500,
-                        ),
+                        ).copyWith(contentPadding: EdgeInsets.zero),
+                        dropdownStyleData: DropdownStyleData(maxHeight: 500),
                         value: controller.selectedGroup.value.isEmpty
                             ? null
                             : controller.groupList.firstWhereOrNull(
@@ -161,15 +221,15 @@ class MemberListScreen extends StatelessWidget {
                             value: null,
                             child: Text("All Group"),
                           ),
-                          ...controller.groupList.map((e) {
-                            return DropdownMenuItem<GroupListMessage>(
+                          ...controller.groupList.map(
+                            (e) => DropdownMenuItem<GroupListMessage>(
                               value: e,
                               child: Text(
                                 e.groupName ?? "",
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            );
-                          }).toList(),
+                            ),
+                          ),
                         ],
                         dropdownSearchData: DropdownSearchData(
                           searchController:
@@ -212,57 +272,24 @@ class MemberListScreen extends StatelessWidget {
                             controller.totalLoanMemberList(
                               Status: controller.status.value,
                               isGroup: controller.isGroup.value,
+                              group: controller.selectedGroup.value,
+                              search: controller.search.value.text,
                             );
                           } else {
                             controller.selectedGroup.value =
                                 newValue.name ?? "";
 
                             controller.totalLoanMemberList(
-                                Status: controller.status.value,
-                                isGroup: controller.isGroup.value,
-                                group: controller.selectedGroup.value);
+                              Status: controller.status.value,
+                              isGroup: controller.isGroup.value,
+                              group: controller.selectedGroup.value,
+                              search: controller.search.value.text,
+                            );
                           }
-                        }),
-                  );
-                } else {
-                  return TextField(
-                    controller: controller.search.value,
-                    style: TextStyles.textfieldTextStyle,
-                    cursorColor: Colors.black,
-                    onChanged: (value) {
-                      if (value.length >= 3 || value.isEmpty) {
-                        controller.onSearchChanged(value);
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Search Members",
-                      hintStyle: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontFamily: "Roboto-Regular",
-                        fontSize: 14,
-                      ),
-                      suffixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade300,
-                          width: 2,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade300,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  );
-                }
-              }),
+                        });
+                  }),
+                ],
+              ),
               C20(),
               Expanded(
                 child: Obx(() {

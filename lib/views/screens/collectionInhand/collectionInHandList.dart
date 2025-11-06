@@ -52,22 +52,6 @@ class PendingRequest extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFFE6E6E6),
-                    width: 2,
-                  ),
-                ),
-                child: const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Color(0xFFD9D9D9),
-                  child: Icon(Icons.person, color: Colors.white, size: 22),
-                ),
-              ),
-              C15(),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

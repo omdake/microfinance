@@ -36,6 +36,18 @@ class RepaymentScreen extends StatelessWidget {
   }
 
   Widget _buildDisbursementItem(dynamic user) {
+    String _getInitials(String? name) {
+    if (name == null || name.trim().isEmpty) {
+      return "?";
+    }
+    final parts = name.trim().split(" ");
+    if (parts.length == 1) {
+      return parts[0][0].toUpperCase();
+    } else {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+  }
+
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
@@ -58,10 +70,24 @@ class RepaymentScreen extends StatelessWidget {
                     width: 2,
                   ),
                 ),
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 25,
-                  backgroundColor: Color(0xFFD9D9D9),
-                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                  backgroundColor: const Color(0xFFD9D9D9),
+                  backgroundImage: user.applicantImage != null &&
+                          user.applicantImage!.isNotEmpty
+                      ? NetworkImage(user.applicantImage!)
+                      : null,
+                  child: (user.applicantImage == null ||
+                          user.applicantImage!.isEmpty)
+                      ? Text(
+                          _getInitials(user.applicantMemberName),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      : null,
                 ),
               ),
             ),

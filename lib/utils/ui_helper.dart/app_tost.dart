@@ -11,13 +11,15 @@ class AppTostMassage {
       Color? textColor,
       double? fontSize}) {
     Fluttertoast.showToast(
-        msg: massage,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: position ?? ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.primary,
-        textColor:  AppColors.white,
-        fontSize: fontSize ?? Sizes.s15);
+      msg: massage,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: position ?? ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: AppColors.primary,
+      textColor: AppColors.white,
+      fontSize: fontSize ?? Sizes.s15,
+      fontAsset: "assets/fonts/Roboto-Medium.ttf",
+    );
   }
 
   static showTostErrorMassage(
@@ -32,6 +34,7 @@ class AppTostMassage {
         timeInSecForIosWeb: 1,
         backgroundColor: AppColors.error,
         textColor: AppColors.white,
+        fontAsset: "assets/fonts/Roboto-Medium.ttf",
         fontSize: fontSize ?? Sizes.s15);
   }
 
@@ -41,12 +44,14 @@ class AppTostMassage {
       Color? textColor,
       double? fontSize}) {
     Fluttertoast.showToast(
-        msg: massage,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: position ?? ToastGravity.TOP,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.Warning,
-        textColor: textColor ?? AppColors.white,
-        fontSize: fontSize ?? Sizes.s15);
+      msg: massage,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: position ?? ToastGravity.TOP,
+      timeInSecForIosWeb: 1,
+      backgroundColor: AppColors.Warning,
+      textColor: textColor ?? AppColors.white,
+      fontSize: fontSize ?? Sizes.s15,
+      fontAsset: "assets/fonts/Roboto-Medium.ttf",
+    );
   }
 }

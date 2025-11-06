@@ -80,6 +80,7 @@ class RepaymentListResult {
   String? paymentAccount;
   String? applicantMemberName;
   String? workflowState;
+  String? applicantImage;
 
   RepaymentListResult({
     this.name,
@@ -118,6 +119,7 @@ class RepaymentListResult {
     this.paymentAccount,
     this.applicantMemberName,
     this.workflowState,
+    this.applicantImage,
   });
 
   factory RepaymentListResult.fromJson(Map<String, dynamic> json) => RepaymentListResult(
@@ -157,6 +159,7 @@ class RepaymentListResult {
         paymentAccount: json["payment_account"],
         applicantMemberName: json["applicant_member_name"],
          workflowState: json["workflow_state"],
+         applicantImage: json["applicant_image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -197,5 +200,6 @@ class RepaymentListResult {
         "payment_account": paymentAccount,
         "applicant_member_name": applicantMemberName,
         "workflow_state": workflowState,
+        "applicant_image": applicantImage,
       };
 }

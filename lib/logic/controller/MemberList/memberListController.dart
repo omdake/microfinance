@@ -16,6 +16,7 @@ class MemberListController extends GetxController {
   RxString selectedGroup = "".obs;
   RxBool isLoading = false.obs;
   RxString status = ''.obs;
+  RxString token = ''.obs;
   RxBool isGroup = true.obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
@@ -24,11 +25,20 @@ class MemberListController extends GetxController {
   Rx<TextEditingController> search = TextEditingController().obs;
 
   void onSearchChanged(String query) {
-    if (isGroup.value == false) {
-      page.value = 1;
-      //loanMemberList.clear();
+    page.value = 1;
+
+    if (isGroup.value == true) {
+      totalLoanMemberList(
+        Status: status.value,
+        isGroup: true,
+        search: search.value.text,
+        group: selectedGroup.value,
+      );
+    } else {
       getUngroupedLoanMemberList(
-          isGroup: isGroup.value, search: search.value.text);
+        isGroup: false,
+        search: search.value.text,
+      );
     }
   }
 
@@ -52,9 +62,11 @@ class MemberListController extends GetxController {
         if (isGroup.value) {
           getGroupList();
           totalLoanMemberList(
-              Status: status.value,
-              isGroup: isGroup.value,
-              group: selectedGroup.value);
+            Status: status.value,
+            isGroup: isGroup.value,
+            group: selectedGroup.value,
+            search: search.value.text,
+          );
         } else {
           getUngroupedLoanMemberList(
             isGroup: isGroup.value,
@@ -66,9 +78,11 @@ class MemberListController extends GetxController {
     }
     getGroupList();
     totalLoanMemberList(
-        Status: status.value,
-        isGroup: isGroup.value,
-        group: selectedGroup.value);
+      Status: status.value,
+      isGroup: isGroup.value,
+      group: selectedGroup.value,
+      search: search.value.text,
+    );
   }
 
   getGroupList() async {
@@ -106,9 +120,11 @@ class MemberListController extends GetxController {
 
     if (isGroup.value) {
       totalLoanMemberList(
-          Status: status.value,
-          isGroup: isGroup.value,
-          group: selectedGroup.value);
+        Status: status.value,
+        isGroup: isGroup.value,
+        group: selectedGroup.value,
+        search: search.value.text,
+      );
     } else {
       getUngroupedLoanMemberList(
         isGroup: isGroup.value,
@@ -123,9 +139,11 @@ class MemberListController extends GetxController {
 
     if (isGroup.value) {
       totalLoanMemberList(
-          Status: status.value,
-          isGroup: isGroup.value,
-          group: selectedGroup.value);
+        Status: status.value,
+        isGroup: isGroup.value,
+        group: selectedGroup.value,
+        search: search.value.text,
+      );
     } else {
       await getUngroupedLoanMemberList(
         isGroup: isGroup.value,
@@ -232,8 +250,9 @@ class MemberListController extends GetxController {
     }
   }
 
-  totalLoanMemberList({String? Status, bool? isGroup, String? group}) async {
-    final token = await AppPreferences.getToken();
+  totalLoanMemberList(
+      {String? Status, bool? isGroup, String? group, String? search}) async {
+    token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final response = await http.get(
@@ -241,7 +260,7 @@ class MemberListController extends GetxController {
             AppURLs.totalLoanMemberList(
                 country: "india",
                 group: selectedGroup.value,
-                search: "",
+                search: search,
                 Status: Status ?? "",
                 isPagination: true,
                 page: page.value,
@@ -249,7 +268,7 @@ class MemberListController extends GetxController {
                 isGroup: isGroup)),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token!,
+          "Authorization": token.value,
         },
       );
 

@@ -85,6 +85,7 @@ class LoanDisbursementResult {
   dynamic referenceNumber;
   String? amendedFrom;
    String? applicantMemberName;
+   String? applicantImage;
 
   LoanDisbursementResult({
     this.name,
@@ -126,6 +127,7 @@ class LoanDisbursementResult {
     this.referenceNumber,
     this.amendedFrom,
     this.applicantMemberName,
+    this.applicantImage,
   });
 
  factory LoanDisbursementResult.fromJson(Map<String, dynamic> json) =>
@@ -179,6 +181,7 @@ class LoanDisbursementResult {
       referenceNumber: json["reference_number"],
       amendedFrom: json["amended_from"] ?? "",
       applicantMemberName: json["applicant_member_name"] ?? "",
+      applicantImage: json["applicant_image"],
     );
 
 
@@ -225,5 +228,6 @@ class LoanDisbursementResult {
         "reference_number": referenceNumber,
         "amended_from": amendedFrom,
          "applicant_member_name": applicantMemberName,
+         "applicant_image": applicantImage,
       };
 }
