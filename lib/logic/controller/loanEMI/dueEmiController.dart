@@ -50,8 +50,9 @@ class DueEMIController extends GetxController {
     );
   }
 
+  RxString token = ''.obs;
   getLoanEMIList({String? upToDate}) async {
-    final token = await AppPreferences.getToken();
+    token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final url = AppEnvironment.baseUrl +
@@ -67,7 +68,7 @@ class DueEMIController extends GetxController {
         Uri.parse(url),
         headers: {
           "Content-Type": "application/json",
-          "Authorization": token!,
+          "Authorization": token.value,
         },
       );
       if (response.statusCode == 200) {

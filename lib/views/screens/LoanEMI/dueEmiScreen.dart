@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/loanEMI/dueEmiController.dart';
@@ -16,6 +19,7 @@ class DueEMIScreen extends StatelessWidget {
   Widget loanCard({
     required LoanEmiListMessage user,
     required VoidCallback onTap,
+    required String token,
   }) {
     return InkWell(
       onTap: onTap,
@@ -33,19 +37,71 @@ class DueEMIScreen extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFFE6E6E6),
-                    width: 2,
+             GestureDetector(
+                onTap: () {
+                  if (user.memberImage != null && user.memberImage!.isNotEmpty) {
+                    final imageUrl = user.memberImage!.startsWith('http')
+                        ? user.memberImage!
+                        : "${AppEnvironment.baseUrl}${user.memberImage!.startsWith('/') ? '' : '/'}${user.memberImage}";
+                    final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
+
+                    Get.dialog(
+                      Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          child: isPdf
+                              ? PDFView(filePath: imageUrl)
+                              : CachedNetworkImage(
+                                  imageUrl: imageUrl,
+                                  httpHeaders: {'Authorization': token},
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                  placeholder: (_, __) => const Center(
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  ),
+                                  errorWidget: (_, __, ___) => const Center(
+                                    child: Icon(Icons.broken_image,
+                                        size: 50, color: Colors.grey),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color(0xFFE6E6E6),
+                      width: 2,
+                    ),
                   ),
-                ),
-                child: const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Color(0xFFD9D9D9),
-                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: const Color(0xFFD9D9D9),
+                    backgroundImage:
+                        user.memberImage != null && user.memberImage!.isNotEmpty
+                            ? CachedNetworkImageProvider(
+                                user.memberImage!.startsWith('http')
+                                    ? user.memberImage!
+                                    : "${AppEnvironment.baseUrl}${user.memberImage!.startsWith('/') ? '' : '/'}${user.memberImage}",
+                                headers: {'Authorization': token},
+                              )
+                            : null,
+                    child: user.memberImage == null || user.memberImage!.isEmpty
+                        ? const Icon(Icons.person,
+                            color: Colors.white, size: 22)
+                        : null,
+                  ),
                 ),
               ),
               C15(),
@@ -207,6 +263,7 @@ class DueEMIScreen extends StatelessWidget {
                       final user = controller.loanEMIList[index];
                       return loanCard(
                         user: user,
+                        token: controller.token.value,
                         onTap: () {},
                       );
                     },

@@ -1,5 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/loanEMI/loanEMIController.dart';
@@ -13,11 +16,23 @@ import 'package:url_launcher/url_launcher.dart';
 
 class LoanEMIScreen extends StatelessWidget {
   const LoanEMIScreen({super.key});
+  String _getInitials(String? name) {
+    if (name == null || name.trim().isEmpty) {
+      return "?";
+    }
+    final parts = name.trim().split(" ");
+    if (parts.length == 1) {
+      return parts[0][0].toUpperCase();
+    } else {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+  }
 
   Widget loanCard({
     required LoanEmiListMessage user,
     required VoidCallback onTap,
     required String phoneNumber,
+    required String token,
   }) {
     return InkWell(
       onTap: onTap,
@@ -35,19 +50,79 @@ class LoanEMIScreen extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFFE6E6E6),
-                    width: 2,
+              GestureDetector(
+                onTap: () {
+                  if (user.memberImage != null &&
+                      user.memberImage!.isNotEmpty) {
+                    final imageUrl = user.memberImage!.startsWith('http')
+                        ? user.memberImage!
+                        : "${AppEnvironment.baseUrl}${user.memberImage!.startsWith('/') ? '' : '/'}${user.memberImage}";
+                    final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
+
+                    Get.dialog(
+                      Dialog(
+                        backgroundColor: Colors.transparent,
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.white,
+                          ),
+                          clipBehavior: Clip.hardEdge,
+                          child: isPdf
+                              ? PDFView(filePath: imageUrl)
+                              : CachedNetworkImage(
+                                  imageUrl: imageUrl,
+                                  httpHeaders: {'Authorization': token},
+                                  fit: BoxFit.contain,
+                                  width: double.infinity,
+                                  placeholder: (_, __) => const Center(
+                                    child: CircularProgressIndicator(
+                                        strokeWidth: 2),
+                                  ),
+                                  errorWidget: (_, __, ___) => const Center(
+                                    child: Icon(Icons.broken_image,
+                                        size: 50, color: Colors.grey),
+                                  ),
+                                ),
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color(0xFFE6E6E6),
+                      width: 2,
+                    ),
                   ),
-                ),
-                child: const CircleAvatar(
-                  radius: 25,
-                  backgroundColor: Color(0xFFD9D9D9),
-                  child: Icon(Icons.person, color: Colors.white, size: 22),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: const Color(0xFFD9D9D9),
+                    backgroundImage: (user.memberImage != null &&
+                            user.memberImage!.isNotEmpty)
+                        ? CachedNetworkImageProvider(
+                            user.memberImage!.startsWith('http')
+                                ? user.memberImage!
+                                : "${AppEnvironment.baseUrl}${user.memberImage!.startsWith('/') ? '' : '/'}${user.memberImage}",
+                            headers: {'Authorization': token},
+                          )
+                        : null,
+                    child:
+                        (user.memberImage == null || user.memberImage!.isEmpty)
+                            ? Text(
+                                _getInitials(user.memberName),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : null,
+                  ),
                 ),
               ),
               C15(),
@@ -193,7 +268,7 @@ class LoanEMIScreen extends StatelessWidget {
           ),
         ),
       ),
-       bottomNavigationBar: const CustomBottomNavBar(),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
@@ -239,6 +314,7 @@ class LoanEMIScreen extends StatelessWidget {
                       final phoneNumber = user.mobileNo ?? '';
                       return loanCard(
                         user: user,
+                        token: controller.token.value,
                         phoneNumber: phoneNumber,
                         onTap: () {},
                       );

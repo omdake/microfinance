@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
@@ -410,20 +411,27 @@ class PersonalDetailsScreen extends StatelessWidget {
                           ),
                           C10(),
                           paddingWidget([
-                            LabelsWithMark(
-                              label: "Group",
-                            ),
+                            LabelsWithMark(label: "Group"),
                             Obx(() {
                               final selectedValue =
                                   controller.selectedGroup.value;
                               final isValidValue = controller.groupList.any(
-                                  (e) => e.name.toString() == selectedValue);
-
+                                (e) => e.name.toString() == selectedValue,
+                              );
                               final isEnabled = !controller.isReadOnly.value;
 
-                              return DropdownButtonFormField<String>(
+                              return DropdownButtonFormField2<String>(
                                 isExpanded: true,
                                 value: isValidValue ? selectedValue : null,
+                                hint: const Text(
+                                  // 👈 Hint inside the field
+                                  "Select Group",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 14,
+                                    fontFamily: "Roboto-Regular",
+                                  ),
+                                ),
                                 items: controller.groupList.map((e) {
                                   return DropdownMenuItem<String>(
                                     value: e.name.toString(),
@@ -434,16 +442,45 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   );
                                 }).toList(),
                                 style: TextStyles.textfieldTextStyle,
-                                decoration:
-                                    TextFieldDecoration.textfieldDecoration(
-                                  hint: "Select Group",
-                                  sufficIconOntap: () {},
-                                  sufficIcon: null,
-                                ).copyWith(
-                                        filled: true,
-                                        fillColor: !controller.isReadOnly.value
-                                            ? Colors.white
-                                            : Colors.grey.shade200),
+                                decoration: InputDecoration(
+                                  // 👇 This makes sure the hint stays in the field
+                                  contentPadding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 14),
+                                  suffixIcon: (isEnabled &&
+                                          selectedValue.isNotEmpty)
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            controller.selectedGroup.value = "";
+                                          },
+                                          child: const Icon(
+                                            Icons.close,
+                                            size: 18,
+                                            color: Colors.grey,
+                                          ),
+                                        )
+                                      : null,
+                                  filled: true,
+                                  fillColor: isEnabled
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade300,
+                                      width: 1,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey.shade600,
+                                      width: 1.2,
+                                    ),
+                                  ),
+                                ),
                                 onChanged: isEnabled
                                     ? (value) {
                                         controller.selectedGroup.value =
@@ -462,7 +499,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       )
                                     : const Text("Select Group"),
                               );
-                            })
+                            }),
                           ]),
                           C10(),
                           paddingWidget([

@@ -25,7 +25,17 @@ class LoanApplicationList extends StatelessWidget {
     );
     return format.format(amount ?? 0);
   }
-
+ String _getInitials(String? name) {
+    if (name == null || name.trim().isEmpty) {
+      return "?";
+    }
+    final parts = name.trim().split(" ");
+    if (parts.length == 1) {
+      return parts[0][0].toUpperCase();
+    } else {
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+  }
   Color statusColor(String? status) {
     switch (status?.toLowerCase()) {
       case "approved":
@@ -42,7 +52,7 @@ class LoanApplicationList extends StatelessWidget {
   Widget loanCard({
     required LoanApplicantListResult user,
     required VoidCallback onTap,
-     required String token,
+    required String token,
   }) {
     return InkWell(
       onTap: onTap,
@@ -60,7 +70,8 @@ class LoanApplicationList extends StatelessWidget {
             children: [
               GestureDetector(
                 onTap: () {
-                  if (user.applicantImage != null && user.applicantImage!.isNotEmpty) {
+                  if (user.applicantImage != null &&
+                      user.applicantImage!.isNotEmpty) {
                     final imageUrl = user.applicantImage!.startsWith('http')
                         ? user.applicantImage!
                         : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}";
@@ -118,9 +129,15 @@ class LoanApplicationList extends StatelessWidget {
                                 headers: {'Authorization': token},
                               )
                             : null,
-                    child: user.applicantImage == null || user.applicantImage!.isEmpty
-                        ? const Icon(Icons.person,
-                            color: Colors.white, size: 22)
+                    child: (user.applicantImage == null || user.applicantImage!.isEmpty)
+                        ? Text(
+                            _getInitials(user.applicantName),
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
                         : null,
                   ),
                 ),
@@ -337,14 +354,17 @@ class LoanApplicationList extends StatelessWidget {
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.loanApplicantList.map((user) {
                       return loanCard(
-                        user: user,
-                        onTap: () {
-                          Get.toNamed(
-                            Routes.loanApplicationViewonly,
-                            arguments: {"applicant": user, "isReadOnly": true},
-                          );
-                        }, token: controller.token.value
-                      );
+                          user: user,
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.loanApplicationViewonly,
+                              arguments: {
+                                "applicant": user,
+                                "isReadOnly": true
+                              },
+                            );
+                          },
+                          token: controller.token.value);
                     }).toList(),
                   );
                 }),
