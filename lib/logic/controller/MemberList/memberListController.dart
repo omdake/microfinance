@@ -51,7 +51,10 @@ class MemberListController extends GetxController {
 
         if (isGroup.value) {
           getGroupList();
-          totalLoanMemberList(Status: status.value, isGroup: isGroup.value);
+          totalLoanMemberList(
+              Status: status.value,
+              isGroup: isGroup.value,
+              group: selectedGroup.value);
         } else {
           getUngroupedLoanMemberList(
             isGroup: isGroup.value,
@@ -62,7 +65,10 @@ class MemberListController extends GetxController {
       }
     }
     getGroupList();
-    getLoanMemberList(Status: status.value);
+    totalLoanMemberList(
+        Status: status.value,
+        isGroup: isGroup.value,
+        group: selectedGroup.value);
   }
 
   getGroupList() async {
@@ -97,10 +103,12 @@ class MemberListController extends GetxController {
 
   getloadData() {
     page.value = 1;
-    loanMemberList.value = [];
 
     if (isGroup.value) {
-      getLoanMemberList(Status: status.value);
+      totalLoanMemberList(
+          Status: status.value,
+          isGroup: isGroup.value,
+          group: selectedGroup.value);
     } else {
       getUngroupedLoanMemberList(
         isGroup: isGroup.value,
@@ -112,10 +120,17 @@ class MemberListController extends GetxController {
   getLoadMoreData() async {
     if (!hasNextPage.value || isLoading.value) return;
     page.value += 1;
+
     if (isGroup.value) {
-      await getLoanMemberList(Status: status.value);
+      totalLoanMemberList(
+          Status: status.value,
+          isGroup: isGroup.value,
+          group: selectedGroup.value);
     } else {
-      await getUngroupedLoanMemberList(isGroup: isGroup.value);
+      await getUngroupedLoanMemberList(
+        isGroup: isGroup.value,
+        search: search.value.text,
+      );
     }
   }
 
@@ -217,7 +232,7 @@ class MemberListController extends GetxController {
     }
   }
 
-  totalLoanMemberList({String? Status, bool? isGroup}) async {
+  totalLoanMemberList({String? Status, bool? isGroup, String? group}) async {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
@@ -237,6 +252,7 @@ class MemberListController extends GetxController {
           "Authorization": token!,
         },
       );
+
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final message = data['message'];

@@ -14,15 +14,15 @@ class RepaymentScreen extends StatelessWidget {
   RepaymentScreen({super.key});
 
   Color statusColor(String? status) {
-    switch (status?.toUpperCase()) {
-      case "SUBMITTED":
-        return AppColors.primaryOrange;
-      case "CLOSED":
+    switch (status?.toLowerCase()) {
+      case "approved":
         return const Color(0xFFAE282E);
-      case "CANCELLED":
-        return const Color(0xFFAE282E);
+      case "pending":
+        return const Color(0xFFF06321);
+      case "rejected":
+        return const Color(0xFF5F5F5F);
       default:
-        return Colors.grey.shade600;
+        return Colors.grey;
     }
   }
 
@@ -199,26 +199,18 @@ class RepaymentScreen extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: (user.workflowState == null ||
-                            user.workflowState!.isEmpty)
-                        ? Colors.white
-                        : Colors.grey.shade600,
-                    borderRadius: BorderRadius.circular(5),
-                  ),
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: statusColor(user.workflowState),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
                   child: Text(
-                    user.workflowState?.isNotEmpty == true
-                        ? user.workflowState!
-                        : "",
-                    style: TextStyle(
+                    user.workflowState?.toUpperCase() ?? "-",
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: Colors.white,
                       fontFamily: "Roboto-Medium",
-                      fontSize: 13,
-                      color: (user.workflowState == null ||
-                              user.workflowState!.isEmpty)
-                          ? Colors.black
-                          : Colors.white,
                     ),
                   ),
                 )),
