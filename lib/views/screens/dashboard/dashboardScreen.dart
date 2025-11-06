@@ -294,7 +294,7 @@ class DashboardScreen extends StatelessWidget {
                   onTap: () {
                     Get.toNamed(Routes.memberList, arguments: {
                       "status": "",
-                      "group": "",
+                      "group": controller.selectedGroup.value,
                       "title": "Total Members",
                       "is_group": true,
                     });
@@ -362,7 +362,7 @@ class DashboardScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: memberBox(
-                  "${controller.ungroupedMembers.value}",
+                  "${controller.draftCount.value}",
                   "Draft Members",
                   onTap: () {
                     Get.toNamed(
@@ -370,6 +370,7 @@ class DashboardScreen extends StatelessWidget {
                       arguments: {
                         "title": "Draft",
                         "status": "Draft",
+                        "group": controller.selectedGroup.value
                       },
                     );
                   },

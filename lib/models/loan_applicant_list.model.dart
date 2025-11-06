@@ -73,6 +73,7 @@ class LoanApplicantListResult {
   String? nomineeMemberName;
   String? coBorrowerMemberName;
   String? workflowState;
+  String? applicantImage;
 
   LoanApplicantListResult({
     this.name,
@@ -102,6 +103,7 @@ class LoanApplicantListResult {
     this.nomineeMemberName,
     this.coBorrowerMemberName,
      this.workflowState,
+      this.applicantImage,
   });
 
   factory LoanApplicantListResult.fromJson(Map<String, dynamic> json) =>
@@ -134,6 +136,7 @@ class LoanApplicantListResult {
         nomineeMemberName: json["nominee_member_name"],
         coBorrowerMemberName: json["co_borrower_member_name"],
         workflowState: json["workflow_state"],
+        applicantImage: json["applicant_image"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -165,5 +168,6 @@ class LoanApplicantListResult {
         "nominee_member_name": nomineeMemberName,
         "co_borrower_member_name": coBorrowerMemberName,
         "workflow_state": workflowState,
+        "applicant_image": applicantImage,
       };
 }
