@@ -120,6 +120,7 @@ class ResetPasswordScreen extends StatelessWidget {
                                   controller: controller.ConfirmPassword.value,
                                   autovalidateMode:
                                       AutovalidateMode.onUserInteraction,
+                                  style: TextStyles.textfieldTextStyle,
                                   obscureText:
                                       controller.hideconfirmPassword.value,
                                   cursorColor: Colors.black,
