@@ -64,17 +64,28 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "Applicant")
-                                      .copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                hint: "Applicant",
+                              ).copyWith(
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -95,15 +106,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Against loan",
                               ).copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -125,15 +147,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                           hint: "Sanctioned Loan Amount")
                                       .copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -155,15 +188,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                           hint: "Current Disbursed Amount")
                                       .copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -186,15 +230,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Monthly Repayment Amount",
                               ).copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -207,9 +262,9 @@ class DetailsScreen extends StatelessWidget {
                                 );
 
                                 return TextFormField(
+                                  enabled: controller.isFormEdit.value,
                                   initialValue: formattedDate,
                                   cursorColor: AppColors.primary,
-                                  readOnly: true,
                                   validator: (value) =>
                                       requiredValidator(value!),
                                   autovalidateMode:
@@ -220,17 +275,28 @@ class DetailsScreen extends StatelessWidget {
                                     hint: "Disbursement Date",
                                     sufficIconOntap: null,
                                   ).copyWith(
-                                    filled: true,
-                                    fillColor: controller.isFormEdit.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200,
+                                    filled: false,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade400,
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: AppColors.primary,
+                                        width: 1.5,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -242,9 +308,9 @@ class DetailsScreen extends StatelessWidget {
                                     .loanDisbursement.value.repaymentStartDate);
 
                                 return TextFormField(
+                                  enabled: controller.isFormEdit.value,
                                   initialValue: formattedDate,
                                   cursorColor: AppColors.primary,
-                                  readOnly: true,
                                   validator: (value) =>
                                       requiredValidator(value!),
                                   autovalidateMode:
@@ -255,17 +321,28 @@ class DetailsScreen extends StatelessWidget {
                                     hint: "Repayment Start Date",
                                     sufficIconOntap: null,
                                   ).copyWith(
-                                    filled: true,
-                                    fillColor: controller.isFormEdit.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200,
+                                    filled: false,
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey.shade400,
+                                        width: 1.5,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: BorderSide(
+                                        color: AppColors.primary,
+                                        width: 1.5,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -286,15 +363,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                           hint: "Disbursed Amount")
                                       .copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             )
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -317,15 +405,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Principal Amount Paid",
                               ).copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -347,15 +446,26 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Days Past Due",
                               ).copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
                         ),
-                        C10(),
+                        C5(),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -377,10 +487,21 @@ class DetailsScreen extends StatelessWidget {
                                   TextFieldDecoration.textfieldDecoration(
                                 hint: "Status",
                               ).copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                                filled: false,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: Colors.grey.shade400,
+                                    width: 1.5,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: BorderSide(
+                                    color: AppColors.primary,
+                                    width: 1.5,
+                                  ),
+                                ),
                               ),
                             ),
                           ],

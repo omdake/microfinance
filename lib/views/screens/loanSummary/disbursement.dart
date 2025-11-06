@@ -41,8 +41,8 @@ class DisbursementScreen extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -247,31 +247,23 @@ class DisbursementScreen extends StatelessWidget {
               // List
               Expanded(
                 child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: Colors.black),
-                    );
-                  }
-
-                  if (controller.loanDisbursementList.isEmpty) {
-                    return const Center(child: Text("No members found"));
-                  }
-
-                  return LoadMoreListView(
-                    loadData: () => controller.getloadData(),
-                    loadMoreData: () => controller.getLoadMoreData(),
-                    children: controller.loanDisbursementList.map((user) {
-                      return InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () {
-                          Get.toNamed(Routes.loanDetailsScreen,
-                              arguments: user);
-                        },
-                        child: _buildDisbursementItem(user),
-                      );
-                    }).toList(),
-                  );
+                  return LoadMoreListView1(
+                      isLoading: controller.isLoading.value,
+                      loadData: () => controller.getloadData(),
+                      loadMoreData: () => controller.getLoadMoreData(),
+                      children: controller.loanDisbursementList.isNotEmpty
+                          ? controller.loanDisbursementList.map((user) {
+                              return InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  Get.toNamed(Routes.loanDetailsScreen,
+                                      arguments: user);
+                                },
+                                child: _buildDisbursementItem(user),
+                              );
+                            }).toList()
+                          : []);
                 }),
               ),
             ],

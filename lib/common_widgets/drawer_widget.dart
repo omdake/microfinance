@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/logic/controller/dashboard/dasboardController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -102,8 +101,8 @@ class CustomDrawer extends StatelessWidget {
                   drawerTile("Loan Summary",
                       () => Get.toNamed(Routes.loanSummaryScreen)),
                   listDivider(),
-                  drawerTile("Cash Collection",
-                      () => Get.toNamed(Routes.collectionInHand)),
+                  drawerTile("Group Creation",
+                      () => Get.toNamed(Routes.groupList)),
                 ],
               ),
             ),

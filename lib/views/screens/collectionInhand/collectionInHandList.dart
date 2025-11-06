@@ -42,8 +42,8 @@ class PendingRequest extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.all(14),
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -54,6 +54,7 @@ class PendingRequest extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     C2(),
@@ -284,11 +285,8 @@ class PendingRequest extends StatelessWidget {
               C25(),
               Expanded(
                 child: Obx(() {
-                  if (controller.collectionInHandList.isEmpty) {
-                    return const Center(child: Text("No records found"));
-                  }
-
-                  return LoadMoreListView(
+                  return LoadMoreListView1(
+                    isLoading: controller.isLoading.value,
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.collectionInHandList.map((user) {

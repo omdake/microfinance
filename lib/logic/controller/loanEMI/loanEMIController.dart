@@ -50,11 +50,12 @@ class LoanEMIController extends GetxController {
       selectedDate: selectedDate.value,
     );
   }
-RxString token = ''.obs;
+
+  RxString token = ''.obs;
   getLoanEMIList({
     String? selectedDate,
   }) async {
-     token.value = await AppPreferences.getToken() ?? '';
+    token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final url = AppEnvironment.baseUrl +
@@ -74,6 +75,7 @@ RxString token = ''.obs;
           "Authorization": token.value,
         },
       );
+      print(">>>>>>>>>>>>>>>${response.body}");
       if (response.statusCode == 200) {
         final Map<String, dynamic> data = jsonDecode(response.body);
         final messages = data['message'] as List<dynamic>;

@@ -60,7 +60,7 @@ class LoanApplicationScreen extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
                   child: Center(
                     child: Text(
-                      "APPLICANTS DETAILS",
+                      "APPLICANT DETAILS",
                       style: TextStyle(
                         fontSize: 12,
                         fontFamily: "Roboto-Regular",

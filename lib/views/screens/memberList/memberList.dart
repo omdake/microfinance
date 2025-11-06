@@ -16,130 +16,111 @@ class MemberListScreen extends StatelessWidget {
 
   Widget _buildMemberListItem(dynamic user) {
     String _getInitials(String? name) {
-      if (name == null || name.trim().isEmpty) {
-        return "?";
-      }
+      if (name == null || name.trim().isEmpty) return "?";
       final parts = name.trim().split(" ");
-      if (parts.length == 1) {
-        return parts[0][0].toUpperCase();
-      } else {
-        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-      }
+      if (parts.length == 1) return parts[0][0].toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade300),
       ),
-      child: IntrinsicHeight(
-        child: Row(
-          children: [
-            Expanded(
-              flex: 2,
-              child: Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: const Color(0xFFE6E6E6),
-                    width: 2,
-                  ),
-                ),
-                child: CircleAvatar(
-                  radius: 25,
-                  backgroundColor: const Color(0xFFD9D9D9),
-                  backgroundImage:
-                      user.memberImage != null && user.memberImage!.isNotEmpty
-                          ? NetworkImage(user.memberImage!)
-                          : null,
-                  child: (user.memberImage == null || user.memberImage!.isEmpty)
-                      ? Text(
-                          _getInitials(user.memberName),
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(2),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: const Color(0xFFE6E6E6),
+                width: 2,
+              ),
+            ),
+            child: CircleAvatar(
+              radius: 25,
+              backgroundColor: const Color(0xFFD9D9D9),
+              backgroundImage:
+                  user.memberImage != null && user.memberImage!.isNotEmpty
+                      ? NetworkImage(user.memberImage!)
                       : null,
-                ),
-              ),
+              child: (user.memberImage == null || user.memberImage!.isEmpty)
+                  ? Text(
+                      _getInitials(user.memberName),
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  : null,
             ),
-            C10(),
-            Expanded(
-              flex: 6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.memberName ?? "",
-                    style: const TextStyle(
-                      fontFamily: "Roboto-Medium",
-                      fontSize: 13,
-                      color: Color(0xFF33475B),
-                    ),
+          ),
+          C10(),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  user.memberName ?? "",
+                  style: const TextStyle(
+                    fontFamily: "Roboto-Medium",
+                    fontSize: 13,
+                    color: Color(0xFF33475B),
                   ),
-                  Text(
-                    user.memberId ?? "",
-                    style: const TextStyle(
-                      fontFamily: "Roboto-Regular",
-                      color: Color(0xFF667085),
-                      fontSize: 12,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 1,
-                  height: double.infinity,
-                  color: const Color(0xFFE6E6E6),
                 ),
-              ),
+                Text(
+                  user.memberId ?? "",
+                  style: const TextStyle(
+                    fontFamily: "Roboto-Regular",
+                    color: Color(0xFF667085),
+                    fontSize: 12,
+                  ),
+                ),
+              ],
             ),
-            //C10(),
-            Expanded(
-              flex: 3,
-              child: GestureDetector(
-                onTap: () async {
-                  Get.toNamed(
-                    Routes.memberCreation,
-                    arguments: {
-                      'name': user.name,
-                      'status': user.status,
-                      'isReadOnly': user.status == "Pending",
-                    },
-                  );
+          ),
+          Container(
+            width: 1,
+            height: 40,
+            color: const Color(0xFFE6E6E6),
+          ),
+          C10(),
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(
+                Routes.memberCreation,
+                arguments: {
+                  'name': user.name,
+                  'status': user.status,
+                  'isReadOnly': user.status == "Pending",
                 },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.primaryOrange,
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                  child: Text(
-                    "Action",
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 11,
-                      color: Colors.white,
-                      fontFamily: "Roboto-Medium",
-                    ),
-                  ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppColors.primaryOrange,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              alignment: Alignment.center,
+              child: const Text(
+                "Action",
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Colors.white,
+                  fontFamily: "Roboto-Medium",
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -160,57 +141,22 @@ class MemberListScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              Column(
-                children: [
-                  TextField(
-                    controller: controller.search.value,
-                    style: TextStyles.textfieldTextStyle,
-                    cursorColor: Colors.black,
-                    onChanged: (value) {
-                      if (value.length >= 3 || value.isEmpty) {
-                        controller.onSearchChanged(value);
-                      }
-                    },
-                    decoration: InputDecoration(
-                      hintText: "Search Members",
-                      hintStyle: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontFamily: "Roboto-Regular",
-                        fontSize: 14,
-                      ),
-                      suffixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade300,
-                          width: 2,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(
-                          color: Colors.grey.shade300,
-                          width: 1,
-                        ),
-                      ),
-                    ),
-                  ),
-                  C10(),
-                  Obx(() {
-                    if (!controller.isGroup.value)
-                      return const SizedBox.shrink();
-
-                    return DropdownButtonFormField2<GroupListMessage>(
+              Obx(() {
+                if (controller.isGroup.value) {
+                  return SizedBox(
+                    width: double.infinity,
+                    child: DropdownButtonFormField2<GroupListMessage>(
                         isExpanded: true,
                         decoration: TextFieldDecoration.textfieldDecoration(
                           sufficIconOntap: () {},
                           sufficIcon: null,
                           hint: '',
-                        ).copyWith(contentPadding: EdgeInsets.zero),
-                        dropdownStyleData: DropdownStyleData(maxHeight: 500),
+                        ).copyWith(
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        dropdownStyleData: DropdownStyleData(
+                          maxHeight: 500,
+                        ),
                         value: controller.selectedGroup.value.isEmpty
                             ? null
                             : controller.groupList.firstWhereOrNull(
@@ -221,15 +167,15 @@ class MemberListScreen extends StatelessWidget {
                             value: null,
                             child: Text("All Group"),
                           ),
-                          ...controller.groupList.map(
-                            (e) => DropdownMenuItem<GroupListMessage>(
+                          ...controller.groupList.map((e) {
+                            return DropdownMenuItem<GroupListMessage>(
                               value: e,
                               child: Text(
                                 e.groupName ?? "",
                                 overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ),
+                            );
+                          }).toList(),
                         ],
                         dropdownSearchData: DropdownSearchData(
                           searchController:
@@ -272,24 +218,57 @@ class MemberListScreen extends StatelessWidget {
                             controller.totalLoanMemberList(
                               Status: controller.status.value,
                               isGroup: controller.isGroup.value,
-                              group: controller.selectedGroup.value,
-                              search: controller.search.value.text,
                             );
                           } else {
                             controller.selectedGroup.value =
                                 newValue.name ?? "";
 
                             controller.totalLoanMemberList(
-                              Status: controller.status.value,
-                              isGroup: controller.isGroup.value,
-                              group: controller.selectedGroup.value,
-                              search: controller.search.value.text,
-                            );
+                                Status: controller.status.value,
+                                isGroup: controller.isGroup.value,
+                                group: controller.selectedGroup.value);
                           }
-                        });
-                  }),
-                ],
-              ),
+                        }),
+                  );
+                } else {
+                  return TextField(
+                    controller: controller.search.value,
+                    style: TextStyles.textfieldTextStyle,
+                    cursorColor: Colors.black,
+                    onChanged: (value) {
+                      if (value.length >= 3 || value.isEmpty) {
+                        controller.onSearchChanged(value);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Search Members",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontFamily: "Roboto-Regular",
+                        fontSize: 14,
+                      ),
+                      suffixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 2,
+                        ),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              }),
               C20(),
               Expanded(
                 child: Obx(() {
@@ -304,8 +283,8 @@ class MemberListScreen extends StatelessWidget {
                       ),
                     );
                   }
-
-                  return LoadMoreListView(
+                  return LoadMoreListView1(
+                    isLoading: controller.isLoading.value,
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.loanMemberList.isNotEmpty

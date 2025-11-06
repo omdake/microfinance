@@ -190,7 +190,9 @@ class LoanRepaymentController extends GetxController {
         "loan_adjustment": "",
         "mode_of_payment": selectedModeOfPayment.value,
         "loan_product": "",
-        "value_date": selectedValueDate.value,
+        "value_date": selectedValueDate.value.isNotEmpty
+            ? selectedValueDate.value
+            : valueDate.value.text,
         "amount_paid": amountPaid.value.text,
         "reference_number": utrNumber.value.text,
         "manual_remarks": remark.value.text,
@@ -207,6 +209,7 @@ class LoanRepaymentController extends GetxController {
           request.files.add(file);
         }
       }
+
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (response.statusCode == APIStatusCode.SUCCESS) {

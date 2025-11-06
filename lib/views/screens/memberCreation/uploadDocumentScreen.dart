@@ -129,7 +129,6 @@ class UploadDcumentSreen extends StatelessWidget {
                       ),
                       Obx(
                         () {
-                          // Hide the button if read-only
                           if (controller.isReadOnly.value)
                             return SizedBox.shrink();
 
@@ -156,16 +155,21 @@ class UploadDcumentSreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.primaryOrange,
-                                shape: BoxShape.circle,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: const Icon(
-                                  Icons.arrow_forward_ios,
-                                  color: Colors.white,
+                            child: IntrinsicWidth(
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: AppColors.primaryOrange,
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(8)), 
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 8),
+                                alignment: Alignment.center,
+                                child: const Text(
+                                  "Submit",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                             ),

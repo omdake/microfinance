@@ -423,12 +423,14 @@ class MemberCreationController extends GetxController {
         json = jsonDecode(response.body);
       } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        String msg = json['message']?['msg'];
-        CustomSnackBar.show(isIssue: false, message: msg);
+       // String msg = json['message']?['msg'];
+        //CustomSnackBar.show(isIssue: false, message: msg);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      } else {
-        String errorMsg = json['message']?['msg'];
+        //CustomSnackBar.show(isIssue: true, message: au);
+      } 
+      else {
+       String errorMsg = json['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: errorMsg);
       }
     } catch (e) {
@@ -617,13 +619,14 @@ class MemberCreationController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+        //var json = jsonDecode(response.body);
+        //CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
         //Get.toNamed(Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      } else {
+       } 
+      else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

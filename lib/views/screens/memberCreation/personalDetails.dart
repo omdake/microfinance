@@ -424,7 +424,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 isExpanded: true,
                                 value: isValidValue ? selectedValue : null,
                                 hint: const Text(
-                                  // 👈 Hint inside the field
                                   "Select Group",
                                   style: TextStyle(
                                     color: Colors.grey,
@@ -443,7 +442,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 }).toList(),
                                 style: TextStyles.textfieldTextStyle,
                                 decoration: InputDecoration(
-                                  // 👇 This makes sure the hint stays in the field
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 14),
                                   suffixIcon: (isEnabled &&
@@ -480,7 +478,9 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       width: 1.2,
                                     ),
                                   ),
-                                ),
+                                ).copyWith(
+                                            contentPadding: EdgeInsets.all(-5),
+                                          ),
                                 onChanged: isEnabled
                                     ? (value) {
                                         controller.selectedGroup.value =
