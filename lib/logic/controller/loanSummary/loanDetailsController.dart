@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/loan_disbursement.model.dart';
 import 'package:microfinance/models/loan_schedule.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
@@ -68,20 +69,21 @@ class LoanDetailsController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
-      final url = AppEnvironment.baseUrl +
-          AppURLs.getLoanPaymentSchedule(loanId: loanId);
+
+      final url = Uri.parse(AppEnvironment.baseUrl +
+          AppURLs.getLoanPaymentSchedule(loanId: loanId));
 
       final response = await http.get(
-        Uri.parse(url),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
-      print("....${response.body}");
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final messages = data['message'] as List<dynamic>;
+        //final Map<String, dynamic> data = jsonDecode(response.body);
+        final messages = responseBody['message'] as List<dynamic>;
 
         if (messages.isNotEmpty) {
           final repaymentList =
@@ -98,9 +100,28 @@ class LoanDetailsController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
-      print("**************$e");
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }

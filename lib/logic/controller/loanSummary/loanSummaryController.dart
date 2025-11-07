@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_disbursement.model.dart';
 import 'package:microfinance/models/loan_list.model.dart';
@@ -74,16 +75,19 @@ class LoanSummaryController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList);
+
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final List<dynamic> messages = data['message'];
+        final List<dynamic> messages = responseBody['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
@@ -93,8 +97,28 @@ class LoanSummaryController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -103,22 +127,23 @@ class LoanSummaryController extends GetxController {
   getLoanDisbursementList({String? loanGroup, int? page}) async {
     final token = await AppPreferences.getToken();
     try {
-      final url = AppEnvironment.baseUrl +
+      final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.getLoanDisbursementList(
               loanGroup: selecteddisbursementGroup.value,
               page: page,
               pagesize: 10,
-              isPagination: true);
+              isPagination: true));
+
       final response = await http.get(
-        Uri.parse(url),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final results = data['message']?['results'] as List<dynamic>;
+        final results = responseBody['message']?['results'] as List<dynamic>;
         final newItems =
             results.map((e) => LoanDisbursementResult.fromJson(e)).toList();
         if (page == 1) {
@@ -133,8 +158,28 @@ class LoanSummaryController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     }
   }
 
@@ -142,16 +187,19 @@ class LoanSummaryController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getLoanlist);
+
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getLoanlist),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final messages = data['message'] as List<dynamic>;
+        final messages = responseBody['message'] as List<dynamic>;
         loantList.value =
             messages.map((e) => LoanListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
@@ -161,8 +209,28 @@ class LoanSummaryController extends GetxController {
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
