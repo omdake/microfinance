@@ -90,7 +90,7 @@ class ScheduleScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const Text(
-                                " Amount",
+                                "Disbursed Amt",
                                 style: TextStyle(
                                     fontSize: 10, color: Color(0xFF050708)),
                               ),
@@ -103,7 +103,7 @@ class ScheduleScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               const Text(
-                                "Disburse Date",
+                                "Disbursed Date",
                                 style: TextStyle(
                                     fontSize: 10, color: Color(0xFF050708)),
                               ),
@@ -268,12 +268,12 @@ class ScheduleScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "Principle",
+                                    "Total Amt",
                                     style: TextStyle(
                                         fontSize: 10, color: Color(0xFF050708)),
                                   ),
                                   Text(
-                                    "₹ ${schedule.principalAmount?.toStringAsFixed(2) ?? '0.00'}",
+                                    "₹ ${schedule.totalPayment?.toStringAsFixed(2) ?? '0.00'}",
                                     style: const TextStyle(
                                       fontSize: 9,
                                       fontWeight: FontWeight.bold,

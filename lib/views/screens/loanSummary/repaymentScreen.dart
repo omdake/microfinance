@@ -37,20 +37,20 @@ class RepaymentScreen extends StatelessWidget {
 
   Widget _buildDisbursementItem(dynamic user) {
     String _getInitials(String? name) {
-    if (name == null || name.trim().isEmpty) {
-      return "?";
+      if (name == null || name.trim().isEmpty) {
+        return "?";
+      }
+      final parts = name.trim().split(" ");
+      if (parts.length == 1) {
+        return parts[0][0].toUpperCase();
+      } else {
+        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+      }
     }
-    final parts = name.trim().split(" ");
-    if (parts.length == 1) {
-      return parts[0][0].toUpperCase();
-    } else {
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
-  }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin: const EdgeInsets.only(bottom: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -104,16 +104,16 @@ class RepaymentScreen extends StatelessWidget {
                           text: " Name: ",
                           style: const TextStyle(
                             fontFamily: "Roboto-Regular",
-                            fontSize: 11,
+                            fontSize: 12,
                             color: Colors.black,
                           ),
                         ),
                         TextSpan(
                           text: "${user.applicantMemberName ?? ""}",
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
+                            fontSize: 12,
+                            color: Colors.grey.shade900,
                           ),
                         ),
                       ],
@@ -343,37 +343,29 @@ class RepaymentScreen extends StatelessWidget {
               // List
               Expanded(
                 child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: Colors.black),
-                    );
-                  }
-
-                  if (controller.repaymentList.isEmpty) {
-                    return const Center(child: Text("No members found"));
-                  }
-
-                  return LoadMoreListView(
-                    loadData: () => controller.getloadData(),
-                    loadMoreData: () => controller.getLoadMoreData(),
-                    children: controller.repaymentList.map((user) {
-                      return InkWell(
-                        splashColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () {
-                          final args = {
-                            "applicant": user,
-                            "isReadOnly": true,
-                          };
-                          Get.toNamed(
-                            Routes.loanRepaymentViewonly,
-                            arguments: args,
-                          );
-                        },
-                        child: _buildDisbursementItem(user),
-                      );
-                    }).toList(),
-                  );
+                  return LoadMoreListView1(
+                      isLoading: controller.isLoading.value,
+                      loadData: () => controller.getloadData(),
+                      loadMoreData: () => controller.getLoadMoreData(),
+                      children: controller.repaymentList.isNotEmpty
+                          ? controller.repaymentList.map((user) {
+                              return InkWell(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () {
+                                  final args = {
+                                    "applicant": user,
+                                    "isReadOnly": true,
+                                  };
+                                  Get.toNamed(
+                                    Routes.loanRepaymentViewonly,
+                                    arguments: args,
+                                  );
+                                },
+                                child: _buildDisbursementItem(user),
+                              );
+                            }).toList()
+                          : []);
                 }),
               ),
             ],

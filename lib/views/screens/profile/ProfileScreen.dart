@@ -88,7 +88,7 @@ class ProfileScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(16),
                     child: Center(
                       child: FractionallySizedBox(
-                        widthFactor: 0.4,
+                        widthFactor: 0.3,
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: Container(
@@ -121,11 +121,11 @@ class ProfileScreen extends StatelessWidget {
                                           strokeWidth: 2),
                                     ),
                                     errorWidget: (context, url, error) =>
-                                        const Icon(Icons.person, size: 40),
+                                        const Icon(Icons.person, size: 30),
                                   ),
                                 );
                               } else {
-                                return const Icon(Icons.person, size: 40);
+                                return const Icon(Icons.person, size: 30);
                               }
                             }),
                           ),

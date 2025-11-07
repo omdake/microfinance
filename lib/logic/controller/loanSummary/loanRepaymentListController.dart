@@ -73,7 +73,7 @@ class LoanSummaryListController extends GetxController {
   getRepaymentList({String? loanGroup, int? page}) async {
     final token = await AppPreferences.getToken();
     try {
-      //isLoading.value = true;
+      isLoading.value = true;
       final response = await http.get(
         Uri.parse(AppEnvironment.baseUrl +
             AppURLs.getLoanRepayments(
@@ -102,7 +102,7 @@ class LoanSummaryListController extends GetxController {
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
-      //isLoading.value = false;
+      isLoading.value = false;
     }
   }
 }

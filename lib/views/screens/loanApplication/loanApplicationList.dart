@@ -25,7 +25,8 @@ class LoanApplicationList extends StatelessWidget {
     );
     return format.format(amount ?? 0);
   }
- String _getInitials(String? name) {
+
+  String _getInitials(String? name) {
     if (name == null || name.trim().isEmpty) {
       return "?";
     }
@@ -36,6 +37,7 @@ class LoanApplicationList extends StatelessWidget {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
   }
+
   Color statusColor(String? status) {
     switch (status?.toLowerCase()) {
       case "approved":
@@ -58,7 +60,7 @@ class LoanApplicationList extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         margin: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -120,16 +122,17 @@ class LoanApplicationList extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 25,
                     backgroundColor: const Color(0xFFD9D9D9),
-                    backgroundImage:
-                        user.applicantImage != null && user.applicantImage!.isNotEmpty
-                            ? CachedNetworkImageProvider(
-                                user.applicantImage!.startsWith('http')
-                                    ? user.applicantImage!
-                                    : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}",
-                                headers: {'Authorization': token},
-                              )
-                            : null,
-                    child: (user.applicantImage == null || user.applicantImage!.isEmpty)
+                    backgroundImage: user.applicantImage != null &&
+                            user.applicantImage!.isNotEmpty
+                        ? CachedNetworkImageProvider(
+                            user.applicantImage!.startsWith('http')
+                                ? user.applicantImage!
+                                : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}",
+                            headers: {'Authorization': token},
+                          )
+                        : null,
+                    child: (user.applicantImage == null ||
+                            user.applicantImage!.isEmpty)
                         ? Text(
                             _getInitials(user.applicantName),
                             style: const TextStyle(
@@ -145,6 +148,7 @@ class LoanApplicationList extends StatelessWidget {
               C15(),
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -185,7 +189,8 @@ class LoanApplicationList extends StatelessWidget {
               ),
               C15(),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Loan Amount",
@@ -339,17 +344,8 @@ class LoanApplicationList extends StatelessWidget {
               C25(),
               Expanded(
                 child: Obx(() {
-                  if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(color: Colors.black),
-                    );
-                  }
-
-                  if (controller.loanApplicantList.isEmpty) {
-                    return const Center(child: Text("No members found"));
-                  }
-
-                  return LoadMoreListView(
+                  return LoadMoreListView1(
+                    isLoading: controller.isLoading.value,
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.loanApplicantList.map((user) {

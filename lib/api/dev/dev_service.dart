@@ -48,7 +48,7 @@ class AppAPIsCall {
   String path;
   DateTime dateTime;
   Map<String, dynamic> data;
-  Map<String, dynamic> response;
+  dynamic response;
 
   AppAPIsCall({
     required this.id,

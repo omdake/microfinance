@@ -121,8 +121,8 @@ class DashboardScreen extends StatelessWidget {
           ),
           C20(),
           memberStats(),
-          C20(),
-          dashboardMenu(),
+          // C20(),
+          // dashboardMenu(),
         ],
       ),
     );
@@ -415,27 +415,27 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget dashboardMenu() {
-    return Column(
-      children: [
-        menuButton("MEMBER CREATION", Icons.recent_actors_outlined,
-            Routes.memberCreation),
-        C10(),
-        menuButton(
-            "LOAN APPLICATION", Icons.assignment, Routes.loanApplicationList),
-        C10(),
-        menuButton("DUE EMI", Icons.today, Routes.loanEMIScreen),
-        C10(),
-        menuButton("PENDING EMI", Icons.access_time_outlined, Routes.dueEmi),
-        C10(),
-        menuButton(
-            "GROUP CREATION", Icons.group_add_outlined, Routes.groupList),
-        C10(),
-        menuButton(
-            "LOAN SUMMARY", Icons.summarize_outlined, Routes.loanSummaryScreen),
-      ],
-    );
-  }
+  // Widget dashboardMenu() {
+  //   return Column(
+  //     children: [
+  //       menuButton("MEMBER CREATION", Icons.recent_actors_outlined,
+  //           Routes.memberCreation),
+  //       C10(),
+  //       menuButton(
+  //           "LOAN APPLICATION", Icons.assignment, Routes.loanApplicationList),
+  //       C10(),
+  //       menuButton("DUE EMI", Icons.today, Routes.loanEMIScreen),
+  //       C10(),
+  //       menuButton("PENDING EMI", Icons.access_time_outlined, Routes.dueEmi),
+  //       C10(),
+  //       menuButton(
+  //           "GROUP CREATION", Icons.group_add_outlined, Routes.groupList),
+  //       C10(),
+  //       menuButton(
+  //           "LOAN SUMMARY", Icons.summarize_outlined, Routes.loanSummaryScreen),
+  //     ],
+  //   );
+  // }
 
   Widget menuButton(String title, IconData icon, String route) {
     return Material(

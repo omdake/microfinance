@@ -37,8 +37,8 @@ class GroupListScreen extends StatelessWidget {
       highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.all(14),
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -123,6 +123,7 @@ class GroupListScreen extends StatelessWidget {
               C15(),
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     RichText(
@@ -280,7 +281,8 @@ class GroupListScreen extends StatelessWidget {
                     );
                   }
 
-                  return LoadMoreListView(
+                  return LoadMoreListView1(
+                    isLoading: controller.isLoading.value,
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.groupList.map((user) {

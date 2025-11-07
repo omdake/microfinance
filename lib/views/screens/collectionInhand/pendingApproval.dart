@@ -42,8 +42,8 @@ class PendingApproval extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        padding: const EdgeInsets.all(14),
-        margin: const EdgeInsets.symmetric(vertical: 6),
+        padding: const EdgeInsets.all(6),
+        margin: const EdgeInsets.symmetric(vertical: 6,horizontal: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -54,6 +54,7 @@ class PendingApproval extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     C2(),
@@ -284,10 +285,8 @@ class PendingApproval extends StatelessWidget {
               C25(),
               Expanded(
                 child: Obx(() {
-                  if (controller.pendingApproval.isEmpty) {
-                    return const Center(child: Text("No records found"));
-                  }
-                  return LoadMoreListView(
+                  return LoadMoreListView1(
+                    isLoading: controller.isLoading.value,
                     loadData: () => controller.getloadData(),
                     loadMoreData: () => controller.getLoadMoreData(),
                     children: controller.pendingApproval.map((user) {

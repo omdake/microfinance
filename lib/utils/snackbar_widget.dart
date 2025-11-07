@@ -128,7 +128,7 @@ class CustomSnackBar {
       "",
       "",
       maxWidth: MediaQuery.of(Get.context!).size.width / 1.1,
-      backgroundColor: color ?? (isIssue ? AppColors.error : AppColors.green),
+      backgroundColor: color ?? (isIssue ? AppColors.error : AppColors.primaryOrange),
       colorText: Colors.white,
       snackPosition: SnackPosition.TOP,
       borderRadius: 27.0,
@@ -139,7 +139,7 @@ class CustomSnackBar {
       animationDuration: const Duration(milliseconds: 300),
       titleText: Text(
         message,
-        style: TextStyle(fontSize: 14, fontFamily: "Inter-Bold", color: AppColors.white),
+        style: TextStyle(fontSize: 14, fontFamily: "Roboto-Regular", color: AppColors.white),
       ),
       messageText: SizedBox.shrink(),
       // messageText: Row(
