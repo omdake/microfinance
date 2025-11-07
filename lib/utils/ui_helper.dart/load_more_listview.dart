@@ -166,7 +166,7 @@ class LoadMoreListView1 extends StatelessWidget {
               !isLoadingMore &&
               scrollInfo.metrics.pixels >=
                   scrollInfo.metrics.maxScrollExtent - 100) {
-            loadMoreData?.call();
+            Future.microtask(() => loadMoreData!());
           }
           return false;
         },
@@ -213,6 +213,5 @@ class LoadMoreListView1 extends StatelessWidget {
 //     ),
 //   ),
 // );
-
   }
 }

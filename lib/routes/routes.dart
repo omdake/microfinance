@@ -1,3 +1,4 @@
+import 'package:microfinance/dev/dev_screen.dart';
 import 'package:microfinance/logic/bindings/dashboard_binding.dart';
 import 'package:microfinance/logic/bindings/loanApplication_binding.dart';
 import 'package:microfinance/logic/bindings/loan_details_binding.dart';
@@ -57,6 +58,7 @@ class AppRoutes {
       binding: DashboardBindings(),
       page: () => DashboardScreen(),
     ),
+     GetPage(name: Routes.devScreen, page: () => DevScreen()),
     GetPage(
       name: Routes.memberList,
       binding: MemberListBindings(),

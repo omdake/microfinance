@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/logic/controller/dashboard/dasboardController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -114,16 +115,30 @@ class CustomDrawer extends StatelessWidget {
                   footerText("TERMS AND CONDITION", () {}),
                   footerDivider(),
                   footerText("PRIVACY POLICY", () {}),
-                  C25(),
-                  Obx(() => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text(
-                          "${controller.appName.value} v${controller.version.value}",
-                          style: const TextStyle(
-                              fontSize: 10, color: Color(0xFF5D6675)),
+                  C15(),
+                  Obx(() {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: InkWell(
+                        onTap: () {
+                          DevService.instance.openDevScreen(context);
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "${controller.appName.value} v${controller.version.value} (${controller.buildNumber.value})",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.primary,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      )),
-                  C20(),
+                      ),
+                    );
+                  })
                 ],
               ),
             )
