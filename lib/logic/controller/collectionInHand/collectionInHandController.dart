@@ -10,6 +10,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/models/employee.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
@@ -113,24 +114,24 @@ class CollectionInHandController extends GetxController {
   saveCollectionInHand() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
+    final uri =
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand);
+    final Map<String, dynamic> requestData = {
+      "employee": employee.value.text,
+      "given_to": selectedGivenTo.value,
+      "amount": amount.value.text,
+      "posting_date": postingDate.value.text,
+    };
+    if (selectedGivenTo.value == "Employee") {
+      requestData["amount_given_emp"] = selectedamountGivenTo.value;
+    } else if (selectedGivenTo.value == "Bank") {
+      requestData["description"] = bankAmount.value.text;
+    }
     try {
-      var uri =
-          Uri.parse(AppEnvironment.baseUrl + AppURLs.saveCollectionInHand);
       var request = http.MultipartRequest('POST', uri);
-
       request.headers['Authorization'] = token!;
-
-      request.fields.addAll({
-        "employee": employee.value.text,
-        "given_to": selectedGivenTo.value,
-        "amount": amount.value.text,
-        "posting_date": postingDate.value.text,
-      });
-      if (selectedGivenTo.value == "Employee") {
-        request.fields["amount_given_emp"] = selectedamountGivenTo.value;
-      } else if (selectedGivenTo.value == "Bank") {
-        request.fields["description"] = bankAmount.value.text;
-      }
+      request.fields
+          .addAll(requestData.map((k, v) => MapEntry(k, v.toString())));
 
       Map<String, Rx<File?>> imageFields = {
         'payment_proof': paymentProofImage,
@@ -139,9 +140,7 @@ class CollectionInHandController extends GetxController {
       for (var entry in imageFields.entries) {
         if (entry.value.value != null) {
           var file = await http.MultipartFile.fromPath(
-            entry.key,
-            entry.value.value!.path,
-          );
+              entry.key, entry.value.value!.path);
           request.files.add(file);
         }
       }
@@ -149,19 +148,42 @@ class CollectionInHandController extends GetxController {
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
 
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        var json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
-        //Get.until((route) => Get.currentRoute == Routes.collectionInHand);
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]["msg"]);
+        // Optionally navigate: Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+        final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -196,16 +218,18 @@ class CollectionInHandController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getemployeeList);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getemployeeList),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final messages = data['message'] as List<dynamic>;
+        final messages = responseBody['message'] as List<dynamic>;
         employeeList.value = messages.map((e) => Employee.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -214,8 +238,28 @@ class CollectionInHandController extends GetxController {
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -224,29 +268,57 @@ class CollectionInHandController extends GetxController {
   approve() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte);
+    final Map<String, dynamic> requestBody = {
+      "name": name.value.text,
+      "status": "Approved",
+    };
     try {
-      final requestBody = {"name": name.value.text, "status": "Approved"};
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte),
+        uri,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
         body: jsonEncode(requestBody),
       );
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
         status.value = "Approved";
-        CustomSnackBar.show(isIssue: false, message: json["message"]);
+        CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
         Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        var json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: true, message: json["message"]["msg"]);
+        final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
+        CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -255,31 +327,58 @@ class CollectionInHandController extends GetxController {
   rejecte() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
+
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte);
+    final Map<String, dynamic> requestBody = {
+      "name": name.value.text,
+      "status": "Rejected",
+    };
     try {
-      final requestBody = {"name": name.value.text, "status": "Rejected"};
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.approveRejecte),
+        uri,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
         body: jsonEncode(requestBody),
       );
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
 
       if (response.statusCode == 200) {
-        var json = jsonDecode(response.body);
         status.value = "Rejected";
-        CustomSnackBar.show(isIssue: false, message: json["message"]);
+        CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
         Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+        final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/loan_member.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -73,16 +74,17 @@ class DashboardController extends GetxController {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
     try {
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.loanMemberCount);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.loanMemberCount),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = Message.fromJson(data['message']);
+        final message = Message.fromJson(responseBody['message']);
 
         totalMembers.value = message.loanMembers ?? 0;
         verifiedMembers.value = message.verifiedCount ?? 0;
@@ -97,9 +99,28 @@ class DashboardController extends GetxController {
           await oauthService.handleExceptionLogout('AuthenticationError');
         }
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
-      print("Error: $e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -109,16 +130,17 @@ class DashboardController extends GetxController {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
     try {
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.totalLoanCount);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.totalLoanCount),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = TotalLoanCountMessage.fromJson(data['message']);
+        final message = TotalLoanCountMessage.fromJson(responseBody['message']);
 
         todaysCollection.value = message.todaysCollection ?? 0;
         dueReport.value = (message.remainingAmount ?? 0.0).toInt();
@@ -132,8 +154,28 @@ class DashboardController extends GetxController {
           await oauthService.handleExceptionLogout('AuthenticationError');
         }
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
