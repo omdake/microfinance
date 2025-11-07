@@ -56,6 +56,9 @@ class LoginController extends GetxController {
         final empId = data["message"]["user"]["emp_details"]["employee"] ?? '';
         final empName =
             data["message"]["user"]["emp_details"]["employee_name"] ?? '';
+        final memberImage =
+            data["message"]["user"]["emp_details"]["image"] ?? '';
+        await AppPreferences.setMemberImage(memberImage);
         final token = "token $apiKey:$apiSecret";
         await AppPreferences.setToken(token);
         await AppPreferences.setName(name);

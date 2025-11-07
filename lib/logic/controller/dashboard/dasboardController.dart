@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -27,8 +28,9 @@ class DashboardController extends GetxController {
   RxInt dueReport = 0.obs;
   RxInt assignedGroup = 0.obs;
   RxDouble collectionByCash = 0.0.obs;
-
+  RxString memberImageUrl = ''.obs;
   RxString fullName = "".obs;
+  RxString token = "".obs;
   RxString email = "".obs;
   RxBool isLoader = true.obs;
   RxString appName = ''.obs;
@@ -37,6 +39,7 @@ class DashboardController extends GetxController {
   RxString packageName = ''.obs;
   RxInt currentIndex = 0.obs;
   RxInt selectedIndex = 0.obs;
+  Rx<File?> memberImage = Rx<File?>(null);
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
@@ -53,8 +56,21 @@ class DashboardController extends GetxController {
   void loadFullName() async {
     final name = await AppPreferences.getName();
     final emailId = await AppPreferences.getEmailId();
+
     fullName.value = name ?? "-";
     email.value = emailId ?? "-";
+
+    // Correctly get the image path
+    String? imagePath = await AppPreferences
+        .getMemberImage(); // should return "/private/files/myocircle_logo.png"
+    if (imagePath != null && imagePath.isNotEmpty) {
+      // Proper URL
+      memberImageUrl.value = "${AppEnvironment.baseUrl}$imagePath";
+    } else {
+      memberImageUrl.value = '';
+    }
+
+    print("Member Image URL: ${memberImageUrl.value}");
   }
 
   Future<void> getAppInfo() async {

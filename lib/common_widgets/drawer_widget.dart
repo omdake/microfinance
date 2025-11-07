@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/api/dev/dev_service.dart';
@@ -29,28 +30,80 @@ class CustomDrawer extends StatelessWidget {
   }
 
   Widget drawerHeader(DashboardController controller) {
+    String initials = getInitials(controller.fullName.value);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(2),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: AppColors.primaryRed,
-                width: 2,
+          Obx(() {
+            final imageFile = controller.memberImage.value;
+            final imageUrl = controller.memberImageUrl.value;
+
+            Widget avatarChild;
+
+            if (imageFile != null) {
+              avatarChild = CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.grey.shade300,
+                backgroundImage: FileImage(imageFile),
+              );
+            } else if (imageUrl.isNotEmpty) {
+              avatarChild = CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.grey.shade300,
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    httpHeaders: {'Authorization': controller.token.value},
+                    fit: BoxFit.contain,
+                    placeholder: (context, url) => Center(
+                      child: Text(
+                        initials,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    errorWidget: (context, url, error) => Center(
+                      child: Text(
+                        initials,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              avatarChild = CircleAvatar(
+                radius: 30,
+                backgroundColor: Colors.grey.shade300,
+                child: Text(
+                  initials,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              );
+            }
+
+            return Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColors.primaryOrange, width: 2),
               ),
-            ),
-            child: const CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.white,
-              child: Text(
-                "Hi",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.all(4),
+              child: avatarChild,
+            );
+          }),
           C15(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,13 +119,23 @@ class CustomDrawer extends StatelessWidget {
               C5(),
               Text(
                 controller.email.value,
-                style: const TextStyle(color: Color(0xFFE3F1E3), fontSize: 14),
+                style: const TextStyle(
+                  color: Color(0xFFE3F1E3),
+                  fontSize: 14,
+                ),
               ),
             ],
           ),
         ],
       ),
     );
+  }
+
+  String getInitials(String name) {
+    if (name.trim().isEmpty) return "?";
+    List<String> parts = name.trim().split(" ");
+    if (parts.length == 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[1][0]).toUpperCase();
   }
 
   Widget drawerBody(BuildContext context, DashboardController controller) {
@@ -102,8 +165,8 @@ class CustomDrawer extends StatelessWidget {
                   drawerTile("Loan Summary",
                       () => Get.toNamed(Routes.loanSummaryScreen)),
                   listDivider(),
-                  drawerTile("Group Creation",
-                      () => Get.toNamed(Routes.groupList)),
+                  drawerTile(
+                      "Group Creation", () => Get.toNamed(Routes.groupList)),
                 ],
               ),
             ),
