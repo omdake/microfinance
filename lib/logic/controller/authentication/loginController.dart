@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/utils/extension/extension/string_extensions.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
@@ -39,14 +40,20 @@ class LoginController extends GetxController {
       return;
     }
     isLoading.value = true;
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.login);
+    final Map<String, dynamic> requestData = {
+      "username": username.text,
+      "password": password.text,
+    };
     try {
-      http.Response response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.login),
-        body: {
-          "username": username.text,
-          "password": password.text,
-        },
+      final response = await http.post(
+        uri,
+        body: requestData,
       );
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Map<String, dynamic> data = jsonDecode(response.body);
         final apiKey = data["message"]["token"]["api_key"];
@@ -59,20 +66,42 @@ class LoginController extends GetxController {
         final memberImage =
             data["message"]["user"]["emp_details"]["image"] ?? '';
         await AppPreferences.setMemberImage(memberImage);
+      
         final token = "token $apiKey:$apiSecret";
+
         await AppPreferences.setToken(token);
         await AppPreferences.setName(name);
         await AppPreferences.setEmailId(emailId);
         await AppPreferences.setEmpName(empName);
         await AppPreferences.setEmpId(empId);
+
         await Get.offAllNamed(Routes.homeScreen);
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+        final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -80,31 +109,59 @@ class LoginController extends GetxController {
 
   sendOTP() async {
     isLoading.value = true;
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.forgotPasswordOtp);
+    final Map<String, dynamic> requestBody = {
+      "email": email.value.text,
+    };
+
+    if (requestBody["email"] == null || requestBody["email"]!.isEmpty) {
+      CustomSnackBar.show(isIssue: true, message: "Please enter email");
+      return;
+    }
+
     try {
-      final requestBody = {
-        "email": email.value.text,
-      };
-      if (requestBody["email"] == null || requestBody["email"]!.isEmpty) {
-        CustomSnackBar.show(isIssue: true, message: "Please enter email");
-        return;
-      }
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.forgotPasswordOtp),
+        uri,
         body: jsonEncode(requestBody),
         headers: {"Content-Type": "application/json"},
       );
+
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: data["message"]?["msg"]);
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]?["msg"]);
         verifyEmail.value = email.value.text;
         showOtpSection.value = true;
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']?['msg'] ?? "Something went wrong";
+        final msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -112,20 +169,27 @@ class LoginController extends GetxController {
 
   VerifyOTP() async {
     isLoading.value = true;
-    try {
-      final requestBody = {
-        "email": verifyEmail.value.toString(),
-        "otp": otp.value.text.toINT,
-      };
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.verifyOtp);
+    final Map<String, dynamic> requestBody = {
+      "email": verifyEmail.value.toString(),
+      "otp": otp.value.text.toINT,
+    };
 
+    try {
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.verifyOtp),
+        uri,
         body: jsonEncode(requestBody),
         headers: {"Content-Type": "application/json"},
       );
+
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: data["message"]?["msg"]);
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]?["msg"]);
         resetpasswordotp.value = otp.value.text.toINT;
 
         Get.toNamed(
@@ -136,12 +200,31 @@ class LoginController extends GetxController {
           },
         );
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']?['msg'] ?? "Something went wrong";
+        final msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -161,29 +244,58 @@ class LoginController extends GetxController {
       isLoading.value = false;
       return;
     }
+    final uri =
+        Uri.parse(AppEnvironment.baseUrl + AppURLs.resetPasswordWithOtp);
+    final Map<String, dynamic> requestBody = {
+      "email": verifyEmail.value,
+      "otp": resetpasswordotp.value,
+      "new_password": newPassword.value.text,
+      "confirm_password": ConfirmPassword.value.text,
+    };
+
     try {
-      final requestBody = {
-        "email": verifyEmail.value,
-        "otp": resetpasswordotp.value,
-        "new_password": newPassword.value.text,
-        "confirm_password": ConfirmPassword.value.text,
-      };
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.resetPasswordWithOtp),
+        uri,
         body: jsonEncode(requestBody),
         headers: {"Content-Type": "application/json"},
       );
+
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        Map<String, dynamic> data = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: data["message"]?["msg"]);
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]?["msg"]);
         Get.toNamed(Routes.loginScreen);
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+        final msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
