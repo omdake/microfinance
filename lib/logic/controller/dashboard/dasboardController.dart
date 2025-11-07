@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -28,8 +29,9 @@ class DashboardController extends GetxController {
   RxInt dueReport = 0.obs;
   RxInt assignedGroup = 0.obs;
   RxDouble collectionByCash = 0.0.obs;
-
+  RxString memberImageUrl = ''.obs;
   RxString fullName = "".obs;
+  RxString token = "".obs;
   RxString email = "".obs;
   RxBool isLoader = true.obs;
   RxString appName = ''.obs;
@@ -38,6 +40,7 @@ class DashboardController extends GetxController {
   RxString packageName = ''.obs;
   RxInt currentIndex = 0.obs;
   RxInt selectedIndex = 0.obs;
+  Rx<File?> memberImage = Rx<File?>(null);
   void changeIndex(int index) {
     selectedIndex.value = index;
   }
@@ -56,6 +59,12 @@ class DashboardController extends GetxController {
     final emailId = await AppPreferences.getEmailId();
     fullName.value = name ?? "-";
     email.value = emailId ?? "-";
+    String? imagePath = await AppPreferences.getMemberImage(); 
+    if (imagePath != null && imagePath.isNotEmpty) {
+      memberImageUrl.value = "${AppEnvironment.baseUrl}$imagePath";
+    } else {
+      memberImageUrl.value = '';
+    }
   }
 
   Future<void> getAppInfo() async {
@@ -181,3 +190,4 @@ class DashboardController extends GetxController {
     }
   }
 }
+

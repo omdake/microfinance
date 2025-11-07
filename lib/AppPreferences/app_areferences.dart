@@ -6,12 +6,13 @@ class AppPreferences {
   static const String zipCode = 'zipCode';
   static const String name = 'Name';
   static const String empname = 'EmpName';
+  static const String memberImage = 'MemberImage';
   static const String empId = 'EmpID';
   static const String emailId = 'EmailID';
   static const String stripClientId = "StripeClientID";
   static const String referralCode = "ReferralCode";
   static const String locaData = "locaData";
-  
+
   static const _tokenKey = 'token';
 
   static Future<void> setToken(String token) async {
@@ -38,13 +39,11 @@ class AppPreferences {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(clientID, ClientID);
   }
-  
 
   static Future<String?> getClientID() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("clientID");
   }
-
 
   //  locat Storage
   static Future<void> setLocalStorage(List<dynamic> list) async {
@@ -57,11 +56,10 @@ class AppPreferences {
     return prefs.getString("locaData");
   }
 
-    static Future<void> removeLocalStorage() async {
+  static Future<void> removeLocalStorage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-     prefs.remove("locaData");
-  } 
-
+    prefs.remove("locaData");
+  }
 
   static Future<void> setZipCode(String ZipCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -83,7 +81,16 @@ class AppPreferences {
     prefs.setString(empname, EmpName);
   }
 
-  
+  static Future<void> setMemberImage(String MemberImage) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(memberImage, MemberImage);
+  }
+
+  static Future<String?> getMemberImage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(memberImage) ?? "";
+  }
+
   static Future<void> setEmpId(String EmpId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(empId, EmpId);
@@ -114,7 +121,7 @@ class AppPreferences {
     return prefs.getString(name) ?? "";
   }
 
-   static Future<String?> getEmpName() async {
+  static Future<String?> getEmpName() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(empname) ?? "";
   }

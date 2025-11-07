@@ -55,15 +55,18 @@ class LoginController extends GetxController {
         responseBody = jsonDecode(response.body);
       } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        final apiKey = responseBody["message"]["token"]["api_key"];
-        final apiSecret = responseBody["message"]["token"]["api_secret"];
-        final name = responseBody["message"]["user"]["full_name"] ?? '';
-        final emailId = responseBody["message"]["user"]["email"] ?? '';
-        final empId =
-            responseBody["message"]["user"]["emp_details"]["employee"] ?? '';
-        final empName = responseBody["message"]["user"]["emp_details"]
-                ["employee_name"] ??
-            '';
+        Map<String, dynamic> data = jsonDecode(response.body);
+        final apiKey = data["message"]["token"]["api_key"];
+        final apiSecret = data["message"]["token"]["api_secret"];
+        final name = data["message"]["user"]["full_name"] ?? '';
+        final emailId = data["message"]["user"]["email"] ?? '';
+        final empId = data["message"]["user"]["emp_details"]["employee"] ?? '';
+        final empName =
+            data["message"]["user"]["emp_details"]["employee_name"] ?? '';
+        final memberImage =
+            data["message"]["user"]["emp_details"]["image"] ?? '';
+        await AppPreferences.setMemberImage(memberImage);
+      
         final token = "token $apiKey:$apiSecret";
 
         await AppPreferences.setToken(token);
