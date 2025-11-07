@@ -57,21 +57,14 @@ class DashboardController extends GetxController {
   void loadFullName() async {
     final name = await AppPreferences.getName();
     final emailId = await AppPreferences.getEmailId();
-
     fullName.value = name ?? "-";
     email.value = emailId ?? "-";
-
-    // Correctly get the image path
-    String? imagePath = await AppPreferences
-        .getMemberImage(); // should return "/private/files/myocircle_logo.png"
+    String? imagePath = await AppPreferences.getMemberImage(); 
     if (imagePath != null && imagePath.isNotEmpty) {
-      // Proper URL
       memberImageUrl.value = "${AppEnvironment.baseUrl}$imagePath";
     } else {
       memberImageUrl.value = '';
     }
-
-    print("Member Image URL: ${memberImageUrl.value}");
   }
 
   Future<void> getAppInfo() async {
@@ -197,3 +190,4 @@ class DashboardController extends GetxController {
     }
   }
 }
+
