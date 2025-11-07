@@ -141,97 +141,9 @@ class MemberListScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              Obx(() {
-                if (controller.isGroup.value) {
-                  return SizedBox(
-                    width: double.infinity,
-                    child: DropdownButtonFormField2<GroupListMessage>(
-                        isExpanded: true,
-                        decoration: TextFieldDecoration.textfieldDecoration(
-                          sufficIconOntap: () {},
-                          sufficIcon: null,
-                          hint: '',
-                        ).copyWith(
-                          contentPadding: EdgeInsets.zero,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: 500,
-                        ),
-                        value: controller.selectedGroup.value.isEmpty
-                            ? null
-                            : controller.groupList.firstWhereOrNull(
-                                (g) => g.name == controller.selectedGroup.value,
-                              ),
-                        items: [
-                          const DropdownMenuItem<GroupListMessage>(
-                            value: null,
-                            child: Text("All Group"),
-                          ),
-                          ...controller.groupList.map((e) {
-                            return DropdownMenuItem<GroupListMessage>(
-                              value: e,
-                              child: Text(
-                                e.groupName ?? "",
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            );
-                          }).toList(),
-                        ],
-                        dropdownSearchData: DropdownSearchData(
-                          searchController:
-                              controller.groupSearchController.value,
-                          searchInnerWidgetHeight: 50,
-                          searchInnerWidget: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: TextFormField(
-                              cursorColor: Colors.black,
-                              style: TextStyles.textfieldTextStyle,
-                              controller:
-                                  controller.groupSearchController.value,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                sufficIconOntap: () {},
-                                sufficIcon: Icons.search,
-                                hint: 'Search group...',
-                              ),
-                            ),
-                          ),
-                          searchMatchFn: (item, searchValue) {
-                            if (searchValue.trim().length < 3) return true;
-                            return (item.child is Text &&
-                                (item.child as Text)
-                                    .data!
-                                    .toLowerCase()
-                                    .contains(searchValue.toLowerCase()));
-                          },
-                        ),
-                        onMenuStateChange: (isOpen) {
-                          if (!isOpen)
-                            controller.groupSearchController.value.clear();
-                        },
-                        onChanged: (newValue) {
-                          controller.page.value = 1;
-
-                          if (newValue == null) {
-                            controller.selectedGroup.value = "";
-
-                            controller.totalLoanMemberList(
-                              Status: controller.status.value,
-                              isGroup: controller.isGroup.value,
-                            );
-                          } else {
-                            controller.selectedGroup.value =
-                                newValue.name ?? "";
-
-                            controller.totalLoanMemberList(
-                                Status: controller.status.value,
-                                isGroup: controller.isGroup.value,
-                                group: controller.selectedGroup.value);
-                          }
-                        }),
-                  );
-                } else {
-                  return TextField(
+              Column(
+                children: [
+                  TextField(
                     controller: controller.search.value,
                     style: TextStyles.textfieldTextStyle,
                     cursorColor: Colors.black,
@@ -266,9 +178,108 @@ class MemberListScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                  );
-                }
-              }),
+                  ),
+                  C10(),
+                  Obx(() {
+                    if (controller.isGroup.value) {
+                      return SizedBox(
+                        width: double.infinity,
+                        child: DropdownButtonFormField2<GroupListMessage>(
+                            isExpanded: true,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              sufficIconOntap: () {},
+                              sufficIcon: null,
+                              hint: '',
+                            ).copyWith(
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                            dropdownStyleData: DropdownStyleData(
+                              maxHeight: 500,
+                            ),
+                            value: controller.selectedGroup.value.isEmpty
+                                ? null
+                                : controller.groupList.firstWhereOrNull(
+                                    (g) =>
+                                        g.name ==
+                                        controller.selectedGroup.value,
+                                  ),
+                            items: [
+                              const DropdownMenuItem<GroupListMessage>(
+                                value: null,
+                                child: Text("All Group"),
+                              ),
+                              ...controller.groupList.map((e) {
+                                return DropdownMenuItem<GroupListMessage>(
+                                  value: e,
+                                  child: Text(
+                                    e.groupName ?? "",
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                );
+                              }).toList(),
+                            ],
+                            dropdownSearchData: DropdownSearchData(
+                              searchController:
+                                  controller.groupSearchController.value,
+                              searchInnerWidgetHeight: 50,
+                              searchInnerWidget: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: TextFormField(
+                                  cursorColor: Colors.black,
+                                  style: TextStyles.textfieldTextStyle,
+                                  controller:
+                                      controller.groupSearchController.value,
+                                  decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                    sufficIconOntap: () {},
+                                    sufficIcon: Icons.search,
+                                    hint: 'Search group...',
+                                  ),
+                                ),
+                              ),
+                              searchMatchFn: (item, searchValue) {
+                                if (searchValue.trim().length < 3) return true;
+                                return (item.child is Text &&
+                                    (item.child as Text)
+                                        .data!
+                                        .toLowerCase()
+                                        .contains(searchValue.toLowerCase()));
+                              },
+                            ),
+                            onMenuStateChange: (isOpen) {
+                              if (!isOpen)
+                                controller.groupSearchController.value.clear();
+                            },
+                            onChanged: (newValue) {
+                              controller.page.value = 1;
+
+                              if (newValue == null) {
+                                controller.selectedGroup.value = "All Group";
+
+                                controller.totalLoanMemberList(
+                                  Status: controller.status.value,
+                                  isGroup: controller.isGroup.value,
+                                  group: controller.selectedGroup.value,
+                                  search: controller.search.value.text,
+                                );
+                              } else {
+                                controller.selectedGroup.value =
+                                    newValue.name ?? "";
+
+                                controller.totalLoanMemberList(
+                                    Status: controller.status.value,
+                                    isGroup: controller.isGroup.value,
+                                    group: controller.selectedGroup.value,
+                                    search: controller.search.value.text);
+                              }
+                            }),
+                      );
+                    } else {
+                      return const SizedBox.shrink();
+                    }
+                  }),
+                ],
+              ),
               C20(),
               Expanded(
                 child: Obx(() {

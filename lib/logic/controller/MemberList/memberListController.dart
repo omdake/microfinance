@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
@@ -89,16 +90,18 @@ class MemberListController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final List<dynamic> messages = data['message'];
+        final List<dynamic> messages = responseBody['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
@@ -108,8 +111,28 @@ class MemberListController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -156,24 +179,25 @@ class MemberListController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl +
+          AppURLs.unGroupedloanMemberList(
+              search: search,
+              country: "india",
+              isPagination: true,
+              page: page.value,
+              pagesize: 10,
+              isGroup: isGroup));
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.unGroupedloanMemberList(
-                search: search,
-                country: "india",
-                isPagination: true,
-                page: page.value,
-                pagesize: 10,
-                isGroup: isGroup)),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
-
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = data['message'];
+        final message = responseBody['message'];
         final results = message['results'] as List<dynamic>;
         final members =
             results.map((e) => LoanMemberListResult.fromJson(e)).toList();
@@ -194,8 +218,28 @@ class MemberListController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -205,31 +249,29 @@ class MemberListController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+      final url = Uri.parse(AppEnvironment.baseUrl +
+          AppURLs.loanMemberList(
+            country: "india",
+            group: selectedGroup.value,
+            search: "",
+            Status: Status ?? "",
+            isPagination: true,
+            page: page.value,
+            pagesize: 10,
+          ));
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.loanMemberList(
-              country: "india",
-              group: selectedGroup.value,
-              search: "",
-              Status: Status ?? "",
-              isPagination: true,
-              page: page.value,
-              pagesize: 10,
-            )),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = data['message'];
-
+        final message = responseBody['message'];
         final results = message['results'] as List<dynamic>;
-
         final members =
             results.map((e) => LoanMemberListResult.fromJson(e)).toList();
-
         if (page.value == 1) {
           loanMemberList.value = members;
         } else {
@@ -243,8 +285,28 @@ class MemberListController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -255,26 +317,27 @@ class MemberListController extends GetxController {
     token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl +
+          AppURLs.totalLoanMemberList(
+              country: "india",
+              group: selectedGroup.value,
+              search: search,
+              Status: Status ?? "",
+              isPagination: true,
+              page: page.value,
+              pagesize: 10,
+              isGroup: isGroup));
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.totalLoanMemberList(
-                country: "india",
-                group: selectedGroup.value,
-                search: search,
-                Status: Status ?? "",
-                isPagination: true,
-                page: page.value,
-                pagesize: 10,
-                isGroup: isGroup)),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token.value,
         },
       );
-
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = data['message'];
+        final message = responseBody['message'];
 
         final results = message['results'] as List<dynamic>;
 
@@ -294,8 +357,28 @@ class MemberListController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }

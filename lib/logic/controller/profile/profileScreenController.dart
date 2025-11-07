@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/user_profile.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
@@ -42,17 +43,19 @@ class ProfileScreenController extends GetxController {
     token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
+
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getUserProfile);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getUserProfile),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token.value,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final employeeData = data['message']['employee'];
-        final userData = data['message']['user'];
+        final employeeData = responseBody['message']['employee'];
+        final userData = responseBody['message']['user'];
         empName.value.text = employeeData['employee_name'] ?? '';
         gender.value.text = employeeData['gender'] ?? '';
         dob.value.text = employeeData['date_of_birth'] ?? '';
@@ -73,13 +76,33 @@ class ProfileScreenController extends GetxController {
         }
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      }else {
+      } else {
         final err = jsonDecode(response.body);
         String msg = err['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }

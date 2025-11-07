@@ -11,6 +11,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/models/occupation_list.model.dart';
@@ -192,16 +193,18 @@ class MemberCreationController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.groupList),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final List<dynamic> messages = data['message'];
+        final List<dynamic> messages = responseBody['message'];
         groupList.value =
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
@@ -211,7 +214,27 @@ class MemberCreationController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;
@@ -223,16 +246,18 @@ class MemberCreationController extends GetxController {
     try {
       isLoading.value = true;
 
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getOccupation);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getOccupation),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final message = data['message'];
+        final message = responseBody['message'];
 
         final List<dynamic> results = message['results'] ?? [];
 
@@ -245,7 +270,27 @@ class MemberCreationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
       CustomSnackBar.show(isIssue: true, message: "$e");
     } finally {
       isLoading.value = false;
@@ -264,84 +309,118 @@ class MemberCreationController extends GetxController {
   saveLoanMember() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveLoanMember);
+
+    final Map<String, String> fields = {
+      'first_name': firstName.value.text,
+      'middle_name': middleName.value.text,
+      'last_name': lastName.value.text,
+      'gender': selectedGender.value,
+      'dob': dob.value.text,
+      'completed_age': completedAge.value.text,
+      'address_doc_type': selectedAddressDocType.value,
+      "cibil_score": cibilScore.value.text,
+      "cibil_date": cibilDate.value.text,
+      'entry_age': entryAge.value.text,
+      'mobile_no': mobileNo.value.text,
+      'email': email.value.text,
+      'occupation': selectedOccupation.value,
+      'group': selectedGroup.value,
+      'state': selectedState.value,
+      'Country': selectedCountry.value,
+      'city': city.value.text,
+      'pincode': pincode.value.text,
+      'aadhar': aadharNumber.value.text,
+      'pancard': panNumber.value.text,
+      'address': address.value.text,
+      'bank_name': bankName.value.text,
+      'account_number': accountNumber.value.text,
+      'holder_name': holderName.value.text,
+      'branch': branch.value.text,
+      'ifsc_code': ifscCode.value.text,
+      'bank_address': bankAddress.value.text,
+      'voter_id': voterId.value.text,
+      "address_line_2": addressLineTwo.value.text,
+      "mobile_no_2": alternateMobileNo.value.text,
+      "longitude": longitude.value.toString(),
+      "latitude": latitude.value.toString(),
+      "geo_location": geoLocation.value,
+    };
+
+    final Map<String, Rx<File?>> imageFields = {
+      'member_image': memberImage,
+      'aadhar_image': aadharImage,
+      'pancard_image': panImage,
+      'voter_id_image': voterImage,
+      'address_image': addressImage,
+      'home_image': homeImage,
+      "aadhar_image_back": aadharbackImage,
+      "pancard_image_back": panbackImage,
+      "voter_id_image_back": voterbackImage,
+    };
+
+    final List<String> fileNames = [];
+    imageFields.forEach((key, value) {
+      if (value.value != null) fileNames.add(value.value!.path.split('/').last);
+    });
+
     try {
-      var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveLoanMember);
       var request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = token!;
-      request.fields.addAll({
-        'first_name': firstName.value.text,
-        'middle_name': middleName.value.text,
-        'last_name': lastName.value.text,
-        'gender': selectedGender.value,
-        'dob': dob.value.text,
-        'completed_age': completedAge.value.text,
-        'address_doc_type': selectedAddressDocType.value,
-        "cibil_score": cibilScore.value.text,
-        "cibil_date": cibilDate.value.text,
-        'entry_age': entryAge.value.text,
-        'mobile_no': mobileNo.value.text,
-        'email': email.value.text,
-        'occupation': selectedOccupation.value,
-        'group': selectedGroup.value,
-        'state': selectedState.value,
-        'Country': selectedCountry.value,
-        'city': city.value.text,
-        'pincode': pincode.value.text,
-        'aadhar': aadharNumber.value.text,
-        'pancard': panNumber.value.text,
-        'address': address.value.text,
-        'bank_name': bankName.value.text,
-        'account_number': accountNumber.value.text,
-        'holder_name': holderName.value.text,
-        'branch': branch.value.text,
-        'ifsc_code': ifscCode.value.text,
-        'bank_address': bankAddress.value.text,
-        'voter_id': voterId.value.text,
-        "address_line_2": addressLineTwo.value.text,
-        "mobile_no_2": alternateMobileNo.value.text,
-        "longitude": longitude.value.toString(),
-        "latitude": latitude.value.toString(),
-        "geo_location": geoLocation.value,
-      });
-
-      Map<String, Rx<File?>> imageFields = {
-        'member_image': memberImage,
-        'aadhar_image': aadharImage,
-        'pancard_image': panImage,
-        'voter_id_image': voterImage,
-        'address_image': addressImage,
-        'home_image': homeImage,
-        "aadhar_image_back": aadharbackImage,
-        "pancard_image_back": panbackImage,
-        "voter_id_image_back": voterbackImage
-      };
-
+      request.fields.addAll(fields);
       for (var entry in imageFields.entries) {
         if (entry.value.value != null) {
-          var file = await http.MultipartFile.fromPath(
+          final file = await http.MultipartFile.fromPath(
             entry.key,
             entry.value.value!.path,
           );
           request.files.add(file);
         }
       }
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final responseBody = jsonDecode(response.body);
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        var json = jsonDecode(response.body);
         final savedMemberData =
-            json['message']?['data']?['name']?.toString() ?? '';
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+            responseBody['message']?['data']?['name']?.toString() ?? '';
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]["msg"]);
         await getLoanMember(memberName: savedMemberData);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+        final msg = responseBody['message']['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -350,91 +429,127 @@ class MemberCreationController extends GetxController {
   updateLoanMember() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
+
     if (name.value.isEmpty) {
       CustomSnackBar.show(isIssue: true, message: "Member name is required");
       return;
     }
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.updateLoanMember);
+
+    final Map<String, String> fields = {
+      'name': name.value,
+      'first_name': firstName.value.text,
+      'member_id': memberId.value.text,
+      'middle_name': middleName.value.text,
+      'last_name': lastName.value.text,
+      'gender': selectedGender.value,
+      'dob': dob.value.text,
+      'completed_age': completedAge.value.text,
+      'entry_age': entryAge.value.text,
+      'mobile_no': mobileNo.value.text,
+      'email': email.value.text,
+      'address_doc_type': selectedAddressDocType.value,
+      'occupation': selectedOccupation.value,
+      'group': selectedGroup.value,
+      'state': selectedState.value,
+      'Country': selectedCountry.value,
+      'city': city.value.text,
+      'pincode': pincode.value.text,
+      'aadhar': aadharNumber.value.text,
+      'pancard': panNumber.value.text,
+      'address': address.value.text,
+      "cibil_score": cibilScore.value.text,
+      "cibil_date": cibilDate.value.text,
+      'bank_name': bankName.value.text,
+      'account_number': accountNumber.value.text,
+      'holder_name': holderName.value.text,
+      'branch': branch.value.text,
+      'ifsc_code': ifscCode.value.text,
+      'bank_address': bankAddress.value.text,
+      'voter_id': voterId.value.text,
+      "address_line_2": addressLineTwo.value.text,
+      "mobile_no_2": alternateMobileNo.value.text,
+      "longitude": longitude.value.toString(),
+      "latitude": latitude.value.toString(),
+      "geo_location": geoLocation.value,
+    };
+
+    fields.removeWhere((key, value) => value.isEmpty);
+
+    final Map<String, Rx<File?>> imageFields = {
+      'member_image': memberImage,
+      'aadhar_image': aadharImage,
+      'pancard_image': panImage,
+      'voter_id_image': voterImage,
+      'address_image': addressImage,
+      'home_image': homeImage,
+      "aadhar_image_back": aadharbackImage,
+      "pancard_image_back": panbackImage,
+      "voter_id_image_back": voterbackImage,
+    };
+
+    final List<String> fileNames = [];
+    imageFields.forEach((key, value) {
+      if (value.value != null) fileNames.add(value.value!.path.split('/').last);
+    });
+
     try {
-      var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.updateLoanMember);
       var request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = token!;
-      Map<String, String> fields = {
-        'name': name.value,
-        'first_name': firstName.value.text,
-        'member_id': memberId.value.text,
-        'middle_name': middleName.value.text,
-        'last_name': lastName.value.text,
-        'gender': selectedGender.value,
-        'dob': dob.value.text,
-        'completed_age': completedAge.value.text,
-        'entry_age': entryAge.value.text,
-        'mobile_no': mobileNo.value.text,
-        'email': email.value.text,
-        'address_doc_type': selectedAddressDocType.value,
-        'occupation': selectedOccupation.value,
-        'group': selectedGroup.value,
-        'state': selectedState.value,
-        'Country': selectedCountry.value,
-        'city': city.value.text,
-        'pincode': pincode.value.text,
-        'aadhar': aadharNumber.value.text,
-        'pancard': panNumber.value.text,
-        'address': address.value.text,
-        "cibil_score": cibilScore.value.text,
-        "cibil_date": cibilDate.value.text,
-        'bank_name': bankName.value.text,
-        'account_number': accountNumber.value.text,
-        'holder_name': holderName.value.text,
-        'branch': branch.value.text,
-        'ifsc_code': ifscCode.value.text,
-        'bank_address': bankAddress.value.text,
-        'voter_id': voterId.value.text,
-        "address_line_2": addressLineTwo.value.text,
-        "mobile_no_2": alternateMobileNo.value.text,
-        "longitude": longitude.value.toString(),
-        "latitude": latitude.value.toString(),
-        "geo_location": geoLocation.value,
-      };
-      fields.removeWhere((key, value) => value.isEmpty);
       request.fields.addAll(fields);
-      Map<String, Rx<File?>> imageFields = {
-        'member_image': memberImage,
-        'aadhar_image': aadharImage,
-        'pancard_image': panImage,
-        'voter_id_image': voterImage,
-        'address_image': addressImage,
-        'home_image': homeImage,
-        "aadhar_image_back": aadharbackImage,
-        "pancard_image_back": panbackImage,
-        "voter_id_image_back": voterbackImage
-      };
-
       for (var entry in imageFields.entries) {
         if (entry.value.value != null) {
-          var file = await http.MultipartFile.fromPath(
-              entry.key, entry.value.value!.path);
+          final file = await http.MultipartFile.fromPath(
+            entry.key,
+            entry.value.value!.path,
+          );
           request.files.add(file);
         }
       }
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
-      Map<String, dynamic> json = {};
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      Map<String, dynamic> responseBody = {};
       try {
-        json = jsonDecode(response.body);
+        responseBody = jsonDecode(response.body);
       } catch (_) {}
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-       // String msg = json['message']?['msg'];
-        //CustomSnackBar.show(isIssue: false, message: msg);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-        //CustomSnackBar.show(isIssue: true, message: au);
-      } 
-      else {
-       String errorMsg = json['message']?['msg'];
+      } else {
+        final errorMsg =
+            responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: errorMsg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -445,16 +560,17 @@ class MemberCreationController extends GetxController {
     try {
       isLoading.value = true;
 
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getState);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getState),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        State state = State.fromJson(data);
+        State state = State.fromJson(responseBody);
         stateList.value = state.message?.results ?? [];
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -463,8 +579,28 @@ class MemberCreationController extends GetxController {
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
@@ -474,18 +610,21 @@ class MemberCreationController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
-      final url =
-          "${AppEnvironment.baseUrl}${AppURLs.loanMember(name: memberName)}";
+
+      final url = Uri.parse(
+          "${AppEnvironment.baseUrl}${AppURLs.loanMember(name: memberName)}");
+      ;
       final response = await http.get(
-        Uri.parse(url),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = jsonDecode(response.body);
-        final memberData = LoanMemberListResult.fromJson(data['message']);
+        final memberData =
+            LoanMemberListResult.fromJson(responseBody['message']);
         loanMember.value = [memberData];
         name.value = memberData.name ?? '';
         firstName.value.text = memberData.firstName ?? '';
@@ -598,41 +737,82 @@ class MemberCreationController extends GetxController {
         String msg = errormsg['message']?['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
   }
-
   submitLoanMember({required String memberName}) async {
     final token = await AppPreferences.getToken();
-    try {
-      isLoading.value = true;
+    isLoading.value = true;
+    final uri = Uri.parse(
+        AppEnvironment.baseUrl + AppURLs.submitLoanMember(name: memberName));
+    final Map<String, dynamic> requestData = {"name": memberName};
 
+    try {
       final response = await http.put(
-        Uri.parse(AppEnvironment.baseUrl +
-            AppURLs.submitLoanMember(name: memberName)),
+        uri,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+
       if (response.statusCode == 200) {
-        //var json = jsonDecode(response.body);
-        //CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
         clearAllFields();
-        //Get.toNamed(Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-       } 
-      else {
-        final Map<String, dynamic> errormsg = jsonDecode(response.body);
-        String msg = errormsg['message']['msg'];
+      } else {
+        final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "PUT",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "PUT",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: requestData,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
