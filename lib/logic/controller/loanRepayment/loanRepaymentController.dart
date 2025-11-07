@@ -11,6 +11,7 @@ import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/api/api_status_code.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/api/app_urls.dart';
+import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/get_Payable_Amount.model.dart';
 import 'package:microfinance/models/mode_of_payment.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
@@ -112,16 +113,17 @@ class LoanRepaymentController extends GetxController {
     final token = await AppPreferences.getToken();
     try {
       isLoading.value = true;
+      final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getmodeOfPayment);
       final response = await http.get(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getmodeOfPayment),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
       );
+      final Map<String, dynamic> responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final messages = data['message'] as List<dynamic>;
+        final messages = responseBody['message'] as List<dynamic>;
 
         modeOfPaymentList.value =
             messages.map((e) => ModeOfPaymentMessage.fromJson(e)).toList();
@@ -132,98 +134,261 @@ class LoanRepaymentController extends GetxController {
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: {},
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "GET",
+          path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
+          dateTime: DateTime.now(),
+          data: {},
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
   }
 
+  // getRepaymentAmount() async {
+  //   final token = await AppPreferences.getToken();
+  //   try {
+  //     isLoading.value = true;
+  //     final requestBody = {
+  //       "against_loan": loanId.value.text,
+  //       "posting_date": selectedValueDate.value,
+  //     };
+  //     final response = await http.post(
+  //       Uri.parse(AppEnvironment.baseUrl + AppURLs.getPayableAmount),
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Authorization": token!,
+  //       },
+  //       body: jsonEncode(requestBody),
+  //     );
+  //     if (response.statusCode == 200) {
+  //       final data = jsonDecode(response.body);
+  //       final message = GetPayableAmountMessage.fromJson(data['message']);
+  //       getPayableAmount.value = [message];
+  //       payableAmount.value.text = message.payableAmount?.toString() ?? '0';
+  //     } else if (response.statusCode == 401) {
+  //       await oauthService.handleExceptionLogout('AuthenticationError');
+  //     } else {
+  //       final err = jsonDecode(response.body);
+  //       CustomSnackBar.show(
+  //           isIssue: true, message: err['message']['msg'] ?? "Error");
+  //     }
+  //   } catch (e) {
+  //     CustomSnackBar.show(isIssue: true, message: "$e");
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   getRepaymentAmount() async {
     final token = await AppPreferences.getToken();
+    final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getPayableAmount);
+    final requestBody = {
+      "against_loan": loanId.value.text,
+      "posting_date": selectedValueDate.value,
+    };
+
     try {
       isLoading.value = true;
-      final requestBody = {
-        "against_loan": loanId.value.text,
-        "posting_date": selectedValueDate.value,
-      };
       final response = await http.post(
-        Uri.parse(AppEnvironment.baseUrl + AppURLs.getPayableAmount),
+        url,
         headers: {
           "Content-Type": "application/json",
           "Authorization": token!,
         },
         body: jsonEncode(requestBody),
       );
+      final responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
-        final message = GetPayableAmountMessage.fromJson(data['message']);
+        final message =
+            GetPayableAmountMessage.fromJson(responseBody['message']);
         getPayableAmount.value = [message];
         payableAmount.value.text = message.payableAmount?.toString() ?? '0';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        final err = jsonDecode(response.body);
         CustomSnackBar.show(
-            isIssue: true, message: err['message']['msg'] ?? "Error");
+          isIssue: true,
+          message: responseBody['message']['msg'] ?? "Error",
+        );
       }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: url.toString(),
+          dateTime: DateTime.now(),
+          data: requestBody,
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
   }
 
+  // saveRepayments() async {
+  //   final token = await AppPreferences.getToken();
+  //   try {
+  //     var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
+  //     var request = http.MultipartRequest('POST', uri);
+  //     request.headers['Authorization'] = token!;
+
+  //     request.fields.addAll({
+  //       "name": name.value,
+  //       "against_loan": loanId.value.text,
+  //       "applicant": applicantId.value,
+  //       "repayment_type": "",
+  //       "loan_disbursement": "",
+  //       "loan_adjustment": "",
+  //       "mode_of_payment": selectedModeOfPayment.value,
+  //       "loan_product": "",
+  //       "value_date": selectedValueDate.value,
+  //       "amount_paid": amountPaid.value.text,
+  //       "reference_number": utrNumber.value.text,
+  //       "manual_remarks": remark.value.text,
+  //       "reference_date": selectedReferenceDate.value,
+  //       "payable_amount": payableAmount.value.text,
+  //     });
+  //     Map<String, Rx<File?>> imageFields = {"payment_proof": paymentProofImage};
+  //     for (var entry in imageFields.entries) {
+  //       if (entry.value.value != null) {
+  //         var file = await http.MultipartFile.fromPath(
+  //           entry.key,
+  //           entry.value.value!.path,
+  //         );
+  //         request.files.add(file);
+  //       }
+  //     }
+  //     var streamedResponse = await request.send();
+  //     var response = await http.Response.fromStream(streamedResponse);
+  //     if (response.statusCode == APIStatusCode.SUCCESS) {
+  //       final json = jsonDecode(response.body);
+  //       CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+  //     } else if (response.statusCode == 401) {
+  //       await oauthService.handleExceptionLogout('AuthenticationError');
+  //     } else {
+  //       final errorJson = jsonDecode(response.body);
+  //       final msg = errorJson['message']['msg'] ?? 'Something went wrong';
+  //       CustomSnackBar.show(isIssue: true, message: msg);
+  //     }
+  //   } catch (e) {
+  //     CustomSnackBar.show(isIssue: true, message: "$e");
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   saveRepayments() async {
     final token = await AppPreferences.getToken();
+    isLoading.value = true;
+    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
+
+    final Map<String, String> fields = {
+      "name": name.value,
+      "against_loan": loanId.value.text,
+      "applicant": applicantId.value,
+      "repayment_type": "",
+      "loan_disbursement": "",
+      "loan_adjustment": "",
+      "mode_of_payment": selectedModeOfPayment.value,
+      "loan_product": "",
+      "value_date": selectedValueDate.value,
+      "amount_paid": amountPaid.value.text,
+      "reference_number": utrNumber.value.text,
+      "manual_remarks": remark.value.text,
+      "reference_date": selectedReferenceDate.value,
+      "payable_amount": payableAmount.value.text,
+    };
+
+    final List<String> fileNames = [];
+    if (paymentProofImage.value != null) {
+      fileNames.add(paymentProofImage.value!.path.split('/').last);
+    }
+
     try {
-      var uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
       var request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = token!;
-
-      request.fields.addAll({
-        "name": name.value,
-        "against_loan": loanId.value.text,
-        "applicant": applicantId.value,
-        "repayment_type": "",
-        "loan_disbursement": "",
-        "loan_adjustment": "",
-        "mode_of_payment": selectedModeOfPayment.value,
-        "loan_product": "",
-        "value_date": selectedValueDate.value.isNotEmpty
-            ? selectedValueDate.value
-            : valueDate.value.text,
-        "amount_paid": amountPaid.value.text,
-        "reference_number": utrNumber.value.text,
-        "manual_remarks": remark.value.text,
-        "reference_date": selectedReferenceDate.value,
-        "payable_amount": payableAmount.value.text,
-      });
-      Map<String, Rx<File?>> imageFields = {"payment_proof": paymentProofImage};
-      for (var entry in imageFields.entries) {
-        if (entry.value.value != null) {
-          var file = await http.MultipartFile.fromPath(
-            entry.key,
-            entry.value.value!.path,
-          );
-          request.files.add(file);
-        }
+      request.fields.addAll(fields);
+      if (paymentProofImage.value != null) {
+        final file = await http.MultipartFile.fromPath(
+          "payment_proof",
+          paymentProofImage.value!.path,
+        );
+        request.files.add(file);
       }
 
-      var streamedResponse = await request.send();
-      var response = await http.Response.fromStream(streamedResponse);
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+      final responseBody = jsonDecode(response.body);
+
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        final json = jsonDecode(response.body);
-        CustomSnackBar.show(isIssue: false, message: json["message"]["msg"]);
+        CustomSnackBar.show(
+            isIssue: false, message: responseBody["message"]["msg"]);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
       } else {
-        final errorJson = jsonDecode(response.body);
-        final msg = errorJson['message']['msg'] ?? 'Something went wrong';
+        final msg = responseBody['message']['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
+
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: responseBody,
+        ),
+      );
     } catch (e) {
       CustomSnackBar.show(isIssue: true, message: "$e");
+
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: {"error": e.toString()},
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
