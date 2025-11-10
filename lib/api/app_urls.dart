@@ -23,7 +23,7 @@ class AppURLs {
 
   static String get getUserProfile => "api/method/ex_loan_management.api.user_profile.get_user_profile";
 
-  static String  getLoanRepayments({required String loanGroup,int? page,}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?is_pagination=$page&loan_group=$loanGroup";
+  static String  getLoanRepayments({required String loanGroup,int? page,String ?search}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?is_pagination=$page&loan_group=$loanGroup&search_text=$search";
 
   static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
@@ -62,7 +62,7 @@ static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
-  static String  getLoanDisbursementList({String? loanGroup,int? page,bool? isPagination,int? pagesize}) => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/?loan_group=$loanGroup&is_pagination=$isPagination&page_size=$pagesize&page=$page";
+  static String  getLoanDisbursementList({String? loanGroup,int? page,bool? isPagination,int? pagesize,String?search}) => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/?loan_group=$loanGroup&is_pagination=$isPagination&page_size=$pagesize&page=$page&search_text=$search";
 
   static String get groupList => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/";
 

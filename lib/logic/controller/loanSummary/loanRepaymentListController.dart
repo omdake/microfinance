@@ -20,25 +20,32 @@ class LoanSummaryListController extends GetxController {
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
+  Rx<TextEditingController> search = TextEditingController().obs;
+
+  void onSearchChanged(String query) {
+    page.value = 1;
+    groupList.clear();
+    getRepaymentList(page: page.value, search: search.value.text);
+  }
 
   @override
   void onInit() {
     super.onInit();
     getGroupList();
-    getRepaymentList(page: page.value);
+    getRepaymentList(page: page.value, search: search.value.text);
   }
 
   getloadData() async {
     page.value = 1;
     hasNextPage.value = true;
     repaymentList.clear();
-    await getRepaymentList(page: page.value);
+    await getRepaymentList(page: page.value, search: search.value.text);
   }
 
   getLoadMoreData() async {
     if (isLoading.value || !hasNextPage.value) return;
     page.value += 1;
-    await getRepaymentList(page: page.value);
+    await getRepaymentList(page: page.value, search: search.value.text);
   }
 
   getGroupList() async {
@@ -64,11 +71,11 @@ class LoanSummaryListController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -100,14 +107,14 @@ class LoanSummaryListController extends GetxController {
     }
   }
 
-  getRepaymentList({String? loanGroup, int? page}) async {
+  getRepaymentList({String? loanGroup, int? page, String? search}) async {
     final token = await AppPreferences.getToken();
     try {
       //isLoading.value = true;
 
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.getLoanRepayments(
-              loanGroup: selectedGroup.value, page: page));
+              loanGroup: selectedGroup.value, page: page, search: search));
 
       final response = await http.get(
         url,
@@ -131,11 +138,11 @@ class LoanSummaryListController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

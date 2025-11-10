@@ -155,10 +155,15 @@ class CollectionInHandController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         // CustomSnackBar.show(
         //     isIssue: false, message: responseBody["message"]["msg"]);
-       // Get.until((route) => Get.currentRoute == Routes.collectionInHand);
+        // Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -234,6 +239,12 @@ class CollectionInHandController extends GetxController {
         employeeList.value = messages.map((e) => Employee.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -294,6 +305,12 @@ class CollectionInHandController extends GetxController {
         Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -354,6 +371,12 @@ class CollectionInHandController extends GetxController {
         Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);

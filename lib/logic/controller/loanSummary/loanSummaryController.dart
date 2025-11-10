@@ -22,7 +22,13 @@ class LoanSummaryController extends GetxController {
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
+ Rx<TextEditingController> search = TextEditingController().obs;
 
+  void onSearchChanged(String query) {
+    page.value = 1;
+    groupList.clear();
+    getLoanDisbursementList(page: page.value,search: search.value.text);
+  }
   void changeTab(int index) {
     selectedIndex.value = index;
   }
@@ -54,7 +60,7 @@ class LoanSummaryController extends GetxController {
   void onInit() {
     super.onInit();
     getGroupList();
-    getLoanDisbursementList(page: page.value);
+    getLoanDisbursementList(page: page.value,search: search.value.text);
     getLoanList();
   }
 
@@ -62,13 +68,13 @@ class LoanSummaryController extends GetxController {
     page.value = 1;
     hasNextPage.value = true;
     //loanDisbursementList.clear();
-    await getLoanDisbursementList(page: page.value);
+    await getLoanDisbursementList(page: page.value,search: search.value.text);
   }
 
   getLoadMoreData() async {
     if (isLoading.value || !hasNextPage.value) return;
     page.value += 1;
-    await getLoanDisbursementList(page: page.value);
+    await getLoanDisbursementList(page: page.value,search: search.value.text);
   }
 
   getGroupList() async {
@@ -130,7 +136,7 @@ class LoanSummaryController extends GetxController {
     }
   }
 
-  getLoanDisbursementList({String? loanGroup, int? page}) async {
+  getLoanDisbursementList({String? loanGroup, int? page,String?search}) async {
     final token = await AppPreferences.getToken();
     try {
       final url = Uri.parse(AppEnvironment.baseUrl +
@@ -138,7 +144,7 @@ class LoanSummaryController extends GetxController {
               loanGroup: selecteddisbursementGroup.value,
               page: page,
               pagesize: 10,
-              isPagination: true));
+              isPagination: true,search: search));
 
       final response = await http.get(
         url,

@@ -88,6 +88,11 @@ class LoanApplicationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -155,6 +160,11 @@ class LoanApplicationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -225,6 +235,11 @@ class LoanApplicationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
@@ -277,6 +292,11 @@ class LoanApplicationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
@@ -330,6 +350,11 @@ class LoanApplicationController extends GetxController {
           saveROI.value = productList[0].rateOfInterest?.toString() ?? '';
           saveIsTermLoan.value = productList[0].isTermLoan?.toString() ?? '';
         }
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
@@ -406,6 +431,11 @@ class LoanApplicationController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -459,6 +489,11 @@ class LoanApplicationController extends GetxController {
 
         loanApplicantList.value =
             results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");

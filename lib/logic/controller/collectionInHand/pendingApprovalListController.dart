@@ -148,6 +148,11 @@ class PendingApprovalListController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
