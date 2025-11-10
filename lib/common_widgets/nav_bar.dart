@@ -29,7 +29,7 @@ class CustomBottomNavBar extends StatelessWidget {
           children: [
             _buildIcon(Icons.home, 0, homeController),
             _buildIcon(Icons.watch_later_outlined, 1, homeController),
-            _buildIcon(Icons.person_add_outlined, 2, homeController),
+            _buildIcon(Icons.event_available_outlined, 2, homeController),
             _buildIcon(Icons.person_outline, 3, homeController),
           ],
         ),

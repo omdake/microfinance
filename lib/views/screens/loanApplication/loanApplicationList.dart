@@ -246,10 +246,7 @@ class LoanApplicationList extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           onPressed: () {
-            // final homeController = Get.find<HomeController>();
-            // homeController.changeIndex(0);
-           // Get.offAllNamed(Routes.homeScreen);
-            Get.back();
+            Get.offAllNamed(Routes.homeScreen);
           },
           icon: Container(
             decoration: BoxDecoration(

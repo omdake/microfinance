@@ -4,7 +4,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/common_widgets/nav_bar.dart';
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/loanEMI/loanEMIController.dart';
 import 'package:microfinance/models/loan_emi.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
@@ -255,7 +255,10 @@ class LoanEMIScreen extends StatelessWidget {
         title: Text("Due EMI List", style: TextStyles.appbartitle),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Get.offAllNamed(Routes.homeScreen),
+          onPressed: () {
+            final homeController = Get.find<HomeController>();
+            homeController.changeIndex(0);
+          },
           icon: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -268,7 +271,7 @@ class LoanEMIScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: const CustomBottomNavBar(),
+      //bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

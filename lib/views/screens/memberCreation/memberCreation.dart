@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -38,6 +39,7 @@ class MemberCreationScreen extends StatelessWidget {
           onPressed: () {
             final homeController = Get.find<HomeController>();
             homeController.changeIndex(0);
+            Get.back();
           },
           icon: Container(
             decoration: BoxDecoration(
@@ -51,6 +53,7 @@ class MemberCreationScreen extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Column(
           children: [
