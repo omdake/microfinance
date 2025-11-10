@@ -77,11 +77,12 @@ class GroupScreenController extends GetxController {
       } catch (_) {}
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        CustomSnackBar.show(
-            isIssue: false, message: responseBody["message"]["msg"]);
+        // CustomSnackBar.show(
+        //     isIssue: false, message: responseBody["message"]["msg"]);
         clearFields();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -139,6 +140,7 @@ class GroupScreenController extends GetxController {
             .toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(

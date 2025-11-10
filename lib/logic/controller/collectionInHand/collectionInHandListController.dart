@@ -148,6 +148,7 @@ class CollectionInHandListController extends GetxController {
         hasNextPage.value = responseBody['message']?['next'] != null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
