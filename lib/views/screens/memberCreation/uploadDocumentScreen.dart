@@ -159,8 +159,8 @@ class UploadDcumentSreen extends StatelessWidget {
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: AppColors.primaryOrange,
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(8)), 
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8)),
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 12, vertical: 8),
@@ -268,11 +268,11 @@ class UploadDcumentSreen extends StatelessWidget {
         actions: [
           ElevatedButton(
             onPressed: () async {
-              Get.back();
               controller.isLoading.value = true;
-              controller.isLoading.value = false;
+
               if (controller.isReadOnly.value) {
                 controller.selectedIndex.value = 1;
+                controller.isLoading.value = false;
                 return;
               }
               await controller.submitLoanMember(
