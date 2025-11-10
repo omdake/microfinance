@@ -11,6 +11,8 @@ import 'package:microfinance/validator.dart';
 
 class AadharPopup extends StatelessWidget {
   AadharPopup({super.key});
+
+  final _formKey = GlobalKey<FormState>();
   final MemberCreationController controller =
       Get.find<MemberCreationController>();
 
@@ -23,98 +25,107 @@ class AadharPopup extends StatelessWidget {
       ),
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            paddingWidget([
-              const LabelsWithMark(
-                  label: "Aadhar Card Number", isRequired: true),
-              TextFormField(
-                enabled: !controller.isReadOnly.value,
-                controller: controller.aadharNumber.value,
-                cursorColor: AppColors.primary,
-                keyboardType: TextInputType.number,
-                validator: (value) => aadharValidator(value!.trim()),
-                style: TextStyles.textfieldTextStyle,
-                decoration: TextFieldDecoration.textfieldDecoration(
-                  hint: "Aadhar Card Number",
-                ).copyWith(
-                    filled: true,
-                    fillColor: !controller.isReadOnly.value
-                        ? Colors.white
-                        : Colors.grey.shade200),
-              ),
-            ]),
-            C10(),
-            Row(
-              children: [
-                Expanded(
-                  child: imagePickerField1(
-                    label: "Aadhar Card Front Image",
-                    isRequired: true,
-                    imageFile: controller.aadharImage,
-                    imageUrl: RxString(controller.loanMember.isNotEmpty
-                        ? controller.loanMember[0].aadharImage ?? ''
-                        : ''),
-                    isFocused: controller.isAadharImageFocused,
-                    onTap: () => controller.pickImage(controller.aadharImage),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (file) => imageFileValidator(
-                      localFile: file,
-                      networkUrl: controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImage
-                          : null,
-                      fieldName: 'Aadhar Card Front Image',
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              paddingWidget([
+                const LabelsWithMark(
+                    label: "Aadhar Card Number", isRequired: true),
+                TextFormField(
+                  enabled: !controller.isReadOnly.value,
+                  controller: controller.aadharNumber.value,
+                  cursorColor: AppColors.primary,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  keyboardType: TextInputType.number,
+                  validator: (value) => aadharValidator(value!.trim()),
+                  style: TextStyles.textfieldTextStyle,
+                  onChanged: (value) {
+                    controller.aadharNumber.refresh();
+                  },
+                  decoration: TextFieldDecoration.textfieldDecoration(
+                    hint: "Aadhar Card Number",
+                  ).copyWith(
+                      filled: true,
+                      fillColor: !controller.isReadOnly.value
+                          ? Colors.white
+                          : Colors.grey.shade200),
+                ),
+              ]),
+              C10(),
+              Row(
+                children: [
+                  Expanded(
+                    child: imagePickerField1(
+                      label: "Aadhar Card Front Image",
+                      isRequired: true,
+                      imageFile: controller.aadharImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].aadharImage ?? ''
+                          : ''),
+                      isFocused: controller.isAadharImageFocused,
+                      onTap: () => controller.pickImage(controller.aadharImage),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (file) => imageFileValidator(
+                        localFile: file,
+                        networkUrl: controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].aadharImage
+                            : null,
+                        fieldName: 'Aadhar Card Front Image',
+                      ),
                     ),
                   ),
-                ),
-                C10(),
-                Expanded(
-                  child: imagePickerField1(
-                    label: "Aadhar Card Back Image",
-                    isRequired: true,
-                    imageFile: controller.aadharbackImage,
-                    imageUrl: RxString(controller.loanMember.isNotEmpty
-                        ? controller.loanMember[0].aadharImageBack ?? ''
-                        : ''),
-                    isFocused: controller.isAadharbackImageFocused,
-                    onTap: () =>
-                        controller.pickImage(controller.aadharbackImage),
-                    autovalidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (file) => imageFileValidator(
-                      localFile: file,
-                      networkUrl: controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImageBack
-                          : null,
-                      fieldName: 'Aadhar Card Back Image',
+                  C10(),
+                  Expanded(
+                    child: imagePickerField1(
+                      label: "Aadhar Card Back Image",
+                      isRequired: true,
+                      imageFile: controller.aadharbackImage,
+                      imageUrl: RxString(controller.loanMember.isNotEmpty
+                          ? controller.loanMember[0].aadharImageBack ?? ''
+                          : ''),
+                      isFocused: controller.isAadharbackImageFocused,
+                      onTap: () =>
+                          controller.pickImage(controller.aadharbackImage),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (file) => imageFileValidator(
+                        localFile: file,
+                        networkUrl: controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].aadharImageBack
+                            : null,
+                        fieldName: 'Aadhar Card Back Image',
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            C30(),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.red.shade700,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
+                ],
+              ),
+              C30(),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red.shade700,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Get.back();
+                    }
+                  },
+                  child: const Text(
+                    "UPLOAD DOCUMENT",
+                    style: TextStyle(fontSize: 14, fontFamily: "Roboto-Medium"),
                   ),
                 ),
-                onPressed: () {
-                  Get.back();
-                },
-                child: const Text(
-                  "UPLOAD DOCUMENT",
-                  style: TextStyle(fontSize: 14, fontFamily: "Roboto-Medium"),
-                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

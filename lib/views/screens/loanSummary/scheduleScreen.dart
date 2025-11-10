@@ -201,6 +201,8 @@ class ScheduleScreen extends StatelessWidget {
                   itemCount: controller.repaymentSchedule.length,
                   itemBuilder: (context, index) {
                     final schedule = controller.repaymentSchedule[index];
+                    final loanStatus =
+                        controller.repaymentSchedulecard.first.status;
                     return Container(
                       margin: const EdgeInsets.only(bottom: 12),
                       padding: const EdgeInsets.all(16),
@@ -212,97 +214,137 @@ class ScheduleScreen extends StatelessWidget {
                           width: 1,
                         ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(4),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: AppColors.primaryOrange,
-                                          width: 2,
-                                        ),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(4),
-                                        child: Icon(
-                                          Icons.check,
-                                          color: AppColors.primaryOrange,
-                                          size: 16,
-                                        ),
-                                      ),
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors
+                                        .transparent,
+                                    border: Border.all(
+                                      color: loanStatus == "Active"
+                                          ? AppColors.primaryOrange
+                                          : Colors.grey,
+                                      width: 2,
                                     ),
                                   ),
-                                  C5(),
-                                  Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "EMI-${(index + 1).toString().padLeft(2, '0')}",
-                                        style: const TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF050708),
-                                        ),
-                                      ),
-                                      Text(
-                                        "₹ ${schedule.balanceLoanAmount?.toStringAsFixed(2) ?? '0.00'}",
-                                        style: const TextStyle(
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.bold,
-                                          color: Color(0xFF050708),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Total Amt",
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    '${index + 1}',
                                     style: TextStyle(
-                                        fontSize: 10, color: Color(0xFF050708)),
-                                  ),
-                                  Text(
-                                    "₹ ${schedule.totalPayment?.toStringAsFixed(2) ?? '0.00'}",
-                                    style: const TextStyle(
-                                      fontSize: 9,
+                                      color: loanStatus == "Active"
+                                          ? AppColors.primaryOrange
+                                          : Colors.grey,
+                                      fontSize: 12,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF050708),
                                     ),
                                   ),
-                                ],
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Paid On",
-                                    style: TextStyle(
-                                        fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Total Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.totalPayment?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
                                   ),
-                                  Text(
-                                    _formatDate(schedule.paymentDate),
-                                    style: const TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xFF050708),
-                                    ),
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Paid On",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  _formatDate(schedule.paymentDate),
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Balance Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.balanceLoanAmount?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Principle Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.principalAmount?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Interest Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.interestAmount?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   },
