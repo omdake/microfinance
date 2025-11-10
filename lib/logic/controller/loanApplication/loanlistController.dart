@@ -68,7 +68,12 @@ class LoanApplicationListController extends GetxController {
             .toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      } else {
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      );}else {
         String msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
       }
@@ -140,7 +145,13 @@ class LoanApplicationListController extends GetxController {
         hasNextPage.value = responseBody['message']?['next'] != null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      } else {
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      );
+      }else {
         CustomSnackBar.show(
           isIssue: true,
           message: responseBody['message']?['msg'] ?? "Something went wrong",

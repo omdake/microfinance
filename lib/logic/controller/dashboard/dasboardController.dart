@@ -59,7 +59,7 @@ class DashboardController extends GetxController {
     final emailId = await AppPreferences.getEmailId();
     fullName.value = name ?? "-";
     email.value = emailId ?? "-";
-    String? imagePath = await AppPreferences.getMemberImage(); 
+    String? imagePath = await AppPreferences.getMemberImage();
     if (imagePath != null && imagePath.isNotEmpty) {
       memberImageUrl.value = "${AppEnvironment.baseUrl}$imagePath";
     } else {
@@ -100,13 +100,18 @@ class DashboardController extends GetxController {
         ungroupedMembers.value = message.withoutGroupCount ?? 0;
         pendingVerification.value = message.nonVerifiedCount ?? 0;
         draftCount.value = message.draftCount ?? 0;
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      }else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      ); 
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
-        if (response.statusCode == 401) {
-          await oauthService.handleExceptionLogout('AuthenticationError');
-        }
       }
       DevService.instance.insertAPICall(
         AppAPIsCall(
@@ -155,13 +160,18 @@ class DashboardController extends GetxController {
         dueReport.value = (message.remainingAmount ?? 0.0).toInt();
         assignedGroup.value = (message.monthlyCollection ?? 0.0).toInt();
         collectionByCash.value = message.collectionInHand ?? 0.0;
-      } else {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      }else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      ); 
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
-        if (response.statusCode == 401) {
-          await oauthService.handleExceptionLogout('AuthenticationError');
-        }
       }
       DevService.instance.insertAPICall(
         AppAPIsCall(
@@ -190,4 +200,5 @@ class DashboardController extends GetxController {
     }
   }
 }
+
 

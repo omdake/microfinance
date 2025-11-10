@@ -76,7 +76,13 @@ class ProfileScreenController extends GetxController {
         }
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-      } else {
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      }  else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      );
+      }else {
         final err = jsonDecode(response.body);
         String msg = err['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
