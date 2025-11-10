@@ -268,7 +268,7 @@ class LoanApplicationList extends StatelessWidget {
             children: [
               Column(
                 children: [
-                   TextField(
+                  TextField(
                     controller: controller.search.value,
                     style: TextStyles.textfieldTextStyle,
                     cursorColor: Colors.black,
@@ -332,7 +332,8 @@ class LoanApplicationList extends StatelessWidget {
                         }).toList(),
                       ],
                       dropdownSearchData: DropdownSearchData(
-                        searchController: controller.groupSearchController.value,
+                        searchController:
+                            controller.groupSearchController.value,
                         searchInnerWidgetHeight: 50,
                         searchInnerWidget: Padding(
                           padding: const EdgeInsets.all(8),
@@ -361,7 +362,8 @@ class LoanApplicationList extends StatelessWidget {
                           controller.groupSearchController.value.clear();
                         }
                       },
-                      dropdownStyleData: const DropdownStyleData(maxHeight: 500),
+                      dropdownStyleData:
+                          const DropdownStyleData(maxHeight: 500),
                       isExpanded: true,
                       style: TextStyles.textfieldTextStyle,
                       decoration: TextFieldDecoration.textfieldDecoration(
@@ -372,9 +374,11 @@ class LoanApplicationList extends StatelessWidget {
                       onChanged: (newGroup) {
                         controller.page.value = 1;
                         controller.loanApplicantList.clear();
-                        controller.selectedGroup.value = newGroup ?? "All Group";
+                        controller.selectedGroup.value =
+                            newGroup ?? "All Group";
                         controller.getAplicantList(
                           page: controller.page.value,
+                          search: controller.search.value.text,
                           loanGroup: controller.selectedGroup.value.isEmpty
                               ? null
                               : controller.selectedGroup.value,

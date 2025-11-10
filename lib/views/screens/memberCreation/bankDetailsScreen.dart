@@ -151,27 +151,34 @@ class BankDetailscSreen extends StatelessWidget {
                           paddingWidget(
                             [
                               const LabelsWithMark(
-                                  label: "Ifsc Code", isRequired: true),
+                                  label: "IFSC Code", isRequired: true),
                               TextFormField(
                                 enabled: !controller.isReadOnly.value,
                                 controller: controller.ifscCode.value,
                                 cursorColor: AppColors.primary,
                                 textCapitalization:
-                                    TextCapitalization.sentences,
-                                validator: (value) => requiredValidator(value!),
+                                    TextCapitalization.characters,
+                                validator: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return 'IFSC Code is required';
+                                  } else if (value.trim().length != 11) {
+                                    return 'IFSC Code must be exactly 11 characters';
+                                  }
+                                  return null;
+                                },
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
-                                keyboardType: TextInputType.name,
+                                keyboardType: TextInputType.text,
                                 style: TextStyles.textfieldTextStyle,
                                 decoration:
                                     TextFieldDecoration.textfieldDecoration(
-                                            hint: "Ifsc Code")
+                                            hint: "IFSC Code")
                                         .copyWith(
-                                            filled: true,
-                                            fillColor:
-                                                !controller.isReadOnly.value
-                                                    ? Colors.white
-                                                    : Colors.grey.shade200),
+                                  filled: true,
+                                  fillColor: !controller.isReadOnly.value
+                                      ? Colors.white
+                                      : Colors.grey.shade200,
+                                ),
                               ),
                             ],
                           ),
@@ -233,13 +240,14 @@ class BankDetailscSreen extends StatelessWidget {
                           return;
                         }
                         if (_formKey.currentState!.validate()) {
-                          controller.updateLoanMember();
+                          await controller.updateLoanMember();
+                          controller.selectedIndex.value = 3;
                         } else {
                           AppTostMassage.showTostMassage(
-                            massage: "Please fill all required fields",
+                            massage:
+                                "Please fill all required fields correctly",
                           );
                         }
-                        controller.selectedIndex.value = 3;
                       },
                       child: Container(
                         decoration: const BoxDecoration(

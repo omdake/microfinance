@@ -116,7 +116,10 @@ class GroupCreationScreen extends StatelessWidget {
                                     ),
                                     C10(),
                                     paddingWidget([
-                                      LabelsWithMark(label: "Group Head"),
+                                      LabelsWithMark(
+                                        label: "Group Head",
+                                        isRequired: true,
+                                      ),
                                       Obx(() {
                                         return Stack(
                                           alignment: Alignment.centerRight,
@@ -151,6 +154,13 @@ class GroupCreationScreen extends StatelessWidget {
                                                   fontSize: 12,
                                                 ),
                                               ),
+                                              validator: (value) {
+                                                if (controller.selectedGroupHead
+                                                    .value.isEmpty) {
+                                                  return 'Group Head is required';
+                                                }
+                                                return null;
+                                              },
                                               dropdownSearchData:
                                                   DropdownSearchData(
                                                 searchController: controller
@@ -265,15 +275,15 @@ class GroupCreationScreen extends StatelessWidget {
                                   if (_formKey.currentState!.validate()) {
                                     controller.saveGroup();
                                     Get.off(() => GroupCreationSuccess(
-                                         
                                           applicantName:
                                               controller.groupName.value.text,
-                                          group:
-                                              controller.selectedGroupHead.value,
+                                          group: controller
+                                              .selectedGroupHead.value,
                                         ));
                                   } else {
                                     AppTostMassage.showTostMassage(
-                                      massage: "Please fill all required fields",
+                                      massage:
+                                          "Please fill all required fields",
                                     );
                                   }
                                 },
