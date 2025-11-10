@@ -103,7 +103,11 @@ class DashboardController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
-      } else {
+      }else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      ); else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -158,7 +162,11 @@ class DashboardController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
-      } else {
+      }else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      ); else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -190,3 +198,4 @@ class DashboardController extends GetxController {
     }
   }
 }
+
