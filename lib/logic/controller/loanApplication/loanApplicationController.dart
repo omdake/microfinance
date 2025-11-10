@@ -87,6 +87,7 @@ class LoanApplicationController extends GetxController {
             .toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -153,6 +154,7 @@ class LoanApplicationController extends GetxController {
         selectedCoBorrower.value = '';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -222,6 +224,7 @@ class LoanApplicationController extends GetxController {
         selectednominee.value = '';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
@@ -273,6 +276,7 @@ class LoanApplicationController extends GetxController {
             messages.map((e) => RelationListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(isIssue: true, message: err['message']?['msg']);
@@ -328,6 +332,7 @@ class LoanApplicationController extends GetxController {
         }
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -393,13 +398,14 @@ class LoanApplicationController extends GetxController {
       } catch (_) {}
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        CustomSnackBar.show(
-            isIssue: false, message: responseBody["message"]["msg"]);
+        // CustomSnackBar.show(
+        //     isIssue: false, message: responseBody["message"]["msg"]);
         Future.delayed(const Duration(milliseconds: 300), () {
           resetForm();
         });
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -455,6 +461,7 @@ class LoanApplicationController extends GetxController {
             results.map((e) => LoanApplicantListResult.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(

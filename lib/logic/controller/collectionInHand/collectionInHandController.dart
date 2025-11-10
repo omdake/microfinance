@@ -153,11 +153,12 @@ class CollectionInHandController extends GetxController {
         responseBody = jsonDecode(response.body);
       } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        CustomSnackBar.show(
-            isIssue: false, message: responseBody["message"]["msg"]);
-        // Optionally navigate: Get.until((route) => Get.currentRoute == Routes.collectionInHand);
+        // CustomSnackBar.show(
+        //     isIssue: false, message: responseBody["message"]["msg"]);
+       // Get.until((route) => Get.currentRoute == Routes.collectionInHand);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
