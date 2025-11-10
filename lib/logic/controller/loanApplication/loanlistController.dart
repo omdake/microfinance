@@ -73,7 +73,7 @@ class LoanApplicationListController extends GetxController {
       CustomSnackBar.show(
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
-      );else {
+      );}else {
         String msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
       }
@@ -151,7 +151,7 @@ class LoanApplicationListController extends GetxController {
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
       );
-      else {
+      }else {
         CustomSnackBar.show(
           isIssue: true,
           message: responseBody['message']?['msg'] ?? "Something went wrong",
