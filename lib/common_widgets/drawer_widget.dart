@@ -166,15 +166,15 @@ class CustomDrawer extends StatelessWidget {
                     homeController.changeIndex(1);
                   }),
                   listDivider(),
-                  drawerTile("Member Creation", () {
+                  drawerTile("Pending EMI", () {
                     Get.back();
                     homeController.changeIndex(2);
                   }),
                   listDivider(),
-                  drawerTile("Loan List",
-                      () => Get.toNamed(Routes.loanApplicationList)),
+                  drawerTile("Member Creation",
+                      () => Get.toNamed(Routes.memberCreation)),
                   listDivider(),
-                  drawerTile("Pending EMI", () => Get.toNamed(Routes.dueEmi)),
+                  drawerTile("Loan Application", () => Get.toNamed(Routes.loanApplicationList)),
                   listDivider(),
                   drawerTile("Loan Summary",
                       () => Get.toNamed(Routes.loanSummaryScreen)),

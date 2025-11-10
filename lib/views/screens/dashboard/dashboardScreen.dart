@@ -36,20 +36,20 @@ class DashboardScreen extends StatelessWidget {
             );
           },
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: InkWell(
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                child: Image.asset(
-                  'assets/new/notification.png',
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-          ),
-        ],
+        // actions: [
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 16),
+        //     child: InkWell(
+        //       child: Container(
+        //         padding: const EdgeInsets.all(8),
+        //         child: Image.asset(
+        //           'assets/new/notification.png',
+        //           fit: BoxFit.contain,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        // ],
       ),
       body: Obx(() => buildBody(context)),
     );

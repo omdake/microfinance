@@ -2,6 +2,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/MemberList/memberListController.dart';
 import 'package:microfinance/models/group_list.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
@@ -136,6 +137,7 @@ class MemberListScreen extends StatelessWidget {
             ? controller.screenTitle.value
             : "Member List",
       ),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
