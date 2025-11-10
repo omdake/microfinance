@@ -266,83 +266,124 @@ class LoanApplicationList extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              Obx(() {
-                return DropdownButtonFormField2<String>(
-                  value: controller.selectedGroup.value,
-                  hint: Text(
-                    "Select A Group Name",
-                    style: TextStyle(
-                      color: Colors.grey.shade600,
-                      fontFamily: "Roboto-Regular",
-                      fontSize: 12,
-                    ),
-                  ),
-                  items: [
-                    const DropdownMenuItem<String>(
-                      value: "",
-                      child: Text("All Group"),
-                    ),
-                    ...controller.groupList.map((e) {
-                      return DropdownMenuItem<String>(
-                        value: e.name ?? "",
-                        child: Text(
-                          e.groupName ?? "",
-                          overflow: TextOverflow.ellipsis,
+              Column(
+                children: [
+                   TextField(
+                    controller: controller.search.value,
+                    style: TextStyles.textfieldTextStyle,
+                    cursorColor: Colors.black,
+                    onChanged: (value) {
+                      if (value.length >= 3 || value.isEmpty) {
+                        controller.onSearchChanged(value);
+                      }
+                    },
+                    decoration: InputDecoration(
+                      hintText: "Search Members",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontFamily: "Roboto-Regular",
+                        fontSize: 14,
+                      ),
+                      suffixIcon: const Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 2,
                         ),
-                      );
-                    }).toList(),
-                  ],
-                  dropdownSearchData: DropdownSearchData(
-                    searchController: controller.groupSearchController.value,
-                    searchInnerWidgetHeight: 50,
-                    searchInnerWidget: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: TextFormField(
-                        cursorColor: Colors.black,
-                        style: TextStyles.textfieldTextStyle,
-                        controller: controller.groupSearchController.value,
-                        decoration: TextFieldDecoration.textfieldDecoration(
-                          sufficIconOntap: () {},
-                          sufficIcon: Icons.search,
-                          hint: 'Search group...',
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade300,
+                          width: 1,
                         ),
                       ),
                     ),
-                    searchMatchFn: (item, searchValue) {
-                      if (searchValue.trim().length < 3) return true;
-                      return (item.child is Text &&
-                          (item.child as Text)
-                              .data!
-                              .toLowerCase()
-                              .contains(searchValue.toLowerCase()));
-                    },
                   ),
-                  onMenuStateChange: (isOpen) {
-                    if (!isOpen) {
-                      controller.groupSearchController.value.clear();
-                    }
-                  },
-                  dropdownStyleData: const DropdownStyleData(maxHeight: 500),
-                  isExpanded: true,
-                  style: TextStyles.textfieldTextStyle,
-                  decoration: TextFieldDecoration.textfieldDecoration(
-                    sufficIconOntap: () {},
-                    sufficIcon: null,
-                    hint: '',
-                  ).copyWith(contentPadding: EdgeInsets.zero),
-                  onChanged: (newGroup) {
-                    controller.page.value = 1;
-                    controller.loanApplicantList.clear();
-                    controller.selectedGroup.value = newGroup ?? "All Group";
-                    controller.getAplicantList(
-                      page: controller.page.value,
-                      loanGroup: controller.selectedGroup.value.isEmpty
-                          ? null
-                          : controller.selectedGroup.value,
+                  C10(),
+                  Obx(() {
+                    return DropdownButtonFormField2<String>(
+                      value: controller.selectedGroup.value,
+                      hint: Text(
+                        "Select A Group Name",
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontFamily: "Roboto-Regular",
+                          fontSize: 12,
+                        ),
+                      ),
+                      items: [
+                        const DropdownMenuItem<String>(
+                          value: "",
+                          child: Text("All Group"),
+                        ),
+                        ...controller.groupList.map((e) {
+                          return DropdownMenuItem<String>(
+                            value: e.name ?? "",
+                            child: Text(
+                              e.groupName ?? "",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                      ],
+                      dropdownSearchData: DropdownSearchData(
+                        searchController: controller.groupSearchController.value,
+                        searchInnerWidgetHeight: 50,
+                        searchInnerWidget: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: TextFormField(
+                            cursorColor: Colors.black,
+                            style: TextStyles.textfieldTextStyle,
+                            controller: controller.groupSearchController.value,
+                            decoration: TextFieldDecoration.textfieldDecoration(
+                              sufficIconOntap: () {},
+                              sufficIcon: Icons.search,
+                              hint: 'Search group...',
+                            ),
+                          ),
+                        ),
+                        searchMatchFn: (item, searchValue) {
+                          if (searchValue.trim().length < 3) return true;
+                          return (item.child is Text &&
+                              (item.child as Text)
+                                  .data!
+                                  .toLowerCase()
+                                  .contains(searchValue.toLowerCase()));
+                        },
+                      ),
+                      onMenuStateChange: (isOpen) {
+                        if (!isOpen) {
+                          controller.groupSearchController.value.clear();
+                        }
+                      },
+                      dropdownStyleData: const DropdownStyleData(maxHeight: 500),
+                      isExpanded: true,
+                      style: TextStyles.textfieldTextStyle,
+                      decoration: TextFieldDecoration.textfieldDecoration(
+                        sufficIconOntap: () {},
+                        sufficIcon: null,
+                        hint: '',
+                      ).copyWith(contentPadding: EdgeInsets.zero),
+                      onChanged: (newGroup) {
+                        controller.page.value = 1;
+                        controller.loanApplicantList.clear();
+                        controller.selectedGroup.value = newGroup ?? "All Group";
+                        controller.getAplicantList(
+                          page: controller.page.value,
+                          loanGroup: controller.selectedGroup.value.isEmpty
+                              ? null
+                              : controller.selectedGroup.value,
+                        );
+                      },
                     );
-                  },
-                );
-              }),
+                  }),
+                ],
+              ),
               C25(),
               Expanded(
                 child: Obx(() {
