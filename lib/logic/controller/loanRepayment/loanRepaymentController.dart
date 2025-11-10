@@ -129,6 +129,7 @@ class LoanRepaymentController extends GetxController {
             messages.map((e) => ModeOfPaymentMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
@@ -187,6 +188,7 @@ class LoanRepaymentController extends GetxController {
         payableAmount.value.text = message.payableAmount?.toString() ?? '0';
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         CustomSnackBar.show(
           isIssue: true,
@@ -266,10 +268,11 @@ class LoanRepaymentController extends GetxController {
       final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        CustomSnackBar.show(
-            isIssue: false, message: responseBody["message"]["msg"]);
+        // CustomSnackBar.show(
+        //     isIssue: false, message: responseBody["message"]["msg"]);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
