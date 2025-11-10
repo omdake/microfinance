@@ -8,9 +8,10 @@ class DashboardBindings extends Bindings {
     Get.put(DashboardController());
   }
 }
+
 class HomeBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put(HomeController());
+    Get.put(HomeController(), permanent: true);
   }
 }

@@ -4,7 +4,7 @@ import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
-import 'package:microfinance/common_widgets/nav_bar.dart';
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/loanEMI/dueEmiController.dart';
 import 'package:microfinance/models/loan_emi.model.dart';
 import 'package:microfinance/routes/routes_string.dart';
@@ -27,8 +27,8 @@ class DueEMIScreen extends StatelessWidget {
       highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-          margin: const EdgeInsets.only(bottom: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        margin: const EdgeInsets.only(bottom: 6),
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -37,9 +37,10 @@ class DueEMIScreen extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-             GestureDetector(
+              GestureDetector(
                 onTap: () {
-                  if (user.memberImage != null && user.memberImage!.isNotEmpty) {
+                  if (user.memberImage != null &&
+                      user.memberImage!.isNotEmpty) {
                     final imageUrl = user.memberImage!.startsWith('http')
                         ? user.memberImage!
                         : "${AppEnvironment.baseUrl}${user.memberImage!.startsWith('/') ? '' : '/'}${user.memberImage}";
@@ -146,7 +147,7 @@ class DueEMIScreen extends StatelessWidget {
               ),
               C15(),
               Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   GestureDetector(
                     onTap: () async {
@@ -205,7 +206,10 @@ class DueEMIScreen extends StatelessWidget {
         title: Text("Pending EMI List", style: TextStyles.appbartitle),
         centerTitle: true,
         leading: IconButton(
-          onPressed: () => Get.offAllNamed(Routes.homeScreen),
+          onPressed: () {
+            final homeController = Get.find<HomeController>();
+            homeController.changeIndex(0);
+          },
           icon: Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
@@ -218,7 +222,6 @@ class DueEMIScreen extends StatelessWidget {
           ),
         ),
       ),
-       bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

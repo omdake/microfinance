@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
-import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/profile/profileScreenController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -31,23 +31,21 @@ class ProfileScreen extends StatelessWidget {
         ),
         centerTitle: true,
         leading: IconButton(
-            onPressed: () {
-              Get.offAllNamed(Routes.homeScreen);
-            },
-            icon: Container(
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(),
-                  ),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: Colors.black,
-                  size: 20,
-                ),
-              ),
-            )),
+          onPressed: () {
+            final homeController = Get.find<HomeController>();
+            homeController.changeIndex(0);
+          },
+          icon: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(Icons.arrow_back, color: Colors.black, size: 20),
+            ),
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20),
@@ -72,7 +70,6 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

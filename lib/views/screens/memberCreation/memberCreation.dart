@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
-import 'package:microfinance/common_widgets/nav_bar.dart';
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
+import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/views/screens/memberCreation/cibilDetailsScreen.dart';
 import 'package:microfinance/views/screens/memberCreation/personalDetails.dart';
 import 'package:microfinance/views/screens/memberCreation/addressDetailsScreen.dart';
@@ -26,10 +26,31 @@ class MemberCreationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle1(
-        title: "Create Member",
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        title: Text(
+          "Member Creation",
+          style: TextStyles.appbartitle,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            final homeController = Get.find<HomeController>();
+            homeController.changeIndex(0);
+          },
+          icon: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(Icons.arrow_back, color: Colors.black, size: 20),
+            ),
+          ),
+        ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(),
       body: SafeArea(
         child: Column(
           children: [
