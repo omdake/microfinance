@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/logic/controller/dashboard/dasboardController.dart';
+import 'package:microfinance/logic/controller/dashboard/homeController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
@@ -137,8 +138,9 @@ class CustomDrawer extends StatelessWidget {
     if (parts.length == 1) return parts[0][0].toUpperCase();
     return (parts[0][0] + parts[1][0]).toUpperCase();
   }
-
   Widget drawerBody(BuildContext context, DashboardController controller) {
+    final HomeController homeController = Get.find<HomeController>();
+
     return ClipRRect(
       borderRadius: const BorderRadius.only(topRight: Radius.circular(35)),
       child: Container(
@@ -149,16 +151,28 @@ class CustomDrawer extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.only(top: 10),
                 children: [
-                  drawerTile("Profile", () => Get.toNamed(Routes.profile)),
+                  drawerTile("Profile", () {
+                    Get.back();
+                    homeController.changeIndex(3);
+                  }),
                   listDivider(),
-                  drawerTile("Member Creation",
-                      () => Get.toNamed(Routes.memberCreation)),
+                  drawerTile("Dashboard", () {
+                    Get.back();
+                    homeController.changeIndex(0);
+                  }),
                   listDivider(),
-                  drawerTile("Loan Application",
+                  drawerTile("Due EMI", () {
+                    Get.back();
+                    homeController.changeIndex(1);
+                  }),
+                  listDivider(),
+                  drawerTile("Member Creation", () {
+                    Get.back();
+                    homeController.changeIndex(2);
+                  }),
+                  listDivider(),
+                  drawerTile("Loan List",
                       () => Get.toNamed(Routes.loanApplicationList)),
-                  listDivider(),
-                  drawerTile(
-                      "Due EMI", () => Get.toNamed(Routes.loanEMIScreen)),
                   listDivider(),
                   drawerTile("Pending EMI", () => Get.toNamed(Routes.dueEmi)),
                   listDivider(),
@@ -170,6 +184,7 @@ class CustomDrawer extends StatelessWidget {
                 ],
               ),
             ),
+            // Footer remains the same
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
               child: Column(

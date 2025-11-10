@@ -1,81 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/logic/controller/dashboard/homeController.dart';
+import 'package:microfinance/routes/routes_string.dart';
+import 'package:microfinance/themes/app_colors.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({super.key});
 
+  void _navigateToTab(int index) {
+    final homeController = Get.find<HomeController>();
+    homeController.selectedIndex.value = index;
+    if (Get.currentRoute != Routes.homeScreen) {
+      Get.offAllNamed(Routes.homeScreen);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final HomeController homeController = Get.find<HomeController>();
+    final homeController = Get.find<HomeController>();
 
-    return Obx(() {
-      return SafeArea(
-        bottom: true,
-        child: Container(
-          color: const Color(0xFFF5F5F5),
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              InkWell(
-                onTap: () => homeController.changeIndex(0),
-                child: Image.asset(
-                  'assets/new/home.png',
-                  width: 30,
-                  height: 30,
-                  color: homeController.selectedIndex.value == 0
-                      ? const Color(0xFFA52A2A)
-                      : Colors.black,
-                ),
-              ),
-              InkWell(
-                onTap: () => homeController.changeIndex(1),
-                child: Image.asset(
-                  'assets/new/note.png',
-                  width: 30,
-                  height: 30,
-                  color: homeController.selectedIndex.value == 1
-                      ? const Color(0xFFA52A2A)
-                      : Colors.black,
-                ),
-              ),
-              InkWell(
-                onTap: () => homeController.changeIndex(2),
-                child: Icon(
-                  Icons.apps,
-                  size: 30,
-                  color: homeController.selectedIndex.value == 2
-                      ? const Color(0xFFA52A2A)
-                      : Colors.black,
-                ),
-              ),
-              InkWell(
-                onTap: () => homeController.changeIndex(3),
-                child: Image.asset(
-                  'assets/new/message.png',
-                  width: 30,
-                  height: 30,
-                  color: homeController.selectedIndex.value == 3
-                      ? const Color(0xFFA52A2A)
-                      : Colors.black,
-                ),
-              ),
-              InkWell(
-                onTap: () => homeController.changeIndex(4),
-                child: Icon(
-                  Icons.person_outline,
-                  size: 30,
-                  color: homeController.selectedIndex.value == 4
-                      ? const Color(0xFFA52A2A)
-                      : Colors.black,
-                ),
-              ),
-            ],
-          ),
+    return Obx(
+      () => SafeArea(
+          child: Container(
+        color: const Color(0xFFF5F5F5),
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildIcon(Icons.home, 0, homeController),
+            _buildIcon(Icons.watch_later_outlined, 1, homeController),
+            _buildIcon(Icons.person_add_outlined, 2, homeController),
+            _buildIcon(Icons.person_outline, 3, homeController),
+          ],
         ),
-      );
-    });
+      )),
+    );
+  }
+
+  Widget _buildIcon(IconData icon, int index, HomeController controller) {
+    return InkWell(
+      onTap: () => _navigateToTab(index),
+      child: Icon(
+        icon,
+        size: 30,
+        color: controller.selectedIndex.value == index
+            ? AppColors.primaryRed
+            : Colors.black,
+      ),
+    );
   }
 }

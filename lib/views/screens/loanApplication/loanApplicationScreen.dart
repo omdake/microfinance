@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/loanApplication/loanApplicationController.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
@@ -33,7 +32,7 @@ class LoanApplicationScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Get.offAllNamed(Routes.loanApplicationList);
+                Get.back();
               },
               icon: Container(
                 decoration:
@@ -48,7 +47,7 @@ class LoanApplicationScreen extends StatelessWidget {
                 ),
               )),
         ),
-         bottomNavigationBar: const CustomBottomNavBar(),
+        bottomNavigationBar: const CustomBottomNavBar(),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
@@ -692,18 +691,19 @@ class LoanApplicationScreen extends StatelessWidget {
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
                                     await controller.saveLoanMember();
-                          
+
                                     Get.off(() => LoanApplicationSuccessScreen(
                                           crNo: controller
                                               .selectedApplicantId.value,
-                                          applicantName:
-                                              controller.selectedMemberName.value,
+                                          applicantName: controller
+                                              .selectedMemberName.value,
                                           amount:
                                               controller.loanAmount.value.text,
                                         ));
                                   } else {
                                     AppTostMassage.showTostMassage(
-                                      massage: "Please fill all required fields",
+                                      massage:
+                                          "Please fill all required fields",
                                     );
                                   }
                                 },
