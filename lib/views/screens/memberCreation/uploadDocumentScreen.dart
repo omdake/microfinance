@@ -260,58 +260,6 @@ class UploadDcumentSreen extends StatelessWidget {
     );
   }
 
-  // void showSubmitConfirmationDialog() {
-  //   Get.dialog(
-  //     AlertDialog(
-  //       content: const Text("Are you sure you want to Submit?"),
-  //       actionsAlignment: MainAxisAlignment.spaceEvenly,
-  //       actions: [
-  //         ElevatedButton(
-  //           onPressed: () async {
-  //             Get.back();
-  //             controller.isLoading.value = true;
-  //             controller.isLoading.value = false;
-  //             if (controller.isReadOnly.value) {
-  //               controller.selectedIndex.value = 1;
-  //               return;
-  //             }
-  //             await controller.submitLoanMember(
-  //                 memberName: controller.name.value);
-  //             final appId = controller.memberId.value.text;
-  //             final fullName = [
-  //               controller.firstName.value.text,
-  //               controller.middleName.value.text,
-  //               controller.lastName.value.text,
-  //             ].where((namePart) => namePart.trim().isNotEmpty).join(' ');
-
-  //             final city = controller.city.value.text;
-  //             final state = controller.selectedState.value;
-  //             Get.offAll(() => MemberCreatedSuccessScreen(
-  //                   applicationId: appId,
-  //                   memberName: fullName,
-  //                   city: city,
-  //                   state: state,
-  //                 ));
-  //           },
-  //           style: ElevatedButton.styleFrom(
-  //             backgroundColor: AppColors.black,
-  //             foregroundColor: Colors.white,
-  //           ),
-  //           child: const Text("Yes"),
-  //         ),
-  //         ElevatedButton(
-  //           onPressed: () => Get.back(),
-  //           style: ElevatedButton.styleFrom(
-  //             backgroundColor: Colors.red[100],
-  //             foregroundColor: Colors.red[900],
-  //           ),
-  //           child: const Text("No"),
-  //         ),
-  //       ],
-  //     ),
-  //     barrierDismissible: false,
-  //   );
-  // }
   void showSubmitConfirmationDialog() {
     Get.dialog(
       AlertDialog(
@@ -320,7 +268,6 @@ class UploadDcumentSreen extends StatelessWidget {
         actions: [
           ElevatedButton(
             onPressed: () async {
-              Get.back();
               controller.isLoading.value = true;
 
               if (controller.isReadOnly.value) {
@@ -328,10 +275,8 @@ class UploadDcumentSreen extends StatelessWidget {
                 controller.isLoading.value = false;
                 return;
               }
-
               await controller.submitLoanMember(
                   memberName: controller.name.value);
-
               final appId = controller.memberId.value.text;
               final fullName = [
                 controller.firstName.value.text,
@@ -341,9 +286,6 @@ class UploadDcumentSreen extends StatelessWidget {
 
               final city = controller.city.value.text;
               final state = controller.selectedState.value;
-
-              controller.isLoading.value = false;
-
               Get.offAll(() => MemberCreatedSuccessScreen(
                     applicationId: appId,
                     memberName: fullName,
