@@ -51,7 +51,13 @@ class ResetPasswordController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
-      } else {
+      } 
+       else if (response.statusCode == 500) {
+      CustomSnackBar.show(
+        isIssue: true,
+        message: "Internal Server Error. Please try again later.",
+      );
+      }else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
       }
