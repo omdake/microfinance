@@ -50,6 +50,7 @@ class ResetPasswordController extends GetxController {
         Get.until((route) => Get.currentRoute == Routes.homeScreen);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);

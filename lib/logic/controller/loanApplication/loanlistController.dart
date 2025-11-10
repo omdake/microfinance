@@ -68,6 +68,7 @@ class LoanApplicationListController extends GetxController {
             .toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         String msg = responseBody['message']?['msg'] ?? "Something went wrong";
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -140,6 +141,7 @@ class LoanApplicationListController extends GetxController {
         hasNextPage.value = responseBody['message']?['next'] != null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         CustomSnackBar.show(
           isIssue: true,

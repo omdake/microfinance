@@ -62,6 +62,7 @@ class LoanSummaryListController extends GetxController {
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -121,6 +122,9 @@ class LoanSummaryListController extends GetxController {
         } else {
           repaymentList.addAll(newItems);
         }
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];

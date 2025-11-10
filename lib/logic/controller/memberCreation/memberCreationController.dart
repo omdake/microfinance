@@ -209,6 +209,7 @@ class MemberCreationController extends GetxController {
             messages.map((e) => GroupListMessage.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -269,6 +270,7 @@ class MemberCreationController extends GetxController {
         }).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       }
       DevService.instance.insertAPICall(
         AppAPIsCall(
@@ -389,6 +391,7 @@ class MemberCreationController extends GetxController {
         await getLoanMember(memberName: savedMemberData);
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -517,6 +520,7 @@ class MemberCreationController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final errorMsg =
             responseBody['message']?['msg'] ?? 'Something went wrong';
@@ -574,6 +578,7 @@ class MemberCreationController extends GetxController {
         stateList.value = state.message?.results ?? [];
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -732,6 +737,7 @@ class MemberCreationController extends GetxController {
             : null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']?['msg'];
@@ -787,6 +793,7 @@ class MemberCreationController extends GetxController {
         clearAllFields();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final msg = responseBody['message']?['msg'] ?? 'Something went wrong';
         CustomSnackBar.show(isIssue: true, message: msg);

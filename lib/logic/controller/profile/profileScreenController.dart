@@ -76,6 +76,7 @@ class ProfileScreenController extends GetxController {
         }
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else {
         final err = jsonDecode(response.body);
         String msg = err['message']['msg'];
