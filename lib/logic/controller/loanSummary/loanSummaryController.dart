@@ -98,7 +98,7 @@ class LoanSummaryController extends GetxController {
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
       );
-      else {
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -165,7 +165,7 @@ class LoanSummaryController extends GetxController {
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
       );
-      else {
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -222,7 +222,7 @@ class LoanSummaryController extends GetxController {
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
       );
-      else {
+      }else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
