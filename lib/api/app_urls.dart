@@ -56,7 +56,7 @@ class AppURLs {
 
   static String get saveCollectionInHand => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.create_collection_in_hand";
 
-  static String  getApplicantList({int? page,String? loanGroup,int? pageSize,bool? isPagination}) => "api/method/lending.loan_management.doctype.loan_application.loan_application.loan_application_list?applicant_type=Loan Member&is_pagination=$isPagination&loan_group=$loanGroup&page_size=$pageSize&page=$page";
+  static String  getApplicantList({int? page,String? loanGroup,int? pageSize,bool? isPagination,String?search}) => "api/method/lending.loan_management.doctype.loan_application.loan_application.loan_application_list?applicant_type=Loan Member&is_pagination=$isPagination&loan_group=$loanGroup&page_size=$pageSize&page=$page&search=$search";
 
 static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.create_loan_group/";
 

@@ -26,23 +26,30 @@ class LoanApplicationListController extends GetxController {
   RxString loanApplicationImageUrl = ''.obs;
   RxString token = ''.obs;
   RxBool isloanApplicationFocused = false.obs;
+  Rx<TextEditingController> search = TextEditingController().obs;
+
+  void onSearchChanged(String query) {
+    page.value = 1;
+    groupList.clear();
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value,search:search.value.text);
+  }
   @override
   void onInit() async {
     super.onInit();
     getGroupList();
-    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value,search:search.value.text);
   }
 
   getloadData() {
     page.value = 1;
     loanApplicantList.clear();
-    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value,search:search.value.text);
   }
 
   getLoadMoreData() {
     if (!hasNextPage.value) return;
     page.value += 1;
-    getAplicantList(page: page.value, loanGroup: selectedGroup.value);
+    getAplicantList(page: page.value, loanGroup: selectedGroup.value,search:search.value.text);
   }
 
   getGroupList() async {
@@ -101,7 +108,7 @@ class LoanApplicationListController extends GetxController {
     }
   }
 
-  getAplicantList({int? page, String? loanGroup}) async {
+  getAplicantList({int? page, String? loanGroup,String?search}) async {
     final token = await AppPreferences.getToken();
     try {
       final url = Uri.parse(
@@ -110,6 +117,7 @@ class LoanApplicationListController extends GetxController {
           loanGroup: selectedGroup.value,
           pageSize: 10,
           isPagination: true,
+          search: search
         )}",
       );
 
