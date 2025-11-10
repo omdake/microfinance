@@ -85,7 +85,7 @@ class DueEMIController extends GetxController {
         isIssue: true,
         message: "Internal Server Error. Please try again later.",
       );
-      else {
+      }else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
