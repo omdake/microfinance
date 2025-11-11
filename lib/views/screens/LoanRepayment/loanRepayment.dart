@@ -528,20 +528,21 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.primaryOrange,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: const Center(
-                                      child: Text(
-                                    "save",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontFamily: "Roboto-Regular"),
-                                  )),
-                                ),
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                               ),
                             ],
                           ),
