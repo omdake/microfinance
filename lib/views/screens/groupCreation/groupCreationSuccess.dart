@@ -80,7 +80,7 @@ class GroupCreationSuccess extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "BACK TO HOME",
+                    "BACK TO GROUP LIST",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,

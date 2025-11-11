@@ -99,7 +99,7 @@ class CashCollectionApproveSuccess extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "BACK TO HOME",
+                    "BACK TO CASH COLLECTION LIST",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
