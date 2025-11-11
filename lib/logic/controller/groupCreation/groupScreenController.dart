@@ -25,6 +25,7 @@ class GroupScreenController extends GetxController {
   RxInt page = 1.obs;
   RxBool isReadOnly = false.obs;
   RxBool isFormEdit = false.obs;
+  RxBool showError = false.obs;
 
   RxList<LoanMemberDropdownListMessage> groupheadList =
       <LoanMemberDropdownListMessage>[].obs;
