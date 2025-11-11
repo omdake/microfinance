@@ -12,6 +12,7 @@ import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
+import 'package:microfinance/views/screens/groupCreation/groupUpdationSuccess.dart';
 
 class GroupScreenController extends GetxController {
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
@@ -231,6 +232,10 @@ class GroupScreenController extends GetxController {
         responseBody = jsonDecode(response.body);
       } catch (_) {}
       if (response.statusCode == APIStatusCode.SUCCESS) {
+        Get.off(() => GroupUpdationSuccess(
+              applicantName: groupName.value.text,
+              group: selectedGroupHead.value,
+            ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");

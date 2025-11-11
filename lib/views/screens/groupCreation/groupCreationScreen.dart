@@ -14,7 +14,6 @@ import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationSuccess.dart';
-import 'package:microfinance/views/screens/groupCreation/groupUpdationSuccess.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
@@ -306,16 +305,26 @@ class GroupCreationScreen extends StatelessWidget {
                                 onTap: () async {
                                   controller.showError.value = controller
                                       .selectedGroupHead.value.isEmpty;
-                                  if (_formKey.currentState!.validate() &&
-                                      controller
-                                          .selectedGroupHead.value.isNotEmpty) {
-                                    controller.saveGroup();
-                                    Get.off(() => GroupCreationSuccess(
-                                          applicantName:
-                                              controller.groupName.value.text,
-                                          group: controller
-                                              .selectedGroupHead.value,
-                                        ));
+
+                                  if (_formKey.currentState!.validate()) {
+                                    if (controller
+                                        .selectedGroupHead.value.isEmpty) {
+                                      AppTostMassage.showTostMassage(
+                                        massage: "Please select a Group Head",
+                                      );
+                                      return;
+                                    }
+                                    if (controller.name.value.isNotEmpty) {
+                                      await controller.updateGroup();
+                                    } else {
+                                      await controller.saveGroup();
+                                      Get.off(() => GroupCreationSuccess(
+                                            applicantName:
+                                                controller.groupName.value.text,
+                                            group: controller
+                                                .selectedGroupHead.value,
+                                          ));
+                                    }
                                   } else {
                                     AppTostMassage.showTostMassage(
                                       massage:

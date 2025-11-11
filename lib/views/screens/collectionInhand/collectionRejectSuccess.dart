@@ -4,14 +4,16 @@ import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
-class GroupCreationSuccess extends StatelessWidget {
+class CashCollectionRejecteSuccess extends StatelessWidget {
+  final String crNo;
   final String applicantName;
-  final String group;
+  final String amount;
 
-  const GroupCreationSuccess({
+  const CashCollectionRejecteSuccess({
     super.key,
+    required this.crNo,
     required this.applicantName,
-    required this.group,
+    required this.amount,
   });
 
   @override
@@ -41,7 +43,7 @@ class GroupCreationSuccess extends StatelessWidget {
               ),
               C15(),
               const Text(
-                "GROUP CREATED\nSUCCESSFULLY",
+                "COLLECTION REJECTED\nSUCCESSFULLY",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -52,6 +54,22 @@ class GroupCreationSuccess extends StatelessWidget {
               C50(),
               Column(
                 children: [
+                  Text(
+                    "LOAN REPAYMENT",
+                    style: const TextStyle(
+                      fontSize: 11,
+                      letterSpacing: 1,
+                      fontFamily: "Roboto-Regular",
+                    ),
+                  ),
+                  C5(),
+                  Text(
+                    "Loan Id: $crNo",
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontFamily: "Roboto-Regular",
+                    ),
+                  ),
                   C10(),
                   Text(
                     applicantName,
@@ -61,7 +79,7 @@ class GroupCreationSuccess extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "$group",
+                    "₹$amount",
                     style: const TextStyle(
                       fontSize: 13,
                       fontFamily: "Roboto-Medium",
@@ -71,7 +89,7 @@ class GroupCreationSuccess extends StatelessWidget {
               ),
               C50(),
               GestureDetector(
-                onTap: () => Get.offAllNamed(Routes.groupList),
+                onTap: () => Get.until((route) => Get.currentRoute == Routes.collectionInHand),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 14, horizontal: 40),

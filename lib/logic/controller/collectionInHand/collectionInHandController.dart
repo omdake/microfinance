@@ -13,9 +13,10 @@ import 'package:microfinance/api/app_urls.dart';
 import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/collection_in_hand.model.dart';
 import 'package:microfinance/models/employee.model.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionApproveSuccess.dart';
+import 'package:microfinance/views/screens/collectionInhand/collectionRejectSuccess.dart';
 
 class CollectionInHandController extends GetxController {
   Rx<TextEditingController> employee = TextEditingController().obs;
@@ -239,7 +240,7 @@ class CollectionInHandController extends GetxController {
         employeeList.value = messages.map((e) => Employee.fromJson(e)).toList();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
         CustomSnackBar.show(
           isIssue: true,
@@ -301,11 +302,15 @@ class CollectionInHandController extends GetxController {
 
       if (response.statusCode == 200) {
         status.value = "Approved";
-        CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
-        Get.until((route) => Get.currentRoute == Routes.collectionInHand);
+        //CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
+        Get.off(() => CashCollectionApproveSuccess(
+              crNo: employee.value.text,
+              applicantName: employeeName.value.text,
+              amount: amount.value.text,
+            ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
         CustomSnackBar.show(
           isIssue: true,
@@ -367,11 +372,15 @@ class CollectionInHandController extends GetxController {
 
       if (response.statusCode == 200) {
         status.value = "Rejected";
-        CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
-        Get.until((route) => Get.currentRoute == Routes.collectionInHand);
+        //CustomSnackBar.show(isIssue: false, message: responseBody["message"]);
+        Get.off(() => CashCollectionRejecteSuccess(
+              crNo: employee.value.text,
+              applicantName: employeeName.value.text,
+              amount: amount.value.text,
+            ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
-         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
         CustomSnackBar.show(
           isIssue: true,

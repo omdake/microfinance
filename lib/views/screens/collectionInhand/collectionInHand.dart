@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/collectionInHand/collectionInHandListController.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
@@ -35,6 +36,7 @@ class CollectionInHand extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(
         child: Column(
           children: [

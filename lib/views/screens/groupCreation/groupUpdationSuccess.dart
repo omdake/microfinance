@@ -71,7 +71,7 @@ class GroupUpdationSuccess extends StatelessWidget {
               ),
               C50(),
               GestureDetector(
-                onTap: () => Get.offAllNamed(Routes.homeScreen),
+                onTap: () => Get.offAllNamed(Routes.groupList),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 14, horizontal: 40),
