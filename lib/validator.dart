@@ -148,7 +148,7 @@ String? pincodeValidator(String value) {
 
 String? loginPasswordValidator(String value) {
   if (value.isEmpty) {
-    return 'Password field is required';
+    return 'Password is required';
   } 
   if (value.length < 6) {
     return 'Password must be at least 6 characters long';
