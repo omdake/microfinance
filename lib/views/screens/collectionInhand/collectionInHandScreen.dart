@@ -332,42 +332,46 @@ class CollectionInHandScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            InkWell(
-                              onTap: () async {
-                                if (_formKey.currentState!.validate()) {
-                                  controller.saveCollectionInHand();
-                                  Get.off(() => LoanCashCollectionSuccess(
-                                          crNo: controller
-                                              .employee.value.text,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              InkWell(
+                                onTap: () async {
+                                  if (_formKey.currentState!.validate()) {
+                                    controller.saveCollectionInHand();
+                                    Get.off(() => LoanCashCollectionSuccess(
+                                          crNo: controller.employee.value.text,
                                           applicantName:
                                               controller.employeeName.value.text,
-                                          amount:
-                                              controller.amount.value.text,
+                                          amount: controller.amount.value.text,
                                         ));
-                                } else {
-                                  AppTostMassage.showTostMassage(
-                                    massage: "Please fill all required fields",
-                                  );
-                                }
-                              },
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  shape: BoxShape.circle,
-                                ),
-                                padding: const EdgeInsets.all(10.0),
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.arrow_forward_ios,
+                                  } else {
+                                    AppTostMassage.showTostMassage(
+                                      massage: "Please fill all required fields",
+                                    );
+                                  }
+                                },
+                                child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
                                     color: Colors.white,
-                                  ),
-                                ),
+                                    fontWeight: FontWeight.bold,fontFamily: "Roboto-Regular"),
                               ),
                             ),
-                          ],
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),

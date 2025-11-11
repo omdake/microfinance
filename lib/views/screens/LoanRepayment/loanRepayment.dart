@@ -50,7 +50,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                 ),
               )),
         ),
-         bottomNavigationBar: const CustomBottomNavBar(),
+        bottomNavigationBar: const CustomBottomNavBar(),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Padding(
@@ -373,6 +373,10 @@ class LoanRepaymentScreen extends StatelessWidget {
                                           onChanged: (value) {
                                             controller.selectedModeOfPayment
                                                 .value = value!;
+                                            if (value.toLowerCase() == 'cash') {
+                                              controller.utrNumber.value
+                                                  .clear();
+                                            }
                                           },
                                           validator: (value) => value == null ||
                                                   value.trim().isEmpty
@@ -381,6 +385,39 @@ class LoanRepaymentScreen extends StatelessWidget {
                                         );
                                       })
                                     ]),
+                                    Obx(() {
+                                      final isCash = controller
+                                              .selectedModeOfPayment.value
+                                              .toLowerCase() ==
+                                          'cash';
+                                      if (isCash) {
+                                        return const SizedBox();
+                                      }
+                                      return Column(
+                                        children: [
+                                          C10(),
+                                          paddingWidget([
+                                            LabelsWithMark(
+                                                label:
+                                                    "UTR/Credit/Reference Number"),
+                                            TextFormField(
+                                              controller:
+                                                  controller.utrNumber.value,
+                                              cursorColor: AppColors.primary,
+                                              textCapitalization:
+                                                  TextCapitalization.sentences,
+                                              keyboardType: TextInputType.name,
+                                              style:
+                                                  TextStyles.textfieldTextStyle,
+                                              decoration: TextFieldDecoration
+                                                  .textfieldDecoration(
+                                                hint: "UTR Number",
+                                              ),
+                                            ),
+                                          ]),
+                                        ],
+                                      );
+                                    }),
                                     C10(),
                                     paddingWidget([
                                       const LabelsWithMark(
@@ -445,22 +482,6 @@ class LoanRepaymentScreen extends StatelessWidget {
                                     ),
                                     C10(),
                                     paddingWidget([
-                                      LabelsWithMark(label: "UTR Number"),
-                                      TextFormField(
-                                        controller: controller.utrNumber.value,
-                                        cursorColor: AppColors.primary,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        keyboardType: TextInputType.name,
-                                        style: TextStyles.textfieldTextStyle,
-                                        decoration: TextFieldDecoration
-                                            .textfieldDecoration(
-                                          hint: "UTR Number",
-                                        ),
-                                      ),
-                                    ]),
-                                    C10(),
-                                    paddingWidget([
                                       LabelsWithMark(label: "Remark"),
                                       TextFormField(
                                         controller: controller.remark.value,
@@ -492,33 +513,36 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   FocusScope.of(context).unfocus();
                                   if (_formKey.currentState!.validate()) {
                                     controller.saveRepayments();
-                                     Get.off(() => LoanRepaymentSuccessScreen(
-                                          crNo: controller
-                                              .loanId.value.text,
-                                          applicantName:
-                                              controller.applicantName.value.text,
+                                    Get.off(() => LoanRepaymentSuccessScreen(
+                                          crNo: controller.loanId.value.text,
+                                          applicantName: controller
+                                              .applicantName.value.text,
                                           amount:
                                               controller.amountPaid.value.text,
                                         ));
                                   } else {
                                     AppTostMassage.showTostMassage(
-                                      massage: "Please fill all required fields",
+                                      massage:
+                                          "Please fill all required fields",
                                     );
                                   }
                                 },
                                 child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.primaryOrange,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
                               ),
                             ],
                           ),
