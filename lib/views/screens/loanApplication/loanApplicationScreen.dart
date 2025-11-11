@@ -364,6 +364,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                               ? null
                                               : controller
                                                   .selectedProduct.value,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           hint: Text(
                                             "Select a Product",
                                             style: TextStyle(
@@ -467,6 +469,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                           controller:
                                               controller.loanAmount.value,
                                           cursorColor: AppColors.primary,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           textCapitalization:
                                               TextCapitalization.sentences,
                                           validator: (value) =>
@@ -487,6 +491,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                         TextFormField(
                                           controller: controller.periods.value,
                                           cursorColor: AppColors.primary,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           textCapitalization:
                                               TextCapitalization.none,
                                           keyboardType: TextInputType.number,
@@ -519,6 +525,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                               fontSize: 12,
                                             ),
                                           ),
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           dropdownSearchData:
                                               DropdownSearchData(
                                             searchController: controller
@@ -627,6 +635,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                                 ? null
                                                 : controller
                                                     .selectedRelation.value,
+                                                    autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                             items: controller.RelationList.map(
                                                 (e) {
                                               return DropdownMenuItem<String>(
@@ -666,6 +676,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                           controller:
                                               controller.description.value,
                                           cursorColor: AppColors.primary,
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
                                           textCapitalization:
                                               TextCapitalization.sentences,
                                           keyboardType: TextInputType.name,
