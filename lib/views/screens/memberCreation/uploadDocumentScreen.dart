@@ -155,22 +155,20 @@ class UploadDcumentSreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: IntrinsicWidth(
-                              child: Container(
-                                decoration: const BoxDecoration(
-                                  color: AppColors.primaryOrange,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(8)),
-                                ),
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 12, vertical: 8),
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  "Submit",
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
-                                ),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(25)),
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 8),
+                              alignment: Alignment.center,
+                              child: const Text(
+                                "Submit",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,fontFamily: "Roboto-Regular"),
                               ),
                             ),
                           );
