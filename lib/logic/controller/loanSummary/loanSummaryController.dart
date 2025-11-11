@@ -22,13 +22,14 @@ class LoanSummaryController extends GetxController {
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
- Rx<TextEditingController> search = TextEditingController().obs;
+  Rx<TextEditingController> search = TextEditingController().obs;
 
   void onSearchChanged(String query) {
     page.value = 1;
     groupList.clear();
-    getLoanDisbursementList(page: page.value,search: search.value.text);
+    getLoanDisbursementList(page: page.value, search: search.value.text);
   }
+
   void changeTab(int index) {
     selectedIndex.value = index;
   }
@@ -59,8 +60,13 @@ class LoanSummaryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    if (Get.arguments != null && Get.arguments['selectedIndex'] != null) {
+      selectedIndex.value = Get.arguments['selectedIndex'];
+    } else {
+      selectedIndex.value = 0;
+    }
     getGroupList();
-    getLoanDisbursementList(page: page.value,search: search.value.text);
+    getLoanDisbursementList(page: page.value, search: search.value.text);
     getLoanList();
   }
 
@@ -68,13 +74,13 @@ class LoanSummaryController extends GetxController {
     page.value = 1;
     hasNextPage.value = true;
     //loanDisbursementList.clear();
-    await getLoanDisbursementList(page: page.value,search: search.value.text);
+    await getLoanDisbursementList(page: page.value, search: search.value.text);
   }
 
   getLoadMoreData() async {
     if (isLoading.value || !hasNextPage.value) return;
     page.value += 1;
-    await getLoanDisbursementList(page: page.value,search: search.value.text);
+    await getLoanDisbursementList(page: page.value, search: search.value.text);
   }
 
   getGroupList() async {
@@ -100,10 +106,10 @@ class LoanSummaryController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -136,7 +142,8 @@ class LoanSummaryController extends GetxController {
     }
   }
 
-  getLoanDisbursementList({String? loanGroup, int? page,String?search}) async {
+  getLoanDisbursementList(
+      {String? loanGroup, int? page, String? search}) async {
     final token = await AppPreferences.getToken();
     try {
       final url = Uri.parse(AppEnvironment.baseUrl +
@@ -144,7 +151,8 @@ class LoanSummaryController extends GetxController {
               loanGroup: selecteddisbursementGroup.value,
               page: page,
               pagesize: 10,
-              isPagination: true,search: search));
+              isPagination: true,
+              search: search));
 
       final response = await http.get(
         url,
@@ -167,10 +175,10 @@ class LoanSummaryController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
       } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
@@ -224,11 +232,11 @@ class LoanSummaryController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final err = jsonDecode(response.body);
         CustomSnackBar.show(
             isIssue: true, message: err['message']['msg'] ?? "Error");
