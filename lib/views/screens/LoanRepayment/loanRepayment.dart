@@ -527,23 +527,20 @@ class LoanRepaymentScreen extends StatelessWidget {
                                     );
                                   }
                                 },
-                                child: IntrinsicWidth(
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.primaryOrange,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(15)),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 25, vertical: 10),
-                                    alignment: Alignment.center,
-                                    child: const Text(
-                                      "Save",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
-                                    ),
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryOrange,
+                                    shape: BoxShape.circle,
                                   ),
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: const Center(
+                                      child: Text(
+                                    "save",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Roboto-Regular"),
+                                  )),
                                 ),
                               ),
                             ],
