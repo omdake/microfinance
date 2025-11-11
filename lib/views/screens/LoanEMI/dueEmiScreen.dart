@@ -203,7 +203,7 @@ class DueEMIScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.grey.shade300,
         elevation: 0,
-        title: Text("Due EMI List", style: TextStyles.appbartitle),
+        title: Text("Pending EMI List", style: TextStyles.appbartitle),
         centerTitle: true,
         leading: IconButton(
           onPressed: () {

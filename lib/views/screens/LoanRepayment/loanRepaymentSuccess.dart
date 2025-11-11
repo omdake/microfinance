@@ -101,7 +101,7 @@ class LoanRepaymentSuccessScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: const Text(
-                    "BACK TO HOME",
+                    "BACK TO LOAN REPAYMENT LIST",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
