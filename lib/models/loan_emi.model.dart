@@ -21,6 +21,7 @@ class LoanEmiListMessage {
   double? totalPayment;
   double? balanceLoanAmount;
   String? loan;
+  String? loanId;
   String? applicantType;
   String? applicant;
   String? memberName;
@@ -40,6 +41,7 @@ class LoanEmiListMessage {
     this.totalPayment,
     this.balanceLoanAmount,
     this.loan,
+    this.loanId,
     this.mobileNo,
     this.mobileNo2,
     this.applicantType,
@@ -63,6 +65,7 @@ class LoanEmiListMessage {
         totalPayment: (json["total_payment"] as num?)?.toDouble(),
         balanceLoanAmount: (json["balance_loan_amount"] as num?)?.toDouble(),
         loan: json["loan"],
+        loanId: json["loan_id"],
         applicantType: json["applicant_type"],
         applicant: json["applicant"],
         memberName: json["member_name"],
@@ -83,6 +86,7 @@ class LoanEmiListMessage {
         "total_payment": totalPayment,
         "balance_loan_amount": balanceLoanAmount,
         "loan": loan,
+        "loan_id": loanId,
         "applicant_type": applicantType,
         "applicant": applicant,
         "member_name": memberName,

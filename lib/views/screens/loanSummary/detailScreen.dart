@@ -92,7 +92,7 @@ class DetailsScreen extends StatelessWidget {
                                 label: "Against Loan", isRequired: true),
                             TextFormField(
                               initialValue: controller
-                                      .loanDisbursement.value.againstLoan ??
+                                      .loanDisbursement.value.againstLoanLoanId ??
                                   '',
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,

@@ -30,7 +30,7 @@ class LoanApplicationListController extends GetxController {
 
   void onSearchChanged(String query) {
     page.value = 1;
-    groupList.clear();
+    //groupList.clear();
     getAplicantList(page: page.value, loanGroup: selectedGroup.value,search:search.value.text);
   }
   @override

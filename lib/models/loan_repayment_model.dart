@@ -27,12 +27,13 @@ class RepaymentListMessage {
     this.results,
   });
 
-  factory RepaymentListMessage.fromJson(Map<String, dynamic> json) => RepaymentListMessage(
+  factory RepaymentListMessage.fromJson(Map<String, dynamic> json) =>
+      RepaymentListMessage(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results:
-            List<RepaymentListResult>.from(json["results"].map((x) => RepaymentListResult.fromJson(x))),
+        results: List<RepaymentListResult>.from(
+            json["results"].map((x) => RepaymentListResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -81,6 +82,7 @@ class RepaymentListResult {
   String? applicantMemberName;
   String? workflowState;
   String? applicantImage;
+  String? againstLoanLoanId;
 
   RepaymentListResult({
     this.name,
@@ -120,9 +122,11 @@ class RepaymentListResult {
     this.applicantMemberName,
     this.workflowState,
     this.applicantImage,
+    this.againstLoanLoanId,
   });
 
-  factory RepaymentListResult.fromJson(Map<String, dynamic> json) => RepaymentListResult(
+  factory RepaymentListResult.fromJson(Map<String, dynamic> json) =>
+      RepaymentListResult(
         name: json["name"],
         againstLoan: json["against_loan"],
         applicant: json["applicant"],
@@ -158,8 +162,9 @@ class RepaymentListResult {
         manualRemarks: json["manual_remarks"],
         paymentAccount: json["payment_account"],
         applicantMemberName: json["applicant_member_name"],
-         workflowState: json["workflow_state"],
-         applicantImage: json["applicant_image"],
+        workflowState: json["workflow_state"],
+        applicantImage: json["applicant_image"],
+        againstLoanLoanId: json["against_loan_loan_id"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -201,5 +206,6 @@ class RepaymentListResult {
         "applicant_member_name": applicantMemberName,
         "workflow_state": workflowState,
         "applicant_image": applicantImage,
+         "against_loan_loan_id": againstLoanLoanId,
       };
 }

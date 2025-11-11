@@ -139,7 +139,7 @@ class LoanEMIScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Loan ID: ${user.loan ?? ""}",
+                      "Loan ID: ${user.loanId ?? ""}",
                       style: const TextStyle(
                         fontSize: 10,
                         color: Color(0xFF050708),
@@ -176,7 +176,7 @@ class LoanEMIScreen extends StatelessWidget {
                             Routes.loanRepayment,
                             arguments: {
                               'fromEMI': true,
-                              'loanId': user.loan ?? "",
+                              'loanId': user.loanId ?? "",
                               'totalPayment':
                                   user.totalPayment?.toStringAsFixed(2) ??
                                       "0.00",
