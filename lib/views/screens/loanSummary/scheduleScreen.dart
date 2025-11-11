@@ -225,8 +225,7 @@ class ScheduleScreen extends StatelessWidget {
                                   padding: const EdgeInsets.all(12),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Colors
-                                        .transparent,
+                                    color: Colors.transparent,
                                     border: Border.all(
                                       color: loanStatus == "Active"
                                           ? AppColors.primaryOrange
@@ -253,50 +252,12 @@ class ScheduleScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const Text(
-                                  "Total Amt",
-                                  style: TextStyle(
-                                      fontSize: 10, color: Color(0xFF050708)),
-                                ),
-                                Text(
-                                  "₹ ${schedule.totalPayment?.toStringAsFixed(2) ?? '0.00'}",
-                                  style: const TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF050708),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            C15(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
                                   "Paid On",
                                   style: TextStyle(
                                       fontSize: 10, color: Color(0xFF050708)),
                                 ),
                                 Text(
                                   _formatDate(schedule.paymentDate),
-                                  style: const TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF050708),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            C15(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  "Balance Amt",
-                                  style: TextStyle(
-                                      fontSize: 10, color: Color(0xFF050708)),
-                                ),
-                                Text(
-                                  "₹ ${schedule.balanceLoanAmount?.toStringAsFixed(2) ?? '0.00'}",
                                   style: const TextStyle(
                                     fontSize: 9,
                                     fontWeight: FontWeight.bold,
@@ -343,6 +304,45 @@ class ScheduleScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Total Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.totalPayment?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            C15(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Balance Amt",
+                                  style: TextStyle(
+                                      fontSize: 10, color: Color(0xFF050708)),
+                                ),
+                                Text(
+                                  "₹ ${schedule.balanceLoanAmount?.toStringAsFixed(2) ?? '0.00'}",
+                                  style: const TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF050708),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            
                           ],
                         ),
                       ),
