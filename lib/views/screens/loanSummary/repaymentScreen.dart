@@ -96,115 +96,46 @@ class RepaymentScreen extends StatelessWidget {
               flex: 6,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: " Name: ",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "${user.applicantMemberName ?? ""}",
-                          style: TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 12,
-                            color: Colors.grey.shade900,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "${user.applicantMemberName ?? ""}",
+                    style: TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 12,
+                      color: Colors.black,
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: " Id: ",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 12,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "${user.applicant ?? ""}",
-                          style: TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.grey.shade700,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "Id: ${user.applicant ?? ""}",
+                    style: TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.black,
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: " Loan: ",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "${user.againstLoan ?? ""}",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "Loan: ${user.againstLoan ?? ""}",
+                    style: const TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.black,
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Amount Paid: ",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "${user.amountPaid ?? ""}",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "Amount Paid: ${user.amountPaid ?? ""}",
+                    style: const TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.black,
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                          text: "Posting date: ",
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                        TextSpan(
-                          text: _formatDate(user.valueDate),
-                          style: const TextStyle(
-                            fontFamily: "Roboto-Regular",
-                            fontSize: 11,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
+                  Text(
+                    "Posting date: ${_formatDate(user.valueDate)}",
+                    style: const TextStyle(
+                      fontFamily: "Roboto-Regular",
+                      fontSize: 11,
+                      color: Colors.black,
                     ),
                   ),
                 ],
