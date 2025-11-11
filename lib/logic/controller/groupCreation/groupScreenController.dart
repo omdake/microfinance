@@ -20,6 +20,7 @@ class GroupScreenController extends GetxController {
   RxString selectedGroupHead = "".obs;
   Rx<File?> groupImage = Rx<File?>(null);
   RxString groupImageUrl = ''.obs;
+  RxString name = ''.obs;
   RxBool isgroupImageFocused = false.obs;
   RxBool isLoading = false.obs;
   RxInt page = 1.obs;
@@ -42,6 +43,11 @@ class GroupScreenController extends GetxController {
   void onInit() async {
     super.onInit();
     getheadList();
+    final args = Get.arguments;
+    name.value = args["name"];
+    selectedGroupHead.value = args["groupHead"];
+    groupName.value.text = args["groupName"];
+    groupImageUrl.value = args["groupImage"];
   }
 
   saveGroup() async {
@@ -78,9 +84,6 @@ class GroupScreenController extends GetxController {
       } catch (_) {}
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
-        // CustomSnackBar.show(
-        //     isIssue: false, message: responseBody["message"]["msg"]);
-        clearFields();
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
@@ -171,6 +174,101 @@ class GroupScreenController extends GetxController {
           path: "${AppEnvironment.baseUrl}${AppURLs.groupList}",
           dateTime: DateTime.now(),
           data: {},
+          response: {"error": e.toString()},
+        ),
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  updateGroup() async {
+    final token = await AppPreferences.getToken();
+    isLoading.value = true;
+
+    if (name.value.isEmpty) {
+      CustomSnackBar.show(isIssue: true, message: "Member name is required");
+      return;
+    }
+    final uri = Uri.parse(
+        AppEnvironment.baseUrl + AppURLs.getGroupUpdate(name: name.value));
+
+    final Map<String, String> fields = {
+      'name': name.value,
+      'group_name': groupName.value.text,
+      'group_head': selectedGroupHead.value,
+    };
+
+    fields.removeWhere((key, value) => value.isEmpty);
+
+    final Map<String, Rx<File?>> imageFields = {
+      'group_image': groupImage,
+    };
+
+    final List<String> fileNames = [];
+    imageFields.forEach((key, value) {
+      if (value.value != null) fileNames.add(value.value!.path.split('/').last);
+    });
+
+    try {
+      var request = http.MultipartRequest('PUT', uri);
+      request.headers['Authorization'] = token!;
+      request.fields.addAll(fields);
+      for (var entry in imageFields.entries) {
+        if (entry.value.value != null) {
+          final file = await http.MultipartFile.fromPath(
+            entry.key,
+            entry.value.value!.path,
+          );
+          request.files.add(file);
+        }
+      }
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
+
+      Map<String, dynamic> responseBody = {};
+      try {
+        responseBody = jsonDecode(response.body);
+      } catch (_) {}
+      if (response.statusCode == APIStatusCode.SUCCESS) {
+      } else if (response.statusCode == 401) {
+        await oauthService.handleExceptionLogout('AuthenticationError');
+        CustomSnackBar.show(isIssue: true, message: "Authentication Error");
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
+        final errorMsg =
+            responseBody['message']?['msg'] ?? 'Something went wrong';
+        CustomSnackBar.show(isIssue: true, message: errorMsg);
+      }
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
+          response: responseBody,
+        ),
+      );
+    } catch (e) {
+      CustomSnackBar.show(isIssue: true, message: "$e");
+      DevService.instance.insertAPICall(
+        AppAPIsCall(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          type: "POST",
+          path: uri.toString(),
+          dateTime: DateTime.now(),
+          data: {
+            ...fields,
+            "files": fileNames,
+          },
           response: {"error": e.toString()},
         ),
       );
