@@ -86,6 +86,7 @@ class LoanDisbursementResult {
   String? amendedFrom;
    String? applicantMemberName;
    String? applicantImage;
+   String? againstLoanLoanId;
 
   LoanDisbursementResult({
     this.name,
@@ -128,6 +129,7 @@ class LoanDisbursementResult {
     this.amendedFrom,
     this.applicantMemberName,
     this.applicantImage,
+    this.againstLoanLoanId,
   });
 
  factory LoanDisbursementResult.fromJson(Map<String, dynamic> json) =>
@@ -182,6 +184,7 @@ class LoanDisbursementResult {
       amendedFrom: json["amended_from"] ?? "",
       applicantMemberName: json["applicant_member_name"] ?? "",
       applicantImage: json["applicant_image"],
+       againstLoanLoanId: json["against_loan_loan_id"],
     );
 
 
@@ -229,5 +232,6 @@ class LoanDisbursementResult {
         "amended_from": amendedFrom,
          "applicant_member_name": applicantMemberName,
          "applicant_image": applicantImage,
+          "against_loan_loan_id": againstLoanLoanId,
       };
 }

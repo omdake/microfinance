@@ -26,7 +26,7 @@ class LoanSummaryController extends GetxController {
 
   void onSearchChanged(String query) {
     page.value = 1;
-    groupList.clear();
+    //groupList.clear();
     getLoanDisbursementList(page: page.value, search: search.value.text);
   }
 

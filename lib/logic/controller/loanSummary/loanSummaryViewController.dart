@@ -32,7 +32,7 @@ class LoanSummaryViewController extends GetxController {
 
   getLoanDataFromArg(RepaymentListResult applicant,
       {bool readOnly = false}) async {
-    loanId.value.text = applicant.name ?? '';
+    loanId.value.text = applicant.againstLoanLoanId ?? '';
     applicantName.value.text = applicant.applicantMemberName ?? '';
     valueDate.value.text = applicant.valueDate != null
         ? DateFormat('yyyy-MM-dd').format(applicant.valueDate!)

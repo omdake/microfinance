@@ -105,6 +105,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                         final loanlist =
                                             loanSummaryController?.loantList ??
                                                 [];
+
                                         if (loanlist.isNotEmpty) {
                                           return DropdownButtonFormField2<
                                               String>(
@@ -115,9 +116,11 @@ class LoanRepaymentScreen extends StatelessWidget {
                                             items: loanlist.map((loan) {
                                               return DropdownMenuItem<String>(
                                                 value: loan.name!,
-                                                child: Text(loan.name!),
+                                                child: Text(loan.loanId!),
                                               );
                                             }).toList(),
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
                                             dropdownSearchData:
                                                 DropdownSearchData(
                                               searchController:
@@ -398,8 +401,10 @@ class LoanRepaymentScreen extends StatelessWidget {
                                           C10(),
                                           paddingWidget([
                                             LabelsWithMark(
-                                                label:
-                                                    "UTR/Credit/Reference Number"),
+                                              label:
+                                                  "UTR/Credit/Reference Number",
+                                              isRequired: true,
+                                            ),
                                             TextFormField(
                                               controller:
                                                   controller.utrNumber.value,
@@ -413,6 +418,10 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   .textfieldDecoration(
                                                 hint: "UTR Number",
                                               ),
+                                              validator: (value) =>
+                                                  requiredValidator(value!),
+                                              autovalidateMode: AutovalidateMode
+                                                  .onUserInteraction,
                                             ),
                                           ]),
                                         ],
@@ -528,21 +537,21 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   }
                                 },
                                 child: Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.primaryOrange,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 8),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primaryOrange,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(25)),
+                                  ),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 8),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    "Submit",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
                               ),
                             ],
                           ),

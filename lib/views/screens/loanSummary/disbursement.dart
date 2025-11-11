@@ -98,7 +98,7 @@ class DisbursementScreen extends StatelessWidget {
                   ),
                   C2(),
                   Text(
-                    "ID: ${user.name ?? "-"}",
+                    "ID: ${user.againstLoanLoanId ?? "-"}",
                     style: TextStyle(
                       fontFamily: "Roboto-Regular",
                       fontSize: 11,

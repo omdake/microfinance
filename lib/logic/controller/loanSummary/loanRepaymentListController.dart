@@ -24,7 +24,7 @@ class LoanSummaryListController extends GetxController {
 
   void onSearchChanged(String query) {
     page.value = 1;
-    groupList.clear();
+   // groupList.clear();
     getRepaymentList(page: page.value, search: search.value.text);
   }
 
