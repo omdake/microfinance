@@ -635,8 +635,8 @@ class LoanApplicationScreen extends StatelessWidget {
                                                 ? null
                                                 : controller
                                                     .selectedRelation.value,
-                                                    autovalidateMode: AutovalidateMode
-                                              .onUserInteraction,
+                                            autovalidateMode: AutovalidateMode
+                                                .onUserInteraction,
                                             items: controller.RelationList.map(
                                                 (e) {
                                               return DropdownMenuItem<String>(
@@ -719,16 +719,21 @@ class LoanApplicationScreen extends StatelessWidget {
                                     );
                                   }
                                 },
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: AppColors.primaryOrange,
-                                    shape: BoxShape.circle,
-                                  ),
-                                  padding: const EdgeInsets.all(10.0),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.arrow_forward_ios,
-                                      color: Colors.white,
+                                child: IntrinsicWidth(
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.primaryOrange,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(15)),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 25, vertical: 10),
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      "Save",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
                                     ),
                                   ),
                                 ),
