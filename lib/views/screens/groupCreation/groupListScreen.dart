@@ -289,7 +289,19 @@ class GroupListScreen extends StatelessWidget {
                       return loanCard(
                         user: user,
                         token: controller.token.value,
-                        onTap: () {},
+                        onTap: () {
+                          final args = {
+                            "name": user.name,
+                            "groupHead":user.groupHead,
+                            "groupName":user.groupName,
+                            "groupImage":user.groupImage
+                          };
+
+                          Get.toNamed(
+                            Routes.groupCreation,
+                            arguments: args,
+                          );
+                        },
                       );
                     }).toList(),
                   );

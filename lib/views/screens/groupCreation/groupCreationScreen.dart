@@ -14,6 +14,7 @@ import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationSuccess.dart';
+import 'package:microfinance/views/screens/groupCreation/groupUpdationSuccess.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
@@ -273,13 +274,23 @@ class GroupCreationScreen extends StatelessWidget {
                               InkWell(
                                 onTap: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    controller.saveGroup();
-                                    Get.off(() => GroupCreationSuccess(
-                                          applicantName:
-                                              controller.groupName.value.text,
-                                          group: controller
-                                              .selectedGroupHead.value,
-                                        ));
+                                    if (controller.name.value.isNotEmpty) {
+                                      await controller.updateGroup();
+                                      Get.off(() => GroupUpdationSuccess(
+                                            applicantName:
+                                                controller.groupName.value.text,
+                                            group: controller
+                                                .selectedGroupHead.value,
+                                          ));
+                                    } else {
+                                      await controller.saveGroup();
+                                      Get.off(() => GroupCreationSuccess(
+                                            applicantName:
+                                                controller.groupName.value.text,
+                                            group: controller
+                                                .selectedGroupHead.value,
+                                          ));
+                                    }
                                   } else {
                                     AppTostMassage.showTostMassage(
                                       massage:
