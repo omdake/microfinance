@@ -218,6 +218,21 @@ class C100 extends StatelessWidget {
   }
 }
 
+class C120 extends StatelessWidget {
+  final Color? color;
+
+  const C120({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s120,
+      width: Sizes.s120,
+    );
+  }
+}
+
 class C150 extends StatelessWidget {
   final Color? color;
 

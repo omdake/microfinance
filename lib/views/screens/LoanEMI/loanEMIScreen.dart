@@ -184,7 +184,8 @@ class LoanEMIScreen extends StatelessWidget {
                             Routes.loanRepayment,
                             arguments: {
                               'fromEMI': true,
-                              'loanId': user.loan ?? "",
+                              'loanId': user.loanId ?? "",
+                              'loan': user.loan ?? "",
                               'totalPayment':
                                   user.totalPayment?.toStringAsFixed(2) ??
                                       "0.00",

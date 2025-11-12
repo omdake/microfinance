@@ -479,8 +479,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ).copyWith(
-                                            contentPadding: EdgeInsets.all(-5),
-                                          ),
+                                  contentPadding: EdgeInsets.all(-5),
+                                ),
                                 onChanged: isEnabled
                                     ? (value) {
                                         controller.selectedGroup.value =
@@ -565,6 +565,34 @@ class PersonalDetailsScreen extends StatelessWidget {
                               );
                             }),
                           ]),
+                          if (controller.isMemberId.value) ...[
+                            C10(),
+                            paddingWidget([
+                              const LabelsWithMark(label: "Created By"),
+                              TextFormField(
+                                enabled: controller.isCreatedBy.value,
+                                controller: controller.createdBy.value,
+                                cursorColor: AppColors.primary,
+                                keyboardType: TextInputType.phone,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                style: TextStyles.textfieldTextStyle,
+                                validator: (value) =>
+                                    mobileNoValidator(value!.trim()),
+                                decoration:
+                                    TextFieldDecoration.textfieldDecoration(
+                                  hint: "Created By",
+                                ).copyWith(
+                                  filled: true,
+                                  fillColor:
+                                      Colors.grey.shade200, 
+                                ),
+                                inputFormatters: [
+                                  MobileNumberPrefixFormatter(),
+                                ],
+                              ),
+                            ]),
+                          ],
                         ],
                       ),
                     ),

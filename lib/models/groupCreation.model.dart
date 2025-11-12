@@ -27,12 +27,13 @@ class GroupCreationMessage {
     this.results,
   });
 
-  factory GroupCreationMessage.fromJson(Map<String, dynamic> json) => GroupCreationMessage(
+  factory GroupCreationMessage.fromJson(Map<String, dynamic> json) =>
+      GroupCreationMessage(
         count: json["count"],
         next: json["next"],
         previous: json["previous"],
-        results:
-            List<GroupCreationResult>.from(json["results"].map((x) => GroupCreationResult.fromJson(x))),
+        results: List<GroupCreationResult>.from(
+            json["results"].map((x) => GroupCreationResult.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -49,21 +50,24 @@ class GroupCreationResult {
   String? groupHead;
   dynamic groupImage;
   String? groupHeadMemberName;
+  String? workflowState;
 
-  GroupCreationResult({
-    this.name,
-    this.groupName,
-    this.groupHead,
-    this.groupImage,
-    this.groupHeadMemberName,
-  });
+  GroupCreationResult(
+      {this.name,
+      this.groupName,
+      this.groupHead,
+      this.groupImage,
+      this.groupHeadMemberName,
+      this.workflowState});
 
-  factory GroupCreationResult.fromJson(Map<String, dynamic> json) => GroupCreationResult(
+  factory GroupCreationResult.fromJson(Map<String, dynamic> json) =>
+      GroupCreationResult(
         name: json["name"],
         groupName: json["group_name"],
         groupHead: json["group_head"],
         groupImage: json["group_image"],
         groupHeadMemberName: json["group_head_member_name"],
+        workflowState: json["workflow_state"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,5 +76,6 @@ class GroupCreationResult {
         "group_head": groupHead,
         "group_image": groupImage,
         "group_head_member_name": groupHeadMemberName,
+        "workflow_state": workflowState,
       };
 }

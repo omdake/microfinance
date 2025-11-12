@@ -16,6 +16,7 @@ import 'package:microfinance/models/get_Payable_Amount.model.dart';
 import 'package:microfinance/models/mode_of_payment.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
+import 'package:microfinance/views/screens/LoanRepayment/loanRepaymentSuccess.dart';
 
 class LoanRepaymentController extends GetxController {
   Rx<TextEditingController> loanId = TextEditingController().obs;
@@ -38,6 +39,7 @@ class LoanRepaymentController extends GetxController {
   RxString selectedValueDate = ''.obs;
   RxString selectedReferenceDate = ''.obs;
   RxString name = ''.obs;
+  RxString loan = ''.obs;
   RxString applicantId = ''.obs;
   RxBool isFromEMI = false.obs;
   RxBool isFormEdit = false.obs;
@@ -51,6 +53,7 @@ class LoanRepaymentController extends GetxController {
       isFormEdit.value = false;
       name.value = args['applicant'] ?? '';
       loanId.value.text = args['loanId'] ?? '';
+      loan.value = args['loan'] ?? '';
       applicantName.value.text = args['memberName'] ?? '';
       payableAmount.value.text = args['totalPayment']?.toString() ?? '';
       valueDate.value.text = args['paymentDate'] ?? '';
@@ -229,7 +232,7 @@ class LoanRepaymentController extends GetxController {
 
     final Map<String, String> fields = {
       "name": name.value,
-      "against_loan": loanId.value.text,
+      "against_loan": loan.value,
       "applicant": applicantId.value,
       "repayment_type": "",
       "loan_disbursement": "",
@@ -268,6 +271,11 @@ class LoanRepaymentController extends GetxController {
       final responseBody = jsonDecode(response.body);
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
+        Get.off(() => LoanRepaymentSuccessScreen(
+              crNo: loanId.value.text,
+              applicantName: applicantName.value.text,
+              amount: amountPaid.value.text,
+            ));
         // CustomSnackBar.show(
         //     isIssue: false, message: responseBody["message"]["msg"]);
       } else if (response.statusCode == 401) {

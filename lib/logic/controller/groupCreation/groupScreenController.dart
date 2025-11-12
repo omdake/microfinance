@@ -12,6 +12,7 @@ import 'package:microfinance/api/dev/dev_service.dart';
 import 'package:microfinance/models/loan_memeber_list.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
+import 'package:microfinance/views/screens/groupCreation/groupCreationSuccess.dart';
 import 'package:microfinance/views/screens/groupCreation/groupUpdationSuccess.dart';
 
 class GroupScreenController extends GetxController {
@@ -22,6 +23,7 @@ class GroupScreenController extends GetxController {
   Rx<File?> groupImage = Rx<File?>(null);
   RxString groupImageUrl = ''.obs;
   RxString name = ''.obs;
+  RxString status = ''.obs;
   RxBool isgroupImageFocused = false.obs;
   RxBool isLoading = false.obs;
   RxInt page = 1.obs;
@@ -49,6 +51,12 @@ class GroupScreenController extends GetxController {
     selectedGroupHead.value = args["groupHead"];
     groupName.value.text = args["groupName"];
     groupImageUrl.value = args["groupImage"];
+    status.value = args["status"] ?? '';
+    if (status.value.toLowerCase() == "pending") {
+      isReadOnly.value = true;
+    } else {
+      isReadOnly.value = false;
+    }
   }
 
   saveGroup() async {
@@ -85,6 +93,10 @@ class GroupScreenController extends GetxController {
       } catch (_) {}
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
+        Get.off(() => GroupCreationSuccess(
+              applicantName: groupName.value.text,
+              group: selectedGroupHead.value,
+            ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");

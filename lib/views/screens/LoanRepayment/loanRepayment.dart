@@ -12,7 +12,6 @@ import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
-import 'package:microfinance/views/screens/LoanRepayment/loanRepaymentSuccess.dart';
 
 class LoanRepaymentScreen extends StatelessWidget {
   LoanRepaymentScreen({super.key});
@@ -414,8 +413,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                hint:
-                                                    "UTR/Credit/Reference Number",
+                                                hint: "UTR Number",
                                               ),
                                               validator: (value) =>
                                                   requiredValidator(value!),
@@ -521,13 +519,6 @@ class LoanRepaymentScreen extends StatelessWidget {
                                   FocusScope.of(context).unfocus();
                                   if (_formKey.currentState!.validate()) {
                                     controller.saveRepayments();
-                                    Get.off(() => LoanRepaymentSuccessScreen(
-                                          crNo: controller.loanId.value.text,
-                                          applicantName: controller
-                                              .applicantName.value.text,
-                                          amount:
-                                              controller.amountPaid.value.text,
-                                        ));
                                   } else {
                                     AppTostMassage.showTostMassage(
                                       massage:

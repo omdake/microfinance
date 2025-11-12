@@ -175,7 +175,11 @@ class MemberCreationController extends GetxController {
         okButtonTextStyle: const TextStyle(color: Colors.black),
         cancelButtonTextStyle: const TextStyle(color: Colors.black),
         selectedDayHighlightColor: Colors.grey,
-        dayTextStyle: const TextStyle(color: Colors.black),
+        dayTextStyle: const TextStyle(
+          color: Colors.black,
+        ),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
       ),
       dialogSize: const Size(350, 400),
       borderRadius: BorderRadius.circular(15),
