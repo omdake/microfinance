@@ -416,7 +416,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                hint: "UTR Number",
+                                                hint: "UTR/Credit/Reference Number",
                                               ),
                                               validator: (value) =>
                                                   requiredValidator(value!),

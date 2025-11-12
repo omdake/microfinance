@@ -118,6 +118,14 @@ class DueEMIScreen extends StatelessWidget {
                         fontFamily: "Roboto-Regular",
                       ),
                     ),
+                     Text(
+                      "Loan: ${user.loan ?? ""}",
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
+                      ),
+                    ),
                     Text(
                       "Loan ID: ${user.loanId ?? ""}",
                       style: const TextStyle(
@@ -155,7 +163,7 @@ class DueEMIScreen extends StatelessWidget {
                         Routes.loanRepayment,
                         arguments: {
                           'fromEMI': true,
-                          'loanId': user.loanId ?? "",
+                          'loanId': user.loan ?? "",
                           'totalPayment':
                               user.totalPayment?.toStringAsFixed(2) ?? "0.00",
                           'paymentDate': user.paymentDate,
