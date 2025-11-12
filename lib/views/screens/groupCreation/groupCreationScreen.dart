@@ -13,7 +13,6 @@ import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
-import 'package:microfinance/views/screens/groupCreation/groupCreationSuccess.dart';
 
 class GroupCreationScreen extends StatelessWidget {
   GroupCreationScreen({super.key});
@@ -111,8 +110,15 @@ class GroupCreationScreen extends StatelessWidget {
                                               requiredValidator(value!),
                                           style: TextStyles.textfieldTextStyle,
                                           decoration: TextFieldDecoration
-                                              .textfieldDecoration(
-                                                  hint: "Enter Group Name"),
+                                                  .textfieldDecoration(
+                                                      hint: "Enter Group Name")
+                                              .copyWith(
+                                            filled: true,
+                                            fillColor:
+                                                controller.isReadOnly.value
+                                                    ? Colors.grey.shade300
+                                                    : Colors.white,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -123,6 +129,18 @@ class GroupCreationScreen extends StatelessWidget {
                                         isRequired: true,
                                       ),
                                       Obx(() {
+                                        final validValue = controller
+                                                .groupheadList
+                                                .any(
+                                          (e) =>
+                                              e.name ==
+                                              controller
+                                                  .selectedGroupHead.value,
+                                        )
+                                            ? controller.selectedGroupHead.value
+                                            : null;
+                                        final isEnabled =
+                                            !controller.isReadOnly.value;
                                         return Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -131,128 +149,135 @@ class GroupCreationScreen extends StatelessWidget {
                                               alignment: Alignment.centerRight,
                                               children: [
                                                 DropdownButtonFormField2<
-                                                    String>(
-                                                  value: controller
+                                                        String>(
+                                                    value: validValue,
+                                                    isExpanded: true,
+                                                    autovalidateMode:
+                                                        AutovalidateMode
+                                                            .onUserInteraction,
+                                                    items: controller
+                                                        .groupheadList
+                                                        .map((e) {
+                                                      return DropdownMenuItem(
+                                                        value:
+                                                            e.name.toString(),
+                                                        child: Text(
+                                                          e.memberName ?? '',
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      );
+                                                    }).toList(),
+                                                    style: TextStyles
+                                                        .textfieldTextStyle,
+                                                    hint: Text(
+                                                      "Select Group Head",
+                                                      style: TextStyle(
+                                                        color: Colors
+                                                            .grey.shade600,
+                                                        fontFamily:
+                                                            "Roboto-Regular",
+                                                        fontSize: 12,
+                                                      ),
+                                                    ),
+                                                    validator: (value) {
+                                                      if (controller
                                                           .selectedGroupHead
                                                           .value
-                                                          .isEmpty
-                                                      ? null
-                                                      : controller
-                                                          .selectedGroupHead
+                                                          .isEmpty) {
+                                                        return '';
+                                                      }
+                                                      return null;
+                                                    },
+                                                    dropdownSearchData:
+                                                        DropdownSearchData(
+                                                      searchController: controller
+                                                          .groupSearchController
                                                           .value,
-                                                  isExpanded: true,
-                                                  autovalidateMode:
-                                                      AutovalidateMode
-                                                          .onUserInteraction,
-                                                  items: controller
-                                                      .groupheadList
-                                                      .map((e) {
-                                                    return DropdownMenuItem(
-                                                      value: e.name.toString(),
-                                                      child: Text(
-                                                        e.memberName ?? '',
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    );
-                                                  }).toList(),
-                                                  style: TextStyles
-                                                      .textfieldTextStyle,
-                                                  hint: Text(
-                                                    "Select Group Head",
-                                                    style: TextStyle(
-                                                      color:
-                                                          Colors.grey.shade600,
-                                                      fontFamily:
-                                                          "Roboto-Regular",
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                  validator: (value) {
-                                                    if (controller
-                                                        .selectedGroupHead
-                                                        .value
-                                                        .isEmpty) {
-                                                      return '';
-                                                    }
-                                                    return null;
-                                                  },
-                                                  dropdownSearchData:
-                                                      DropdownSearchData(
-                                                    searchController: controller
-                                                        .groupSearchController
-                                                        .value,
-                                                    searchInnerWidgetHeight: 50,
-                                                    searchInnerWidget: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8),
-                                                      child: TextFormField(
-                                                        cursorColor:
-                                                            Colors.black,
-                                                        style: TextStyles
-                                                            .textfieldTextStyle,
-                                                        controller: controller
-                                                            .groupSearchController
-                                                            .value,
-                                                        decoration:
-                                                            TextFieldDecoration
-                                                                .textfieldDecoration(
-                                                          sufficIconOntap:
-                                                              () {},
-                                                          sufficIcon:
-                                                              Icons.search,
-                                                          hint:
-                                                              'Search group head...',
+                                                      searchInnerWidgetHeight:
+                                                          50,
+                                                      searchInnerWidget:
+                                                          Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8),
+                                                        child: TextFormField(
+                                                          cursorColor:
+                                                              Colors.black,
+                                                          style: TextStyles
+                                                              .textfieldTextStyle,
+                                                          controller: controller
+                                                              .groupSearchController
+                                                              .value,
+                                                          decoration:
+                                                              TextFieldDecoration
+                                                                  .textfieldDecoration(
+                                                            sufficIconOntap:
+                                                                () {},
+                                                            sufficIcon:
+                                                                Icons.search,
+                                                            hint:
+                                                                'Search group head...',
+                                                          ),
                                                         ),
                                                       ),
+                                                      searchMatchFn:
+                                                          (item, searchValue) {
+                                                        if (searchValue
+                                                                .trim()
+                                                                .length <
+                                                            3) {
+                                                          return true;
+                                                        }
+                                                        return (item.child
+                                                                is Text &&
+                                                            (item.child as Text)
+                                                                .data!
+                                                                .toLowerCase()
+                                                                .contains(
+                                                                    searchValue
+                                                                        .toLowerCase()));
+                                                      },
                                                     ),
-                                                    searchMatchFn:
-                                                        (item, searchValue) {
-                                                      if (searchValue
-                                                              .trim()
-                                                              .length <
-                                                          3) {
-                                                        return true;
+                                                    onMenuStateChange:
+                                                        (isOpen) {
+                                                      if (!isOpen) {
+                                                        controller
+                                                            .groupSearchController
+                                                            .value
+                                                            .clear();
                                                       }
-                                                      return (item.child
-                                                              is Text &&
-                                                          (item.child as Text)
-                                                              .data!
-                                                              .toLowerCase()
-                                                              .contains(searchValue
-                                                                  .toLowerCase()));
                                                     },
-                                                  ),
-                                                  onMenuStateChange: (isOpen) {
-                                                    if (!isOpen) {
-                                                      controller
-                                                          .groupSearchController
-                                                          .value
-                                                          .clear();
-                                                    }
-                                                  },
-                                                  dropdownStyleData:
-                                                      DropdownStyleData(
-                                                          maxHeight: 500),
-                                                  decoration:
-                                                      TextFieldDecoration
-                                                          .textfieldDecoration(
-                                                    hint: "",
-                                                    sufficIconOntap: () {},
-                                                    sufficIcon: null,
-                                                  ).copyWith(
-                                                    contentPadding:
-                                                        const EdgeInsets.all(
-                                                            -5),
-                                                    errorStyle: const TextStyle(
-                                                        height: 0.2),
-                                                  ),
-                                                  onChanged: (value) {
-                                                    controller.selectedGroupHead
-                                                        .value = value!;
-                                                  },
-                                                ),
+                                                    dropdownStyleData:
+                                                        DropdownStyleData(
+                                                            maxHeight: 500),
+                                                    decoration:
+                                                        TextFieldDecoration
+                                                            .textfieldDecoration(
+                                                      hint: "",
+                                                      sufficIconOntap: () {},
+                                                      sufficIcon: null,
+                                                    ).copyWith(
+                                                      filled: true,
+                                                      fillColor: controller
+                                                              .isReadOnly.value
+                                                          ? Colors.grey.shade300
+                                                          : Colors.white,
+                                                      contentPadding:
+                                                          const EdgeInsets.all(
+                                                              -5),
+                                                      errorStyle:
+                                                          const TextStyle(
+                                                              height: 0.2),
+                                                    ),
+                                                    onChanged: isEnabled
+                                                        ? (value) {
+                                                            controller
+                                                                    .selectedGroupHead
+                                                                    .value =
+                                                                value ?? '';
+                                                          }
+                                                        : null),
                                               ],
                                             ),
                                             Obx(() {
@@ -286,7 +311,7 @@ class GroupCreationScreen extends StatelessWidget {
                                       imageFile: controller.groupImage,
                                       imageUrl: controller.groupImageUrl,
                                       isFocused: controller.isgroupImageFocused,
-                                      isEnabled: !controller.isReadOnly.value,
+                                      // isEnabled: !controller.isReadOnly.value,
                                       onTap: () => controller
                                           .pickImage(controller.groupImage),
                                     ),
@@ -296,62 +321,59 @@ class GroupCreationScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              InkWell(
-                                onTap: () async {
-                                  controller.showError.value = controller
-                                      .selectedGroupHead.value.isEmpty;
+                        if (!controller.isReadOnly.value)
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                InkWell(
+                                  onTap: () async {
+                                    controller.showError.value = controller
+                                        .selectedGroupHead.value.isEmpty;
 
-                                  if (_formKey.currentState!.validate()) {
-                                    if (controller
-                                        .selectedGroupHead.value.isEmpty) {
-                                      AppTostMassage.showTostMassage(
-                                        massage: "Please select a Group Head",
-                                      );
-                                      return;
-                                    }
-                                    if (controller.name.value.isNotEmpty) {
-                                      await controller.updateGroup();
+                                    if (_formKey.currentState!.validate()) {
+                                      if (controller
+                                          .selectedGroupHead.value.isEmpty) {
+                                        AppTostMassage.showTostMassage(
+                                          massage: "Please select a Group Head",
+                                        );
+                                        return;
+                                      }
+                                      if (controller.name.value.isNotEmpty) {
+                                        await controller.updateGroup();
+                                      } else {
+                                        await controller.saveGroup();
+                                      }
                                     } else {
-                                      await controller.saveGroup();
-                                      Get.off(() => GroupCreationSuccess(
-                                            applicantName:
-                                                controller.groupName.value.text,
-                                            group: controller
-                                                .selectedGroupHead.value,
-                                          ));
+                                      AppTostMassage.showTostMassage(
+                                        massage:
+                                            "Please fill all required fields",
+                                      );
                                     }
-                                  } else {
-                                    AppTostMassage.showTostMassage(
-                                      massage:
-                                          "Please fill all required fields",
-                                    );
-                                  }
-                                },
-                                child:  Container(
-                              decoration: const BoxDecoration(
-                                color: AppColors.primaryOrange,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 8),
-                              alignment: Alignment.center,
-                              child: const Text(
-                                "Submit",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,fontFamily: "Roboto-Regular"),
-                              ),
+                                  },
+                                  child: Container(
+                                    decoration: const BoxDecoration(
+                                      color: AppColors.primaryOrange,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
+                                    ),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 8),
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: "Roboto-Regular",
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
-                              ),
-                            ],
                           ),
-                        )
                       ],
                     ),
                   ),

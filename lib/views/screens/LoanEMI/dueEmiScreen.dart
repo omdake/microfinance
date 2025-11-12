@@ -118,7 +118,7 @@ class DueEMIScreen extends StatelessWidget {
                         fontFamily: "Roboto-Regular",
                       ),
                     ),
-                     Text(
+                    Text(
                       "Loan: ${user.loan ?? ""}",
                       style: const TextStyle(
                         fontSize: 12,
@@ -159,17 +159,23 @@ class DueEMIScreen extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () async {
+                      final args = {
+                        'fromEMI': true,
+                        'loanId': user.loanId ?? "",
+                        'loan': user.loan ?? "",
+                        'totalPayment':
+                            user.totalPayment?.toStringAsFixed(2) ?? "0.00",
+                        'paymentDate': user.paymentDate,
+                        'memberName': user.memberName,
+                        'applicant': user.applicant,
+                      };
+
+                      print(
+                          "Navigating to LoanRepayment with args: $args"); // ✅ log all arguments
+
                       Get.toNamed(
                         Routes.loanRepayment,
-                        arguments: {
-                          'fromEMI': true,
-                          'loanId': user.loan ?? "",
-                          'totalPayment':
-                              user.totalPayment?.toStringAsFixed(2) ?? "0.00",
-                          'paymentDate': user.paymentDate,
-                          'memberName': user.memberName,
-                          'applicant': user.applicant,
-                        },
+                        arguments: args,
                       );
                     },
                     child: Container(

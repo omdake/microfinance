@@ -19,168 +19,251 @@ class LoginWithPassword extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primaryRed,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Stack(
-            children: [
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  height: 8,
-                  color: AppColors.primaryOrange,
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  width: double.infinity,
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 23),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 8,
-                        offset: const Offset(0, 4),
+        child: Stack(
+          children: [
+            GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    C165(),
+                    Center(
+                      child: Image.asset(
+                        'assets/new/logo.png',
+                        height: 180,
+                        width: 180,
+                       
                       ),
-                    ],
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                     //C20(),
+                    // const Text(
+                    //   "SMALL STEPS",
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontFamily: "Roboto-Regular",
+                    //     fontSize: 18,
+                    //     letterSpacing: 1.0,
+                    //   ),
+                    // ),
+                    // C5(),
+                    // const Text(
+                    //   "BIG DREAM",
+                    //   style: TextStyle(
+                    //     fontFamily: 'Roboto-Medium',
+                    //     color: Colors.white,
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.w600,
+                    //     letterSpacing: 1.0,
+                    //   ),
+                    // ),
+                    C50(),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        const Text(
-                          "Login",
-                          style: TextStyle(
-                            fontFamily: "Roboto-Medium",
-                            fontSize: 22,
-                            color: Color(0xFF17243E),
+                        Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.1),
+                                blurRadius: 8,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
                           ),
-                        ),
-                        C15(),
-                        LabelText(
-                          label: Strings.UserName,
-                          isRequired: true,
-                          child: TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            style: TextStyles.textfieldTextStyle,
-                            controller: controller.username,
-                            decoration: InputDecoration(
-                              hintText: "Enter Username",
-                              hintStyle: TextStyle(
-                                  color: Colors.grey.shade600,
-                                  fontFamily: "Roboto-Regular",
-                                  fontSize: 12),
-                              border: _greyBorder(),
-                              enabledBorder: _greyBorder(),
-                              focusedBorder: _greyBorder(),
-                              errorBorder: _errorBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Username is required";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        C10(),
-                        LabelText(
-                          label: Strings.Password,
-                          isRequired: true,
-                          child: Obx(
-                            () => TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              style: TextStyles.textfieldTextStyle,
-                              obscureText: controller.hidePassword.value,
-                              controller: controller.password,
-                              decoration: InputDecoration(
-                                hintText: "Enter Password",
-                                hintStyle: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontFamily: "Roboto-Regular",
-                                    fontSize: 12),
-                                border: _greyBorder(),
-                                enabledBorder: _greyBorder(),
-                                focusedBorder: _greyBorder(),
-                                errorBorder: _errorBorder(),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    controller.hidePassword.value =
-                                        !controller.hidePassword.value;
-                                  },
-                                  icon: Icon(
-                                    controller.hidePassword.value
-                                        ? Icons.visibility_off_outlined
-                                        : Icons.visibility_outlined,
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontFamily: "Roboto-Medium",
+                                    fontSize: 22,
+                                    color: Color(0xFF17243E),
                                   ),
                                 ),
-                              ),
-                              validator: (value) =>
-                                  loginPasswordValidator(value!.trim()),
-                            ),
-                          ),
-                        ),
-                        C20(),
-                        Obx(
-                          () => SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFFA52A2A),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                              ),
-                              onPressed: () async {
-                                FocusScope.of(context).unfocus();
-                                if (_formKey.currentState!.validate()) {
-                                  await controller.login();
-                                }
-                              },
-                              child: controller.isLoading.value
-                                  ? const CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 2,
-                                    )
-                                  : const Text(
-                                      "SIGN IN",
-                                      style: TextStyle(
-                                        fontFamily: "Roboto-Medium",
-                                        fontSize: 16,
-                                        color: Colors.white,
+                                C15(),
+                                LabelText(
+                                  label: Strings.UserName,
+                                  isRequired: true,
+                                  child: TextFormField(
+                                    autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                    style: TextStyles.textfieldTextStyle,
+                                    controller: controller.username,
+                                    decoration: InputDecoration(
+                                      hintText: "Enter Username",
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey.shade600,
+                                        fontFamily: "Roboto-Regular",
+                                        fontSize: 12,
                                       ),
+                                      border: _greyBorder(),
+                                      enabledBorder: _greyBorder(),
+                                      focusedBorder: _greyBorder(),
+                                      errorBorder: _errorBorder(),
                                     ),
+                                    validator: (value) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
+                                        return "Username is required";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                C10(),
+                                LabelText(
+                                  label: Strings.Password,
+                                  isRequired: true,
+                                  child: Obx(
+                                    () => TextFormField(
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      style: TextStyles.textfieldTextStyle,
+                                      obscureText:
+                                          controller.hidePassword.value,
+                                      controller: controller.password,
+                                      decoration: InputDecoration(
+                                        hintText: "Enter Password",
+                                        hintStyle: TextStyle(
+                                          color: Colors.grey.shade600,
+                                          fontFamily: "Roboto-Regular",
+                                          fontSize: 12,
+                                        ),
+                                        border: _greyBorder(),
+                                        enabledBorder: _greyBorder(),
+                                        focusedBorder: _greyBorder(),
+                                        errorBorder: _errorBorder(),
+                                        suffixIcon: IconButton(
+                                          onPressed: () {
+                                            controller.hidePassword.value =
+                                                !controller.hidePassword.value;
+                                          },
+                                          icon: Icon(
+                                            controller.hidePassword.value
+                                                ? Icons.visibility_off_outlined
+                                                : Icons.visibility_outlined,
+                                          ),
+                                        ),
+                                      ),
+                                      validator: (value) =>
+                                          loginPasswordValidator(value!.trim()),
+                                    ),
+                                  ),
+                                ),
+                                C20(),
+                                Obx(
+                                  () => SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xFFA52A2A),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 14),
+                                      ),
+                                      onPressed: () async {
+                                        FocusScope.of(context).unfocus();
+                                        if (_formKey.currentState!.validate()) {
+                                          await controller.login();
+                                        }
+                                      },
+                                      child: controller.isLoading.value
+                                          ? const CircularProgressIndicator(
+                                              color: Colors.white,
+                                              strokeWidth: 2,
+                                            )
+                                          : const Text(
+                                              "SIGN IN",
+                                              style: TextStyle(
+                                                fontFamily: "Roboto-Medium",
+                                                fontSize: 16,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                    ),
+                                  ),
+                                ),
+                                C5(),
+                                Center(
+                                  child: AppTextButton(
+                                    onTap: () {
+                                      Get.offAndToNamed(
+                                          Routes.forgotPasswordScreen);
+                                    },
+                                    title: 'Forgot Password?',
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        C5(),
-                        Center(
-                          child: AppTextButton(
-                            onTap: () {
-                              Get.offAndToNamed(Routes.forgotPasswordScreen);
-                            },
-                            title: 'Forgot Password?',
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2.0, right: 8.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Tejraj Micro Association",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                                C5(),
+                                Text("|",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontStyle: FontStyle.italic,
+                                    )),
+                                C5(),
+                                Text(
+                                  "EXCELLENT MINDS",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontStyle: FontStyle.italic,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: 8,
+                color: AppColors.primaryOrange,
+              ),
+            ),
+          ],
         ),
       ),
     );

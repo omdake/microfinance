@@ -26,6 +26,17 @@ class GroupListScreen extends StatelessWidget {
     }
   }
 
+  Color statusColor(String? status) {
+    switch (status?.toLowerCase()) {
+      case "approved":
+        return const Color(0xFFAE282E);
+      case "pending":
+        return const Color(0xFFF06321);
+      default:
+        return Colors.grey;
+    }
+  }
+
   Widget loanCard({
     required GroupCreationResult user,
     required VoidCallback onTap,
@@ -33,12 +44,10 @@ class GroupListScreen extends StatelessWidget {
   }) {
     return InkWell(
       onTap: onTap,
-      splashColor: Colors.transparent,
-      highlightColor: Colors.transparent,
       borderRadius: BorderRadius.circular(12),
       child: Container(
-        margin: const EdgeInsets.only(bottom: 6),
         padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 6),
+        margin: const EdgeInsets.symmetric(vertical: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -47,133 +56,150 @@ class GroupListScreen extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  if (user.groupImage != null && user.groupImage!.isNotEmpty) {
-                    final imageUrl = user.groupImage!.startsWith('http')
-                        ? user.groupImage!
-                        : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}";
-                    final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
+              Expanded(
+                flex: 2,
+                child: GestureDetector(
+                  onTap: () {
+                    if (user.groupImage != null &&
+                        user.groupImage!.isNotEmpty) {
+                      final imageUrl = user.groupImage!.startsWith('http')
+                          ? user.groupImage!
+                          : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}";
+                      final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
 
-                    Get.dialog(
-                      Dialog(
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
-                          ),
-                          clipBehavior: Clip.hardEdge,
-                          child: isPdf
-                              ? PDFView(filePath: imageUrl)
-                              : CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  httpHeaders: {'Authorization': token},
-                                  fit: BoxFit.contain,
-                                  width: double.infinity,
-                                  placeholder: (_, __) => const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2),
-                                  ),
-                                  errorWidget: (_, __, ___) => const Center(
-                                    child: Icon(Icons.broken_image,
-                                        size: 50, color: Colors.grey),
-                                  ),
-                                ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFE6E6E6),
-                      width: 2,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 25,
-                    backgroundColor: const Color(0xFFD9D9D9),
-                    backgroundImage:
-                        user.groupImage != null && user.groupImage!.isNotEmpty
-                            ? CachedNetworkImageProvider(
-                                user.groupImage!.startsWith('http')
-                                    ? user.groupImage!
-                                    : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}",
-                                headers: {'Authorization': token},
-                              )
-                            : null,
-                    child: (user.groupImage == null || user.groupImage!.isEmpty)
-                        ? Text(
-                            _getInitials(user.groupName),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                      Get.dialog(
+                        Dialog(
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.white,
                             ),
-                          )
-                        : null,
+                            clipBehavior: Clip.hardEdge,
+                            child: isPdf
+                                ? PDFView(filePath: imageUrl)
+                                : CachedNetworkImage(
+                                    imageUrl: imageUrl,
+                                    httpHeaders: {'Authorization': token},
+                                    fit: BoxFit.contain,
+                                    width: double.infinity,
+                                    placeholder: (_, __) => const Center(
+                                      child: CircularProgressIndicator(
+                                          strokeWidth: 2),
+                                    ),
+                                    errorWidget: (_, __, ___) => const Center(
+                                      child: Icon(Icons.broken_image,
+                                          size: 50, color: Colors.grey),
+                                    ),
+                                  ),
+                          ),
+                        ),
+                      );
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFFE6E6E6),
+                        width: 2,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: const Color(0xFFD9D9D9),
+                      backgroundImage:
+                          user.groupImage != null && user.groupImage!.isNotEmpty
+                              ? CachedNetworkImageProvider(
+                                  user.groupImage!.startsWith('http')
+                                      ? user.groupImage!
+                                      : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}",
+                                  headers: {'Authorization': token},
+                                )
+                              : null,
+                      child:
+                          (user.groupImage == null || user.groupImage!.isEmpty)
+                              ? Text(
+                                  _getInitials(user.groupName),
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              : null,
+                    ),
                   ),
                 ),
               ),
               C15(),
               Expanded(
+                flex: 6,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Group Name: ",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFF050708),
-                              fontFamily: "Roboto-Regular",
-                            ),
-                          ),
-                          TextSpan(
-                            text: "${user.groupName ?? ""}",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFF050708),
-                              fontFamily: "Roboto-Regular",
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "Group Name:${user.groupName ?? "-"}",
+                      style: const TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Medium",
                       ),
                     ),
                     C2(),
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Group Head Name: ",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFF050708),
-                              fontFamily: "Roboto-Regular",
-                            ),
-                          ),
-                          TextSpan(
-                            text: "${user.groupHeadMemberName ?? ""}",
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: Color(0xFF050708),
-                              fontFamily: "Roboto-Regular",
-                            ),
-                          ),
-                        ],
+                    Text(
+                      "Group Head Name: ${user.groupHeadMemberName ?? "-"}",
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
                       ),
                     ),
                   ],
                 ),
               ),
+              Expanded(
+                flex: 1,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 1,
+                    height: double.infinity,
+                    color: const Color(0xFFE6E6E6),
+                  ),
+                ),
+              ),
+              C15(),
+              Expanded(
+                flex: 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (user.workflowState != null &&
+                        user.workflowState!.toLowerCase() != "open")
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: statusColor(user.workflowState),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Text(
+                          user.workflowState!.toUpperCase(),
+                          style: const TextStyle(
+                            fontSize: 11,
+                            color: Colors.white,
+                            fontFamily: "Roboto-Medium",
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -292,9 +318,11 @@ class GroupListScreen extends StatelessWidget {
                         onTap: () {
                           final args = {
                             "name": user.name,
-                            "groupHead":user.groupHead,
-                            "groupName":user.groupName,
-                            "groupImage":user.groupImage
+                            "groupHead": user.groupHead,
+                            "groupName": user.groupName,
+                            "groupImage": user.groupImage,
+                            "status": user.workflowState,
+                            "groupCode": user.name
                           };
 
                           Get.toNamed(
