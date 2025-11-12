@@ -52,6 +52,7 @@ class GroupScreenController extends GetxController {
     groupName.value.text = args["groupName"];
     groupImageUrl.value = args["groupImage"];
     status.value = args["status"] ?? '';
+    groupCode.value.text = args["groupCode"] ?? '';
     if (status.value.toLowerCase() == "pending") {
       isReadOnly.value = true;
     } else {
@@ -95,7 +96,7 @@ class GroupScreenController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Get.off(() => GroupCreationSuccess(
               applicantName: groupName.value.text,
-              group: selectedGroupHead.value,
+              group: groupCode.value.text,
             ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');

@@ -321,7 +321,8 @@ class GroupListScreen extends StatelessWidget {
                             "groupHead": user.groupHead,
                             "groupName": user.groupName,
                             "groupImage": user.groupImage,
-                            "status": user.workflowState
+                            "status": user.workflowState,
+                            "groupCode": user.name
                           };
 
                           Get.toNamed(
