@@ -4,10 +4,8 @@ import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart';
-
 import 'package:microfinance/logic/controller/loanRepayment/loanRepaymentController.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanSummaryController.dart';
-import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
@@ -35,7 +33,7 @@ class LoanRepaymentScreen extends StatelessWidget {
           centerTitle: true,
           leading: IconButton(
               onPressed: () {
-                Get.offAllNamed(Routes.loanSummaryScreen);
+                Get.back();
               },
               icon: Container(
                 decoration:
@@ -416,7 +414,8 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                hint: "UTR Number",
+                                                hint:
+                                                    "UTR/Credit/Reference Number",
                                               ),
                                               validator: (value) =>
                                                   requiredValidator(value!),

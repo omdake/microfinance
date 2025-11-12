@@ -107,7 +107,7 @@ class RepaymentScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Id: ${user.applicant ?? ""}",
+                    "Member Id: ${user.applicant ?? ""}",
                     style: TextStyle(
                       fontFamily: "Roboto-Regular",
                       fontSize: 11,
@@ -115,7 +115,7 @@ class RepaymentScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Loan: ${user.againstLoanLoanId ?? ""}",
+                    "Loan Id: ${user.againstLoanLoanId ?? ""}",
                     style: const TextStyle(
                       fontFamily: "Roboto-Regular",
                       fontSize: 11,

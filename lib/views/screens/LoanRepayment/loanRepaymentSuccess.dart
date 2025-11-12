@@ -90,7 +90,7 @@ class LoanRepaymentSuccessScreen extends StatelessWidget {
               C50(),
               GestureDetector(
                 onTap: () async {
-                  Get.offAllNamed(Routes.loanSummaryScreen,
+                  Get.toNamed(Routes.loanSummaryScreen,
                       arguments: {'selectedIndex': 1});
                 },
                 child: Container(
