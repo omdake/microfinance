@@ -218,6 +218,64 @@ class C100 extends StatelessWidget {
   }
 }
 
+class C80 extends StatelessWidget {
+  final Color? color;
+
+  const C80({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s80,
+      width: Sizes.s80,
+    );
+  }
+}
+class C60 extends StatelessWidget {
+  final Color? color;
+
+  const C60({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s60,
+      width: Sizes.s60,
+    );
+  }
+}
+
+class C70 extends StatelessWidget {
+  final Color? color;
+
+  const C70({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s70,
+      width: Sizes.s70,
+    );
+  }
+}
+class C40 extends StatelessWidget {
+  final Color? color;
+
+  const C40({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s40,
+      width: Sizes.s40,
+    );
+  }
+}
+
 class C120 extends StatelessWidget {
   final Color? color;
 
@@ -244,6 +302,20 @@ class C150 extends StatelessWidget {
       color: color ?? Colors.transparent,
       height: Sizes.s150,
       width: Sizes.s150,
+    );
+  }
+}
+class C165 extends StatelessWidget {
+  final Color? color;
+
+  const C165({Key? key, this.color}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: color ?? Colors.transparent,
+      height: Sizes.s165,
+      width: Sizes.s165,
     );
   }
 }

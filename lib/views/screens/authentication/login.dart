@@ -29,36 +29,36 @@ class LoginWithPassword extends StatelessWidget {
                 physics: const BouncingScrollPhysics(),
                 child: Column(
                   children: [
-                    C120(),
+                    C165(),
                     Center(
                       child: Image.asset(
-                        'assets/new/currency.png',
-                        height: 150,
-                        width: 150,
-                        fit: BoxFit.contain,
+                        'assets/new/logo.png',
+                        height: 180,
+                        width: 180,
+                       
                       ),
                     ),
-                    C20(),
-                    const Text(
-                      "SMALL STEPS",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: "Roboto-Regular",
-                        fontSize: 18,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
-                    C5(),
-                    const Text(
-                      "BIG DREAM",
-                      style: TextStyle(
-                        fontFamily: 'Roboto-Medium',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: 1.0,
-                      ),
-                    ),
+                     //C20(),
+                    // const Text(
+                    //   "SMALL STEPS",
+                    //   style: TextStyle(
+                    //     color: Colors.white,
+                    //     fontFamily: "Roboto-Regular",
+                    //     fontSize: 18,
+                    //     letterSpacing: 1.0,
+                    //   ),
+                    // ),
+                    // C5(),
+                    // const Text(
+                    //   "BIG DREAM",
+                    //   style: TextStyle(
+                    //     fontFamily: 'Roboto-Medium',
+                    //     color: Colors.white,
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.w600,
+                    //     letterSpacing: 1.0,
+                    //   ),
+                    // ),
                     C50(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
