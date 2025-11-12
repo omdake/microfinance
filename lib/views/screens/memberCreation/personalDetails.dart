@@ -570,22 +570,19 @@ class PersonalDetailsScreen extends StatelessWidget {
                             paddingWidget([
                               const LabelsWithMark(label: "Created By"),
                               TextFormField(
-                                enabled: controller.isCreatedBy.value,
+                                enabled: !controller.isCreatedBy.value,
                                 controller: controller.createdBy.value,
                                 cursorColor: AppColors.primary,
                                 keyboardType: TextInputType.phone,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 style: TextStyles.textfieldTextStyle,
-                                validator: (value) =>
-                                    mobileNoValidator(value!.trim()),
                                 decoration:
                                     TextFieldDecoration.textfieldDecoration(
                                   hint: "Created By",
                                 ).copyWith(
                                   filled: true,
-                                  fillColor:
-                                      Colors.grey.shade200, 
+                                  fillColor: Colors.grey.shade200,
                                 ),
                                 inputFormatters: [
                                   MobileNumberPrefixFormatter(),

@@ -47,10 +47,10 @@ class GroupScreenController extends GetxController {
     super.onInit();
     getheadList();
     final args = Get.arguments;
-    name.value = args["name"];
-    selectedGroupHead.value = args["groupHead"];
-    groupName.value.text = args["groupName"];
-    groupImageUrl.value = args["groupImage"];
+    name.value = args["name"] ?? '';
+    selectedGroupHead.value = args["groupHead"] ?? '';
+    groupName.value.text = args["groupName"] ?? '';
+    groupImageUrl.value = args["groupImage"] ?? '';
     status.value = args["status"] ?? '';
     groupCode.value.text = args["groupCode"] ?? '';
     if (status.value.toLowerCase() == "pending") {
