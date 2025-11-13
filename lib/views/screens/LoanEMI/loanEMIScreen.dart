@@ -139,14 +139,6 @@ class LoanEMIScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "Loan: ${user.loan ?? ""}",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: Color(0xFF050708),
-                        fontFamily: "Roboto-Regular",
-                      ),
-                    ),
-                    Text(
                       "Loan ID: ${user.loanId ?? ""}",
                       style: const TextStyle(
                         fontSize: 10,
@@ -175,6 +167,7 @@ class LoanEMIScreen extends StatelessWidget {
               ),
               C15(),
               Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Row(
                     children: [
