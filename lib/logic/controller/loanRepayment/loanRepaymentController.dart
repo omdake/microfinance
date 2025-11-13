@@ -40,6 +40,7 @@ class LoanRepaymentController extends GetxController {
   RxString selectedReferenceDate = ''.obs;
   RxString name = ''.obs;
   RxString loan = ''.obs;
+  RxString loanidno = ''.obs;
   RxString applicantId = ''.obs;
   RxBool isFromEMI = false.obs;
   RxBool isFormEdit = false.obs;
@@ -52,7 +53,7 @@ class LoanRepaymentController extends GetxController {
       isFromEMI.value = true;
       isFormEdit.value = false;
       name.value = args['applicant'] ?? '';
-      loanId.value.text = args['loanId'] ?? '';
+      loanidno.value = args['loanId'] ?? '';
       loan.value = args['loan'] ?? '';
       applicantName.value.text = args['memberName'] ?? '';
       payableAmount.value.text = args['totalPayment']?.toString() ?? '';
@@ -272,7 +273,7 @@ class LoanRepaymentController extends GetxController {
 
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Get.off(() => LoanRepaymentSuccessScreen(
-              crNo: loanId.value.text,
+              crNo: loanidno.value,
               applicantName: applicantName.value.text,
               amount: amountPaid.value.text,
             ));

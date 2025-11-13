@@ -35,10 +35,9 @@ class LoginWithPassword extends StatelessWidget {
                         'assets/new/logo.png',
                         height: 180,
                         width: 180,
-                       
                       ),
                     ),
-                     //C20(),
+                    //C20(),
                     // const Text(
                     //   "SMALL STEPS",
                     //   style: TextStyle(
@@ -217,7 +216,7 @@ class LoginWithPassword extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 2.0, right: 8.0),
                           child: Align(
-                            alignment: Alignment.centerRight,
+                            alignment: Alignment.center,
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -235,17 +234,38 @@ class LoginWithPassword extends StatelessWidget {
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
-                                      fontStyle: FontStyle.italic,
                                     )),
                                 C5(),
-                                Text(
-                                  "EXCELLENT MINDS",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 10,
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: "powered by: ",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                        ),
+                                      ),
+                                      WidgetSpan(
+                                        alignment: PlaceholderAlignment.middle,
+                                        child: Image.asset(
+                                         'assets/new/excelllogo.png',
+                                          width: 16,
+                                          height: 16,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                      TextSpan(
+                                        text: " EXCELLENT MINDS",
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
+                                )
                               ],
                             ),
                           ),
