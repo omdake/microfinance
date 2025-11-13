@@ -169,6 +169,10 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                       loan.applicantName!;
                                                   controller.loanId.value.text =
                                                       loan.name!;
+                                                       controller.loanidno.value =
+                                                      loan.loanId!;
+                                                  controller.loan.value =
+                                                      loan.name!;
                                                   controller.valueDate.value
                                                       .text = '';
                                                   controller.selectedValueDate
