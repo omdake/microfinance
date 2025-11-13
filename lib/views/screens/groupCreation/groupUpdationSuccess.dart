@@ -6,12 +6,12 @@ import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class GroupUpdationSuccess extends StatelessWidget {
   final String applicantName;
-  final String group;
+  // final String? group;
 
   const GroupUpdationSuccess({
     super.key,
     required this.applicantName,
-    required this.group,
+    //  this.group,
   });
 
   @override
@@ -60,13 +60,13 @@ class GroupUpdationSuccess extends StatelessWidget {
                       fontFamily: "Roboto-Medium",
                     ),
                   ),
-                  Text(
-                    "$group",
-                    style: const TextStyle(
-                      fontSize: 13,
-                      fontFamily: "Roboto-Medium",
-                    ),
-                  ),
+                  // Text(
+                  //   "$group",
+                  //   style: const TextStyle(
+                  //     fontSize: 13,
+                  //     fontFamily: "Roboto-Medium",
+                  //   ),
+                  // ),
                 ],
               ),
               C50(),

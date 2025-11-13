@@ -20,6 +20,7 @@ class GroupScreenController extends GetxController {
   Rx<TextEditingController> groupCode = TextEditingController().obs;
   Rx<TextEditingController> groupName = TextEditingController().obs;
   RxString selectedGroupHead = "".obs;
+   RxString selectedGroupHeadName = "".obs;
   Rx<File?> groupImage = Rx<File?>(null);
   RxString groupImageUrl = ''.obs;
   RxString name = ''.obs;
@@ -96,7 +97,7 @@ class GroupScreenController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Get.off(() => GroupCreationSuccess(
               applicantName: groupName.value.text,
-              group: groupCode.value.text,
+             // group: selectedGroupHeadName.value,
             ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -247,7 +248,7 @@ class GroupScreenController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         Get.off(() => GroupUpdationSuccess(
               applicantName: groupName.value.text,
-              group: selectedGroupHead.value,
+             // group: selectedGroupHeadName.value,
             ));
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
