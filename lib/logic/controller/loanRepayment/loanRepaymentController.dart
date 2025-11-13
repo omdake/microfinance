@@ -53,7 +53,7 @@ class LoanRepaymentController extends GetxController {
       isFromEMI.value = true;
       isFormEdit.value = false;
       name.value = args['applicant'] ?? '';
-      loanidno.value = args['loanId'] ?? '';
+      loanId.value.text = args['loanId'] ?? '';
       loan.value = args['loan'] ?? '';
       applicantName.value.text = args['memberName'] ?? '';
       payableAmount.value.text = args['totalPayment']?.toString() ?? '';

@@ -78,7 +78,6 @@ class ResetPassword extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
-                            keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             decoration: TextFieldDecoration.textfieldDecoration(
                                 hint: "Enter Previous Password"),
@@ -98,7 +97,6 @@ class ResetPassword extends StatelessWidget {
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               textCapitalization: TextCapitalization.none,
-                              keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
                               validator: (value) => requiredValidator(value!),
                               decoration: TextFieldDecoration
@@ -133,7 +131,6 @@ class ResetPassword extends StatelessWidget {
                                 AutovalidateMode.onUserInteraction,
                             cursorColor: AppColors.primary,
                             textCapitalization: TextCapitalization.sentences,
-                            keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
                             validator: (value) {
                               if (value == null || value.isEmpty) {

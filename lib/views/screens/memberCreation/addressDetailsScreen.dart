@@ -29,113 +29,118 @@ class AddressDetailsScreen extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
+              child: Stack(
                 children: [
-                  /// Scrollable form content
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Form(
-                        key: _formKey,
-                        child: Column(
-                          children: [
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "Address Line 1", isRequired: true),
-                                TextFormField(
-                                  enabled: !controller.isReadOnly.value,
-                                  controller: controller.address.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  validator: (value) =>
-                                      requiredValidator(value!),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.name,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "Address Line 1")
+                  Column(
+                    children: [
+                      Expanded(
+                        child: SingleChildScrollView(
+                          child: Form(
+                            key: _formKey,
+                            child: Column(
+                              children: [
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                        label: "Address Line 1",
+                                        isRequired: true),
+                                    TextFormField(
+                                      enabled: !controller.isReadOnly.value,
+                                      controller: controller.address.value,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      validator: (value) =>
+                                          requiredValidator(value!),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.name,
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration: TextFieldDecoration
+                                              .textfieldDecoration(
+                                                  hint: "Address Line 1")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
                                                   !controller.isReadOnly.value
                                                       ? Colors.white
                                                       : Colors.grey.shade200),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            C10(),
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                  label: "Address Line 2",
-                                  isRequired: true,
-                                ),
-                                TextFormField(
-                                  enabled: !controller.isReadOnly.value,
-                                  controller: controller.addressLineTwo.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.name,
-                                  validator: (value) =>
-                                      requiredValidator(value!),
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "Address line 2")
+                                C10(),
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                      label: "Address Line 2",
+                                      isRequired: true,
+                                    ),
+                                    TextFormField(
+                                      enabled: !controller.isReadOnly.value,
+                                      controller:
+                                          controller.addressLineTwo.value,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.name,
+                                      validator: (value) =>
+                                          requiredValidator(value!),
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration: TextFieldDecoration
+                                              .textfieldDecoration(
+                                                  hint: "Address line 2")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
                                                   !controller.isReadOnly.value
                                                       ? Colors.white
                                                       : Colors.grey.shade200),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            C10(),
-                            paddingWidget([
-                              LabelsWithMark(
-                                label: "State",
-                                isRequired: true,
-                              ),
-                              Obx(() {
-                                final isEnabled = !controller.isReadOnly.value;
-
-                                return DropdownButtonFormField<String>(
-                                  value: controller.selectedState.value.isEmpty
-                                      ? null
-                                      : controller.selectedState.value,
-                                  items: controller.stateList.map((e) {
-                                    return DropdownMenuItem(
-                                      value: e.stateCode,
-                                      child: Text(e.stateName.toString()),
-                                    );
-                                  }).toList(),
-                                  style: TextStyles.textfieldTextStyle,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    hint: "Select State",
-                                  ).copyWith(
-                                    filled: true,
-                                    fillColor: !controller.isReadOnly.value
-                                        ? Colors.white
-                                        : Colors.grey.shade200,
+                                C10(),
+                                paddingWidget([
+                                  LabelsWithMark(
+                                    label: "State",
+                                    isRequired: true,
                                   ),
-                                  onChanged: isEnabled
-                                      ? (value) {
-                                          controller.selectedState.value =
-                                              value!;
-                                        }
-                                      : null,
-                                  disabledHint:
-                                      controller.selectedState.value.isNotEmpty
+                                  Obx(() {
+                                    final isEnabled =
+                                        !controller.isReadOnly.value;
+
+                                    return DropdownButtonFormField<String>(
+                                      value:
+                                          controller.selectedState.value.isEmpty
+                                              ? null
+                                              : controller.selectedState.value,
+                                      items: controller.stateList.map((e) {
+                                        return DropdownMenuItem(
+                                          value: e.stateCode,
+                                          child: Text(e.stateName.toString()),
+                                        );
+                                      }).toList(),
+                                      style: TextStyles.textfieldTextStyle,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      decoration: TextFieldDecoration
+                                          .textfieldDecoration(
+                                        hint: "Select State",
+                                      ).copyWith(
+                                        filled: true,
+                                        fillColor: !controller.isReadOnly.value
+                                            ? Colors.white
+                                            : Colors.grey.shade200,
+                                      ),
+                                      onChanged: isEnabled
+                                          ? (value) {
+                                              controller.selectedState.value =
+                                                  value!;
+                                            }
+                                          : null,
+                                      disabledHint: controller
+                                              .selectedState.value.isNotEmpty
                                           ? Text(controller.stateList
                                                   .firstWhereOrNull(
                                                     (e) =>
@@ -146,159 +151,172 @@ class AddressDetailsScreen extends StatelessWidget {
                                                   ?.stateName ??
                                               '')
                                           : const Text("Select State"),
-                                  validator: (value) {
-                                    if (controller
-                                        .selectedState.value.isEmpty) {
-                                      return 'This field can\'t be empty';
-                                    }
-                                    return null;
-                                  },
-                                );
-                              }),
-                            ]),
-                            C10(),
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "Country", isRequired: true),
-                                TextFormField(
-                                  enabled: !controller.isReadOnly.value,
-                                  controller: controller.country.value,
-                                  readOnly: true,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.name,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                    hint: "Country",
-                                  ).copyWith(
+                                      validator: (value) {
+                                        if (controller
+                                            .selectedState.value.isEmpty) {
+                                          return 'This field can\'t be empty';
+                                        }
+                                        return null;
+                                      },
+                                    );
+                                  }),
+                                ]),
+                                C10(),
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                        label: "Country", isRequired: true),
+                                    TextFormField(
+                                      enabled: !controller.isReadOnly.value,
+                                      controller: controller.country.value,
+                                      readOnly: true,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.name,
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration: TextFieldDecoration
+                                          .textfieldDecoration(
+                                        hint: "Country",
+                                      ).copyWith(
                                           filled: true,
                                           fillColor:
                                               !controller.isReadOnly.value
                                                   ? Colors.white
                                                   : Colors.grey.shade200),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            C10(),
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "City", isRequired: true),
-                                TextFormField(
-                                  enabled: !controller.isReadOnly.value,
-                                  controller: controller.city.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  validator: (value) =>
-                                      requiredValidator(value!),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.name,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "City")
+                                C10(),
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                        label: "City", isRequired: true),
+                                    TextFormField(
+                                      enabled: !controller.isReadOnly.value,
+                                      controller: controller.city.value,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      validator: (value) =>
+                                          requiredValidator(value!),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.name,
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration: TextFieldDecoration
+                                              .textfieldDecoration(hint: "City")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
                                                   !controller.isReadOnly.value
                                                       ? Colors.white
                                                       : Colors.grey.shade200),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            C10(),
-                            paddingWidget(
-                              [
-                                const LabelsWithMark(
-                                    label: "Pin Code", isRequired: true),
-                                TextFormField(
-                                  enabled: !controller.isReadOnly.value,
-                                  controller: controller.pincode.value,
-                                  cursorColor: AppColors.primary,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  validator: (value) =>
-                                      pincodeValidator(value!.trim()),
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  keyboardType: TextInputType.name,
-                                  style: TextStyles.textfieldTextStyle,
-                                  decoration:
-                                      TextFieldDecoration.textfieldDecoration(
-                                              hint: "Pin Code")
+                                C10(),
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                        label: "Pin Code", isRequired: true),
+                                    TextFormField(
+                                      enabled: !controller.isReadOnly.value,
+                                      controller: controller.pincode.value,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      validator: (value) =>
+                                          pincodeValidator(value!.trim()),
+                                      autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                      keyboardType: TextInputType.name,
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration: TextFieldDecoration
+                                              .textfieldDecoration(
+                                                  hint: "Pin Code")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
                                                   !controller.isReadOnly.value
                                                       ? Colors.white
                                                       : Colors.grey.shade200),
+                                    ),
+                                  ],
                                 ),
+                                C30(),
                               ],
                             ),
-                            C30(),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          controller.selectedIndex.value = 0;
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryOrange,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Directionality(
-                            textDirection: TextDirection.rtl,
-                            child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: const Icon(
-                                Icons.arrow_forward_ios,
-                                color: Colors.white,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              controller.selectedIndex.value = 0;
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Directionality(
+                                textDirection: TextDirection.rtl,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () async {
-                          if (controller.isReadOnly.value) {
-                            controller.selectedIndex.value = 2;
-                            return;
-                          }
-                          if (_formKey.currentState!.validate()) {
-                            controller.updateLoanMember();
-                            controller.selectedIndex.value = 2;
-                          }
-                        },
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.primaryOrange,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: const Icon(
-                              Icons.arrow_forward_ios,
-                              color: Colors.white,
+                          InkWell(
+                            onTap: () async {
+                              if (controller.isReadOnly.value) {
+                                controller.selectedIndex.value = 2;
+                                return;
+                              }
+                              if (_formKey.currentState!.validate()) {
+                                controller.updateLoanMember();
+                                controller.selectedIndex.value = 2;
+                              }
+                            },
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                color: AppColors.primaryOrange,
+                                shape: BoxShape.circle,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  color: Colors.white,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ],
                   ),
+                  Obx(() {
+                    return controller.isLoading.value
+                        ? Container(
+                            color: Colors.white.withOpacity(0.3),
+                            child: const Center(
+                              child: CircularProgressIndicator(
+                                color: AppColors.primaryOrange,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink();
+                  }),
                 ],
               ),
             ),

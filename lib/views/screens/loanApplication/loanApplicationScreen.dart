@@ -10,7 +10,6 @@ import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper.dart/app_tost.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 import 'package:microfinance/validator.dart';
-import 'package:microfinance/views/screens/loanApplication/loanApplicationSuccess.dart';
 
 class LoanApplicationScreen extends StatelessWidget {
   LoanApplicationScreen({super.key});
@@ -778,17 +777,6 @@ class LoanApplicationScreen extends StatelessWidget {
                                     onTap: () async {
                                       if (_formKey.currentState!.validate()) {
                                         await controller.saveLoanMember();
-
-                                        Get.off(
-                                            () => LoanApplicationSuccessScreen(
-                                                  crNo: controller
-                                                      .selectedApplicantId
-                                                      .value,
-                                                  applicantName: controller
-                                                      .selectedMemberName.value,
-                                                  amount: controller
-                                                      .loanAmount.value.text,
-                                                ));
                                       } else {
                                         AppTostMassage.showTostMassage(
                                           massage:

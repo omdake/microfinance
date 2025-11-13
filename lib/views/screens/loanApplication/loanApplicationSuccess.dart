@@ -5,13 +5,11 @@ import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
 class LoanApplicationSuccessScreen extends StatelessWidget {
-  final String crNo;
   final String applicantName;
   final String amount;
 
   const LoanApplicationSuccessScreen({
     super.key,
-    required this.crNo,
     required this.applicantName,
     required this.amount,
   });
@@ -63,14 +61,6 @@ class LoanApplicationSuccessScreen extends StatelessWidget {
                     ),
                   ),
                   C5(),
-                  Text(
-                    "CR NO: $crNo",
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontFamily: "Roboto-Regular",
-                    ),
-                  ),
-                  C10(),
                   Text(
                     applicantName,
                     style: const TextStyle(
