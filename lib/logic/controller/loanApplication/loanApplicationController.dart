@@ -15,6 +15,7 @@ import 'package:microfinance/models/nominee_relation.model.dart';
 import 'package:microfinance/models/product_list.model.dart';
 import 'package:microfinance/services/auth_service/auth_service.dart';
 import 'package:microfinance/utils/snackbar_widget.dart';
+import 'package:microfinance/views/screens/loanApplication/loanApplicationSuccess.dart';
 
 class LoanApplicationController extends GetxController {
   RxList<LoanMemberListResult> loanMemberList = <LoanMemberListResult>[].obs;
@@ -425,6 +426,10 @@ class LoanApplicationController extends GetxController {
       if (response.statusCode == APIStatusCode.SUCCESS) {
         // CustomSnackBar.show(
         //     isIssue: false, message: responseBody["message"]["msg"]);
+        Get.off(() => LoanApplicationSuccessScreen(
+              applicantName: selectedMemberName.value,
+              amount: loanAmount.value.text,
+            ));
         Future.delayed(const Duration(milliseconds: 300), () {
           resetForm();
         });

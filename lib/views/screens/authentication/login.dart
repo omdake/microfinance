@@ -37,27 +37,6 @@ class LoginWithPassword extends StatelessWidget {
                         width: 180,
                       ),
                     ),
-                    //C20(),
-                    // const Text(
-                    //   "SMALL STEPS",
-                    //   style: TextStyle(
-                    //     color: Colors.white,
-                    //     fontFamily: "Roboto-Regular",
-                    //     fontSize: 18,
-                    //     letterSpacing: 1.0,
-                    //   ),
-                    // ),
-                    // C5(),
-                    // const Text(
-                    //   "BIG DREAM",
-                    //   style: TextStyle(
-                    //     fontFamily: 'Roboto-Medium',
-                    //     color: Colors.white,
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.w600,
-                    //     letterSpacing: 1.0,
-                    //   ),
-                    // ),
                     C50(),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -249,7 +228,7 @@ class LoginWithPassword extends StatelessWidget {
                                       WidgetSpan(
                                         alignment: PlaceholderAlignment.middle,
                                         child: Image.asset(
-                                         'assets/new/excelllogo.png',
+                                          'assets/new/excelllogo.png',
                                           width: 16,
                                           height: 16,
                                           fit: BoxFit.contain,
