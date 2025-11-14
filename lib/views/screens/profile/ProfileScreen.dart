@@ -356,6 +356,9 @@ class ProfileScreen extends StatelessWidget {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   await AppPreferences.clearPreferences();
+                                  if (Get.isRegistered<HomeController>()) {
+                                    Get.find<HomeController>().changeIndex(0);
+                                  }
                                   Get.offAllNamed(Routes.loginScreen);
                                 },
                                 style: ElevatedButton.styleFrom(

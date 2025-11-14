@@ -10,6 +10,7 @@ import 'package:microfinance/logic/bindings/memberCreation_binding.dart';
 import 'package:microfinance/logic/bindings/memeberList_bindig.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/logic/bindings/resetPassoword_binding.dart';
+import 'package:microfinance/logic/bindings/splash_binding.dart';
 import 'package:microfinance/routes/routes_string.dart';
 import 'package:microfinance/views/screens/LoanEMI/dueEmiScreen.dart';
 import 'package:microfinance/views/screens/LoanEMI/loanEMIScreen.dart';
@@ -45,8 +46,8 @@ class AppRoutes {
   static final routes = [
     GetPage(
       name: Routes.splashScreen,
-      //binding: SplashBindings(),
-      page: () => const SplashScreen(),
+      binding: SplashBindings(),
+      page: () => SplashScreen(),
     ),
     GetPage(
       name: Routes.loginScreen,
@@ -58,7 +59,7 @@ class AppRoutes {
       binding: DashboardBindings(),
       page: () => DashboardScreen(),
     ),
-     GetPage(name: Routes.devScreen, page: () => DevScreen()),
+    GetPage(name: Routes.devScreen, page: () => DevScreen()),
     GetPage(
       name: Routes.memberList,
       binding: MemberListBindings(),
@@ -171,7 +172,7 @@ class AppRoutes {
       binding: ResetPassowordBindings(),
       page: () => ResetPassword(),
     ),
-     GetPage(
+    GetPage(
       name: Routes.homeScreen,
       binding: HomeBindings(),
       page: () => HomeScreen(),

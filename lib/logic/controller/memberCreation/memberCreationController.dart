@@ -193,6 +193,30 @@ class MemberCreationController extends GetxController {
     }
   }
 
+  Future<void> selectDate1(
+      BuildContext context, TextEditingController controller) async {
+    List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
+      context: context,
+      config: CalendarDatePicker2WithActionButtonsConfig(
+        calendarType: CalendarDatePicker2Type.single,
+        okButtonTextStyle: const TextStyle(color: Colors.black),
+        cancelButtonTextStyle: const TextStyle(color: Colors.black),
+        selectedDayHighlightColor: Colors.grey,
+        dayTextStyle: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+      dialogSize: const Size(350, 400),
+      borderRadius: BorderRadius.circular(15),
+    );
+
+    if (picked != null && picked.isNotEmpty && picked.first != null) {
+      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      isDobSelected.value = true;
+      controller.text = formatted;
+    }
+  }
+
   getGroupList() async {
     final token = await AppPreferences.getToken();
     try {

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:microfinance/logic/controller/splashController.dart';
 import 'package:microfinance/themes/app_theme.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
 
@@ -9,8 +7,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(SplashController());
-
     return Scaffold(
       backgroundColor: AppColors.primaryRed,
       body: SafeArea(
@@ -45,7 +41,7 @@ class SplashScreen extends StatelessWidget {
                     color: Colors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
-                   // letterSpacing: 1.2,
+                    // letterSpacing: 1.2,
                   ),
                 ),
               ],

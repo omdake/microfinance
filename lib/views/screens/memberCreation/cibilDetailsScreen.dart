@@ -73,7 +73,7 @@ class CibilDetailscSreen extends StatelessWidget {
                                       controller: controller.cibilDate.value,
                                       cursorColor: AppColors.primary,
                                       readOnly: true,
-                                      onTap: () => controller.selectDate(
+                                      onTap: () => controller.selectDate1(
                                           context, controller.cibilDate.value),
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration

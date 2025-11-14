@@ -260,6 +260,7 @@ class LoanEMIScreen extends StatelessWidget {
           onPressed: () {
             final homeController = Get.find<HomeController>();
             homeController.changeIndex(0);
+            controller.resetSelectedDate();
           },
           icon: Container(
             decoration: BoxDecoration(
@@ -279,26 +280,85 @@ class LoanEMIScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
           child: Column(
             children: [
-              paddingWidget([
-                const LabelsWithMark(label: "Selected Date"),
-                Obx(
-                  () => TextFormField(
-                    readOnly: true,
-                    cursorColor: AppColors.primary,
-                    onTap: () =>
-                        controller.selectDate(context, isSelectedDate: true),
-                    style: TextStyles.textfieldTextStyle,
-                    decoration: TextFieldDecoration.textfieldDecorationicon(
-                      hint: "Select Date",
-                      sufficIcon: Icons.calendar_today,
-                      sufficIconOntap: () =>
-                          controller.selectDate(context, isSelectedDate: true),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const LabelsWithMark(label: "Search"),
+                        TextField(
+                          controller: controller.search.value,
+                          style: TextStyles.textfieldTextStyle,
+                          cursorColor: Colors.black,
+                          onChanged: (value) {
+                            if (value.length >= 3 || value.isEmpty) {
+                              controller.onSearchChanged(value);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            hintText: "Search Members",
+                            hintStyle: TextStyle(
+                              color: Colors.grey.shade600,
+                              fontFamily: "Roboto-Regular",
+                              fontSize: 12,
+                            ),
+                            suffixIcon: const Icon(Icons.search),
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 12,
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade500,
+                              ),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(
+                                color: Colors.grey.shade300,
+                                width: 1,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                    controller: TextEditingController(
-                        text: controller.selectedDate.value),
                   ),
-                ),
-              ]),
+                  C20(),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const LabelsWithMark(label: "Selected Date"),
+                        Obx(
+                          () => TextFormField(
+                            readOnly: true,
+                            cursorColor: AppColors.primary,
+                            onTap: () => controller.selectDate(context,
+                                isSelectedDate: true),
+                            style: TextStyles.textfieldTextStyle,
+                            decoration:
+                                TextFieldDecoration.textfieldDecorationicon(
+                              hint: "Select Date",
+                              sufficIcon: Icons.calendar_today,
+                              sufficIconOntap: () => controller
+                                  .selectDate(context, isSelectedDate: true),
+                            ),
+                            controller: controller.dateController.value,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
               C15(),
               Expanded(
                 child: Obx(() {

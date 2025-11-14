@@ -270,8 +270,6 @@ Widget imagePickerField({
                                           final cameraStatus =
                                               await Permission.camera.request();
                                           if (!cameraStatus.isGranted) {
-                                            Get.snackbar("Permission Denied",
-                                                "Camera permission is required");
                                             return;
                                           }
                                           final XFile? pickedFile =
