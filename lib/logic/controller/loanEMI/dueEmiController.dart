@@ -18,12 +18,19 @@ class DueEMIController extends GetxController {
 
   RxBool isLoading = false.obs;
   RxList<LoanEmiListMessage> loanEMIList = <LoanEmiListMessage>[].obs;
-
+  Rx<TextEditingController> dateController = TextEditingController().obs;
   @override
   void onInit() {
     super.onInit();
     upToDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    dateController.value.text = upToDate.value;
     getLoanEMIList();
+  }
+
+  void resetSelectedDate() {
+    upToDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    dateController.value.text = upToDate.value;
+    getLoanEMIList(upToDate: upToDate.value, search: search.value.text);
   }
 
   Future<void> selectDate(BuildContext context,
@@ -45,21 +52,30 @@ class DueEMIController extends GetxController {
       String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
 
       upToDate.value = formattedDate;
+      dateController.value.text = formattedDate;
     }
+    getLoanEMIList(upToDate: upToDate.value, search: search.value.text);
+  }
+
+  void onSearchChanged(String query) {
+    //groupList.clear();
     getLoanEMIList(
+      search: search.value.text,
       upToDate: upToDate.value,
     );
   }
 
+  Rx<TextEditingController> search = TextEditingController().obs;
+
   RxString token = ''.obs;
-  getLoanEMIList({String? upToDate}) async {
+  getLoanEMIList({String? upToDate, String? search}) async {
     token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.dueEmiList(
             upToDate: upToDate ?? "",
-            searchText: "",
+            searchText: search,
             sortBy: "",
             sortOrder: "",
             employee: "",
@@ -80,12 +96,12 @@ class DueEMIController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
-      }else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

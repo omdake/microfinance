@@ -15,15 +15,16 @@ import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanEMIController extends GetxController {
   RxString selectedDate = ''.obs;
-
+  Rx<TextEditingController> dateController = TextEditingController().obs;
   RxBool isLoading = false.obs;
   RxList<LoanEmiListMessage> loanEMIList = <LoanEmiListMessage>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
     getLoanEMIList();
+    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    dateController.value.text = selectedDate.value;
   }
 
   Future<void> selectDate(BuildContext context,
@@ -45,24 +46,39 @@ class LoanEMIController extends GetxController {
       String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
 
       selectedDate.value = formattedDate;
+      dateController.value.text = formattedDate;
     }
-
     getLoanEMIList(
+      selectedDate: selectedDate.value,
+      search: search.value.text,
+    );
+  }
+
+  void onSearchChanged(String query) {
+    //groupList.clear();
+    getLoanEMIList(
+      search: search.value.text,
       selectedDate: selectedDate.value,
     );
   }
 
+  void resetSelectedDate() {
+    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    dateController.value.text = selectedDate.value;
+    getLoanEMIList(selectedDate: selectedDate.value, search: search.value.text);
+  }
+
+  Rx<TextEditingController> search = TextEditingController().obs;
+
   RxString token = ''.obs;
-  getLoanEMIList({
-    String? selectedDate,
-  }) async {
+  getLoanEMIList({String? selectedDate, String? search}) async {
     token.value = await AppPreferences.getToken() ?? '';
     try {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.LoanEmiList(
             selectedDate: selectedDate ?? "",
-            searchText: "",
+            searchText: search,
             sortBy: "",
             sortOrder: "",
             employee: "",
@@ -84,11 +100,11 @@ class LoanEMIController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

@@ -168,7 +168,7 @@ class LoginWithPassword extends StatelessWidget {
                                               strokeWidth: 2,
                                             )
                                           : const Text(
-                                              "SIGN IN",
+                                              "LOGIN",
                                               style: TextStyle(
                                                 fontFamily: "Roboto-Medium",
                                                 fontSize: 16,

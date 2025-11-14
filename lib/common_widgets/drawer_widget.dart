@@ -156,11 +156,11 @@ class CustomDrawer extends StatelessWidget {
                     homeController.changeIndex(3);
                   }),
                   listDivider(),
-                  drawerTile("Dashboard", () {
-                    Get.back();
-                    homeController.changeIndex(0);
-                  }),
-                  listDivider(),
+                  // drawerTile("Dashboard", () {
+                  //   Get.back();
+                  //   homeController.changeIndex(0);
+                  // }),
+                  //listDivider(),
                   drawerTile("Pending EMI", () {
                     Get.back();
                     homeController.changeIndex(1);

@@ -426,12 +426,12 @@ class LoanRepaymentScreen extends StatelessWidget {
                                           })
                                         ]),
                                         Obx(() {
-                                          final isCash = controller
-                                                  .selectedModeOfPayment.value
-                                                  .toLowerCase() ==
-                                              'cash';
-                                          if (isCash) {
-                                            return const SizedBox();
+                                          final selected = controller
+                                              .selectedModeOfPayment.value;
+                                          if (selected.isEmpty ||
+                                              selected.toLowerCase() ==
+                                                  'cash') {
+                                            return const SizedBox.shrink();
                                           }
                                           return Column(
                                             children: [
