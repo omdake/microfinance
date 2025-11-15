@@ -1,6 +1,5 @@
 import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
 import 'package:microfinance/themes/app_theme.dart';
-import 'package:microfinance/utils/fonts.dart';
 import 'package:flutter/material.dart';
 
 class TitleAndSubtitleText extends StatelessWidget {

@@ -21,31 +21,31 @@ class LoginWithPassword extends StatelessWidget {
       backgroundColor: AppColors.primaryRed,
       resizeToAvoidBottomInset: true,
       body: SafeArea(
-        child: Stack(
-          children: [
-            GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  children: [
-                    C165(),
-                    Center(
+        child: SingleChildScrollView(
+          reverse: true,   
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                children: [
+                  Spacer(),
+                  Center(
                       child: Image.asset(
                         'assets/new/logo.png',
-                        height: 180,
-                        width: 180,
+                        height: 160,
+                        width: 160,
                       ),
-                    ),
-                    C50(),
-                    Column(
+                  ),
+                  Spacer(),
+                  Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Container(
                           width: double.infinity,
                           margin: const EdgeInsets.symmetric(horizontal: 15),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(16),
@@ -71,13 +71,12 @@ class LoginWithPassword extends StatelessWidget {
                                     color: Color(0xFF17243E),
                                   ),
                                 ),
-                                C15(),
+                                C10(),
                                 LabelText(
                                   label: Strings.UserName,
                                   isRequired: true,
                                   child: TextFormField(
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
+                                    autovalidateMode: AutovalidateMode.onUserInteraction,
                                     style: TextStyles.textfieldTextStyle,
                                     controller: controller.username,
                                     decoration: InputDecoration(
@@ -93,8 +92,7 @@ class LoginWithPassword extends StatelessWidget {
                                       errorBorder: _errorBorder(),
                                     ),
                                     validator: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
+                                      if (value == null || value.trim().isEmpty) {
                                         return "Username is required";
                                       }
                                       return null;
@@ -110,8 +108,7 @@ class LoginWithPassword extends StatelessWidget {
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       style: TextStyles.textfieldTextStyle,
-                                      obscureText:
-                                          controller.hidePassword.value,
+                                      obscureText: controller.hidePassword.value,
                                       controller: controller.password,
                                       decoration: InputDecoration(
                                         hintText: "Enter Password",
@@ -147,14 +144,11 @@ class LoginWithPassword extends StatelessWidget {
                                     width: double.infinity,
                                     child: ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFFA52A2A),
+                                        backgroundColor: const Color(0xFFA52A2A),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
+                                          borderRadius: BorderRadius.circular(25),
                                         ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 14),
+                                        padding: const EdgeInsets.symmetric(vertical: 14),
                                       ),
                                       onPressed: () async {
                                         FocusScope.of(context).unfocus();
@@ -178,12 +172,11 @@ class LoginWithPassword extends StatelessWidget {
                                     ),
                                   ),
                                 ),
-                                C5(),
+                                //C5(),
                                 Center(
                                   child: AppTextButton(
                                     onTap: () {
-                                      Get.offAndToNamed(
-                                          Routes.forgotPasswordScreen);
+                                      Get.offAndToNamed(Routes.forgotPasswordScreen);
                                     },
                                     title: 'Forgot Password?',
                                   ),
@@ -192,79 +185,78 @@ class LoginWithPassword extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 2.0, right: 8.0),
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Tejraj Micro Association",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontStyle: FontStyle.italic,
-                                    fontSize: 10,
-                                  ),
-                                ),
-                                C5(),
-                                Text("|",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    )),
-                                C5(),
-                                RichText(
-                                  text: TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: "powered by: ",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 10,
-                                        ),
-                                      ),
-                                      WidgetSpan(
-                                        alignment: PlaceholderAlignment.middle,
-                                        child: Image.asset(
-                                          'assets/new/excelllogo.png',
-                                          width: 16,
-                                          height: 16,
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: " EXCELLENT MINDS",
-                                        style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
                       ],
                     ),
-                  ],
-                ),
+                  Padding(
+                      padding: const EdgeInsets.only(top: 2.0, right: 8.0),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Tejraj Micro Association",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontStyle: FontStyle.italic,
+                                fontSize: 10,
+                              ),
+                            ),
+                            C5(),
+                            Text("|",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                )),
+                            C5(),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "powered by: ",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10,
+                                    ),
+                                  ),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.middle,
+                                    child: Image.asset(
+                                      'assets/new/excelllogo.png',
+                                      width: 16,
+                                      height: 16,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: " EXCELLENT MINDS",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: 8,
+                        color: AppColors.primaryOrange,
+                      ),
+                    ),
+                ]
               ),
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: 8,
-                color: AppColors.primaryOrange,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+      )
     );
   }
 
