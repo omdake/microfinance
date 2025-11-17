@@ -58,7 +58,7 @@ class LoanRepaymentController extends GetxController {
       applicantName.value.text = args['memberName'] ?? '';
       payableAmount.value.text = args['totalPayment']?.toString() ?? '';
       valueDate.value.text = args['paymentDate'] ?? '';
-      String today = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      String today = DateFormat('dd-MM-yyyy').format(DateTime.now());
       referenceDate.value.text = today;
       selectedReferenceDate.value = today;
     } else {
@@ -98,7 +98,7 @@ class LoanRepaymentController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
       controller.text = formatted;
       selectedDate.value = formatted;
     }
@@ -226,6 +226,15 @@ class LoanRepaymentController extends GetxController {
     }
   }
 
+  String convertToApiDate(String ddMMyyyy) {
+    try {
+      DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
+      return DateFormat('yyyy-MM-dd').format(dt);
+    } catch (_) {
+      return ddMMyyyy;
+    }
+  }
+
   saveRepayments() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
@@ -240,13 +249,13 @@ class LoanRepaymentController extends GetxController {
       "loan_adjustment": "",
       "mode_of_payment": selectedModeOfPayment.value,
       "loan_product": "",
-      "value_date": selectedValueDate.value.isNotEmpty
+      "value_date": convertToApiDate(selectedValueDate.value.isNotEmpty
           ? selectedValueDate.value
-          : valueDate.value.text,
+          : valueDate.value.text),
       "amount_paid": amountPaid.value.text,
       "reference_number": utrNumber.value.text,
       "manual_remarks": remark.value.text,
-      "reference_date": selectedReferenceDate.value,
+      "reference_date": convertToApiDate(selectedReferenceDate.value),
       "payable_amount": payableAmount.value.text,
     };
 
