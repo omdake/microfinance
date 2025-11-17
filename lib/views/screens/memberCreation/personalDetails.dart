@@ -79,7 +79,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     cursorColor: AppColors.primary,
                                     enabled: !controller.isReadOnly.value,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -88,7 +88,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                      hint: "First Name",
+                                      hint: "First Name".toUpperCase(),
                                     ).copyWith(
                                       filled: true,
                                       fillColor: !controller.isReadOnly.value
@@ -108,7 +108,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     enabled: !controller.isReadOnly.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -117,7 +117,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                      hint: "Middle Name",
+                                      hint: "Middle Name".toUpperCase(),
                                     ).copyWith(
                                       filled: true,
                                       fillColor: !controller.isReadOnly.value
@@ -137,7 +137,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     enabled: !controller.isReadOnly.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -146,7 +146,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                      hint: "Last Name",
+                                      hint: "Last Name".toUpperCase(),
                                     ).copyWith(
                                       filled: true,
                                       fillColor: !controller.isReadOnly.value
@@ -159,8 +159,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                               C10(),
                               paddingWidget(
                                 [
-                                  const LabelsWithMark(
-                                      label: "Email", isRequired: true),
+                                  const LabelsWithMark(label: "Email"),
                                   TextFormField(
                                     controller: controller.email.value,
                                     enabled: !controller.isReadOnly.value,
@@ -170,8 +169,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     style: TextStyles.textfieldTextStyle,
-                                    validator: (value) =>
-                                        commonValidator(value!.trim()),
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
                                       hint: "Email",
@@ -196,13 +193,21 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     return DropdownButtonFormField<String>(
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
-                                        hint: "Select Gender",
+                                        hint: "",
                                       ).copyWith(
                                           filled: true,
                                           fillColor:
                                               !controller.isReadOnly.value
                                                   ? Colors.white
                                                   : Colors.grey.shade200),
+                                      hint: Text(
+                                        "Select Gender".toUpperCase(),
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                          fontFamily: "Roboto-Regular",
+                                        ),
+                                      ),
                                       style: TextStyles.textfieldTextStyle,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
@@ -213,8 +218,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           child: Text(gender),
                                         );
                                       }).toList(),
-                                      value: controller
-                                              .selectedGender.value.isNotEmpty
+                                      value: controller.genderList.contains(
+                                              controller.selectedGender.value)
                                           ? controller.selectedGender.value
                                           : null,
                                       onChanged: isEnabled
@@ -229,7 +234,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                               .selectedGender.value.isNotEmpty
                                           ? Text(
                                               controller.selectedGender.value)
-                                          : const Text("Select Gender"),
+                                          : Text("Select Gender".toUpperCase()),
                                       validator: (value) {
                                         if (controller
                                             .selectedGender.value.isEmpty) {
@@ -261,7 +266,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .textfieldDecorationicon(
-                                        hint: "Date Of Birth",
+                                        hint: "Date Of Birth".toUpperCase(),
                                         sufficIcon: Icons.calendar_today,
                                         sufficIconOntap: () =>
                                             controller.selectDate(
@@ -301,7 +306,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           style: TextStyles.textfieldTextStyle,
                                           decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Age")
+                                                      hint: "Entry Age"
+                                                          .toUpperCase())
                                               .copyWith(
                                             filled: true,
                                             fillColor:
@@ -333,7 +339,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           style: TextStyles.textfieldTextStyle,
                                           decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Age")
+                                                      hint: "Completed Age"
+                                                          .toUpperCase())
                                               .copyWith(
                                             filled: true,
                                             fillColor:
@@ -363,7 +370,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       mobileNoValidator(value!.trim()),
                                   decoration:
                                       TextFieldDecoration.textfieldDecoration(
-                                    hint: "Mobile Number",
+                                    hint: "Mobile Number".toUpperCase(),
                                   ).copyWith(
                                           filled: true,
                                           fillColor:
@@ -392,7 +399,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                      hint: "Mobile Number",
+                                      hint: "Alternate Mobile Number"
+                                          .toUpperCase(),
                                     ).copyWith(
                                             filled: true,
                                             fillColor:
@@ -443,11 +451,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                                   return DropdownButtonFormField2<String>(
                                     isExpanded: true,
                                     value: isValidValue ? selectedValue : null,
-                                    hint: const Text(
-                                      "Select Group",
+                                    hint: Text(
+                                      "Select Group".toUpperCase(),
                                       style: TextStyle(
                                         color: Colors.grey,
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontFamily: "Roboto-Regular",
                                       ),
                                     ),
@@ -547,9 +555,17 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
+                                    hint: Text(
+                                      "Select Occupation".toUpperCase(),
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                        fontFamily: "Roboto-Regular",
+                                      ),
+                                    ),
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                      hint: "Select Occupation",
+                                      hint: "",
                                       sufficIconOntap: () {},
                                       sufficIcon: null,
                                     ).copyWith(
@@ -598,6 +614,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     controller: controller.createdBy.value,
                                     cursorColor: AppColors.primary,
                                     keyboardType: TextInputType.phone,
+                                    textCapitalization:
+                                        TextCapitalization.characters,
                                     autovalidateMode:
                                         AutovalidateMode.onUserInteraction,
                                     style: TextStyles.textfieldTextStyle,

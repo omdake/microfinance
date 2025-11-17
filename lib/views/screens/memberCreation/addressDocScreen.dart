@@ -53,7 +53,8 @@ class AddressDocPopup extends StatelessWidget {
                         child: Text(addressDocType),
                       );
                     }).toList(),
-                    value: controller.selectedAddressDocType.value.isNotEmpty
+                    value: controller.addressDocTypeList
+                            .contains(controller.selectedAddressDocType.value)
                         ? controller.selectedAddressDocType.value
                         : null,
                     onChanged: isEnabled

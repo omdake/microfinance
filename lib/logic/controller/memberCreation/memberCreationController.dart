@@ -93,11 +93,11 @@ class MemberCreationController extends GetxController {
   RxBool isMemberId = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
-  final List<String> genderList = ["Male", "Female", "Other"];
+  final List<String> genderList = ["MALE", "FEMALE", "OTHER"]; //from backend also required
   RxString selectedGender = ''.obs;
   final List<String> addressDocTypeList = [
-    "Electricity Bill",
-    "Rent Agreement"
+    "ELECTRICITY BILL",
+    "RENT AGREEMENT"
   ];
   RxString selectedAddressDocType = ''.obs;
   Rx<Position?> homeImagePosition = Rx<Position?>(null);
@@ -147,7 +147,7 @@ class MemberCreationController extends GetxController {
     if (dobText.isEmpty) return;
 
     try {
-      DateTime dob = DateFormat('yyyy-MM-dd').parse(dobText);
+      DateTime dob = DateFormat('dd-MM-yyyy').parse(dobText);
       DateTime today = DateTime.now();
 
       int completed = today.year - dob.year;
@@ -186,7 +186,7 @@ class MemberCreationController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
       isDobSelected.value = true;
       controller.text = formatted;
       updateAgesFromDOB(formatted);
@@ -211,7 +211,7 @@ class MemberCreationController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
       isDobSelected.value = true;
       controller.text = formatted;
     }
@@ -350,6 +350,26 @@ class MemberCreationController extends GetxController {
     }
   }
 
+  String convertToApiDate(String ddMMyyyy) {
+    try {
+      DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
+      return DateFormat('yyyy-MM-dd').format(dt);
+    } catch (_) {
+      return ddMMyyyy;
+    }
+  }
+
+  String formatToDisplay(String? apiDate) {
+    if (apiDate == null || apiDate.isEmpty) return '';
+
+    try {
+      DateTime dt = DateFormat('yyyy-MM-dd').parse(apiDate);
+      return DateFormat('dd-MM-yyyy').format(dt);
+    } catch (e) {
+      return apiDate;
+    }
+  }
+
   saveLoanMember() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
@@ -360,11 +380,11 @@ class MemberCreationController extends GetxController {
       'middle_name': middleName.value.text,
       'last_name': lastName.value.text,
       'gender': selectedGender.value,
-      'dob': dob.value.text,
+      'dob': convertToApiDate(dob.value.text),
       'completed_age': completedAge.value.text,
       'address_doc_type': selectedAddressDocType.value,
       "cibil_score": cibilScore.value.text,
-      "cibil_date": cibilDate.value.text,
+      "cibil_date": convertToApiDate(cibilDate.value.text),
       'entry_age': entryAge.value.text,
       'mobile_no': mobileNo.value.text,
       'email': email.value.text,
@@ -493,7 +513,7 @@ class MemberCreationController extends GetxController {
       'middle_name': middleName.value.text,
       'last_name': lastName.value.text,
       'gender': selectedGender.value,
-      'dob': dob.value.text,
+      'dob': convertToApiDate(dob.value.text),
       'completed_age': completedAge.value.text,
       'entry_age': entryAge.value.text,
       'mobile_no': mobileNo.value.text,
@@ -509,7 +529,7 @@ class MemberCreationController extends GetxController {
       'pancard': panNumber.value.text,
       'address': address.value.text,
       "cibil_score": cibilScore.value.text,
-      "cibil_date": cibilDate.value.text,
+      "cibil_date": convertToApiDate(cibilDate.value.text),
       'bank_name': bankName.value.text,
       'account_number': accountNumber.value.text,
       'holder_name': holderName.value.text,
@@ -668,6 +688,22 @@ class MemberCreationController extends GetxController {
     }
   }
 
+  String formatMobileWithPrefix(String? mobile) {
+    if (mobile == null) return '';
+    String cleaned = mobile.trim();
+    if (cleaned == '0' || cleaned == '00') return '+91';
+    cleaned = cleaned.replaceAll(RegExp(r'[^0-9]'), '');
+
+    if (cleaned.isEmpty) return '';
+    if (cleaned.length > 10) {
+      cleaned = cleaned.substring(cleaned.length - 10);
+    }
+    if (!cleaned.startsWith('91')) {
+      cleaned = '91$cleaned';
+    }
+    return '+$cleaned';
+  }
+
   getLoanMember({required String memberName}) async {
     final token = await AppPreferences.getToken();
     try {
@@ -692,11 +728,11 @@ class MemberCreationController extends GetxController {
         firstName.value.text = memberData.firstName ?? '';
         middleName.value.text = memberData.middleName ?? '';
         cibilScore.value.text = memberData.cibilScore.toString();
-        cibilDate.value.text = memberData.cibilDate ?? '';
+        cibilDate.value.text = formatToDisplay(memberData.cibilDate);
         lastName.value.text = memberData.lastName ?? '';
         email.value.text = memberData.email ?? '';
         selectedGender.value = memberData.gender ?? '';
-        mobileNo.value.text = memberData.mobileNo ?? '';
+        mobileNo.value.text = formatMobileWithPrefix(memberData.mobileNo);
         selectedOccupation.value = memberData.occupation ?? '';
         address.value.text = memberData.address ?? '';
         selectedAddressDocType.value = memberData.addressDocType ?? '';
@@ -711,12 +747,14 @@ class MemberCreationController extends GetxController {
         aadharNumber.value.text = memberData.aadhar ?? '';
         panNumber.value.text = memberData.pancard ?? '';
         voterId.value.text = memberData.voterId ?? '';
-        alternateMobileNo.value.text = memberData.mobileNoLine2 ?? '';
+        alternateMobileNo.value.text =
+            formatMobileWithPrefix(memberData.mobileNoLine2);
         addressLineTwo.value.text = memberData.addressLine2 ?? '';
         createdBy.value.text = memberData.createdBy ?? '';
         dob.value.text = memberData.dob != null
-            ? DateFormat('yyyy-MM-dd').format(memberData.dob!)
+            ? DateFormat('dd-MM-yyyy').format(memberData.dob!)
             : '';
+
         if (memberData.longitude != null && memberData.latitude != null) {
           homelongitude.value.text = memberData.longitude.toString();
           homelatitude.value.text = memberData.latitude.toString();

@@ -49,7 +49,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       controller: controller.address.value,
                                       cursorColor: AppColors.primary,
                                       textCapitalization:
-                                          TextCapitalization.sentences,
+                                          TextCapitalization.characters,
                                       validator: (value) =>
                                           requiredValidator(value!),
                                       autovalidateMode:
@@ -58,7 +58,8 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Address Line 1")
+                                                  hint: "Address Line 1"
+                                                      .toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -81,7 +82,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                           controller.addressLineTwo.value,
                                       cursorColor: AppColors.primary,
                                       textCapitalization:
-                                          TextCapitalization.sentences,
+                                          TextCapitalization.characters,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       keyboardType: TextInputType.name,
@@ -90,7 +91,8 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Address line 2")
+                                                  hint: "Address line 2"
+                                                      .toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -126,7 +128,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                           AutovalidateMode.onUserInteraction,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
-                                        hint: "Select State",
+                                        hint: "Select State".toUpperCase(),
                                       ).copyWith(
                                         filled: true,
                                         fillColor: !controller.isReadOnly.value
@@ -150,7 +152,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                                   )
                                                   ?.stateName ??
                                               '')
-                                          : const Text("Select State"),
+                                          : Text("Select State".toUpperCase()),
                                       validator: (value) {
                                         if (controller
                                             .selectedState.value.isEmpty) {
@@ -172,14 +174,14 @@ class AddressDetailsScreen extends StatelessWidget {
                                       readOnly: true,
                                       cursorColor: AppColors.primary,
                                       textCapitalization:
-                                          TextCapitalization.sentences,
+                                          TextCapitalization.characters,
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       keyboardType: TextInputType.name,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
-                                        hint: "Country",
+                                        hint: "Country".toUpperCase(),
                                       ).copyWith(
                                           filled: true,
                                           fillColor:
@@ -199,7 +201,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       controller: controller.city.value,
                                       cursorColor: AppColors.primary,
                                       textCapitalization:
-                                          TextCapitalization.sentences,
+                                          TextCapitalization.characters,
                                       validator: (value) =>
                                           requiredValidator(value!),
                                       autovalidateMode:
@@ -207,7 +209,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       keyboardType: TextInputType.name,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
-                                              .textfieldDecoration(hint: "City")
+                                              .textfieldDecoration(hint: "City".toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -226,17 +228,15 @@ class AddressDetailsScreen extends StatelessWidget {
                                       enabled: !controller.isReadOnly.value,
                                       controller: controller.pincode.value,
                                       cursorColor: AppColors.primary,
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
                                       validator: (value) =>
                                           pincodeValidator(value!.trim()),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
-                                      keyboardType: TextInputType.name,
+                                      keyboardType: TextInputType.number,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Pin Code")
+                                                  hint: "Pin Code".toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:

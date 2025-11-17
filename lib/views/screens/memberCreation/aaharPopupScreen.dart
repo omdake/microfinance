@@ -89,14 +89,6 @@ class AadharPopup extends StatelessWidget {
                       isFocused: controller.isAadharbackImageFocused,
                       onTap: () =>
                           controller.pickImage(controller.aadharbackImage),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (file) => imageFileValidator(
-                        localFile: file,
-                        networkUrl: controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].aadharImageBack
-                            : null,
-                        fieldName: 'Aadhar Card Back Image',
-                      ),
                     ),
                   ),
                 ],

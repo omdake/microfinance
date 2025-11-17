@@ -47,7 +47,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     controller: controller.bankName.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -56,7 +56,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Bank Name")
+                                                hint: "Bank Name".toUpperCase())
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -77,17 +77,15 @@ class BankDetailscSreen extends StatelessWidget {
                                       controller:
                                           controller.accountNumber.value,
                                       cursorColor: AppColors.primary,
-                                      textCapitalization:
-                                          TextCapitalization.sentences,
                                       validator: (value) =>
                                           requiredValidator(value!),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
-                                      keyboardType: TextInputType.name,
+                                      keyboardType: TextInputType.number,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Account Number")
+                                                  hint: "Account Number".toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -106,7 +104,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     controller: controller.holderName.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -135,7 +133,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     controller: controller.branch.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     validator: (value) =>
                                         requiredValidator(value!),
                                     autovalidateMode:
@@ -144,7 +142,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Branch")
+                                                hint: "Branch".toUpperCase())
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -180,7 +178,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "IFSC Code")
+                                                hint: "IFSC Code".toUpperCase())
                                             .copyWith(
                                       filled: true,
                                       fillColor: !controller.isReadOnly.value
@@ -199,12 +197,12 @@ class BankDetailscSreen extends StatelessWidget {
                                     controller: controller.bankAddress.value,
                                     cursorColor: AppColors.primary,
                                     textCapitalization:
-                                        TextCapitalization.sentences,
+                                        TextCapitalization.characters,
                                     keyboardType: TextInputType.name,
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Bank Address")
+                                                hint: "Bank Address".toUpperCase())
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
