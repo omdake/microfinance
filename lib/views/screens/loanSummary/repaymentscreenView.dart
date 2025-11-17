@@ -54,7 +54,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             style: TextStyles.textfieldTextStyle,
                             decoration:
                                 TextFieldDecoration.textfieldDecoration(
-                              hint: "Loan ID",
+                              hint: "Loan ID".toUpperCase(),
                             ).copyWith(
                               filled: true,
                               fillColor: controller.isFormEdit.value
@@ -79,7 +79,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration: TextFieldDecoration
                                   .textfieldDecorationicon(
-                                hint: "Value Date",
+                                hint: "Value Date".toUpperCase(),
                                 sufficIcon: Icons.calendar_today,
                               ).copyWith(
                                 filled: true,
@@ -109,7 +109,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "Applicant Name ")
+                                          hint: "Applicant Name".toUpperCase())
                                       .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -138,7 +138,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "Payable Amount")
+                                          hint: "Payable Amount".toUpperCase())
                                       .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -167,7 +167,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "Mode Of Payment")
+                                          hint: "Mode Of Payment".toUpperCase())
                                       .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -196,7 +196,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "Paid Amount")
+                                          hint: "Paid Amount".toUpperCase())
                                       .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -222,7 +222,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration: TextFieldDecoration
                                   .textfieldDecorationicon(
-                                hint: "Reference Date",
+                                hint: "Reference Date".toString(),
                                 sufficIcon: Icons.calendar_today,
                               ).copyWith(
                                 filled: true,
@@ -247,7 +247,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                          hint: "UTR Number")
+                                          hint: "UTR Number".toUpperCase())
                                       .copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value
@@ -264,12 +264,12 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             TextFormField(
                               controller: controller.remark.value,
                               cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.none,
+                              textCapitalization: TextCapitalization.characters,
                               keyboardType: TextInputType.emailAddress,
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecoration(
-                                hint: "Remark",
+                                hint: "Remark".toUpperCase(),
                               ).copyWith(
                                 filled: true,
                                 fillColor: controller.isFormEdit.value

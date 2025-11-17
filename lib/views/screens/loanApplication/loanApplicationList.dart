@@ -152,7 +152,7 @@ class LoanApplicationList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      user.applicantName ?? "-",
+                      "${user.applicantName ?? ""}".toString().toUpperCase(),
                       style: const TextStyle(
                         fontSize: 11,
                         color: Color(0xFF050708),

@@ -29,7 +29,7 @@ class RepaymentScreen extends StatelessWidget {
   String _formatDate(DateTime? date) {
     if (date == null) return 'N/A';
     try {
-      return DateFormat('yyy-MM-dd').format(date);
+      return DateFormat('dd-MM-yyyy').format(date);
     } catch (e) {
       return 'N/A';
     }
@@ -99,11 +99,10 @@ class RepaymentScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "${user.applicantMemberName ?? ""}",
-                    style: TextStyle(
-                      fontFamily: "Roboto-Regular",
+                    "${user.applicantMemberName ?? ""}".toString().toUpperCase(),
+                      style: const TextStyle(
+                      fontFamily: "Roboto-Medium",
                       fontSize: 12,
-                      color: Colors.black,
                     ),
                   ),
                   Text(
