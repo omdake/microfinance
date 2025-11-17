@@ -127,7 +127,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                     EdgeInsets.all(-5),
                                               ),
                                               hint: Text(
-                                                "Select Applicant",
+                                                "Select Applicant".toUpperCase(),
                                                 style: TextStyle(
                                                   color: Colors.grey.shade600,
                                                   fontFamily: "Roboto-Regular",
@@ -255,7 +255,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                           .selectedCoBorrowerId
                                                           .value,
                                                   hint: Text(
-                                                    "Select A Co-Borrower Name",
+                                                    "Select A Co-Borrower Name".toUpperCase(),
                                                     style: TextStyle(
                                                       color:
                                                           Colors.grey.shade600,
@@ -406,7 +406,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               hint: Text(
-                                                "Select a Product",
+                                                "Select a Product".toUpperCase(),
                                                 style: TextStyle(
                                                     color: Colors.grey.shade600,
                                                     fontFamily:
@@ -526,7 +526,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Amount"),
+                                                      hint: "Amount".toUpperCase()),
                                             ),
                                           ],
                                         ),
@@ -552,7 +552,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                   requiredValidator(value!),
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                hint: "Period",
+                                                hint: "Period".toUpperCase(),
                                               ),
                                             ),
                                           ],
@@ -571,7 +571,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                   : controller
                                                       .selectednominee.value,
                                               hint: Text(
-                                                "Select A Nominee Name",
+                                                "Select A Nominee Name".toUpperCase(),
                                                 style: TextStyle(
                                                   color: Colors.grey.shade600,
                                                   fontFamily: "Roboto-Regular",
@@ -689,7 +689,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                               return DropdownButtonFormField<
                                                   String>(
                                                 hint: Text(
-                                                  "Select A Relation With Applicant",
+                                                  "Select A Relation With Applicant".toUpperCase(),
                                                   style: TextStyle(
                                                       color:
                                                           Colors.grey.shade600,
@@ -752,13 +752,13 @@ class LoanApplicationScreen extends StatelessWidget {
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               textCapitalization:
-                                                  TextCapitalization.sentences,
+                                                  TextCapitalization.characters,
                                               keyboardType: TextInputType.name,
                                               style:
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Description"),
+                                                      hint: "Description".toUpperCase()),
                                             ),
                                           ],
                                         ),
