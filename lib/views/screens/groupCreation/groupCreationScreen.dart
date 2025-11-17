@@ -105,7 +105,7 @@ class GroupCreationScreen extends StatelessWidget {
                                                   controller.groupName.value,
                                               cursorColor: AppColors.primary,
                                               textCapitalization:
-                                                  TextCapitalization.sentences,
+                                                  TextCapitalization.characters,
                                               keyboardType: TextInputType.name,
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
@@ -116,7 +116,7 @@ class GroupCreationScreen extends StatelessWidget {
                                               decoration: TextFieldDecoration
                                                       .textfieldDecoration(
                                                           hint:
-                                                              "Enter Group Name")
+                                                              "Enter Group Name".toUpperCase())
                                                   .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -179,7 +179,7 @@ class GroupCreationScreen extends StatelessWidget {
                                                         style: TextStyles
                                                             .textfieldTextStyle,
                                                         hint: Text(
-                                                          "Select Group Head",
+                                                          "Select Group Head".toUpperCase(),
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .grey.shade600,
