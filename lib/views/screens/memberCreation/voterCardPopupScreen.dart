@@ -37,7 +37,7 @@ class VoterIdPopup extends StatelessWidget {
                 TextFormField(
                   enabled: !controller.isReadOnly.value,
                   controller: controller.voterId.value,
-                   autovalidateMode: AutovalidateMode.onUserInteraction,
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   cursorColor: AppColors.primary,
                   textCapitalization: TextCapitalization.characters,
                   keyboardType: TextInputType.text,
@@ -93,14 +93,6 @@ class VoterIdPopup extends StatelessWidget {
                       onTap: () {
                         controller.pickImage(controller.voterbackImage);
                       },
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (file) => imageFileValidator(
-                        localFile: file,
-                        networkUrl: controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].voterIdImageBack
-                            : null,
-                        fieldName: 'Voter Id Back Image',
-                      ),
                     ),
                   ),
                 ],

@@ -14,7 +14,6 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 
@@ -269,11 +268,7 @@ Widget imagePickerField({
                                             : "Camera"),
                                         onTap: () async {
                                           Get.back();
-                                          final cameraStatus =
-                                              await Permission.camera.request();
-                                          if (!cameraStatus.isGranted) {
-                                            return;
-                                          }
+                                         try{
                                           final XFile? pickedFile =
                                               await picker.pickImage(
                                             source: ImageSource.camera,
@@ -305,6 +300,9 @@ Widget imagePickerField({
                                               }
                                             }
                                           }
+                                         }catch(e){
+
+                                         }
                                         },
                                       ),
                                       ListTile(
@@ -343,6 +341,7 @@ Widget imagePickerField({
                                                 }
                                               }
                                             }
+                                          
                                           }
                                         },
                                       ),
@@ -714,44 +713,40 @@ Widget imagePickerField1({
                                             : "Camera"),
                                         onTap: () async {
                                           Get.back();
-                                          final cameraStatus =
-                                              await Permission.camera.request();
-                                          if (!cameraStatus.isGranted) {
-                                            Get.snackbar("Permission Denied",
-                                                "Camera permission is required");
-                                            return;
-                                          }
-                                          final XFile? pickedFile =
-                                              await picker.pickImage(
-                                            source: ImageSource.camera,
-                                            imageQuality: 80,
-                                          );
+                                          try {
+                                            final XFile? pickedFile =
+                                                await picker.pickImage(
+                                              source: ImageSource.camera,
+                                              imageQuality: 80,
+                                            );
 
-                                          if (pickedFile != null) {
-                                            File? cropped = await cropImage(
-                                                pickedFile.path);
-                                            if (cropped != null) {
-                                              imageFile?.value = cropped;
-                                              showError?.value = false;
-                                              fieldState.didChange(cropped);
+                                            if (pickedFile != null) {
+                                              File? cropped = await cropImage(
+                                                  pickedFile.path);
+                                              if (cropped != null) {
+                                                imageFile?.value = cropped;
+                                                showError?.value = false;
+                                                fieldState.didChange(cropped);
 
-                                              if (enableGeotag) {
-                                                Position? position =
-                                                    await getCurrentLocation();
-                                                if (position != null) {
-                                                  String? address =
-                                                      await getAddressFromPosition(
-                                                          position);
-                                                  filePosition.value = position;
-                                                  fileAddress.value =
-                                                      address ?? '';
-                                                  onGeotagCaptured?.call(
-                                                      position,
-                                                      fileAddress.value);
+                                                if (enableGeotag) {
+                                                  Position? position =
+                                                      await getCurrentLocation();
+                                                  if (position != null) {
+                                                    String? address =
+                                                        await getAddressFromPosition(
+                                                            position);
+                                                    filePosition.value =
+                                                        position;
+                                                    fileAddress.value =
+                                                        address ?? '';
+                                                    onGeotagCaptured?.call(
+                                                        position,
+                                                        fileAddress.value);
+                                                  }
                                                 }
                                               }
                                             }
-                                          }
+                                          } catch (e) {}
                                         },
                                       ),
                                       ListTile(

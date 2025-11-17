@@ -17,7 +17,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   crossplat_objectid: ^3.0.0
   file_picker: ^10.1.9
-  image_picker: ^1.1.0
+  image_picker: ^1.1.2
   image_cropper: ^10.0.0
   dropdown_flutter: 1.0.1
   dropdown_button2: ^2.3.9

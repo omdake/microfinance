@@ -92,14 +92,6 @@ class PanCardPopup extends StatelessWidget {
                       isFocused: controller.isAadharbackImageFocused,
                       onTap: () =>
                           controller.pickImage(controller.panbackImage),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (file) => imageFileValidator(
-                        localFile: file,
-                        networkUrl: controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].pancardImageBack
-                            : null,
-                        fieldName: 'Pan Card Back Image',
-                      ),
                     ),
                   ),
                 ],
