@@ -22,15 +22,24 @@ class DueEMIController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    upToDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    upToDate.value = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.value.text = upToDate.value;
     getLoanEMIList();
   }
 
   void resetSelectedDate() {
-    upToDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    upToDate.value = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.value.text = upToDate.value;
     getLoanEMIList(upToDate: upToDate.value, search: search.value.text);
+  }
+
+  String convertToApiDate(String ddMMyyyy) {
+    try {
+      DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
+      return DateFormat('yyyy-MM-dd').format(dt);
+    } catch (_) {
+      return ddMMyyyy;
+    }
   }
 
   Future<void> selectDate(BuildContext context,
@@ -49,7 +58,7 @@ class DueEMIController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formattedDate = DateFormat('dd-MM-yyyy').format(picked.first!);
 
       upToDate.value = formattedDate;
       dateController.value.text = formattedDate;
@@ -74,7 +83,7 @@ class DueEMIController extends GetxController {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.dueEmiList(
-            upToDate: upToDate ?? "",
+            upToDate: convertToApiDate(upToDate!) ?? "",
             searchText: search,
             sortBy: "",
             sortOrder: "",
