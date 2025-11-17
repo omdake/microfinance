@@ -23,7 +23,7 @@ class LoanEMIController extends GetxController {
   void onInit() {
     super.onInit();
     getLoanEMIList();
-    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    selectedDate.value = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.value.text = selectedDate.value;
   }
 
@@ -43,7 +43,7 @@ class LoanEMIController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formattedDate = DateFormat('dd-MM-yyyy').format(picked.first!);
 
       selectedDate.value = formattedDate;
       dateController.value.text = formattedDate;
@@ -62,8 +62,17 @@ class LoanEMIController extends GetxController {
     );
   }
 
+   String convertToApiDate(String ddMMyyyy) {
+    try {
+      DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
+      return DateFormat('yyyy-MM-dd').format(dt);
+    } catch (_) {
+      return ddMMyyyy;
+    }
+  }
+
   void resetSelectedDate() {
-    selectedDate.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    selectedDate.value = DateFormat('dd-MM-yyyy').format(DateTime.now());
     dateController.value.text = selectedDate.value;
     getLoanEMIList(selectedDate: selectedDate.value, search: search.value.text);
   }
@@ -77,7 +86,7 @@ class LoanEMIController extends GetxController {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.LoanEmiList(
-            selectedDate: selectedDate ?? "",
+            selectedDate: convertToApiDate(selectedDate!) ?? "",
             searchText: search,
             sortBy: "",
             sortOrder: "",

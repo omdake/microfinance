@@ -161,10 +161,6 @@ class DueEMIScreen extends StatelessWidget {
                         'memberName': user.memberName,
                         'applicant': user.applicant,
                       };
-
-                      print(
-                          "Navigating to LoanRepayment with args: $args"); // ✅ log all arguments
-
                       Get.toNamed(
                         Routes.loanRepayment,
                         arguments: args,
