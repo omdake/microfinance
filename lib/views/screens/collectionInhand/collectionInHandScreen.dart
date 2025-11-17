@@ -99,7 +99,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                   controller.employee.value,
                                               cursorColor: AppColors.primary,
                                               textCapitalization:
-                                                  TextCapitalization.sentences,
+                                                  TextCapitalization.characters,
                                               validator: (value) =>
                                                   requiredValidator(value!),
                                               keyboardType: TextInputType.name,
@@ -107,7 +107,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Employee"),
+                                                      hint: "Employee".toUpperCase()),
                                             ),
                                           ],
                                         ),
@@ -121,13 +121,13 @@ class CollectionInHandScreen extends StatelessWidget {
                                                   controller.employeeName.value,
                                               cursorColor: AppColors.primary,
                                               textCapitalization:
-                                                  TextCapitalization.sentences,
+                                                  TextCapitalization.characters,
                                               keyboardType: TextInputType.name,
                                               style:
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Employee Name"),
+                                                      hint: "Employee Name".toUpperCase()),
                                             ),
                                           ],
                                         ),
@@ -157,7 +157,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                     .textfieldTextStyle,
                                                 decoration: TextFieldDecoration
                                                     .textfieldDecorationicon(
-                                                  hint: " Enter Posting Date",
+                                                  hint: " Enter Posting Date".toUpperCase(),
                                                   sufficIcon:
                                                       Icons.calendar_today,
                                                   sufficIconOntap: () =>

@@ -18,7 +18,7 @@ class CollectionInHandListController extends GetxController {
   Rx<TextEditingController> employeeName = TextEditingController().obs;
   Rx<TextEditingController> amount = TextEditingController().obs;
   Rx<TextEditingController> postingDate = TextEditingController(
-          text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
+          text: DateFormat('dd-MM-yyyy').format(DateTime.now()))
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<TextEditingController> Status = TextEditingController().obs;
@@ -58,7 +58,7 @@ class CollectionInHandListController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formattedDate = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formattedDate = DateFormat('dd-MM-yyyy').format(picked.first!);
       selectedDateController.value.text = formattedDate;
       selectedDateText.value = formattedDate;
 

@@ -130,7 +130,7 @@ class PendingApproval extends StatelessWidget {
                         ),
                         TextSpan(
                           text: user.postingDate != null
-                              ? DateFormat('yyyy-MM-dd')
+                              ? DateFormat('dd-MM-yyyy')
                                   .format(user.postingDate!)
                               : "",
                           style: TextStyle(

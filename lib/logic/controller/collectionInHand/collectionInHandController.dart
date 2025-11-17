@@ -26,7 +26,7 @@ class CollectionInHandController extends GetxController {
   Rx<TextEditingController> bankAmount = TextEditingController().obs;
   Rx<TextEditingController> bankName = TextEditingController().obs;
   Rx<TextEditingController> postingDate = TextEditingController(
-          text: DateFormat('yyyy-MM-dd').format(DateTime.now()))
+          text: DateFormat('dd-MM-yyyy').format(DateTime.now()))
       .obs;
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<TextEditingController> givenTo = TextEditingController().obs;
@@ -86,8 +86,17 @@ class CollectionInHandController extends GetxController {
     );
 
     if (picked != null && picked.isNotEmpty && picked.first != null) {
-      String formatted = DateFormat('yyyy-MM-dd').format(picked.first!);
+      String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
       controller.text = formatted;
+    }
+  }
+
+  String convertToApiDate(String ddMMyyyy) {
+    try {
+      DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
+      return DateFormat('yyyy-MM-dd').format(dt);
+    } catch (_) {
+      return ddMMyyyy;
     }
   }
 
@@ -121,7 +130,7 @@ class CollectionInHandController extends GetxController {
       "employee": employee.value.text,
       "given_to": selectedGivenTo.value,
       "amount": amount.value.text,
-      "posting_date": postingDate.value.text,
+      "posting_date": convertToApiDate(postingDate.value.text),
     };
     if (selectedGivenTo.value == "Employee") {
       requestData["amount_given_emp"] = selectedamountGivenTo.value;
@@ -217,7 +226,7 @@ class CollectionInHandController extends GetxController {
       paymentProofUrl.value = '';
     }
     postingDate.value.text = applicant.postingDate != null
-        ? DateFormat('yyyy-MM-dd').format(applicant.postingDate!)
+        ? DateFormat('dd-MM-yyyy').format(applicant.postingDate!)
         : '';
   }
 
@@ -420,7 +429,7 @@ class CollectionInHandController extends GetxController {
   void resetForm() {
     amount.value.clear();
     amountgivenTo.value.clear();
-    postingDate.value.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    postingDate.value.text = DateFormat('dd-MM-yyyy').format(DateTime.now());
     isReadOnly.value = false;
     isFormEdit.value = false;
   }
