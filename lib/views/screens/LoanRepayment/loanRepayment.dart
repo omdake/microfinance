@@ -196,8 +196,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   }
                                                 },
                                                 hint: Text(
-                                                  "Select A Loan Id"
-                                                      .toUpperCase(),
+                                                  "Select A Loan Id",
                                                   style: TextStyle(
                                                     color: Colors.grey.shade600,
                                                     fontFamily:
@@ -289,8 +288,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecorationicon(
-                                                hint:
-                                                    "Value Date".toUpperCase(),
+                                                hint: "Value Date",
                                                 sufficIcon:
                                                     Icons.calendar_today,
                                                 sufficIconOntap: () =>
@@ -331,10 +329,9 @@ class LoanRepaymentScreen extends StatelessWidget {
                                             style:
                                                 TextStyles.textfieldTextStyle,
                                             decoration: TextFieldDecoration
-                                                .textfieldDecoration(
-                                              hint: "Applicant Name"
-                                                  .toUpperCase(),
-                                            ).copyWith(
+                                                    .textfieldDecoration(
+                                                        hint: "Applicant Name")
+                                                .copyWith(
                                               filled: true,
                                               fillColor:
                                                   controller.isFormEdit.value
@@ -365,10 +362,9 @@ class LoanRepaymentScreen extends StatelessWidget {
                                             style:
                                                 TextStyles.textfieldTextStyle,
                                             decoration: TextFieldDecoration
-                                                .textfieldDecoration(
-                                              hint: "Payable Amount"
-                                                  .toUpperCase(),
-                                            ).copyWith(
+                                                    .textfieldDecoration(
+                                                        hint: "Payable Amount")
+                                                .copyWith(
                                               filled: true,
                                               fillColor:
                                                   controller.isFormEdit.value
@@ -407,7 +403,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                               autovalidateMode: AutovalidateMode
                                                   .onUserInteraction,
                                               hint: Text(
-                                                "Select Mode Of Payment".toUpperCase(),
+                                                "Select Mode Of Payment",
                                                 style: TextStyle(
                                                   color: Colors.grey.shade600,
                                                   fontSize: 12,
@@ -468,9 +464,8 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                   decoration:
                                                       TextFieldDecoration
                                                           .textfieldDecoration(
-                                                    hint: "UTR Number"
-                                                        .toUpperCase(),
-                                                  ),
+                                                              hint:
+                                                                  "UTR Number"),
                                                   validator: (value) =>
                                                       requiredValidator(value!),
                                                   autovalidateMode:
@@ -501,8 +496,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                 TextStyles.textfieldTextStyle,
                                             decoration: TextFieldDecoration
                                                 .textfieldDecoration(
-                                              hint: "Paid Amount".toUpperCase(),
-                                            ),
+                                                    hint: "Paid Amount"),
                                           ),
                                         ]),
                                         C10(),
@@ -525,8 +519,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                     .textfieldTextStyle,
                                                 decoration: TextFieldDecoration
                                                     .textfieldDecorationicon(
-                                                  hint: "Reference Date"
-                                                      .toUpperCase(),
+                                                  hint: "Reference Date",
                                                   sufficIcon:
                                                       Icons.calendar_today,
                                                   sufficIconOntap: () =>
@@ -564,7 +557,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                 TextStyles.textfieldTextStyle,
                                             decoration: TextFieldDecoration
                                                 .textfieldDecoration(
-                                              hint: "Remark".toUpperCase(),
+                                              hint: "Remark",
                                             ),
                                           ),
                                         ]),

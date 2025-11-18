@@ -59,7 +59,7 @@ class DetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Applicant".toUpperCase(),
+                            hint: "Applicant",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -97,7 +97,7 @@ class DetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Against loan".toUpperCase(),
+                            hint: "Against loan",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -135,7 +135,7 @@ class DetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Sanctioned Loan Amount".toUpperCase())
+                                  hint: "Sanctioned Loan Amount")
                               .copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -174,7 +174,7 @@ class DetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Current Disbursed Amount".toUpperCase())
+                                  hint: "Current Disbursed Amount")
                               .copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -213,7 +213,7 @@ class DetailsScreen extends StatelessWidget {
                           style: TextStyles.textfieldTextStyle,
                           validator: (value) => commonValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Monthly Repayment Amount".toUpperCase(),
+                            hint: "Monthly Repayment Amount",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -256,7 +256,7 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecorationicon(
-                                hint: "Disbursement Date".toUpperCase(),
+                                hint: "Disbursement Date",
                                 sufficIconOntap: null,
                               ).copyWith(
                                 filled: false,
@@ -300,7 +300,7 @@ class DetailsScreen extends StatelessWidget {
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecorationicon(
-                                hint: "Repayment Start Date".toUpperCase(),
+                                hint: "Repayment Start Date",
                                 sufficIconOntap: null,
                               ).copyWith(
                                 filled: false,
@@ -341,7 +341,7 @@ class DetailsScreen extends StatelessWidget {
                           keyboardType: TextInputType.name,
                           style: TextStyles.textfieldTextStyle,
                           decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Disbursed Amount".toUpperCase())
+                                  hint: "Disbursed Amount")
                               .copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -379,7 +379,7 @@ class DetailsScreen extends StatelessWidget {
                           style: TextStyles.textfieldTextStyle,
                           validator: (value) => commonValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Principal Amount Paid".toUpperCase(),
+                            hint: "Principal Amount Paid",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -418,7 +418,7 @@ class DetailsScreen extends StatelessWidget {
                           validator: (value) =>
                               mobileNoValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Days Past Due".toUpperCase(),
+                            hint: "Days Past Due",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
@@ -455,7 +455,7 @@ class DetailsScreen extends StatelessWidget {
                           validator: (value) =>
                               mobileNoValidator(value!.trim()),
                           decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Status".toUpperCase(),
+                            hint: "Status",
                           ).copyWith(
                             filled: false,
                             enabledBorder: OutlineInputBorder(
