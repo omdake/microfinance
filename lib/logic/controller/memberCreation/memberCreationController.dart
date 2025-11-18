@@ -47,9 +47,12 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> cibilScore = TextEditingController().obs;
   Rx<TextEditingController> cibilDate = TextEditingController().obs;
   Rx<TextEditingController> addressDocType = TextEditingController().obs;
-  Rx<TextEditingController> country = TextEditingController(text: "India").obs;
+  Rx<TextEditingController> country = TextEditingController(text: "INDIA").obs;
   Rx<TextEditingController> createdBy = TextEditingController().obs;
   Rx<TextEditingController> memberId = TextEditingController().obs;
+  Rx<TextEditingController> consumerNumberController =
+      TextEditingController().obs;
+  RxBool showConsumerNumber = false.obs;
   Rx<File?> aadharImage = Rx<File?>(null);
   Rx<File?> homeImage = Rx<File?>(null);
   Rx<File?> panImage = Rx<File?>(null);
@@ -93,7 +96,11 @@ class MemberCreationController extends GetxController {
   RxBool isMemberId = false.obs;
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
-  final List<String> genderList = ["MALE", "FEMALE", "OTHER"]; //from backend also required
+  final List<String> genderList = [
+    "MALE",
+    "FEMALE",
+    "OTHER"
+  ]; //from backend also required
   RxString selectedGender = ''.obs;
   final List<String> addressDocTypeList = [
     "ELECTRICITY BILL",
@@ -113,6 +120,7 @@ class MemberCreationController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
+    selectedState.value = "MH";
     mobileNo.value.text = '+91';
     alternateMobileNo.value.text = '+91';
     await getOccupationList();
@@ -727,7 +735,10 @@ class MemberCreationController extends GetxController {
         name.value = memberData.name ?? '';
         firstName.value.text = memberData.firstName ?? '';
         middleName.value.text = memberData.middleName ?? '';
-        cibilScore.value.text = memberData.cibilScore.toString();
+        cibilScore.value.text =
+            (memberData.cibilScore == 0 || memberData.cibilScore == null)
+                ? ''
+                : memberData.cibilScore.toString();
         cibilDate.value.text = formatToDisplay(memberData.cibilDate);
         lastName.value.text = memberData.lastName ?? '';
         email.value.text = memberData.email ?? '';
@@ -737,7 +748,10 @@ class MemberCreationController extends GetxController {
         address.value.text = memberData.address ?? '';
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         city.value.text = memberData.city ?? '';
-        pincode.value.text = memberData.pincode?.toString() ?? '';
+        pincode.value.text =
+            (memberData.pincode == 0 || memberData.pincode == null)
+                ? ''
+                : memberData.pincode.toString();
         bankName.value.text = memberData.bankName ?? '';
         accountNumber.value.text = memberData.accountNumber ?? '';
         holderName.value.text = memberData.holderName ?? '';
