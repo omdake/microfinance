@@ -116,7 +116,7 @@ class GroupCreationScreen extends StatelessWidget {
                                               decoration: TextFieldDecoration
                                                       .textfieldDecoration(
                                                           hint:
-                                                              "Enter Group Name".toUpperCase())
+                                                              "Enter Group Name")
                                                   .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -179,7 +179,7 @@ class GroupCreationScreen extends StatelessWidget {
                                                         style: TextStyles
                                                             .textfieldTextStyle,
                                                         hint: Text(
-                                                          "Select Group Head".toUpperCase(),
+                                                          "Select Group Head",
                                                           style: TextStyle(
                                                             color: Colors
                                                                 .grey.shade600,

@@ -56,7 +56,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Bank Name".toUpperCase())
+                                                hint: "Bank Name")
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -85,7 +85,7 @@ class BankDetailscSreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Account Number".toUpperCase())
+                                                  hint: "Account Number")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -142,7 +142,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Branch".toUpperCase())
+                                                hint: "Branch")
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -178,7 +178,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "IFSC Code".toUpperCase())
+                                                hint: "IFSC Code")
                                             .copyWith(
                                       filled: true,
                                       fillColor: !controller.isReadOnly.value
@@ -202,7 +202,7 @@ class BankDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Bank Address".toUpperCase())
+                                                hint: "Bank Address")
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:

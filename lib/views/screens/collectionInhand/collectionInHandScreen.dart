@@ -107,7 +107,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Employee".toUpperCase()),
+                                                      hint: "Employee"),
                                             ),
                                           ],
                                         ),
@@ -127,7 +127,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                   TextStyles.textfieldTextStyle,
                                               decoration: TextFieldDecoration
                                                   .textfieldDecoration(
-                                                      hint: "Employee Name".toUpperCase()),
+                                                      hint: "Employee Name"),
                                             ),
                                           ],
                                         ),
@@ -157,7 +157,7 @@ class CollectionInHandScreen extends StatelessWidget {
                                                     .textfieldTextStyle,
                                                 decoration: TextFieldDecoration
                                                     .textfieldDecorationicon(
-                                                  hint: " Enter Posting Date".toUpperCase(),
+                                                  hint: " Enter Posting Date",
                                                   sufficIcon:
                                                       Icons.calendar_today,
                                                   sufficIconOntap: () =>
