@@ -770,8 +770,6 @@ class MemberCreationController extends GetxController {
         city.value.text = memberData.city ?? '';
         controller.showConsumerNumber.value = memberData.addressDocType == "ELECTRICITY BILL";
         controller.consumerNumberController.value.text = controller.showConsumerNumber.value
-            ? (memberData.consumerNo?.toString() ?? '')
-            : '';
         pincode.value.text =
             (memberData.pincode == 0 || memberData.pincode == null)
                 ? ''
