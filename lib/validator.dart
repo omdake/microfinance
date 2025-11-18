@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:intl/intl.dart';
+
 String? commonValidator(String value) {
   if (value.isEmpty) {
     return 'This field is required';
@@ -149,7 +151,7 @@ String? pincodeValidator(String value) {
 String? loginPasswordValidator(String value) {
   if (value.isEmpty) {
     return 'Password is required';
-  } 
+  }
   if (value.length < 6) {
     return 'Password must be at least 6 characters long';
   }
@@ -157,6 +159,23 @@ String? loginPasswordValidator(String value) {
   if (!passwordRegex.hasMatch(value)) {
     return 'Password must contain letters and numbers';
   }
+  return null;
+}
+
+String? validateDOB(String? dobText) {
+  if (dobText == null || dobText.isEmpty) return 'Date of Birth is required';
+  if (dobText.length < 10) return null;
+
+  try {
+    final enteredDate = DateFormat('dd-MM-yyyy').parseStrict(dobText);
+
+    if (enteredDate.isAfter(DateTime.now())) {
+      return 'DOB cannot be in the future';
+    }
+  } catch (e) {
+    return 'Invalid date format (DD-MM-YYYY)';
+  }
+
   return null;
 }
 
