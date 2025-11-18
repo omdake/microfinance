@@ -126,7 +126,6 @@ class DueEMIController extends GetxController {
         ),
       );
     } catch (e) {
-      print("......$e");
       DevService.instance.insertAPICall(
         AppAPIsCall(
           id: DateTime.now().millisecondsSinceEpoch.toString(),

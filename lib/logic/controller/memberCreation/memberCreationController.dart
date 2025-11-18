@@ -150,7 +150,7 @@ class MemberCreationController extends GetxController {
       if (keyContext != null) {}
     }
   }
-
+  
   void updateAgesFromDOB(String dobText) {
     if (dobText.isEmpty) {
       isDobSelected.value = false;
@@ -158,16 +158,26 @@ class MemberCreationController extends GetxController {
       completedAge.value.text = '';
       return;
     }
+    if (!dobText.contains('-') || dobText.split('-').length != 3) {
+      entryAge.value.text = '';
+      completedAge.value.text = '';
+      isDobSelected.value = false;
+      return;
+    }
+
     if (dobText.length == 10) {
       try {
         DateTime dob = DateFormat('dd-MM-yyyy').parseStrict(dobText);
         DateTime today = DateTime.now();
+
         int completed = today.year - dob.year;
         if (today.month < dob.month ||
             (today.month == dob.month && today.day < dob.day)) {
           completed--;
         }
+
         int entry = completed + 1;
+
         entryAge.value.text = entry.toString();
         completedAge.value.text = completed.toString();
         isDobSelected.value = true;
@@ -426,6 +436,7 @@ class MemberCreationController extends GetxController {
       "longitude": longitude.value.toString(),
       "latitude": latitude.value.toString(),
       "geo_location": geoLocation.value,
+      "consumer_no": consumerNumberController.value.text
     };
 
     final Map<String, Rx<File?>> imageFields = {
@@ -559,6 +570,7 @@ class MemberCreationController extends GetxController {
       "longitude": longitude.value.toString(),
       "latitude": latitude.value.toString(),
       "geo_location": geoLocation.value,
+      "consumer_no": consumerNumberController.value.text
     };
 
     fields.removeWhere((key, value) => value.isEmpty);
@@ -757,6 +769,9 @@ class MemberCreationController extends GetxController {
         address.value.text = memberData.address ?? '';
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         city.value.text = memberData.city ?? '';
+        consumerNumberController.value.text = showConsumerNumber.value
+            ? (memberData.consumerNo?.toString() ?? '')
+            : '';
         pincode.value.text =
             (memberData.pincode == 0 || memberData.pincode == null)
                 ? ''

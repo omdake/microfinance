@@ -288,6 +288,7 @@ class TextFieldDecoration {
       hintStyle: TextStyle(
         color: Colors.grey.shade600,
         fontFamily: "Roboto-Regular",
+        fontSize: 12
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
