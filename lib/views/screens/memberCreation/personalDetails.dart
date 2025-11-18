@@ -247,6 +247,39 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                               C10(),
+                              // paddingWidget(
+                              //   [
+                              //     const LabelsWithMark(
+                              //         label: "Date Of Birth", isRequired: true),
+                              //     Obx(
+                              //       () => TextFormField(
+                              //         enabled: !controller.isReadOnly.value,
+                              //         controller: controller.dob.value,
+                              //         cursorColor: AppColors.primary,
+                              //         onTap: () => controller.selectDate(
+                              //             context, controller.dob.value),
+                              //         validator: (value) =>
+                              //             requiredValidator(value!),
+                              //         autovalidateMode:
+                              //             AutovalidateMode.onUserInteraction,
+                              //         style: TextStyles.textfieldTextStyle,
+                              //         decoration: TextFieldDecoration
+                              //             .textfieldDecorationicon(
+                              //           hint: "Date Of Birth".toUpperCase(),
+                              //           sufficIcon: Icons.calendar_today,
+                              //           sufficIconOntap: () =>
+                              //               controller.selectDate(
+                              //                   context, controller.dob.value),
+                              //         ).copyWith(
+                              //             filled: true,
+                              //             fillColor:
+                              //                 !controller.isReadOnly.value
+                              //                     ? Colors.white
+                              //                     : Colors.grey.shade200),
+                              //       ),
+                              //     ),
+                              //   ],
+                              // ),
                               paddingWidget(
                                 [
                                   const LabelsWithMark(
@@ -256,37 +289,34 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       enabled: !controller.isReadOnly.value,
                                       controller: controller.dob.value,
                                       cursorColor: AppColors.primary,
-                                      readOnly: true,
-                                      onTap: () => controller.selectDate(
-                                          context, controller.dob.value),
                                       validator: (value) =>
                                           requiredValidator(value!),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
-                                          .textfieldDecorationicon(
-                                        hint: "Date Of Birth".toUpperCase(),
-                                        sufficIcon: Icons.calendar_today,
-                                        sufficIconOntap: () =>
+                                          .datePickerDecoration(
+                                        hint: "Date of Birth",
+                                        onCalendarTap: () =>
                                             controller.selectDate(
-                                                context, controller.dob.value),
-                                      ).copyWith(
-                                          filled: true,
-                                          fillColor:
-                                              !controller.isReadOnly.value
-                                                  ? Colors.white
-                                                  : Colors.grey.shade200),
+                                          context,
+                                          controller.dob.value,
+                                        ),
+                                        isReadOnly: controller.isReadOnly.value,
+                                      ),
+                                      onChanged: (value) {
+                                        controller.updateAgesFromDOB(value);
+                                      },
                                     ),
                                   ),
                                 ],
                               ),
-                              C10(),
                               Obx(() {
                                 if (!controller.isDobSelected.value)
                                   return SizedBox();
                                 return Column(
                                   children: [
+                                    C10(),
                                     paddingWidget(
                                       [
                                         const LabelsWithMark(

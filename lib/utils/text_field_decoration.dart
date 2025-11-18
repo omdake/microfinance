@@ -274,4 +274,52 @@ class TextFieldDecoration {
               color: AppColors.textFieldBorderColor,
             ),
           ));
+
+  static InputDecoration datePickerDecoration({
+    required String hint,
+    required VoidCallback onCalendarTap,
+    bool isReadOnly = false,
+  }) {
+    return InputDecoration(
+      hintText: hint,
+      filled: true,
+      fillColor: isReadOnly ? const Color(0xFFF5F5F5) : AppColors.white,
+      contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      hintStyle: TextStyle(
+        color: Colors.grey.shade600,
+        fontFamily: "Roboto-Regular",
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: BorderSide(color: AppColors.grey, width: 1.0),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Color(0xFFEAECF0)),
+      ),
+      disabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Color(0xFFEAECF0)),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Colors.red),
+      ),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10),
+        borderSide: const BorderSide(color: Color(0xFFEAECF0)),
+      ),
+      suffixIcon: GestureDetector(
+        onTap: onCalendarTap,
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: SvgPicture.asset(
+            "assets/new/calendericon.svg",
+            height: 24,
+            width: 24,
+          ),
+        ),
+      ),
+    );
+  }
 }
