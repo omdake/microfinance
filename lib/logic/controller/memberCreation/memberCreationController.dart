@@ -152,25 +152,34 @@ class MemberCreationController extends GetxController {
   }
 
   void updateAgesFromDOB(String dobText) {
-    if (dobText.isEmpty) return;
-
-    try {
-      DateTime dob = DateFormat('dd-MM-yyyy').parse(dobText);
-      DateTime today = DateTime.now();
-
-      int completed = today.year - dob.year;
-      if (today.month < dob.month ||
-          (today.month == dob.month && today.day < dob.day)) {
-        completed--;
-      }
-
-      int entry = completed + 1;
-
-      entryAge.value.text = entry.toString();
-      completedAge.value.text = completed.toString();
-    } catch (e) {
+    if (dobText.isEmpty) {
+      isDobSelected.value = false;
       entryAge.value.text = '';
       completedAge.value.text = '';
+      return;
+    }
+    if (dobText.length == 10) {
+      try {
+        DateTime dob = DateFormat('dd-MM-yyyy').parseStrict(dobText);
+        DateTime today = DateTime.now();
+        int completed = today.year - dob.year;
+        if (today.month < dob.month ||
+            (today.month == dob.month && today.day < dob.day)) {
+          completed--;
+        }
+        int entry = completed + 1;
+        entryAge.value.text = entry.toString();
+        completedAge.value.text = completed.toString();
+        isDobSelected.value = true;
+      } catch (e) {
+        entryAge.value.text = '';
+        completedAge.value.text = '';
+        isDobSelected.value = false;
+      }
+    } else {
+      entryAge.value.text = '';
+      completedAge.value.text = '';
+      isDobSelected.value = false;
     }
   }
 
