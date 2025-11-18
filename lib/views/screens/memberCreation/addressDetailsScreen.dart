@@ -115,18 +115,21 @@ class AddressDetailsScreen extends StatelessWidget {
                                       items: controller.stateList.map((e) {
                                         return DropdownMenuItem(
                                           value: e.stateCode,
-                                          child: Text(
-                                            e.stateName.toString(),
-                                            style:
-                                                TextStyles.textfieldTextStyle,
-                                          ),
+                                          child: Text(e.stateName.toString(),
+                                              style: TextStyles
+                                                  .textfieldTextStyle),
                                         );
                                       }).toList(),
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
                                         hint: "Select State",
-                                      ),
+                                      ).copyWith(
+                                          filled: true,
+                                          fillColor:
+                                              !controller.isReadOnly.value
+                                                  ? Colors.white
+                                                  : Colors.grey.shade200),
                                       onChanged: null,
                                       disabledHint: Text(
                                         controller.stateList

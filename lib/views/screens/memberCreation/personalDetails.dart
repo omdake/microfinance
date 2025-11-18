@@ -216,7 +216,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           controller.genderList.map((gender) {
                                         return DropdownMenuItem<String>(
                                           value: gender,
-                                          child: Text(gender),
+                                          child: Text(
+                                            gender,
+                                            style:
+                                                TextStyles.textfieldTextStyle,
+                                          ),
                                         );
                                       }).toList(),
                                       value: controller.genderList.contains(
@@ -261,7 +265,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           requiredValidator(value!),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
-                                           keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.number,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .datePickerDecoration(
@@ -464,6 +468,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                         value: e.name.toString(),
                                         child: Text(
                                           e.groupName.toString(),
+                                          style: TextStyles.textfieldTextStyle,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       );
@@ -549,7 +554,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                                     items: controller.occupationList.map((e) {
                                       return DropdownMenuItem(
                                         value: e.name.toString(),
-                                        child: Text(e.occupation.toString()),
+                                        child: Text(
+                                          e.occupation.toString(),
+                                          style: TextStyles.textfieldTextStyle
+                                        ),
                                       );
                                     }).toList(),
                                     style: TextStyles.textfieldTextStyle,

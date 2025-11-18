@@ -150,7 +150,6 @@ class MemberCreationController extends GetxController {
       if (keyContext != null) {}
     }
   }
-  
   void updateAgesFromDOB(String dobText) {
     if (dobText.isEmpty) {
       isDobSelected.value = false;
@@ -769,9 +768,8 @@ class MemberCreationController extends GetxController {
         address.value.text = memberData.address ?? '';
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         city.value.text = memberData.city ?? '';
-        consumerNumberController.value.text = showConsumerNumber.value
-            ? (memberData.consumerNo?.toString() ?? '')
-            : '';
+        controller.showConsumerNumber.value = memberData.addressDocType == "ELECTRICITY BILL";
+        controller.consumerNumberController.value.text = controller.showConsumerNumber.value
         pincode.value.text =
             (memberData.pincode == 0 || memberData.pincode == null)
                 ? ''
