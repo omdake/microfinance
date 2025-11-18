@@ -101,6 +101,7 @@ class LoanMemberListResult {
   double? longitude;
   double? latitude;
   dynamic geoLocation;
+  String? consumerNo;
 
   LoanMemberListResult({
     this.name,
@@ -158,6 +159,7 @@ class LoanMemberListResult {
     this.latitude,
     this.geoLocation,
     this.createdBy,
+    this.consumerNo,
   });
 
   factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
@@ -225,6 +227,7 @@ class LoanMemberListResult {
                 ? (json["latitude"] as int).toDouble()
                 : json["latitude"] as double)
             : null,
+        consumerNo: json["consumer_no"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -284,6 +287,7 @@ class LoanMemberListResult {
         "latitude": latitude,
         "geo_location": geoLocation,
         "created_by": createdBy,
+        "consumer_no": consumerNo
       };
 }
 

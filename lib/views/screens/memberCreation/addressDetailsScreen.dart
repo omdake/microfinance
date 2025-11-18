@@ -58,8 +58,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Address Line 1"
-                                                      .toUpperCase())
+                                                  hint: "Address Line 1")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -91,8 +90,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Address line 2"
-                                                      .toUpperCase())
+                                                  hint: "Address line 2")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -127,7 +125,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
-                                        hint: "Select State".toUpperCase(),
+                                        hint: "Select State",
                                       ),
                                       onChanged: null,
                                       disabledHint: Text(
@@ -167,7 +165,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
-                                        hint: "Country".toUpperCase(),
+                                        hint: "Country",
                                       ).copyWith(
                                           filled: true,
                                           fillColor:
@@ -195,8 +193,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       keyboardType: TextInputType.name,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
-                                              .textfieldDecoration(
-                                                  hint: "City".toUpperCase())
+                                              .textfieldDecoration(hint: "City")
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -223,8 +220,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint:
-                                                      "Pin Code".toUpperCase())
+                                                  hint: "Pin Code")
                                           .copyWith(
                                               filled: true,
                                               fillColor:

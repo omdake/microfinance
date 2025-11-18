@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/mobileFormatter_widget.dart';
@@ -247,39 +248,6 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 ],
                               ),
                               C10(),
-                              // paddingWidget(
-                              //   [
-                              //     const LabelsWithMark(
-                              //         label: "Date Of Birth", isRequired: true),
-                              //     Obx(
-                              //       () => TextFormField(
-                              //         enabled: !controller.isReadOnly.value,
-                              //         controller: controller.dob.value,
-                              //         cursorColor: AppColors.primary,
-                              //         onTap: () => controller.selectDate(
-                              //             context, controller.dob.value),
-                              //         validator: (value) =>
-                              //             requiredValidator(value!),
-                              //         autovalidateMode:
-                              //             AutovalidateMode.onUserInteraction,
-                              //         style: TextStyles.textfieldTextStyle,
-                              //         decoration: TextFieldDecoration
-                              //             .textfieldDecorationicon(
-                              //           hint: "Date Of Birth".toUpperCase(),
-                              //           sufficIcon: Icons.calendar_today,
-                              //           sufficIconOntap: () =>
-                              //               controller.selectDate(
-                              //                   context, controller.dob.value),
-                              //         ).copyWith(
-                              //             filled: true,
-                              //             fillColor:
-                              //                 !controller.isReadOnly.value
-                              //                     ? Colors.white
-                              //                     : Colors.grey.shade200),
-                              //       ),
-                              //     ),
-                              //   ],
-                              // ),
                               paddingWidget(
                                 [
                                   const LabelsWithMark(
@@ -293,10 +261,11 @@ class PersonalDetailsScreen extends StatelessWidget {
                                           requiredValidator(value!),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
+                                           keyboardType: TextInputType.number,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                           .datePickerDecoration(
-                                        hint: "Date of Birth",
+                                        hint: "Enter DOB (DD-MM-YYYY)",
                                         onCalendarTap: () =>
                                             controller.selectDate(
                                           context,
@@ -307,6 +276,10 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       onChanged: (value) {
                                         controller.updateAgesFromDOB(value);
                                       },
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[0-9\-]')),
+                                      ],
                                     ),
                                   ),
                                 ],
