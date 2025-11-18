@@ -34,23 +34,22 @@ class VoterIdPopup extends StatelessWidget {
                 const LabelsWithMark(
                     label: "Voter Id Number", isRequired: true),
                 TextFormField(
-                  enabled: !controller.isReadOnly.value,
-                  controller: controller.voterId.value,
-                  textCapitalization: TextCapitalization.characters,
-                  keyboardType: TextInputType.text,
-                  style: TextStyles.textfieldTextStyle,
-                  onChanged: (value) {
-                    controller.voterId.refresh();
-                  },
-                  validator: (value) => requiredValidator(value!),
-                  decoration: TextFieldDecoration.textfieldDecoration(
-                    hint: "Voter Id Number",
-                  ).copyWith(
-                      filled: true,
-                      fillColor: !controller.isReadOnly.value
-                          ? Colors.white
-                          : Colors.grey.shade200),
-                ),
+                    enabled: !controller.isReadOnly.value,
+                    controller: controller.voterId.value,
+                    textCapitalization: TextCapitalization.characters,
+                    keyboardType: TextInputType.text,
+                    style: TextStyles.textfieldTextStyle,
+                    onChanged: (value) {
+                      controller.voterId.refresh();
+                    },
+                    validator: (value) => requiredValidator(value!),
+                    decoration: TextFieldDecoration.textfieldDecoration(
+                      hint: "Voter Id Number",
+                    ).copyWith(
+                        filled: true,
+                        fillColor: !controller.isReadOnly.value
+                            ? Colors.white
+                            : Colors.grey.shade200)),
               ]),
               C10(),
               Row(
@@ -69,12 +68,11 @@ class VoterIdPopup extends StatelessWidget {
                       },
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (file) => imageFileValidator(
-                        localFile: file,
-                        networkUrl: controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].voterIdImage
-                            : null,
-                        fieldName: 'Voter Id Front Image',
-                      ),
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].voterIdImage
+                              : null,
+                          fieldName: 'Voter Id Front Image'),
                     ),
                   ),
                   C10(),

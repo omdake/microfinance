@@ -556,7 +556,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                         value: e.name.toString(),
                                         child: Text(
                                           e.occupation.toString(),
-                                          style: TextStyles.textfieldTextStyle,
+                                          style: TextStyles.textfieldTextStyle
                                         ),
                                       );
                                     }).toList(),

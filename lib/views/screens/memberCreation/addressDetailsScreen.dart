@@ -115,11 +115,9 @@ class AddressDetailsScreen extends StatelessWidget {
                                       items: controller.stateList.map((e) {
                                         return DropdownMenuItem(
                                           value: e.stateCode,
-                                          child: Text(
-                                            e.stateName.toString(),
-                                            style:
-                                                TextStyles.textfieldTextStyle,
-                                          ),
+                                          child: Text(e.stateName.toString(),
+                                              style: TextStyles
+                                                  .textfieldTextStyle),
                                         );
                                       }).toList(),
                                       style: TextStyles.textfieldTextStyle,
