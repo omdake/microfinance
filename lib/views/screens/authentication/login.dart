@@ -31,10 +31,22 @@ class LoginWithPassword extends StatelessWidget {
                 child: Column(children: [
                   Spacer(),
                   Center(
-                    child: Image.asset(
-                      'assets/new/logo.png',
+                    child: Container(
                       height: 160,
                       width: 160,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 4,
+                        ),
+                      ),
+                      child: ClipOval(
+                        child: Image.asset(
+                          'assets/new/logo.png',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                   Spacer(),
@@ -273,4 +285,5 @@ class LoginWithPassword extends StatelessWidget {
         borderSide: const BorderSide(color: Colors.red),
         borderRadius: BorderRadius.circular(10),
       );
+
 }
