@@ -769,10 +769,9 @@ class MemberCreationController extends GetxController {
         address.value.text = memberData.address ?? '';
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         city.value.text = memberData.city ?? '';
-        consumerNumberController.value.text =
-            (memberData.consumerNo == 0 || memberData.consumerNo == null)
-                ? ''
-                : memberData.consumerNo.toString();
+        consumerNumberController.value.text = showConsumerNumber.value
+            ? (memberData.consumerNo?.toString() ?? '')
+            : '';
         pincode.value.text =
             (memberData.pincode == 0 || memberData.pincode == null)
                 ? ''
