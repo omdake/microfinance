@@ -262,7 +262,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                       controller: controller.dob.value,
                                       cursorColor: AppColors.primary,
                                       validator: (value) =>
-                                          requiredValidator(value!),
+                                          validateDOB(value!),
                                       autovalidateMode:
                                           AutovalidateMode.onUserInteraction,
                                       keyboardType: TextInputType.number,
