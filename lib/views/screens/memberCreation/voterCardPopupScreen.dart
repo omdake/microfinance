@@ -6,6 +6,7 @@ import 'package:microfinance/logic/controller/memberCreation/memberCreationContr
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
+import 'package:microfinance/validator.dart';
 
 class VoterIdPopup extends StatelessWidget {
   VoterIdPopup({super.key});
@@ -31,7 +32,7 @@ class VoterIdPopup extends StatelessWidget {
             children: [
               paddingWidget([
                 const LabelsWithMark(
-                    label: "Voter Id Number"),
+                    label: "Voter Id Number", isRequired: true),
                 TextFormField(
                   enabled: !controller.isReadOnly.value,
                   controller: controller.voterId.value,
@@ -41,6 +42,7 @@ class VoterIdPopup extends StatelessWidget {
                   onChanged: (value) {
                     controller.voterId.refresh();
                   },
+                  validator: (value) => requiredValidator(value!),
                   decoration: TextFieldDecoration.textfieldDecoration(
                     hint: "Voter Id Number",
                   ).copyWith(
@@ -56,6 +58,7 @@ class VoterIdPopup extends StatelessWidget {
                   Expanded(
                     child: imagePickerField1(
                       label: "Voter Id Front Image",
+                      isRequired: true,
                       imageFile: controller.voterImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].voterIdImage ?? ''
@@ -64,6 +67,14 @@ class VoterIdPopup extends StatelessWidget {
                       onTap: () {
                         controller.pickImage(controller.voterImage);
                       },
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (file) => imageFileValidator(
+                        localFile: file,
+                        networkUrl: controller.loanMember.isNotEmpty
+                            ? controller.loanMember[0].voterIdImage
+                            : null,
+                        fieldName: 'Voter Id Front Image',
+                      ),
                     ),
                   ),
                   C10(),

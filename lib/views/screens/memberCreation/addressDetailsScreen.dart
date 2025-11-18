@@ -126,7 +126,12 @@ class AddressDetailsScreen extends StatelessWidget {
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
                                         hint: "Select State",
-                                      ),
+                                      ).copyWith(
+                                          filled: true,
+                                          fillColor:
+                                              !controller.isReadOnly.value
+                                                  ? Colors.white
+                                                  : Colors.grey.shade200),
                                       onChanged: null,
                                       disabledHint: Text(
                                         controller.stateList
