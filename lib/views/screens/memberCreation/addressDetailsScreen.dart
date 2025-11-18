@@ -108,60 +108,6 @@ class AddressDetailsScreen extends StatelessWidget {
                                     label: "State",
                                     isRequired: true,
                                   ),
-                                  // Obx(() {
-                                  //   final isEnabled =
-                                  //       !controller.isReadOnly.value;
-
-                                  //   return DropdownButtonFormField<String>(
-                                  //     value:
-                                  //         controller.selectedState.value.isEmpty
-                                  //             ? null
-                                  //             : controller.selectedState.value,
-                                  //     items: controller.stateList.map((e) {
-                                  //       return DropdownMenuItem(
-                                  //         value: e.stateCode,
-                                  //         child: Text(e.stateName.toString()),
-                                  //       );
-                                  //     }).toList(),
-                                  //     style: TextStyles.textfieldTextStyle,
-                                  //     autovalidateMode:
-                                  //         AutovalidateMode.onUserInteraction,
-                                  //     decoration: TextFieldDecoration
-                                  //         .textfieldDecoration(
-                                  //       hint: "Select State".toUpperCase(),
-                                  //     ).copyWith(
-                                  //       filled: true,
-                                  //       fillColor: !controller.isReadOnly.value
-                                  //           ? Colors.white
-                                  //           : Colors.grey.shade200,
-                                  //     ),
-                                  //     onChanged: isEnabled
-                                  //         ? (value) {
-                                  //             controller.selectedState.value =
-                                  //                 value!;
-                                  //           }
-                                  //         : null,
-                                  //     disabledHint: controller
-                                  //             .selectedState.value.isNotEmpty
-                                  //         ? Text(controller.stateList
-                                  //                 .firstWhereOrNull(
-                                  //                   (e) =>
-                                  //                       e.stateCode ==
-                                  //                       controller.selectedState
-                                  //                           .value,
-                                  //                 )
-                                  //                 ?.stateName ??
-                                  //             '')
-                                  //         : Text("Select State".toUpperCase()),
-                                  //     validator: (value) {
-                                  //       if (controller
-                                  //           .selectedState.value.isEmpty) {
-                                  //         return 'This field can\'t be empty';
-                                  //       }
-                                  //       return null;
-                                  //     },
-                                  //   );
-                                  // }),
                                   Obx(() {
                                     return DropdownButtonFormField<String>(
                                       value:
@@ -183,8 +129,7 @@ class AddressDetailsScreen extends StatelessWidget {
                                           .textfieldDecoration(
                                         hint: "Select State".toUpperCase(),
                                       ),
-                                      onChanged: null, // READ ONLY
-
+                                      onChanged: null,
                                       disabledHint: Text(
                                         controller.stateList
                                                 .firstWhereOrNull(
