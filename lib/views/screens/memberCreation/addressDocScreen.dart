@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
 import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
+import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
 import 'package:microfinance/utils/text_field_decoration.dart';
 import 'package:microfinance/utils/ui_helper_widgets.dart';
@@ -61,6 +62,14 @@ class AddressDocPopup extends StatelessWidget {
                         ? (value) {
                             if (value != null) {
                               controller.selectedAddressDocType.value = value;
+
+                              if (value == "ELECTRICITY BILL") {
+                                controller.showConsumerNumber.value = true;
+                              } else {
+                                controller.showConsumerNumber.value = false;
+                                controller.consumerNumberController.value
+                                    .clear();
+                              }
                             }
                           }
                         : null,
@@ -77,6 +86,46 @@ class AddressDocPopup extends StatelessWidget {
                   );
                 }),
               ]),
+              Obx(() {
+                if (!controller.showConsumerNumber.value) return SizedBox();
+                // final isEnabled = !controller.isReadOnly.value;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    C10(),
+                    paddingWidget(
+                      [
+                        const LabelsWithMark(
+                            label: "Consumer Number", isRequired: true),
+                        TextFormField(
+                          controller: controller.consumerNumberController.value,
+                          enabled: !controller.isReadOnly.value,
+                          cursorColor: AppColors.primary,
+                          textCapitalization: TextCapitalization.characters,
+                          validator: (value) {
+                            if (controller.showConsumerNumber.value &&
+                                (value == null || value.trim().isEmpty)) {
+                              return "Consumer Number is required";
+                            }
+                            return null;
+                          },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          keyboardType: TextInputType.name,
+                          style: TextStyles.textfieldTextStyle,
+                          decoration: TextFieldDecoration.textfieldDecoration(
+                            hint: "Enter Consumer Number",
+                          ).copyWith(
+                            filled: true,
+                            fillColor: !controller.isReadOnly.value
+                                ? Colors.white
+                                : Colors.grey.shade200,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              }),
               C10(),
               imagePickerField1(
                 label: "Address Image",

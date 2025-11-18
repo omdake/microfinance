@@ -62,7 +62,7 @@ class PanCardPopup extends StatelessWidget {
                 children: [
                   Expanded(
                     child: imagePickerField1(
-                      label: "Pan Card Front Image",
+                      label: "Pan Card Image",
                       isRequired: true,
                       imageFile: controller.panImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
@@ -78,20 +78,6 @@ class PanCardPopup extends StatelessWidget {
                             : null,
                         fieldName: 'Pan Card Front Image',
                       ),
-                    ),
-                  ),
-                  C10(),
-                  Expanded(
-                    child: imagePickerField1(
-                      label: "Pan Card Back Image",
-                      isRequired: true,
-                      imageFile: controller.panbackImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].pancardImageBack ?? ''
-                          : ''),
-                      isFocused: controller.isAadharbackImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.panbackImage),
                     ),
                   ),
                 ],

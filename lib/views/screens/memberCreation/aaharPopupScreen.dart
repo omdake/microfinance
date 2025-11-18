@@ -81,7 +81,6 @@ class AadharPopup extends StatelessWidget {
                   Expanded(
                     child: imagePickerField1(
                       label: "Aadhar Card Back Image",
-                      isRequired: true,
                       imageFile: controller.aadharbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImageBack ?? ''

@@ -83,7 +83,7 @@ class DueEMIController extends GetxController {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.dueEmiList(
-            upToDate: convertToApiDate(upToDate!) ?? "",
+            upToDate: convertToApiDate(upToDate??''),
             searchText: search,
             sortBy: "",
             sortOrder: "",
@@ -126,6 +126,7 @@ class DueEMIController extends GetxController {
         ),
       );
     } catch (e) {
+      print("......$e");
       DevService.instance.insertAPICall(
         AppAPIsCall(
           id: DateTime.now().millisecondsSinceEpoch.toString(),

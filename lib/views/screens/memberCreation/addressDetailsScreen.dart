@@ -108,10 +108,61 @@ class AddressDetailsScreen extends StatelessWidget {
                                     label: "State",
                                     isRequired: true,
                                   ),
-                                  Obx(() {
-                                    final isEnabled =
-                                        !controller.isReadOnly.value;
+                                  // Obx(() {
+                                  //   final isEnabled =
+                                  //       !controller.isReadOnly.value;
 
+                                  //   return DropdownButtonFormField<String>(
+                                  //     value:
+                                  //         controller.selectedState.value.isEmpty
+                                  //             ? null
+                                  //             : controller.selectedState.value,
+                                  //     items: controller.stateList.map((e) {
+                                  //       return DropdownMenuItem(
+                                  //         value: e.stateCode,
+                                  //         child: Text(e.stateName.toString()),
+                                  //       );
+                                  //     }).toList(),
+                                  //     style: TextStyles.textfieldTextStyle,
+                                  //     autovalidateMode:
+                                  //         AutovalidateMode.onUserInteraction,
+                                  //     decoration: TextFieldDecoration
+                                  //         .textfieldDecoration(
+                                  //       hint: "Select State".toUpperCase(),
+                                  //     ).copyWith(
+                                  //       filled: true,
+                                  //       fillColor: !controller.isReadOnly.value
+                                  //           ? Colors.white
+                                  //           : Colors.grey.shade200,
+                                  //     ),
+                                  //     onChanged: isEnabled
+                                  //         ? (value) {
+                                  //             controller.selectedState.value =
+                                  //                 value!;
+                                  //           }
+                                  //         : null,
+                                  //     disabledHint: controller
+                                  //             .selectedState.value.isNotEmpty
+                                  //         ? Text(controller.stateList
+                                  //                 .firstWhereOrNull(
+                                  //                   (e) =>
+                                  //                       e.stateCode ==
+                                  //                       controller.selectedState
+                                  //                           .value,
+                                  //                 )
+                                  //                 ?.stateName ??
+                                  //             '')
+                                  //         : Text("Select State".toUpperCase()),
+                                  //     validator: (value) {
+                                  //       if (controller
+                                  //           .selectedState.value.isEmpty) {
+                                  //         return 'This field can\'t be empty';
+                                  //       }
+                                  //       return null;
+                                  //     },
+                                  //   );
+                                  // }),
+                                  Obx(() {
                                     return DropdownButtonFormField<String>(
                                       value:
                                           controller.selectedState.value.isEmpty
@@ -120,48 +171,38 @@ class AddressDetailsScreen extends StatelessWidget {
                                       items: controller.stateList.map((e) {
                                         return DropdownMenuItem(
                                           value: e.stateCode,
-                                          child: Text(e.stateName.toString()),
+                                          child: Text(
+                                            e.stateName.toString(),
+                                            style:
+                                                TextStyles.textfieldTextStyle,
+                                          ),
                                         );
                                       }).toList(),
                                       style: TextStyles.textfieldTextStyle,
-                                      autovalidateMode:
-                                          AutovalidateMode.onUserInteraction,
                                       decoration: TextFieldDecoration
                                           .textfieldDecoration(
                                         hint: "Select State".toUpperCase(),
-                                      ).copyWith(
-                                        filled: true,
-                                        fillColor: !controller.isReadOnly.value
-                                            ? Colors.white
-                                            : Colors.grey.shade200,
                                       ),
-                                      onChanged: isEnabled
-                                          ? (value) {
-                                              controller.selectedState.value =
-                                                  value!;
-                                            }
-                                          : null,
-                                      disabledHint: controller
-                                              .selectedState.value.isNotEmpty
-                                          ? Text(controller.stateList
-                                                  .firstWhereOrNull(
-                                                    (e) =>
-                                                        e.stateCode ==
-                                                        controller.selectedState
-                                                            .value,
-                                                  )
-                                                  ?.stateName ??
-                                              '')
-                                          : Text("Select State".toUpperCase()),
-                                      validator: (value) {
-                                        if (controller
-                                            .selectedState.value.isEmpty) {
-                                          return 'This field can\'t be empty';
-                                        }
-                                        return null;
-                                      },
+                                      onChanged: null, // READ ONLY
+
+                                      disabledHint: Text(
+                                        controller.stateList
+                                                .firstWhereOrNull(
+                                                  (e) =>
+                                                      e.stateCode ==
+                                                      controller
+                                                          .selectedState.value,
+                                                )
+                                                ?.stateName ??
+                                            "MAHARASHTRA",
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
                                     );
-                                  }),
+                                  })
                                 ]),
                                 C10(),
                                 paddingWidget(
@@ -209,7 +250,8 @@ class AddressDetailsScreen extends StatelessWidget {
                                       keyboardType: TextInputType.name,
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
-                                              .textfieldDecoration(hint: "City".toUpperCase())
+                                              .textfieldDecoration(
+                                                  hint: "City".toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:
@@ -236,7 +278,8 @@ class AddressDetailsScreen extends StatelessWidget {
                                       style: TextStyles.textfieldTextStyle,
                                       decoration: TextFieldDecoration
                                               .textfieldDecoration(
-                                                  hint: "Pin Code".toUpperCase())
+                                                  hint:
+                                                      "Pin Code".toUpperCase())
                                           .copyWith(
                                               filled: true,
                                               fillColor:

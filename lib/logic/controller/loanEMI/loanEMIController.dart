@@ -62,7 +62,7 @@ class LoanEMIController extends GetxController {
     );
   }
 
-   String convertToApiDate(String ddMMyyyy) {
+  String convertToApiDate(String ddMMyyyy) {
     try {
       DateTime dt = DateFormat('dd-MM-yyyy').parse(ddMMyyyy);
       return DateFormat('yyyy-MM-dd').format(dt);
@@ -86,7 +86,7 @@ class LoanEMIController extends GetxController {
       isLoading.value = true;
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.LoanEmiList(
-            selectedDate: convertToApiDate(selectedDate!) ?? "",
+            selectedDate: convertToApiDate(selectedDate??''),
             searchText: search,
             sortBy: "",
             sortOrder: "",

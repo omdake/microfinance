@@ -52,6 +52,7 @@ dependencies:
   flutter_svg:
   timelines:
   shimmer: ^3.0.0
+  modal_progress_hud_nsn: ^0.5.1
   # flutter_stripe: ^7.0.0
   uuid:
   google_places_flutter: ^2.0.7
