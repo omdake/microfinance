@@ -21,6 +21,7 @@ class MemberListController extends GetxController {
   RxBool isGroup = true.obs;
   RxInt page = 1.obs;
   RxBool hasNextPage = true.obs;
+  RxBool isDashboardReadOnly = false.obs;
   RxString screenTitle = ''.obs;
   Rx<TextEditingController> groupSearchController = TextEditingController().obs;
   Rx<TextEditingController> search = TextEditingController().obs;
@@ -46,7 +47,8 @@ class MemberListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
+    final args = Get.arguments ?? {};
+    isDashboardReadOnly.value = args['isReadOnly'] ?? false;
     if (Get.arguments != null) {
       if (Get.arguments['title'] != null) {
         screenTitle.value = Get.arguments['title'];
@@ -108,11 +110,11 @@ class MemberListController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -221,11 +223,11 @@ class MemberListController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -294,11 +296,11 @@ class MemberListController extends GetxController {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
       } else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);
@@ -371,12 +373,12 @@ class MemberListController extends GetxController {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");
-      }else if (response.statusCode == 500) {
-      CustomSnackBar.show(
-        isIssue: true,
-        message: "Internal Server Error. Please try again later.",
-      );
-      }else {
+      } else if (response.statusCode == 500) {
+        CustomSnackBar.show(
+          isIssue: true,
+          message: "Internal Server Error. Please try again later.",
+        );
+      } else {
         final Map<String, dynamic> errormsg = jsonDecode(response.body);
         String msg = errormsg['message']['msg'];
         CustomSnackBar.show(isIssue: true, message: msg);

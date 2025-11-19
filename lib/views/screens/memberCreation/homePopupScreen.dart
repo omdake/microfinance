@@ -36,6 +36,7 @@ class HomePopup extends StatelessWidget {
                 isRequired: true,
                 imageFile: controller.homeImage,
                 enableGeotag: true,
+                readOnlyFlag: controller.isReadOnly,
                 imageUrl: RxString(controller.loanMember.isNotEmpty
                     ? controller.loanMember[0].homeImage ?? ''
                     : ''),
@@ -134,26 +135,39 @@ class HomePopup extends StatelessWidget {
               C30(),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade700,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                child: Obx(() {
+                  final isReadOnly = controller.isReadOnly.value;
+
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isReadOnly ? Colors.grey : Colors.red.shade700,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Get.back();
-                    }
-                  },
-                  child: const Text(
-                    "UPLOAD DOCUMENT",
-                    style: TextStyle(fontSize: 14, fontFamily: "Roboto-Medium"),
-                  ),
-                ),
-              ),
+                    onPressed: () async {
+                      if (isReadOnly) {
+                        Get.back();
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          Get.back();
+                          await controller.updateLoanMember();
+                        }
+                      }
+                    },
+                    child: Text(
+                      isReadOnly ? "CLOSE" : "UPLOAD DOCUMENT",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  );
+                }),
+              )
             ],
           ),
         ),

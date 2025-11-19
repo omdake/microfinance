@@ -293,6 +293,7 @@ class DashboardScreen extends StatelessWidget {
                   "Total Members",
                   onTap: () {
                     Get.toNamed(Routes.memberList, arguments: {
+                      "isReadOnly": true,
                       "status": "",
                       "group": controller.selectedGroup.value,
                       "title": "Total Members",
@@ -368,6 +369,7 @@ class DashboardScreen extends StatelessWidget {
                     Get.toNamed(
                       Routes.memberList,
                       arguments: {
+                        "isReadOnly": false,
                         "title": "Draft",
                         "status": "Draft",
                         "group": controller.selectedGroup.value

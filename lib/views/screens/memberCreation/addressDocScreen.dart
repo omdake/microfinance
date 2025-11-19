@@ -61,15 +61,15 @@ class AddressDocPopup extends StatelessWidget {
                     onChanged: isEnabled
                         ? (value) {
                             if (value != null) {
-                              controller.selectedAddressDocType.value = value;
-
-                              if (value == "ELECTRICITY BILL") {
-                                controller.showConsumerNumber.value = true;
-                              } else {
-                                controller.showConsumerNumber.value = false;
-                                controller.consumerNumberController.value
-                                    .clear();
+                              controller.addressImage.value = null;
+                              controller.addressImageUrl.value = '';
+                              if (controller.loanMember.isNotEmpty) {
+                                controller.loanMember[0].addressImage = '';
+                                controller.loanMember.refresh();
                               }
+                              controller.selectedAddressDocType.value = value;
+                              controller.showConsumerNumber.value =
+                                  value == "ELECTRICITY BILL";
                             }
                           }
                         : null,
@@ -88,7 +88,6 @@ class AddressDocPopup extends StatelessWidget {
               ]),
               Obx(() {
                 if (!controller.showConsumerNumber.value) return SizedBox();
-                // final isEnabled = !controller.isReadOnly.value;
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -127,47 +126,61 @@ class AddressDocPopup extends StatelessWidget {
                 );
               }),
               C10(),
-              imagePickerField1(
-                label: "Address Image",
-                isRequired: true,
-                imageFile: controller.addressImage,
-                imageUrl: RxString(controller.loanMember.isNotEmpty
-                    ? controller.loanMember[0].addressImage ?? ''
-                    : ''),
-                isFocused: controller.isAddressImageFocused,
-                onTap: () => controller.pickImage(controller.addressImage),
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                validator: (file) => imageFileValidator(
-                  localFile: file,
-                  networkUrl: controller.loanMember.isNotEmpty
-                      ? controller.loanMember[0].addressImage
-                      : null,
-                  fieldName: 'Address Image',
-                ),
-              ),
+              Obx(() {
+                return imagePickerField1(
+                  label: "Address Proof",
+                  isRequired: true,
+                  readOnlyFlag: controller.isReadOnly,
+                  imageFile: controller.addressImage,
+                  imageUrl: controller.addressImageUrl,
+                  isFocused: controller.isAddressImageFocused,
+                  onTap: () => controller.pickImage(controller.addressImage),
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                  validator: (file) => imageFileValidator(
+                    localFile: file,
+                    networkUrl: controller.addressImageUrl.value.isNotEmpty
+                        ? controller.addressImageUrl.value
+                        : null,
+                    fieldName: 'Address Image',
+                  ),
+                );
+              }),
               C30(),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade700,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                child: Obx(() {
+                  final isReadOnly = controller.isReadOnly.value;
+
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isReadOnly ? Colors.grey : Colors.red.shade700,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Get.back();
-                    }
-                  },
-                  child: const Text(
-                    "UPLOAD DOCUMENT",
-                    style: TextStyle(fontSize: 14, fontFamily: "Roboto-Medium"),
-                  ),
-                ),
-              ),
+                    onPressed: () async {
+                      if (isReadOnly) {
+                        Get.back();
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          Get.back();
+                          await controller.updateLoanMember();
+                        }
+                      }
+                    },
+                    child: Text(
+                      isReadOnly ? "CLOSE" : "UPLOAD DOCUMENT",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  );
+                }),
+              )
             ],
           ),
         ),
