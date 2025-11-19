@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/loanSummary/loanSummaryViewController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -45,15 +46,13 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             controller: controller.loanId.value,
                             cursorColor: AppColors.primary,
                             enabled: controller.isFormEdit.value,
-                            textCapitalization:
-                                TextCapitalization.sentences,
+                            textCapitalization: TextCapitalization.sentences,
                             validator: (value) => requiredValidator(value!),
                             autovalidateMode:
                                 AutovalidateMode.onUserInteraction,
                             keyboardType: TextInputType.name,
                             style: TextStyles.textfieldTextStyle,
-                            decoration:
-                                TextFieldDecoration.textfieldDecoration(
+                            decoration: TextFieldDecoration.textfieldDecoration(
                               hint: "Loan ID",
                             ).copyWith(
                               filled: true,
@@ -72,13 +71,12 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.valueDate.value,
                               cursorColor: AppColors.primary,
                               enabled: controller.isFormEdit.value,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration
-                                  .textfieldDecorationicon(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecorationicon(
                                 hint: "Value Date",
                                 sufficIcon: Icons.calendar_today,
                               ).copyWith(
@@ -99,10 +97,8 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.applicantName.value,
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,
-                              textCapitalization:
-                                  TextCapitalization.sentences,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.name,
@@ -128,10 +124,8 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.payableAmount.value,
                               cursorColor: AppColors.primary,
                               enabled: controller.isFormEdit.value,
-                              textCapitalization:
-                                  TextCapitalization.sentences,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.name,
@@ -157,10 +151,8 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.modeOfPayment.value,
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,
-                              textCapitalization:
-                                  TextCapitalization.sentences,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.name,
@@ -186,10 +178,8 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.amountPaid.value,
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,
-                              textCapitalization:
-                                  TextCapitalization.sentences,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              textCapitalization: TextCapitalization.sentences,
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               keyboardType: TextInputType.name,
@@ -215,13 +205,12 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.referenceDate.value,
                               cursorColor: AppColors.primary,
                               enabled: controller.isFormEdit.value,
-                              validator: (value) =>
-                                  requiredValidator(value!),
+                              validator: (value) => requiredValidator(value!),
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               style: TextStyles.textfieldTextStyle,
-                              decoration: TextFieldDecoration
-                                  .textfieldDecorationicon(
+                              decoration:
+                                  TextFieldDecoration.textfieldDecorationicon(
                                 hint: "Reference Date",
                                 sufficIcon: Icons.calendar_today,
                               ).copyWith(
@@ -233,6 +222,16 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             ),
                           ],
                         ),
+                        imagePickerField(
+                          // isEnabled: !controller.isReadOnly.value,
+                          label: "Payment Proof",
+                          readOnlyFlag: controller.isFormEdit,
+                          imageFile: controller.paymentProofImage,
+                          imageUrl: controller.paymentProofUrl,
+                          isFocused: controller.isPaymentProofImageFocused,
+                          onTap: () => controller
+                              .pickImage(controller.paymentProofImage),
+                        ),
                         C10(),
                         paddingWidget(
                           [
@@ -241,8 +240,7 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                               controller: controller.utrNumber.value,
                               enabled: controller.isFormEdit.value,
                               cursorColor: AppColors.primary,
-                              textCapitalization:
-                                  TextCapitalization.sentences,
+                              textCapitalization: TextCapitalization.sentences,
                               keyboardType: TextInputType.name,
                               style: TextStyles.textfieldTextStyle,
                               decoration:

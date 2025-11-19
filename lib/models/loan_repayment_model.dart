@@ -83,6 +83,7 @@ class RepaymentListResult {
   String? workflowState;
   String? applicantImage;
   String? againstLoanLoanId;
+   String? paymentProof;
 
   RepaymentListResult({
     this.name,
@@ -123,78 +124,50 @@ class RepaymentListResult {
     this.workflowState,
     this.applicantImage,
     this.againstLoanLoanId,
+    this.paymentProof
   });
 
   factory RepaymentListResult.fromJson(Map<String, dynamic> json) =>
       RepaymentListResult(
-        name: json["name"] ?? '',
-        againstLoan: json["against_loan"] ?? '',
-        applicant: json["applicant"] ?? '',
-        repaymentType: json["repayment_type"] ?? '',
-        loanDisbursement: json["loan_disbursement"] ?? '',
+        name: json["name"],
+        againstLoan: json["against_loan"],
+        applicant: json["applicant"],
+        repaymentType: json["repayment_type"],
+        loanDisbursement: json["loan_disbursement"],
         loanAdjustment: json["loan_adjustment"],
-        repaymentScheduleType: json["repayment_schedule_type"] ?? '',
-        loanProduct: json["loan_product"] ?? '',
-        company: json["company"] ?? '',
-        valueDate: json["value_date"] != null
-            ? DateTime.tryParse(json["value_date"])
-            : null,
+        repaymentScheduleType: json["repayment_schedule_type"],
+        loanProduct: json["loan_product"],
+        company: json["company"],
+        valueDate: DateTime.parse(json["value_date"]),
         loanRestructure: json["loan_restructure"],
         clearanceDate: json["clearance_date"],
-        rateOfInterest: (json["rate_of_interest"] != null)
-            ? (json["rate_of_interest"] as num).toDouble()
-            : null,
+        rateOfInterest: json["rate_of_interest"].toDouble(),
         daysPastDue: json["days_past_due"],
         modeOfPayment: json["mode_of_payment"],
         isTermLoan: json["is_term_loan"],
-        createdBy: json["created_by"] ?? '',
-        dueDate: json["due_date"] != null
-            ? DateTime.tryParse(json["due_date"])
-            : null,
-        pendingPrincipalAmount: (json["pending_principal_amount"] != null)
-            ? (json["pending_principal_amount"] as num).toDouble()
-            : null,
-        interestPayable: (json["interest_payable"] != null)
-            ? (json["interest_payable"] as num).toDouble()
-            : null,
-        payableAmount: (json["payable_amount"] != null)
-            ? (json["payable_amount"] as num).toDouble()
-            : null,
-        totalChargesPayable: (json["total_charges_payable"] != null)
-            ? (json["total_charges_payable"] as num).toDouble()
-            : null,
-        payablePrincipalAmount: (json["payable_principal_amount"] != null)
-            ? (json["payable_principal_amount"] as num).toDouble()
-            : null,
-        penaltyAmount: (json["penalty_amount"] != null)
-            ? (json["penalty_amount"] as num).toDouble()
-            : null,
-        amountPaid: (json["amount_paid"] != null)
-            ? (json["amount_paid"] as num).toDouble()
-            : null,
+        createdBy: json["created_by"],
+        dueDate: DateTime.parse(json["due_date"]),
+        pendingPrincipalAmount: json["pending_principal_amount"].toDouble(),
+        interestPayable: json["interest_payable"].toDouble(),
+        payableAmount: json["payable_amount"].toDouble(),
+        totalChargesPayable: json["total_charges_payable"].toDouble(),
+        payablePrincipalAmount: json["payable_principal_amount"].toDouble(),
+        penaltyAmount: json["penalty_amount"].toDouble(),
+        amountPaid: json["amount_paid"].toDouble(),
         referenceNumber: json["reference_number"],
-        totalInterestPaid: (json["total_interest_paid"] != null)
-            ? (json["total_interest_paid"] as num).toDouble()
-            : null,
-        totalPenaltyPaid: (json["total_penalty_paid"] != null)
-            ? (json["total_penalty_paid"] as num).toDouble()
-            : null,
+        totalInterestPaid: json["total_interest_paid"].toDouble(),
+        totalPenaltyPaid: json["total_penalty_paid"].toDouble(),
         referenceDate: json["reference_date"],
-        principalAmountPaid: (json["principal_amount_paid"] != null)
-            ? (json["principal_amount_paid"] as num).toDouble()
-            : null,
-        totalChargesPaid: (json["total_charges_paid"] != null)
-            ? (json["total_charges_paid"] as num).toDouble()
-            : null,
-        excessAmount: (json["excess_amount"] != null)
-            ? (json["excess_amount"] as num).toDouble()
-            : null,
+        principalAmountPaid: json["principal_amount_paid"].toDouble(),
+        totalChargesPaid: json["total_charges_paid"].toDouble(),
+        excessAmount: json["excess_amount"].toDouble(),
         manualRemarks: json["manual_remarks"],
-        paymentAccount: json["payment_account"] ?? '',
+        paymentAccount: json["payment_account"],
         applicantMemberName: json["applicant_member_name"],
-        workflowState: json["workflow_state"] ?? '',
+        workflowState: json["workflow_state"],
         applicantImage: json["applicant_image"],
         againstLoanLoanId: json["against_loan_loan_id"],
+        paymentProof: json["payment_proof"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -236,6 +209,7 @@ class RepaymentListResult {
         "applicant_member_name": applicantMemberName,
         "workflow_state": workflowState,
         "applicant_image": applicantImage,
-        "against_loan_loan_id": againstLoanLoanId,
+         "against_loan_loan_id": againstLoanLoanId,
+         "payment_proof": paymentProof,
       };
 }

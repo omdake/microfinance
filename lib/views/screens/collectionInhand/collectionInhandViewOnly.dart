@@ -224,6 +224,7 @@ class CollectionInHandViewOnlyScreen extends StatelessWidget {
                         imagePickerField(
                           // isEnabled: !controller.isReadOnly.value,
                           label: "Payment Proof",
+                          readOnlyFlag: controller.isReadOnly,
                           imageFile: controller.paymentProofImage,
                           imageUrl: controller.paymentProofUrl,
                           isFocused: controller.isPaymentProofImageFocused,

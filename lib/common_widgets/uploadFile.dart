@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
@@ -168,7 +167,7 @@ Widget imagePickerField({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
+                  onTap: isEnabled
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
@@ -250,7 +249,7 @@ Widget imagePickerField({
                                 ),
                               ),
                             );
-                          } else {
+                          } else if (!(readOnlyFlag?.value ?? false)) {
                             Get.bottomSheet(
                               SafeArea(
                                 child: Container(
@@ -612,7 +611,7 @@ Widget imagePickerField1({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
+                  onTap: isEnabled
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
@@ -694,7 +693,7 @@ Widget imagePickerField1({
                                 ),
                               ),
                             );
-                          } else {
+                          } else if((!(readOnlyFlag?.value ?? false))){
                             Get.bottomSheet(
                               SafeArea(
                                 child: Container(
