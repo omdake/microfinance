@@ -61,6 +61,7 @@ class AadharPopup extends StatelessWidget {
                     child: imagePickerField1(
                       label: "Aadhar Card Front Image",
                       isRequired: true,
+                      readOnlyFlag: controller.isReadOnly,
                       imageFile: controller.aadharImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImage ?? ''
@@ -81,6 +82,7 @@ class AadharPopup extends StatelessWidget {
                   Expanded(
                     child: imagePickerField1(
                       label: "Aadhar Card Back Image",
+                      readOnlyFlag: controller.isReadOnly,
                       imageFile: controller.aadharbackImage,
                       imageUrl: RxString(controller.loanMember.isNotEmpty
                           ? controller.loanMember[0].aadharImageBack ?? ''
@@ -95,26 +97,39 @@ class AadharPopup extends StatelessWidget {
               C30(),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.shade700,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                child: Obx(() {
+                  final isReadOnly = controller.isReadOnly.value;
+
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isReadOnly ? Colors.grey : Colors.red.shade700,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      Get.back();
-                    }
-                  },
-                  child: const Text(
-                    "UPLOAD DOCUMENT",
-                    style: TextStyle(fontSize: 14, fontFamily: "Roboto-Medium"),
-                  ),
-                ),
-              ),
+                    onPressed: () async {
+                      if (isReadOnly) {
+                        Get.back();
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          Get.back();
+                          await controller.updateLoanMember();
+                        }
+                      }
+                    },
+                    child: Text(
+                      isReadOnly ? "CLOSE" : "UPLOAD DOCUMENT",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontFamily: "Roboto-Medium",
+                      ),
+                    ),
+                  );
+                }),
+              )
             ],
           ),
         ),

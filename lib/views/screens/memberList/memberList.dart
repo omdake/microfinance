@@ -15,7 +15,7 @@ import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 class MemberListScreen extends StatelessWidget {
   MemberListScreen({super.key});
 
-  Widget _buildMemberListItem(dynamic user) {
+  Widget _buildMemberListItem(dynamic user, MemberListController controller) {
     String _getInitials(String? name) {
       if (name == null || name.trim().isEmpty) return "?";
       final parts = name.trim().split(" ");
@@ -100,7 +100,8 @@ class MemberListScreen extends StatelessWidget {
                 arguments: {
                   'name': user.name,
                   'status': user.status,
-                  'isReadOnly': user.status == "Pending",
+                  'isReadOnly': controller.isDashboardReadOnly.value ||
+                      user.status == "Pending",
                 },
               );
             },
@@ -306,7 +307,7 @@ class MemberListScreen extends StatelessWidget {
                               splashColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () {},
-                              child: _buildMemberListItem(user),
+                              child: _buildMemberListItem(user, controller),
                             );
                           }).toList()
                         : [],

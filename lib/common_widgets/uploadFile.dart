@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
@@ -35,6 +36,7 @@ Widget imagePickerField({
   VoidCallback? onTap,
   bool isRequired = false,
   bool isEnabled = true,
+  final RxBool? readOnlyFlag,
   bool enableGeotag = false,
   Rx<Position?>? savedPosition,
   RxString? savedAddress,
@@ -166,7 +168,7 @@ Widget imagePickerField({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled
+                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
@@ -268,41 +270,40 @@ Widget imagePickerField({
                                             : "Camera"),
                                         onTap: () async {
                                           Get.back();
-                                         try{
-                                          final XFile? pickedFile =
-                                              await picker.pickImage(
-                                            source: ImageSource.camera,
-                                            imageQuality: 80,
-                                          );
+                                          try {
+                                            final XFile? pickedFile =
+                                                await picker.pickImage(
+                                              source: ImageSource.camera,
+                                              imageQuality: 80,
+                                            );
 
-                                          if (pickedFile != null) {
-                                            File? cropped = await cropImage(
-                                                pickedFile.path);
-                                            if (cropped != null) {
-                                              imageFile?.value = cropped;
-                                              showError?.value = false;
-                                              fieldState.didChange(cropped);
+                                            if (pickedFile != null) {
+                                              File? cropped = await cropImage(
+                                                  pickedFile.path);
+                                              if (cropped != null) {
+                                                imageFile?.value = cropped;
+                                                showError?.value = false;
+                                                fieldState.didChange(cropped);
 
-                                              if (enableGeotag) {
-                                                Position? position =
-                                                    await getCurrentLocation();
-                                                if (position != null) {
-                                                  String? address =
-                                                      await getAddressFromPosition(
-                                                          position);
-                                                  filePosition.value = position;
-                                                  fileAddress.value =
-                                                      address ?? '';
-                                                  onGeotagCaptured?.call(
-                                                      position,
-                                                      fileAddress.value);
+                                                if (enableGeotag) {
+                                                  Position? position =
+                                                      await getCurrentLocation();
+                                                  if (position != null) {
+                                                    String? address =
+                                                        await getAddressFromPosition(
+                                                            position);
+                                                    filePosition.value =
+                                                        position;
+                                                    fileAddress.value =
+                                                        address ?? '';
+                                                    onGeotagCaptured?.call(
+                                                        position,
+                                                        fileAddress.value);
+                                                  }
                                                 }
                                               }
                                             }
-                                          }
-                                         }catch(e){
-
-                                         }
+                                          } catch (e) {}
                                         },
                                       ),
                                       ListTile(
@@ -341,7 +342,6 @@ Widget imagePickerField({
                                                 }
                                               }
                                             }
-                                          
                                           }
                                         },
                                       ),
@@ -409,17 +409,17 @@ Widget imagePickerField({
                             style: TextStyles.textfieldTextStyle,
                           ),
                         ),
-                        if (hasFile)
+                        if (hasFile && !(readOnlyFlag?.value ?? false))
                           GestureDetector(
-                            onTap: isEnabled
+                            onTap: isEnabled && !(readOnlyFlag?.value ?? false)
                                 ? () {
-                                    if (imageFile != null) {
+                                    if (imageFile != null)
                                       imageFile.value = null;
-                                      fieldState.didChange(null);
-                                    }
+                                    if (imageUrl != null) imageUrl.value = '';
+
+                                    fieldState.didChange(null);
                                     filePosition.value = null;
                                     fileAddress.value = '';
-                                    if (imageUrl != null) imageUrl.value = '';
                                     showError?.value = true;
                                   }
                                 : null,
@@ -484,6 +484,7 @@ Widget imagePickerField1({
   Rx<Position?>? savedPosition,
   RxString? savedAddress,
   RxBool? showError,
+  final RxBool? readOnlyFlag,
   Function(Position position, String address)? onGeotagCaptured,
   FormFieldValidator<File?>? validator,
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
@@ -611,7 +612,7 @@ Widget imagePickerField1({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled
+                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
@@ -880,17 +881,17 @@ Widget imagePickerField1({
                               style: TextStyles.textfieldTextStyle,
                             ),
                           ),
-                        if (hasFile)
+                        if (hasFile && !(readOnlyFlag?.value ?? false))
                           GestureDetector(
-                            onTap: isEnabled
+                            onTap: isEnabled && !(readOnlyFlag?.value ?? false)
                                 ? () {
-                                    if (imageFile != null) {
+                                    if (imageFile != null)
                                       imageFile.value = null;
-                                      fieldState.didChange(null);
-                                    }
+                                    if (imageUrl != null) imageUrl.value = '';
+
+                                    fieldState.didChange(null);
                                     filePosition.value = null;
                                     fileAddress.value = '';
-                                    if (imageUrl != null) imageUrl.value = '';
                                     showError?.value = true;
                                   }
                                 : null,

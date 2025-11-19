@@ -423,6 +423,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 showError: controller.memberError,
                                 isRequired: true,
                                 imageFile: controller.memberImage,
+                                 readOnlyFlag: controller.isReadOnly,
                                 imageUrl: RxString(controller
                                         .loanMember.isNotEmpty
                                     ? controller.loanMember[0].memberImage ?? ''

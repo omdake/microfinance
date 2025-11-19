@@ -50,6 +50,7 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> country = TextEditingController(text: "INDIA").obs;
   Rx<TextEditingController> createdBy = TextEditingController().obs;
   Rx<TextEditingController> memberId = TextEditingController().obs;
+  RxString addressImageUrl = ''.obs;
   Rx<TextEditingController> consumerNumberController =
       TextEditingController().obs;
   RxBool showConsumerNumber = false.obs;
@@ -94,6 +95,7 @@ class MemberCreationController extends GetxController {
   RxBool showOnlyGeoFields = false.obs;
   RxBool isCreatedBy = false.obs;
   RxBool isMemberId = false.obs;
+
   final ScrollController scrollController = ScrollController();
   final List<GlobalKey> itemKeys = [];
   final List<String> genderList = [
@@ -150,6 +152,7 @@ class MemberCreationController extends GetxController {
       if (keyContext != null) {}
     }
   }
+
   void updateAgesFromDOB(String dobText) {
     if (dobText.isEmpty) {
       isDobSelected.value = false;
@@ -611,7 +614,6 @@ class MemberCreationController extends GetxController {
       try {
         responseBody = jsonDecode(response.body);
       } catch (_) {}
-
       if (response.statusCode == APIStatusCode.SUCCESS) {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -766,10 +768,12 @@ class MemberCreationController extends GetxController {
         mobileNo.value.text = formatMobileWithPrefix(memberData.mobileNo);
         selectedOccupation.value = memberData.occupation ?? '';
         address.value.text = memberData.address ?? '';
-        selectedAddressDocType.value = memberData.addressDocType ?? '';
         city.value.text = memberData.city ?? '';
-        controller.showConsumerNumber.value = memberData.addressDocType == "ELECTRICITY BILL";
-        controller.consumerNumberController.value.text = controller.showConsumerNumber.value
+        showConsumerNumber.value =
+            memberData.addressDocType == "ELECTRICITY BILL";
+        consumerNumberController.value.text = showConsumerNumber.value
+            ? (memberData.consumerNo?.toString() ?? '')
+            : '';
         pincode.value.text =
             (memberData.pincode == 0 || memberData.pincode == null)
                 ? ''
@@ -848,12 +852,11 @@ class MemberCreationController extends GetxController {
                 !memberData.homeImage!.startsWith('http'))
             ? File(memberData.homeImage!)
             : null;
-
-        addressImage.value = (memberData.addressImage != null &&
-                memberData.addressImage!.isNotEmpty &&
-                !memberData.addressImage!.startsWith('http'))
-            ? File(memberData.addressImage!)
-            : null;
+        selectedAddressDocType.value = memberData.addressDocType ?? '';
+        final image = memberData.addressImage ?? '';
+        addressImage.value =
+            image.isNotEmpty && !image.startsWith('http') ? File(image) : null;
+        addressImageUrl.value = image.startsWith('http') ? image : '';
 
         voterImage.value = (memberData.voterIdImage != null &&
                 memberData.voterIdImage!.isNotEmpty &&
