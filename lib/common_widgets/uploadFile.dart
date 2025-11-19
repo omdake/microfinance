@@ -168,7 +168,7 @@ Widget imagePickerField({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled
+                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
@@ -612,7 +612,7 @@ Widget imagePickerField1({
               Focus(
                 onFocusChange: (hasFocus) => isFocused.value = hasFocus,
                 child: GestureDetector(
-                  onTap: isEnabled
+                  onTap: isEnabled&& !(readOnlyFlag?.value ?? false)
                       ? () async {
                           if (hasFile) {
                             Get.dialog(
