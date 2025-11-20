@@ -1,7 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:microfinance/common_widgets/custom_app_bar.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
 import 'package:microfinance/logic/controller/MemberList/memberListController.dart';
 import 'package:microfinance/models/group_list.model.dart';
@@ -133,10 +132,35 @@ class MemberListScreen extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(
-        title: controller.screenTitle.value.isNotEmpty
-            ? controller.screenTitle.value
-            : "Member List",
+      appBar: AppBar(
+        backgroundColor: Colors.grey.shade300,
+        elevation: 0,
+        centerTitle: true,
+        title: Text(
+          controller.screenTitle.value.isNotEmpty
+              ? controller.screenTitle.value
+              : "Member List",
+          style: const TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(),
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(4.0),
+              child: Icon(Icons.arrow_back, color: Colors.black, size: 20),
+            ),
+          ),
+        ),
       ),
       bottomNavigationBar: const CustomBottomNavBar(),
       body: SafeArea(

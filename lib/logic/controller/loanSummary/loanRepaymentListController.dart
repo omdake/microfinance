@@ -43,11 +43,9 @@ class LoanSummaryListController extends GetxController {
 
   getloadData() async {
     page.value = 1;
+    hasNextPage.value = true;
     repaymentList.clear();
-    await getRepaymentList(
-      page: page.value,
-      search: search.value.text,
-    );
+    await getRepaymentList(page: 1, search: search.value.text);
   }
 
   getLoadMoreData() async {
@@ -149,6 +147,7 @@ class LoanSummaryListController extends GetxController {
         } else {
           repaymentList.addAll(newItems);
         }
+        hasNextPage.value = responseBody['message']?['next'] != null;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
         CustomSnackBar.show(isIssue: true, message: "Authentication Error");

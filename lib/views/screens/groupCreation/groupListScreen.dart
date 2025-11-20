@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/common_widgets/nav_bar.dart';
@@ -58,79 +57,38 @@ class GroupListScreen extends StatelessWidget {
             children: [
               Expanded(
                 flex: 2,
-                child: GestureDetector(
-                  onTap: () {
-                    if (user.groupImage != null &&
-                        user.groupImage!.isNotEmpty) {
-                      final imageUrl = user.groupImage!.startsWith('http')
-                          ? user.groupImage!
-                          : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}";
-                      final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
-
-                      Get.dialog(
-                        Dialog(
-                          backgroundColor: Colors.transparent,
-                          child: Container(
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.white,
-                            ),
-                            clipBehavior: Clip.hardEdge,
-                            child: isPdf
-                                ? PDFView(filePath: imageUrl)
-                                : CachedNetworkImage(
-                                    imageUrl: imageUrl,
-                                    httpHeaders: {'Authorization': token},
-                                    fit: BoxFit.contain,
-                                    width: double.infinity,
-                                    placeholder: (_, __) => const Center(
-                                      child: CircularProgressIndicator(
-                                          strokeWidth: 2),
-                                    ),
-                                    errorWidget: (_, __, ___) => const Center(
-                                      child: Icon(Icons.broken_image,
-                                          size: 50, color: Colors.grey),
-                                    ),
-                                  ),
-                          ),
-                        ),
-                      );
-                    }
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: const Color(0xFFE6E6E6),
-                        width: 2,
-                      ),
+                child: Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: const Color(0xFFE6E6E6),
+                      width: 2,
                     ),
-                    child: CircleAvatar(
-                      radius: 25,
-                      backgroundColor: const Color(0xFFD9D9D9),
-                      backgroundImage:
-                          user.groupImage != null && user.groupImage!.isNotEmpty
-                              ? CachedNetworkImageProvider(
-                                  user.groupImage!.startsWith('http')
-                                      ? user.groupImage!
-                                      : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}",
-                                  headers: {'Authorization': token},
-                                )
-                              : null,
-                      child:
-                          (user.groupImage == null || user.groupImage!.isEmpty)
-                              ? Text(
-                                  _getInitials(user.groupName),
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              : null,
-                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: 25,
+                    backgroundColor: const Color(0xFFD9D9D9),
+                    backgroundImage:
+                        user.groupImage != null && user.groupImage!.isNotEmpty
+                            ? CachedNetworkImageProvider(
+                                user.groupImage!.startsWith('http')
+                                    ? user.groupImage!
+                                    : "${AppEnvironment.baseUrl}${user.groupImage!.startsWith('/') ? '' : '/'}${user.groupImage}",
+                                headers: {'Authorization': token},
+                              )
+                            : null,
+                    child:
+                        (user.groupImage == null || user.groupImage!.isEmpty)
+                            ? Text(
+                                _getInitials(user.groupName),
+                                style: const TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : null,
                   ),
                 ),
               ),

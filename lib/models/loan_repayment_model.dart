@@ -83,49 +83,48 @@ class RepaymentListResult {
   String? workflowState;
   String? applicantImage;
   String? againstLoanLoanId;
-   String? paymentProof;
+  String? paymentProof;
 
-  RepaymentListResult({
-    this.name,
-    this.againstLoan,
-    this.applicant,
-    this.repaymentType,
-    this.loanDisbursement,
-    this.loanAdjustment,
-    this.repaymentScheduleType,
-    this.loanProduct,
-    this.company,
-    this.valueDate,
-    this.loanRestructure,
-    this.clearanceDate,
-    this.rateOfInterest,
-    this.daysPastDue,
-    this.modeOfPayment,
-    this.isTermLoan,
-    this.createdBy,
-    this.dueDate,
-    this.pendingPrincipalAmount,
-    this.interestPayable,
-    this.payableAmount,
-    this.totalChargesPayable,
-    this.payablePrincipalAmount,
-    this.penaltyAmount,
-    this.amountPaid,
-    this.referenceNumber,
-    this.totalInterestPaid,
-    this.totalPenaltyPaid,
-    this.referenceDate,
-    this.principalAmountPaid,
-    this.totalChargesPaid,
-    this.excessAmount,
-    this.manualRemarks,
-    this.paymentAccount,
-    this.applicantMemberName,
-    this.workflowState,
-    this.applicantImage,
-    this.againstLoanLoanId,
-    this.paymentProof
-  });
+  RepaymentListResult(
+      {this.name,
+      this.againstLoan,
+      this.applicant,
+      this.repaymentType,
+      this.loanDisbursement,
+      this.loanAdjustment,
+      this.repaymentScheduleType,
+      this.loanProduct,
+      this.company,
+      this.valueDate,
+      this.loanRestructure,
+      this.clearanceDate,
+      this.rateOfInterest,
+      this.daysPastDue,
+      this.modeOfPayment,
+      this.isTermLoan,
+      this.createdBy,
+      this.dueDate,
+      this.pendingPrincipalAmount,
+      this.interestPayable,
+      this.payableAmount,
+      this.totalChargesPayable,
+      this.payablePrincipalAmount,
+      this.penaltyAmount,
+      this.amountPaid,
+      this.referenceNumber,
+      this.totalInterestPaid,
+      this.totalPenaltyPaid,
+      this.referenceDate,
+      this.principalAmountPaid,
+      this.totalChargesPaid,
+      this.excessAmount,
+      this.manualRemarks,
+      this.paymentAccount,
+      this.applicantMemberName,
+      this.workflowState,
+      this.applicantImage,
+      this.againstLoanLoanId,
+      this.paymentProof});
 
   factory RepaymentListResult.fromJson(Map<String, dynamic> json) =>
       RepaymentListResult(
@@ -133,36 +132,51 @@ class RepaymentListResult {
         againstLoan: json["against_loan"],
         applicant: json["applicant"],
         repaymentType: json["repayment_type"],
-        loanDisbursement: json["loan_disbursement"],
+        loanDisbursement: json["loan_disbursement"] ?? "",
         loanAdjustment: json["loan_adjustment"],
         repaymentScheduleType: json["repayment_schedule_type"],
-        loanProduct: json["loan_product"],
+        loanProduct: json["loan_product"]?.toString(),
         company: json["company"],
-        valueDate: DateTime.parse(json["value_date"]),
+        valueDate: json["value_date"] != null && json["value_date"] != ""
+            ? DateTime.tryParse(json["value_date"])
+            : null,
+        dueDate: json["due_date"] != null && json["due_date"] != ""
+            ? DateTime.tryParse(json["due_date"])
+            : null,
+
         loanRestructure: json["loan_restructure"],
         clearanceDate: json["clearance_date"],
-        rateOfInterest: json["rate_of_interest"].toDouble(),
-        daysPastDue: json["days_past_due"],
+
+        rateOfInterest: (json["rate_of_interest"] ?? 0).toDouble(),
+        daysPastDue: json["days_past_due"] ?? 0,
+
         modeOfPayment: json["mode_of_payment"],
         isTermLoan: json["is_term_loan"],
+
         createdBy: json["created_by"],
-        dueDate: DateTime.parse(json["due_date"]),
-        pendingPrincipalAmount: json["pending_principal_amount"].toDouble(),
-        interestPayable: json["interest_payable"].toDouble(),
-        payableAmount: json["payable_amount"].toDouble(),
-        totalChargesPayable: json["total_charges_payable"].toDouble(),
-        payablePrincipalAmount: json["payable_principal_amount"].toDouble(),
-        penaltyAmount: json["penalty_amount"].toDouble(),
-        amountPaid: json["amount_paid"].toDouble(),
+
+        pendingPrincipalAmount:
+            (json["pending_principal_amount"] ?? 0).toDouble(),
+        interestPayable: (json["interest_payable"] ?? 0).toDouble(),
+        payableAmount: (json["payable_amount"] ?? 0).toDouble(),
+        totalChargesPayable: (json["total_charges_payable"] ?? 0).toDouble(),
+        payablePrincipalAmount:
+            (json["payable_principal_amount"] ?? 0).toDouble(),
+        penaltyAmount: (json["penalty_amount"] ?? 0).toDouble(),
+        amountPaid: (json["amount_paid"] ?? 0).toDouble(),
+
         referenceNumber: json["reference_number"],
-        totalInterestPaid: json["total_interest_paid"].toDouble(),
-        totalPenaltyPaid: json["total_penalty_paid"].toDouble(),
+
+        totalInterestPaid: (json["total_interest_paid"] ?? 0).toDouble(),
+        totalPenaltyPaid: (json["total_penalty_paid"] ?? 0).toDouble(),
         referenceDate: json["reference_date"],
-        principalAmountPaid: json["principal_amount_paid"].toDouble(),
-        totalChargesPaid: json["total_charges_paid"].toDouble(),
-        excessAmount: json["excess_amount"].toDouble(),
+
+        principalAmountPaid: (json["principal_amount_paid"] ?? 0).toDouble(),
+        totalChargesPaid: (json["total_charges_paid"] ?? 0).toDouble(),
+        excessAmount: (json["excess_amount"] ?? 0).toDouble(),
+
         manualRemarks: json["manual_remarks"],
-        paymentAccount: json["payment_account"],
+        paymentAccount: json["payment_account"]?.toString(),
         applicantMemberName: json["applicant_member_name"],
         workflowState: json["workflow_state"],
         applicantImage: json["applicant_image"],
@@ -209,7 +223,7 @@ class RepaymentListResult {
         "applicant_member_name": applicantMemberName,
         "workflow_state": workflowState,
         "applicant_image": applicantImage,
-         "against_loan_loan_id": againstLoanLoanId,
-         "payment_proof": paymentProof,
+        "against_loan_loan_id": againstLoanLoanId,
+        "payment_proof": paymentProof,
       };
 }

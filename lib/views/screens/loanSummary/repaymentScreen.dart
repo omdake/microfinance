@@ -21,6 +21,8 @@ class RepaymentScreen extends StatelessWidget {
         return const Color(0xFFF06321);
       case "rejected":
         return const Color(0xFF5F5F5F);
+         case "open":
+        return const Color(0xFFF06321);
       default:
         return Colors.grey;
     }
@@ -164,6 +166,7 @@ class RepaymentScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
+                    textAlign: TextAlign.center,
                     user.workflowState?.toUpperCase() ?? "-",
                     style: const TextStyle(
                       fontSize: 11,

@@ -89,7 +89,7 @@ class LoanCashCollectionSuccess extends StatelessWidget {
               ),
               C50(),
               GestureDetector(
-                onTap: () => Get.offAllNamed(Routes.homeScreen),
+                onTap: () => Get.offAllNamed(Routes.collectionInHand),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 14, horizontal: 40),
@@ -107,7 +107,7 @@ class LoanCashCollectionSuccess extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 30),
+             C30(),
             ],
           ),
         ),
