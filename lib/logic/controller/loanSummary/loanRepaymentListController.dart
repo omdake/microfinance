@@ -24,28 +24,39 @@ class LoanSummaryListController extends GetxController {
 
   void onSearchChanged(String query) {
     page.value = 1;
-   // groupList.clear();
-    getRepaymentList(page: page.value, search: search.value.text);
+    // groupList.clear();
+    getRepaymentList(
+      page: page.value,
+      search: search.value.text,
+    );
   }
 
   @override
   void onInit() {
     super.onInit();
     getGroupList();
-    getRepaymentList(page: page.value, search: search.value.text);
+    getRepaymentList(
+      page: page.value,
+      search: search.value.text,
+    );
   }
 
   getloadData() async {
     page.value = 1;
-    hasNextPage.value = true;
     repaymentList.clear();
-    await getRepaymentList(page: page.value, search: search.value.text);
+    await getRepaymentList(
+      page: page.value,
+      search: search.value.text,
+    );
   }
 
   getLoadMoreData() async {
-    if (isLoading.value || !hasNextPage.value) return;
+    if (!hasNextPage.value) return;
     page.value += 1;
-    await getRepaymentList(page: page.value, search: search.value.text);
+    await getRepaymentList(
+      page: page.value,
+      search: search.value.text,
+    );
   }
 
   getGroupList() async {
@@ -110,11 +121,15 @@ class LoanSummaryListController extends GetxController {
   getRepaymentList({String? loanGroup, int? page, String? search}) async {
     final token = await AppPreferences.getToken();
     try {
-      //isLoading.value = true;
+      isLoading.value = true;
 
       final url = Uri.parse(AppEnvironment.baseUrl +
           AppURLs.getLoanRepayments(
-              loanGroup: selectedGroup.value, page: page, search: search));
+              loanGroup: selectedGroup.value,
+              page: page,
+              search: search,
+              isPagination: true,
+              pageSize: 10));
 
       final response = await http.get(
         url,

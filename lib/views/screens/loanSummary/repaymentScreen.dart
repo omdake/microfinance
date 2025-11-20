@@ -99,8 +99,10 @@ class RepaymentScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "${user.applicantMemberName ?? ""}".toString().toUpperCase(),
-                      style: const TextStyle(
+                    "${user.applicantMemberName ?? ""}"
+                        .toString()
+                        .toUpperCase(),
+                    style: const TextStyle(
                       fontFamily: "Roboto-Medium",
                       fontSize: 12,
                     ),
@@ -316,8 +318,6 @@ class RepaymentScreen extends StatelessWidget {
                 ],
               ),
               C20(),
-
-              // List
               Expanded(
                 child: Obx(() {
                   return LoadMoreListView1(

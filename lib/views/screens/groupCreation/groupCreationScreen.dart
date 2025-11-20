@@ -327,6 +327,7 @@ class GroupCreationScreen extends StatelessWidget {
                                         C10(),
                                         imagePickerField(
                                           label: "Group Image",
+                                          readOnlyFlag: controller.isReadOnly,
                                           imageFile: controller.groupImage,
                                           imageUrl: controller.groupImageUrl,
                                           isFocused:

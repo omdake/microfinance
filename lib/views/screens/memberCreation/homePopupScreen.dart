@@ -114,6 +114,8 @@ class HomePopup extends StatelessWidget {
                               label: "Geo Location", isRequired: true),
                           TextFormField(
                             readOnly: true,
+                            maxLines: null,
+                            minLines: 1,
                             enabled: !controller.isReadOnly.value,
                             controller: controller.homeGeoLocation.value,
                             cursorColor: AppColors.primary,

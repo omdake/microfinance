@@ -48,7 +48,7 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 paddingWidget(
                                   [
                                     const LabelsWithMark(
-                                        label: "MemberId", isRequired: true),
+                                        label: "Member ID", isRequired: true),
                                     TextFormField(
                                       enabled: controller.isFormEdit.value,
                                       controller: controller.memberId.value,

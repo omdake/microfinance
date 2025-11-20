@@ -56,6 +56,14 @@ class VoterIdPopup extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
+                    flex: controller.isReadOnly.value &&
+                            controller.voterbackImage.value == null &&
+                            (controller.loanMember.isNotEmpty &&
+                                controller.loanMember[0].voterIdImageBack
+                                        ?.isEmpty ==
+                                    true)
+                        ? 10
+                        : 5,
                     child: imagePickerField1(
                       label: "Voter Id Front Image",
                       isRequired: true,
@@ -77,21 +85,35 @@ class VoterIdPopup extends StatelessWidget {
                           fieldName: 'Voter Id Front Image'),
                     ),
                   ),
-                  C10(),
-                  Expanded(
-                    child: imagePickerField1(
-                      label: "Voter Id Back Image",
-                      readOnlyFlag: controller.isReadOnly,
-                      imageFile: controller.voterbackImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].voterIdImageBack ?? ''
-                          : ''),
-                      isFocused: controller.isvoterbackImageFocused,
-                      onTap: () {
-                        controller.pickImage(controller.voterbackImage);
-                      },
-                    ),
-                  ),
+                  Obx(() {
+                    final hasFile = controller.voterbackImage.value != null ||
+                        (controller.loanMember.isNotEmpty &&
+                            controller.loanMember[0].voterIdImageBack
+                                    ?.isNotEmpty ==
+                                true);
+
+                    if (!hasFile && controller.isReadOnly.value)
+                      return SizedBox.shrink();
+
+                    return Expanded(
+                      flex: 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: imagePickerField1(
+                          label: "Voter Id Back Image",
+                          readOnlyFlag: controller.isReadOnly,
+                          imageFile: controller.voterbackImage,
+                          imageUrl: RxString(controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].voterIdImageBack ?? ''
+                              : ''),
+                          isFocused: controller.isvoterbackImageFocused,
+                          onTap: () {
+                            controller.pickImage(controller.voterbackImage);
+                          },
+                        ),
+                      ),
+                    );
+                  })
                 ],
               ),
               C30(),

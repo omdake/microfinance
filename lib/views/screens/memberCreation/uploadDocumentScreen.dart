@@ -48,7 +48,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                       ? controller.aadharNumber.value.text
                                       : "Aadhar Card Details",
                               onTap: () {
-                                Get.dialog(AadharPopup());
+                                Get.dialog(AadharPopup(),
+                                    barrierDismissible: false);
                               }),
                           documentTile(
                               icon: Icons.folder_open,
@@ -58,7 +59,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                       ? controller.panNumber.value.text
                                       : "Pan Card Details",
                               onTap: () {
-                                Get.dialog(PanCardPopup());
+                                Get.dialog(PanCardPopup(),
+                                    barrierDismissible: false);
                               }),
                           documentTile(
                               icon: Icons.folder_open,
@@ -68,7 +70,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                       ? controller.voterId.value.text
                                       : "Voter Id Details",
                               onTap: () {
-                                Get.dialog(VoterIdPopup());
+                                Get.dialog(VoterIdPopup(),
+                                    barrierDismissible: false);
                               }),
                           documentTile(
                               icon: Icons.folder_open,
@@ -78,7 +81,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                   ? controller.selectedAddressDocType.value
                                   : "Address Document Details",
                               onTap: () {
-                                Get.dialog(AddressDocPopup());
+                                Get.dialog(AddressDocPopup(),
+                                    barrierDismissible: false);
                               }),
                           documentTile(
                               icon: Icons.folder_open,
@@ -97,7 +101,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                 }
                               },
                               onTap: () {
-                                Get.dialog(HomePopup());
+                                Get.dialog(HomePopup(),
+                                    barrierDismissible: false);
                               }),
                         ],
                       ),
@@ -168,7 +173,8 @@ class UploadDcumentSreen extends StatelessWidget {
                                 "Submit",
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold,fontFamily: "Roboto-Regular"),
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: "Roboto-Regular"),
                               ),
                             ),
                           );

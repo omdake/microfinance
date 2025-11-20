@@ -23,7 +23,7 @@ class AppURLs {
 
   static String get getUserProfile => "api/method/ex_loan_management.api.user_profile.get_user_profile";
 
-  static String  getLoanRepayments({required String loanGroup,int? page,String ?search}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?is_pagination=$page&loan_group=$loanGroup&search=$search";
+  static String  getLoanRepayments({required String loanGroup,int? page,String ?search,bool? isPagination,int?pageSize}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?page=$page&loan_group=$loanGroup&search=$search&is_pagination=$isPagination&page_size=$pageSize";
 
   static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
