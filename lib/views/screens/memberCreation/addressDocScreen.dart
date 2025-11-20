@@ -51,7 +51,8 @@ class AddressDocPopup extends StatelessWidget {
                     items: controller.addressDocTypeList.map((addressDocType) {
                       return DropdownMenuItem<String>(
                         value: addressDocType,
-                        child: Text(addressDocType),
+                        child: Text(addressDocType,
+                            style: TextStyles.textfieldTextStyle),
                       );
                     }).toList(),
                     value: controller.addressDocTypeList
@@ -75,7 +76,10 @@ class AddressDocPopup extends StatelessWidget {
                         : null,
                     disabledHint:
                         controller.selectedAddressDocType.value.isNotEmpty
-                            ? Text(controller.selectedAddressDocType.value)
+                            ? Text(
+                                controller.selectedAddressDocType.value,
+                                style: TextStyles.textfieldTextStyle,
+                              )
                             : const Text("Select Address Document"),
                     validator: (value) {
                       if (controller.selectedAddressDocType.value.isEmpty) {

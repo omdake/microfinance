@@ -410,7 +410,7 @@ Widget imagePickerField({
                             style: TextStyles.textfieldTextStyle,
                           ),
                         ),
-                        if (hasFile && !(readOnlyFlag?.value ?? false))
+                        if (hasFile)
                           GestureDetector(
                             onTap: isEnabled && !(readOnlyFlag?.value ?? false)
                                 ? () {
@@ -424,7 +424,14 @@ Widget imagePickerField({
                                     showError?.value = true;
                                   }
                                 : null,
-                            child: const Icon(Icons.delete, color: Colors.red),
+                            child: Icon(
+                              (readOnlyFlag?.value ?? false)
+                                  ? Icons.visibility
+                                  : Icons.delete,
+                              color: (readOnlyFlag?.value ?? false)
+                                  ? Colors.grey.shade600
+                                  : Colors.red,
+                            ),
                           ),
                       ],
                     ),
@@ -898,7 +905,10 @@ Widget imagePickerField1({
                                     showError?.value = true;
                                   }
                                 : null,
-                            child: const Icon(Icons.delete, color: Colors.red),
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ),
                           ),
                       ],
                     ),

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:microfinance/api/app_envirments.dart';
@@ -46,6 +45,8 @@ class LoanApplicationList extends StatelessWidget {
         return const Color(0xFFF06321);
       case "rejected":
         return const Color(0xFF5F5F5F);
+        case "open":
+        return  AppColors.primaryOrange;
       default:
         return Colors.grey;
     }
@@ -70,79 +71,38 @@ class LoanApplicationList extends StatelessWidget {
         child: IntrinsicHeight(
           child: Row(
             children: [
-              GestureDetector(
-                onTap: () {
-                  if (user.applicantImage != null &&
-                      user.applicantImage!.isNotEmpty) {
-                    final imageUrl = user.applicantImage!.startsWith('http')
-                        ? user.applicantImage!
-                        : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}";
-                    final isPdf = imageUrl.toLowerCase().endsWith('.pdf');
-
-                    Get.dialog(
-                      Dialog(
-                        backgroundColor: Colors.transparent,
-                        child: Container(
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.white,
+              Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color(0xFFE6E6E6),
+                    width: 2,
+                  ),
+                ),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: const Color(0xFFD9D9D9),
+                  backgroundImage: user.applicantImage != null &&
+                          user.applicantImage!.isNotEmpty
+                      ? CachedNetworkImageProvider(
+                          user.applicantImage!.startsWith('http')
+                              ? user.applicantImage!
+                              : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}",
+                          headers: {'Authorization': token},
+                        )
+                      : null,
+                  child: (user.applicantImage == null ||
+                          user.applicantImage!.isEmpty)
+                      ? Text(
+                          _getInitials(user.applicantName),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
-                          clipBehavior: Clip.hardEdge,
-                          child: isPdf
-                              ? PDFView(filePath: imageUrl)
-                              : CachedNetworkImage(
-                                  imageUrl: imageUrl,
-                                  httpHeaders: {'Authorization': token},
-                                  fit: BoxFit.contain,
-                                  width: double.infinity,
-                                  placeholder: (_, __) => const Center(
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2),
-                                  ),
-                                  errorWidget: (_, __, ___) => const Center(
-                                    child: Icon(Icons.broken_image,
-                                        size: 50, color: Colors.grey),
-                                  ),
-                                ),
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: const Color(0xFFE6E6E6),
-                      width: 2,
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: 25,
-                    backgroundColor: const Color(0xFFD9D9D9),
-                    backgroundImage: user.applicantImage != null &&
-                            user.applicantImage!.isNotEmpty
-                        ? CachedNetworkImageProvider(
-                            user.applicantImage!.startsWith('http')
-                                ? user.applicantImage!
-                                : "${AppEnvironment.baseUrl}${user.applicantImage!.startsWith('/') ? '' : '/'}${user.applicantImage}",
-                            headers: {'Authorization': token},
-                          )
-                        : null,
-                    child: (user.applicantImage == null ||
-                            user.applicantImage!.isEmpty)
-                        ? Text(
-                            _getInitials(user.applicantName),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )
-                        : null,
-                  ),
+                        )
+                      : null,
                 ),
               ),
               C15(),
@@ -216,6 +176,7 @@ class LoanApplicationList extends StatelessWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: Text(
+                      textAlign: TextAlign.center,
                       user.workflowState?.toUpperCase() ?? "-",
                       style: const TextStyle(
                         fontSize: 11,
