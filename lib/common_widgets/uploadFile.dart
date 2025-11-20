@@ -388,7 +388,9 @@ Widget imagePickerField({
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: (readOnlyFlag?.value ?? false)
+                          ? Colors.grey.shade200
+                          : Colors.white,
                       border: Border.all(
                         color: fieldState.hasError || (showError?.value == true)
                             ? Colors.red
@@ -693,7 +695,7 @@ Widget imagePickerField1({
                                 ),
                               ),
                             );
-                          } else if((!(readOnlyFlag?.value ?? false))){
+                          } else if ((!(readOnlyFlag?.value ?? false))) {
                             Get.bottomSheet(
                               SafeArea(
                                 child: Container(
@@ -832,7 +834,9 @@ Widget imagePickerField1({
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: (readOnlyFlag?.value ?? false)
+                          ? Colors.grey.shade200
+                          : Colors.white,
                       border: Border.all(
                         color: fieldState.hasError || (showError?.value == true)
                             ? Colors.red

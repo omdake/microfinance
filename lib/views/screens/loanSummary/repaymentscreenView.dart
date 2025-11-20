@@ -222,17 +222,30 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        imagePickerField(
-                          // isEnabled: !controller.isReadOnly.value,
-                          label: "Payment Proof",
-                          readOnlyFlag: controller.isFormEdit,
-                          imageFile: controller.paymentProofImage,
-                          imageUrl: controller.paymentProofUrl,
-                          isFocused: controller.isPaymentProofImageFocused,
-                          onTap: () => controller
-                              .pickImage(controller.paymentProofImage),
-                        ),
                         C10(),
+                        Obx(() {
+                          final hasFile =
+                              controller.paymentProofImage.value != null ||
+                                  controller.paymentProofUrl.isNotEmpty;
+                          if (!hasFile && controller.isReadOnly.value) {
+                            return const SizedBox.shrink();
+                          }
+                          return Column(
+                            children: [
+                              imagePickerField(
+                                label: "Payment Proof",
+                                readOnlyFlag: controller.isReadOnly,
+                                imageFile: controller.paymentProofImage,
+                                imageUrl: controller.paymentProofUrl,
+                                isFocused:
+                                    controller.isPaymentProofImageFocused,
+                                onTap: () => controller
+                                    .pickImage(controller.paymentProofImage),
+                              ),
+                              C10(),
+                            ],
+                          );
+                        }),
                         paddingWidget(
                           [
                             LabelsWithMark(label: "UTR Number"),

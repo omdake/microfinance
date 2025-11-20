@@ -57,41 +57,83 @@ class AadharPopup extends StatelessWidget {
               C10(),
               Row(
                 children: [
-                  Expanded(
-                    child: imagePickerField1(
-                      label: "Aadhar Card Front Image",
-                      isRequired: true,
-                      readOnlyFlag: controller.isReadOnly,
-                      imageFile: controller.aadharImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImage ?? ''
-                          : ''),
-                      isFocused: controller.isAadharImageFocused,
-                      onTap: () => controller.pickImage(controller.aadharImage),
-                      autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (file) => imageFileValidator(
-                        localFile: file,
-                        networkUrl: controller.loanMember.isNotEmpty
-                            ? controller.loanMember[0].aadharImage
-                            : null,
-                        fieldName: 'Aadhar Card Front Image',
+                  Obx(() {
+                    final hasBackFile =
+                        controller.aadharbackImage.value != null ||
+                            (controller.loanMember.isNotEmpty &&
+                                controller.loanMember[0].aadharImageBack
+                                        ?.isNotEmpty ==
+                                    true);
+
+                    final isHidden =
+                        controller.isReadOnly.value && !hasBackFile;
+
+                    return Expanded(
+                      flex: isHidden ? 10 : 5,
+                      child: imagePickerField1(
+                        label: "Aadhar Card Front Image",
+                        isRequired: true,
+                        readOnlyFlag: controller.isReadOnly,
+                        imageFile: controller.aadharImage,
+                        imageUrl: RxString(
+                          controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].aadharImage ?? ''
+                              : '',
+                        ),
+                        isFocused: controller.isAadharImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.aadharImage),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        validator: (file) => imageFileValidator(
+                          localFile: file,
+                          networkUrl: controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].aadharImage
+                              : null,
+                          fieldName: 'Aadhar Card Front Image',
+                        ),
                       ),
-                    ),
-                  ),
-                  C10(),
-                  Expanded(
-                    child: imagePickerField1(
-                      label: "Aadhar Card Back Image",
-                      readOnlyFlag: controller.isReadOnly,
-                      imageFile: controller.aadharbackImage,
-                      imageUrl: RxString(controller.loanMember.isNotEmpty
-                          ? controller.loanMember[0].aadharImageBack ?? ''
-                          : ''),
-                      isFocused: controller.isAadharbackImageFocused,
-                      onTap: () =>
-                          controller.pickImage(controller.aadharbackImage),
-                    ),
-                  ),
+                    );
+                  }),
+                  Obx(() {
+                    final hasBackFile =
+                        controller.aadharbackImage.value != null ||
+                            (controller.loanMember.isNotEmpty &&
+                                controller.loanMember[0].aadharImageBack
+                                        ?.isNotEmpty ==
+                                    true);
+
+                    if (!hasBackFile && controller.isReadOnly.value)
+                      return SizedBox.shrink();
+                    return C10();
+                  }),
+                  Obx(() {
+                    final hasBackFile =
+                        controller.aadharbackImage.value != null ||
+                            (controller.loanMember.isNotEmpty &&
+                                controller.loanMember[0].aadharImageBack
+                                        ?.isNotEmpty ==
+                                    true);
+
+                    if (!hasBackFile && controller.isReadOnly.value)
+                      return const SizedBox.shrink();
+
+                    return Expanded(
+                      flex: 5,
+                      child: imagePickerField1(
+                        label: "Aadhar Card Back Image",
+                        readOnlyFlag: controller.isReadOnly,
+                        imageFile: controller.aadharbackImage,
+                        imageUrl: RxString(
+                          controller.loanMember.isNotEmpty
+                              ? controller.loanMember[0].aadharImageBack ?? ''
+                              : '',
+                        ),
+                        isFocused: controller.isAadharbackImageFocused,
+                        onTap: () =>
+                            controller.pickImage(controller.aadharbackImage),
+                      ),
+                    );
+                  }),
                 ],
               ),
               C30(),

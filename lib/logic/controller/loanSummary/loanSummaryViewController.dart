@@ -18,12 +18,13 @@ class LoanSummaryViewController extends GetxController {
   Rx<TextEditingController> utrNumber = TextEditingController().obs;
   Rx<TextEditingController> remark = TextEditingController().obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
-   RxString paymentProofUrl = ''.obs;
+  RxString paymentProofUrl = ''.obs;
   RxString paymentProofImageUrl = ''.obs;
   RxBool isPaymentProofImageFocused = false.obs;
   RxString selectedApplicantId = ''.obs;
   RxBool isLoading = false.obs;
   RxBool isFormEdit = false.obs;
+  RxBool isReadOnly = false.obs;
   RxList<LoanListMessage> loantList = <LoanListMessage>[].obs;
   Future<void> pickImage(Rx<File?> imageHolder) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -47,9 +48,12 @@ class LoanSummaryViewController extends GetxController {
 
   getLoanDataFromArg(RepaymentListResult applicant,
       {bool readOnly = false}) async {
+    isReadOnly.value = readOnly;
+
     loanId.value.text = applicant.againstLoanLoanId ?? '';
     applicantName.value.text = applicant.applicantMemberName ?? '';
-     if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
+
+    if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
       if (applicant.paymentProof!.startsWith('http')) {
         paymentProofUrl.value = applicant.paymentProof!;
         paymentProofImage.value = null;
@@ -58,12 +62,15 @@ class LoanSummaryViewController extends GetxController {
       paymentProofImage.value = null;
       paymentProofUrl.value = '';
     }
+
     valueDate.value.text = applicant.valueDate != null
-        ? DateFormat('yyyy-MM-dd').format(applicant.valueDate!)
+        ? DateFormat('dd-MM-yyyy').format(applicant.valueDate!)
         : '';
+
     referenceDate.value.text = applicant.dueDate != null
-        ? DateFormat('yyyy-MM-dd').format(applicant.valueDate!)
+        ? DateFormat('dd-MM-yyyy').format(applicant.valueDate!)
         : '';
+
     amountPaid.value.text = applicant.amountPaid?.toString() ?? '';
     payableAmount.value.text = applicant.payableAmount?.toString() ?? '';
     remark.value.text = applicant.manualRemarks?.toString() ?? '';

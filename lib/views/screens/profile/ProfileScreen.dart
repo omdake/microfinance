@@ -285,7 +285,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 50),
+                C20(),
                 Align(
                     alignment: Alignment.center,
                     child: InkWell(
@@ -295,7 +295,7 @@ class ProfileScreen extends StatelessWidget {
                         child: Icon(
                           Icons.cancel_outlined,
                           color: AppColors.white,
-                          size: 60,
+                          size: 45,
                         ))),
               ],
             ),
