@@ -171,9 +171,10 @@ class LoanRepaymentController extends GetxController {
     final url = Uri.parse(AppEnvironment.baseUrl + AppURLs.getPayableAmount);
     final requestBody = {
       "against_loan": loanId.value.text,
-      "posting_date": selectedValueDate.value,
+      "posting_date": convertToApiDate(
+        selectedValueDate.value,
+      )
     };
-
     try {
       isLoading.value = true;
       final response = await http.post(
@@ -210,6 +211,7 @@ class LoanRepaymentController extends GetxController {
         ),
       );
     } catch (e) {
+      print(".........hhhhh${e}");
       CustomSnackBar.show(isIssue: true, message: "$e");
       DevService.instance.insertAPICall(
         AppAPIsCall(

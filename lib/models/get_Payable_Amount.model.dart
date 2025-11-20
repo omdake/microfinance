@@ -60,12 +60,15 @@ class GetPayableAmountMessage {
         unaccruedInterest: (json["unaccrued_interest"] ?? 0).toDouble(),
         unbookedInterest: (json["unbooked_interest"] ?? 0).toDouble(),
         unbookedPenalty: (json["unbooked_penalty"] ?? 0).toDouble(),
-        dueDate: DateTime.parse(json["due_date"]),
+        dueDate:
+            json["due_date"] != null ? DateTime.parse(json["due_date"]) : null,
         totalChargesPayable: json["total_charges_payable"] ?? 0,
         availableSecurityDeposit:
             (json["available_security_deposit"] ?? 0).toDouble(),
         writtenOffAmount: (json["written_off_amount"] ?? 0).toDouble(),
-        unpaidDemands: List<dynamic>.from(json["unpaid_demands"].map((x) => x)),
+        unpaidDemands: json["unpaid_demands"] != null
+            ? List<dynamic>.from(json["unpaid_demands"].map((x) => x))
+            : [],
         excessAmountPaid: (json["excess_amount_paid"] ?? 0).toDouble(),
       );
 
@@ -78,8 +81,9 @@ class GetPayableAmountMessage {
         "unaccrued_interest": unaccruedInterest,
         "unbooked_interest": unbookedInterest,
         "unbooked_penalty": unbookedPenalty,
-        "due_date":
-            "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}",
+        "due_date": dueDate != null
+            ? "${dueDate!.year.toString().padLeft(4, '0')}-${dueDate!.month.toString().padLeft(2, '0')}-${dueDate!.day.toString().padLeft(2, '0')}"
+            : null,
         "total_charges_payable": totalChargesPayable,
         "available_security_deposit": availableSecurityDeposit,
         "written_off_amount": writtenOffAmount,
