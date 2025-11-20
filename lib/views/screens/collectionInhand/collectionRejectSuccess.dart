@@ -55,23 +55,6 @@ class CashCollectionRejecteSuccess extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "LOAN REPAYMENT",
-                    style: const TextStyle(
-                      fontSize: 11,
-                      letterSpacing: 1,
-                      fontFamily: "Roboto-Regular",
-                    ),
-                  ),
-                  C5(),
-                  Text(
-                    "Loan Id: $crNo",
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontFamily: "Roboto-Regular",
-                    ),
-                  ),
-                  C10(),
-                  Text(
                     applicantName,
                     style: const TextStyle(
                       fontSize: 13,
@@ -89,7 +72,8 @@ class CashCollectionRejecteSuccess extends StatelessWidget {
               ),
               C50(),
               GestureDetector(
-                onTap: () => Get.until((route) => Get.currentRoute == Routes.collectionInHand),
+                onTap: () => Get.until(
+                    (route) => Get.currentRoute == Routes.collectionInHand),
                 child: Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 14, horizontal: 40),

@@ -445,8 +445,7 @@ class LoanRepaymentScreen extends StatelessWidget {
                                               C10(),
                                               paddingWidget([
                                                 LabelsWithMark(
-                                                  label:
-                                                      "UTR/Credit/Reference Number",
+                                                  label: "UTR Number",
                                                   isRequired: true,
                                                 ),
                                                 TextFormField(
@@ -514,7 +513,8 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                     controller
                                                         .referenceDate.value,
                                                     controller
-                                                        .selectedReferenceDate),
+                                                        .selectedReferenceDate,
+                                                    lastDate: DateTime.now()),
                                                 style: TextStyles
                                                     .textfieldTextStyle,
                                                 decoration: TextFieldDecoration

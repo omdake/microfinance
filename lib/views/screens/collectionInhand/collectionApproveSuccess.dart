@@ -55,23 +55,6 @@ class CashCollectionApproveSuccess extends StatelessWidget {
               Column(
                 children: [
                   Text(
-                    "LOAN REPAYMENT",
-                    style: const TextStyle(
-                      fontSize: 11,
-                      letterSpacing: 1,
-                      fontFamily: "Roboto-Regular",
-                    ),
-                  ),
-                  C5(),
-                  Text(
-                    "Loan Id: $crNo",
-                    style: const TextStyle(
-                      fontSize: 11,
-                      fontFamily: "Roboto-Regular",
-                    ),
-                  ),
-                  C10(),
-                  Text(
                     applicantName,
                     style: const TextStyle(
                       fontSize: 13,

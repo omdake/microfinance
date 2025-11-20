@@ -248,6 +248,7 @@ Widget imagePickerField({
                                   ),
                                 ),
                               ),
+                              barrierDismissible: false,
                             );
                           } else if (!(readOnlyFlag?.value ?? false)) {
                             Get.bottomSheet(
@@ -701,6 +702,7 @@ Widget imagePickerField1({
                                   ),
                                 ),
                               ),
+                              barrierDismissible: false,
                             );
                           } else if ((!(readOnlyFlag?.value ?? false))) {
                             Get.bottomSheet(

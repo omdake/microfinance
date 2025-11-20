@@ -48,6 +48,9 @@ class LoanRepaymentController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    String today = DateFormat('dd-MM-yyyy').format(DateTime.now());
+    referenceDate.value.text = today;
+    selectedReferenceDate.value = today;
     final args = Get.arguments;
     if (args != null) {
       isFromEMI.value = true;
@@ -69,17 +72,53 @@ class LoanRepaymentController extends GetxController {
     getModeOfPaymentList();
   }
 
+  // Future<void> selectDate(
+  //   BuildContext context,
+  //   TextEditingController controller,
+  //   RxString selectedDate,
+  // ) async {
+  //   DateTime now = DateTime.now();
+  //   DateTime initialDate = controller.text.isNotEmpty
+  //       ? DateTime.tryParse(controller.text) ?? now
+  //       : now;
+
+  //   DateTime lastDate = isFromEMI.value ? now : DateTime(2100);
+
+  //   List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
+  //     context: context,
+  //     config: CalendarDatePicker2WithActionButtonsConfig(
+  //       calendarType: CalendarDatePicker2Type.single,
+  //       okButtonTextStyle: const TextStyle(color: Colors.black),
+  //       cancelButtonTextStyle: const TextStyle(color: Colors.black),
+  //       selectedDayHighlightColor: Colors.grey,
+  //       dayTextStyle: const TextStyle(color: Colors.black),
+  //       firstDate: DateTime(2000),
+  //       lastDate: lastDate,
+  //       currentDate: initialDate,
+  //     ),
+  //     dialogSize: const Size(350, 400),
+  //     borderRadius: BorderRadius.circular(15),
+  //   );
+
+  //   if (picked != null && picked.isNotEmpty && picked.first != null) {
+  //     String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
+  //     controller.text = formatted;
+  //     selectedDate.value = formatted;
+  //   }
+  // }
   Future<void> selectDate(
     BuildContext context,
     TextEditingController controller,
-    RxString selectedDate,
-  ) async {
+    RxString selectedDate, {
+    DateTime? lastDate,
+  }) async {
     DateTime now = DateTime.now();
     DateTime initialDate = controller.text.isNotEmpty
         ? DateTime.tryParse(controller.text) ?? now
         : now;
 
-    DateTime lastDate = isFromEMI.value ? now : DateTime(2100);
+    final DateTime endDate =
+        lastDate ?? (isFromEMI.value ? now : DateTime(2100));
 
     List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
       context: context,
@@ -90,7 +129,7 @@ class LoanRepaymentController extends GetxController {
         selectedDayHighlightColor: Colors.grey,
         dayTextStyle: const TextStyle(color: Colors.black),
         firstDate: DateTime(2000),
-        lastDate: lastDate,
+        lastDate: endDate,
         currentDate: initialDate,
       ),
       dialogSize: const Size(350, 400),

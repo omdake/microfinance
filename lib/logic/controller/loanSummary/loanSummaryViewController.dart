@@ -66,16 +66,14 @@ class LoanSummaryViewController extends GetxController {
     valueDate.value.text = applicant.valueDate != null
         ? DateFormat('dd-MM-yyyy').format(applicant.valueDate!)
         : '';
-
-    referenceDate.value.text = applicant.dueDate != null
-        ? DateFormat('dd-MM-yyyy').format(applicant.valueDate!)
-        : '';
-
     amountPaid.value.text = applicant.amountPaid?.toString() ?? '';
     payableAmount.value.text = applicant.payableAmount?.toString() ?? '';
     remark.value.text = applicant.manualRemarks?.toString() ?? '';
     selectedApplicantId.value = applicant.applicant ?? '';
     modeOfPayment.value.text = applicant.modeOfPayment?.toString() ?? '';
     utrNumber.value.text = applicant.referenceNumber?.toString() ?? '';
+    referenceDate.value.text = applicant.referenceDate != null
+        ? DateFormat('dd-MM-yyyy').format(applicant.referenceDate!)
+        : '';
   }
 }
