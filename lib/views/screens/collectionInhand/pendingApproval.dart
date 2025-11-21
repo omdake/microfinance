@@ -43,7 +43,7 @@ class PendingApproval extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Container(
         padding: const EdgeInsets.all(6),
-        margin: const EdgeInsets.symmetric(vertical: 6,horizontal: 6),
+        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -197,6 +197,10 @@ class PendingApproval extends StatelessWidget {
                               isSelectedDate: true),
                           style: TextStyles.textfieldTextStyle,
                           decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 13,
+                            ),
                             hintText: "Select Date",
                             hintStyle: TextStyle(color: Colors.grey.shade600),
                             suffixIcon: IconButton(
@@ -232,51 +236,66 @@ class PendingApproval extends StatelessWidget {
                     child: paddingWidget(
                       [
                         const LabelsWithMark(label: "Status"),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextField(
-                                controller: controller.Status.value,
-                                style: TextStyles.textfieldTextStyle,
-                                cursorColor: Colors.black,
-                                onChanged: (value) {
-                                  if (value.length >= 3 || value.isEmpty) {
-                                    controller.onSearchChanged(value);
-                                  }
-                                },
-                                decoration: InputDecoration(
-                                  hintText: "Enter Status",
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey.shade600,
-                                    fontFamily: "Roboto-Regular",
-                                    fontSize: 14,
-                                  ),
-                                  suffixIcon: Icon(
-                                    Icons.search,
-                                    color: Colors.grey.shade600,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey.shade300,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
-                                    borderSide: BorderSide(
-                                      color: Colors.grey.shade300,
-                                      width: 1,
-                                    ),
-                                  ),
+                        Obx(() {
+                          return DropdownButtonFormField<String>(
+                            value: controller.selectedStatus.value.isEmpty
+                                ? "Select Status"
+                                : controller.selectedStatus.value,
+                            decoration: InputDecoration(
+                              hintText: "Enter Status",
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                                vertical: 13,
+                              ),
+                              hintStyle: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontFamily: "Roboto-Regular",
+                                fontSize: 14,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(
+                                  color: Colors.grey.shade300,
+                                  width: 1,
                                 ),
                               ),
                             ),
-                          ],
-                        ),
+                            items: controller.statusList
+                                .map((status) => DropdownMenuItem(
+                                      value: status,
+                                      child: Text(
+                                        status,
+                                        style: TextStyles.textfieldTextStyle,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ))
+                                .toList(),
+                            onChanged: (value) {
+                              FocusScope.of(context).unfocus();
+                              if (value == "Select Status") {
+                                controller.selectedStatus.value = "";
+                              } else {
+                                controller.selectedStatus.value = value ?? '';
+                              }
+                              controller.page.value = 1;
+                              controller.pendingApproval.clear();
+                              controller.getpendingApprovalList(
+                                page: controller.page.value,
+                                empId: controller.employee.value.text,
+                              );
+                            },
+                          );
+                        }),
                       ],
                     ),
                   ),

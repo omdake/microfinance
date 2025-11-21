@@ -108,119 +108,199 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                     [];
 
                                             if (loanlist.isNotEmpty) {
-                                              return DropdownButtonFormField2<
-                                                  String>(
-                                                value: controller.loanId.value
-                                                        .text.isEmpty
-                                                    ? null
-                                                    : controller
-                                                        .loanId.value.text,
-                                                items: loanlist.map((loan) {
-                                                  return DropdownMenuItem<
-                                                      String>(
-                                                    value: loan.name!,
-                                                    child: Text(loan.loanId!),
-                                                  );
-                                                }).toList(),
-                                                autovalidateMode:
-                                                    AutovalidateMode
-                                                        .onUserInteraction,
-                                                dropdownSearchData:
-                                                    DropdownSearchData(
-                                                  searchController: controller
-                                                      .groupSearch.value,
-                                                  searchInnerWidgetHeight: 50,
-                                                  searchInnerWidget: Padding(
-                                                    padding:
-                                                        const EdgeInsets.all(8),
-                                                    child: TextFormField(
-                                                      cursorColor: Colors.black,
-                                                      style: TextStyles
-                                                          .textfieldTextStyle,
-                                                      controller: controller
-                                                          .groupSearch.value,
-                                                      decoration:
-                                                          TextFieldDecoration
-                                                              .textfieldDecoration(
-                                                        sufficIconOntap: () {},
-                                                        sufficIcon:
-                                                            Icons.search,
-                                                        hint:
-                                                            'Search loan Id...',
+                                              return Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Stack(
+                                                    children: [
+                                                      DropdownButtonFormField2<
+                                                          String>(
+                                                        value: controller
+                                                                .loanId
+                                                                .value
+                                                                .text
+                                                                .isEmpty
+                                                            ? null
+                                                            : controller.loanId
+                                                                .value.text,
+                                                        items: loanlist
+                                                            .map((loan) {
+                                                          return DropdownMenuItem<
+                                                              String>(
+                                                            value: loan.name!,
+                                                            child: Text(
+                                                                loan.loanId!),
+                                                          );
+                                                        }).toList(),
+                                                        autovalidateMode:
+                                                            AutovalidateMode
+                                                                .onUserInteraction,
+                                                        dropdownSearchData:
+                                                            DropdownSearchData(
+                                                          searchController:
+                                                              controller
+                                                                  .groupSearch
+                                                                  .value,
+                                                          searchInnerWidgetHeight:
+                                                              50,
+                                                          searchInnerWidget:
+                                                              Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(8),
+                                                            child:
+                                                                TextFormField(
+                                                              cursorColor:
+                                                                  Colors.black,
+                                                              style: TextStyles
+                                                                  .textfieldTextStyle,
+                                                              controller:
+                                                                  controller
+                                                                      .groupSearch
+                                                                      .value,
+                                                              decoration:
+                                                                  TextFieldDecoration
+                                                                      .textfieldDecoration(
+                                                                sufficIconOntap:
+                                                                    () {},
+                                                                sufficIcon:
+                                                                    Icons
+                                                                        .search,
+                                                                hint:
+                                                                    'Search loan Id...',
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          searchMatchFn: (item,
+                                                              searchValue) {
+                                                            if (searchValue
+                                                                    .trim()
+                                                                    .length <
+                                                                3) {
+                                                              return true;
+                                                            }
+                                                            return (item.child
+                                                                    is Text &&
+                                                                (item.child
+                                                                        as Text)
+                                                                    .data!
+                                                                    .toLowerCase()
+                                                                    .contains(
+                                                                        searchValue
+                                                                            .toLowerCase()));
+                                                          },
+                                                        ),
+                                                        onMenuStateChange:
+                                                            (isOpen) {
+                                                          if (!isOpen) {
+                                                            controller
+                                                                .groupSearch
+                                                                .value
+                                                                .clear();
+                                                          }
+                                                        },
+                                                        onChanged: (value) {
+                                                          for (var loan
+                                                              in loanlist) {
+                                                            if (loan.name ==
+                                                                value) {
+                                                              controller
+                                                                      .applicantName
+                                                                      .value
+                                                                      .text =
+                                                                  loan.applicantName!;
+                                                              controller
+                                                                      .loanId
+                                                                      .value
+                                                                      .text =
+                                                                  loan.name!;
+                                                              controller.loan
+                                                                      .value =
+                                                                  loan.name!;
+                                                              controller
+                                                                      .loanidno
+                                                                      .value =
+                                                                  loan.loanId!;
+                                                              controller
+                                                                  .valueDate
+                                                                  .value
+                                                                  .text = '';
+                                                              controller
+                                                                  .selectedValueDate
+                                                                  .value = '';
+                                                              controller
+                                                                  .payableAmount
+                                                                  .value
+                                                                  .text = '';
+                                                            }
+                                                          }
+                                                        },
+                                                        hint: Text(
+                                                          "Select A Loan Id",
+                                                          style: TextStyle(
+                                                            color: Colors
+                                                                .grey.shade600,
+                                                            fontFamily:
+                                                                "Roboto-Regular",
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                        style: TextStyles
+                                                            .textfieldTextStyle,
+                                                        dropdownStyleData:
+                                                            DropdownStyleData(
+                                                                maxHeight: 500),
+                                                        decoration:
+                                                            TextFieldDecoration
+                                                                    .textfieldDecoration(
+                                                                        hint:
+                                                                            '')
+                                                                .copyWith(
+                                                          contentPadding:
+                                                              EdgeInsets.all(
+                                                                  -5),
+                                                          errorStyle:
+                                                              const TextStyle(
+                                                                  height: 0.1),
+                                                        ),
+                                                        validator: (value) {
+                                                          if (controller
+                                                              .loanId
+                                                              .value
+                                                              .text
+                                                              .isEmpty) {
+                                                            return '';
+                                                          }
+                                                          return null;
+                                                        },
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
-                                                  searchMatchFn:
-                                                      (item, searchValue) {
-                                                    if (searchValue
-                                                            .trim()
-                                                            .length <
-                                                        3) {
-                                                      return true;
+                                                  Obx(() {
+                                                    if (controller
+                                                            .showError.value &&
+                                                        controller.loanId.value
+                                                            .text.isEmpty) {
+                                                      return Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .only(left: 13),
+                                                        child: Text(
+                                                          'This Field is required',
+                                                          style: TextStyle(
+                                                            color: AppColors
+                                                                .primaryRed,
+                                                            fontSize: 12,
+                                                          ),
+                                                        ),
+                                                      );
+                                                    } else {
+                                                      return const SizedBox
+                                                          .shrink();
                                                     }
-                                                    return (item.child
-                                                            is Text &&
-                                                        (item.child as Text)
-                                                            .data!
-                                                            .toLowerCase()
-                                                            .contains(searchValue
-                                                                .toLowerCase()));
-                                                  },
-                                                ),
-                                                onMenuStateChange: (isOpen) {
-                                                  if (!isOpen) {
-                                                    controller.groupSearch.value
-                                                        .clear();
-                                                  }
-                                                },
-                                                onChanged: (value) {
-                                                  for (var loan in loanlist) {
-                                                    if (loan.name == value) {
-                                                      controller.applicantName
-                                                              .value.text =
-                                                          loan.applicantName!;
-                                                      controller.loanId.value
-                                                          .text = loan.name!;
-                                                      controller.loan.value =
-                                                          loan.name!;
-                                                      controller.loanidno
-                                                          .value = loan.loanId!;
-                                                      controller.valueDate.value
-                                                          .text = '';
-                                                      controller
-                                                          .selectedValueDate
-                                                          .value = '';
-                                                      controller.payableAmount
-                                                          .value.text = '';
-                                                    }
-                                                  }
-                                                },
-                                                hint: Text(
-                                                  "Select A Loan Id",
-                                                  style: TextStyle(
-                                                    color: Colors.grey.shade600,
-                                                    fontFamily:
-                                                        "Roboto-Regular",
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                                style: TextStyles
-                                                    .textfieldTextStyle,
-                                                dropdownStyleData:
-                                                    DropdownStyleData(
-                                                        maxHeight: 500),
-                                                decoration: TextFieldDecoration
-                                                        .textfieldDecoration(
-                                                            hint: '')
-                                                    .copyWith(
-                                                  contentPadding:
-                                                      EdgeInsets.all(-5),
-                                                ),
-                                                validator: (value) =>
-                                                    value == null ||
-                                                            value.trim().isEmpty
-                                                        ? 'Loan ID is required'
-                                                        : null,
+                                                  })
+                                                ],
                                               );
                                             } else {
                                               return TextFormField(
@@ -424,11 +504,11 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                       .clear();
                                                 }
                                               },
-                                              validator: (value) => value ==
-                                                          null ||
-                                                      value.trim().isEmpty
-                                                  ? 'Mode of Payment is required'
-                                                  : null,
+                                              validator: (value) =>
+                                                  value == null ||
+                                                          value.trim().isEmpty
+                                                      ? 'This Field is required'
+                                                      : null,
                                             );
                                           })
                                         ]),
@@ -574,6 +654,8 @@ class LoanRepaymentScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () async {
+                                      controller.showError.value =
+                                          controller.loanId.value.text.isEmpty;
                                       FocusScope.of(context).unfocus();
                                       if (_formKey.currentState!.validate()) {
                                         controller.saveRepayments();

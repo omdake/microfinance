@@ -23,6 +23,7 @@ import 'package:microfinance/views/screens/collectionInhand/collectionInHandList
 import 'package:microfinance/views/screens/collectionInhand/collectionInHandScreen.dart';
 import 'package:microfinance/views/screens/collectionInhand/collectionInhandViewOnly.dart';
 import 'package:microfinance/views/screens/collectionInhand/pendingApproval.dart';
+import 'package:microfinance/views/screens/collectionInhand/pendingrequestviewOnly.dart';
 import 'package:microfinance/views/screens/dashboard/dashboardScreen.dart';
 import 'package:microfinance/views/screens/dashboard/homeScreen.dart';
 import 'package:microfinance/views/screens/groupCreation/groupCreationScreen.dart';
@@ -166,6 +167,10 @@ class AppRoutes {
     GetPage(
       name: Routes.collectionInhandView,
       page: () => CollectionInHandViewOnlyScreen(),
+    ),
+    GetPage(
+      name: Routes.pendingApprovalViewonly,
+      page: () => PendingApprovalViewOnlyScreen(),
     ),
     GetPage(
       name: Routes.resetPassword,

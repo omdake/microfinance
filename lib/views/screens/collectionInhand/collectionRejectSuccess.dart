@@ -51,7 +51,7 @@ class CashCollectionRejecteSuccess extends StatelessWidget {
                   fontFamily: "Roboto-Medium",
                 ),
               ),
-              C50(),
+              C20(),
               Column(
                 children: [
                   Text(
@@ -70,7 +70,7 @@ class CashCollectionRejecteSuccess extends StatelessWidget {
                   ),
                 ],
               ),
-              C50(),
+              C25(),
               GestureDetector(
                 onTap: () => Get.until(
                     (route) => Get.currentRoute == Routes.collectionInHand),

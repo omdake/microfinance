@@ -94,145 +94,215 @@ class LoanApplicationScreen extends StatelessWidget {
                                               label: "Applicant Name",
                                               isRequired: true),
                                           Obx(() {
-                                            return DropdownButtonFormField2<
-                                                String>(
-                                              value: controller
-                                                      .selectedApplicantId
-                                                      .value
-                                                      .isEmpty
-                                                  ? null
-                                                  : controller
-                                                      .selectedApplicantId
-                                                      .value,
-                                              items: controller
-                                                  .loanMemberAsPerGroup
-                                                  .map((e) {
-                                                return DropdownMenuItem<String>(
-                                                  value: e.name ?? "",
-                                                  child:
-                                                      Text(e.memberName ?? ""),
-                                                );
-                                              }).toList(),
-                                              style:
-                                                  TextStyles.textfieldTextStyle,
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              decoration: TextFieldDecoration
-                                                  .textfieldDecoration(
-                                                hint: "",
-                                                sufficIconOntap: () {},
-                                                sufficIcon: null,
-                                              ).copyWith(
-                                                contentPadding:
-                                                    EdgeInsets.all(-5),
-                                              ),
-                                              hint: Text(
-                                                "Select Applicant",
-                                                style: TextStyle(
-                                                  color: Colors.grey.shade600,
-                                                  fontFamily: "Roboto-Regular",
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              dropdownSearchData:
-                                                  DropdownSearchData(
-                                                searchController: controller
-                                                    .loanApplicantSearchController
-                                                    .value,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  child: TextFormField(
-                                                    cursorColor: Colors.black,
-                                                    style: TextStyles
-                                                        .textfieldTextStyle,
-                                                    controller: controller
-                                                        .loanApplicantSearchController
-                                                        .value,
-                                                    decoration:
-                                                        TextFieldDecoration
-                                                            .textfieldDecoration(
-                                                      sufficIconOntap: () {},
-                                                      sufficIcon: Icons.search,
-                                                      hint:
-                                                          'Search Applicant...',
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn:
-                                                    (item, searchValue) {
-                                                  if (searchValue
-                                                          .trim()
-                                                          .length <
-                                                      3) {
-                                                    return true;
-                                                  }
-                                                  return (item.child is Text &&
-                                                      (item.child as Text)
-                                                          .data!
-                                                          .toLowerCase()
-                                                          .contains(searchValue
-                                                              .toLowerCase()));
-                                                },
-                                              ),
-                                              onMenuStateChange: (isOpen) {
-                                                if (!isOpen) {
-                                                  controller
-                                                      .loanApplicantSearchController
-                                                      .value
-                                                      .clear();
-                                                }
-                                              },
-                                              dropdownStyleData:
-                                                  DropdownStyleData(
-                                                maxHeight: 500,
-                                              ),
-                                              onChanged: (newValue) {
-                                                if (newValue != null) {
-                                                  final selectedMember =
-                                                      controller
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Stack(
+                                                  alignment:
+                                                      Alignment.centerRight,
+                                                  children: [
+                                                    DropdownButtonFormField2<
+                                                        String>(
+                                                      value: controller
+                                                              .selectedApplicantId
+                                                              .value
+                                                              .isEmpty
+                                                          ? null
+                                                          : controller
+                                                              .selectedApplicantId
+                                                              .value,
+                                                      items: controller
                                                           .loanMemberAsPerGroup
-                                                          .firstWhere((e) =>
-                                                              e.name ==
-                                                              newValue);
-                                                  controller.selectedMemberName
-                                                      .value = selectedMember
-                                                          .memberName
-                                                          ?.trim() ??
-                                                      "";
-                                                  controller.selectedApplicantId
-                                                          .value =
-                                                      selectedMember.name ?? "";
-                                                  controller
-                                                          .selectedGroup.value =
-                                                      selectedMember.group ??
-                                                          "";
+                                                          .map((e) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: e.name ?? "",
+                                                          child: Text(
+                                                              e.memberName ??
+                                                                  ""),
+                                                        );
+                                                      }).toList(),
+                                                      style: TextStyles
+                                                          .textfieldTextStyle,
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .onUserInteraction,
+                                                      decoration:
+                                                          TextFieldDecoration
+                                                              .textfieldDecoration(
+                                                        hint: "",
+                                                        sufficIconOntap: () {},
+                                                        sufficIcon: null,
+                                                      ).copyWith(
+                                                        contentPadding:
+                                                            EdgeInsets.all(-5),
+                                                        errorStyle:
+                                                            const TextStyle(
+                                                                height: 0.1),
+                                                      ),
+                                                      hint: Text(
+                                                        "Select Applicant",
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade600,
+                                                          fontFamily:
+                                                              "Roboto-Regular",
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                      dropdownSearchData:
+                                                          DropdownSearchData(
+                                                        searchController: controller
+                                                            .loanApplicantSearchController
+                                                            .value,
+                                                        searchInnerWidgetHeight:
+                                                            50,
+                                                        searchInnerWidget:
+                                                            Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          child: TextFormField(
+                                                            cursorColor:
+                                                                Colors.black,
+                                                            style: TextStyles
+                                                                .textfieldTextStyle,
+                                                            controller: controller
+                                                                .loanApplicantSearchController
+                                                                .value,
+                                                            decoration:
+                                                                TextFieldDecoration
+                                                                    .textfieldDecoration(
+                                                              sufficIconOntap:
+                                                                  () {},
+                                                              sufficIcon:
+                                                                  Icons.search,
+                                                              hint:
+                                                                  'Search Applicant...',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        searchMatchFn: (item,
+                                                            searchValue) {
+                                                          if (searchValue
+                                                                  .trim()
+                                                                  .length <
+                                                              3) {
+                                                            return true;
+                                                          }
+                                                          return (item.child
+                                                                  is Text &&
+                                                              (item.child
+                                                                      as Text)
+                                                                  .data!
+                                                                  .toLowerCase()
+                                                                  .contains(
+                                                                      searchValue
+                                                                          .toLowerCase()));
+                                                        },
+                                                      ),
+                                                      onMenuStateChange:
+                                                          (isOpen) {
+                                                        if (!isOpen) {
+                                                          controller
+                                                              .loanApplicantSearchController
+                                                              .value
+                                                              .clear();
+                                                        }
+                                                      },
+                                                      dropdownStyleData:
+                                                          DropdownStyleData(
+                                                        maxHeight: 500,
+                                                      ),
+                                                      onChanged: (newValue) {
+                                                        if (newValue != null) {
+                                                          final selectedMember =
+                                                              controller
+                                                                  .loanMemberAsPerGroup
+                                                                  .firstWhere((e) =>
+                                                                      e.name ==
+                                                                      newValue);
+                                                          controller
+                                                              .selectedMemberName
+                                                              .value = selectedMember
+                                                                  .memberName
+                                                                  ?.trim() ??
+                                                              "";
+                                                          controller
+                                                                  .selectedApplicantId
+                                                                  .value =
+                                                              selectedMember
+                                                                      .name ??
+                                                                  "";
+                                                          controller
+                                                                  .selectedGroup
+                                                                  .value =
+                                                              selectedMember
+                                                                      .group ??
+                                                                  "";
 
-                                                  controller.getCoBorrowerList(
+                                                          controller
+                                                              .getCoBorrowerList(
+                                                                  controller
+                                                                      .selectedGroup
+                                                                      .value);
+                                                          controller.getNomineeList(
+                                                              controller
+                                                                  .selectedGroup
+                                                                  .value);
+                                                          controller
+                                                              .selectedCoBorrowerId
+                                                              .value = "";
+                                                          controller
+                                                              .selectedCoBorrower
+                                                              .value = "";
+                                                          controller
+                                                              .selectednominee
+                                                              .value = "";
+                                                          controller
+                                                              .selectedNomineeId
+                                                              .value = "";
+                                                        }
+                                                      },
+                                                      validator: (value) {
+                                                        if (controller
+                                                            .selectedApplicantId
+                                                            .value
+                                                            .isEmpty) {
+                                                          return '';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                Obx(() {
+                                                  if (controller
+                                                          .showError.value &&
                                                       controller
-                                                          .selectedGroup.value);
-                                                  controller.getNomineeList(
-                                                      controller
-                                                          .selectedGroup.value);
-                                                  controller
-                                                      .selectedCoBorrowerId
-                                                      .value = "";
-                                                  controller.selectedCoBorrower
-                                                      .value = "";
-                                                  controller.selectednominee
-                                                      .value = "";
-                                                  controller.selectedNomineeId
-                                                      .value = "";
-                                                }
-                                              },
-                                              validator: (value) {
-                                                if (value == null ||
-                                                    value.isEmpty) {
-                                                  return 'This field can\'t be empty';
-                                                }
-                                                return null;
-                                              },
+                                                          .selectedApplicantId
+                                                          .value
+                                                          .isEmpty) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 13.0),
+                                                      child: Text(
+                                                        'This Field is required',
+                                                        style: TextStyle(
+                                                          color: AppColors
+                                                              .primaryRed,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  }
+                                                })
+                                              ],
                                             );
                                           })
                                         ]),
@@ -497,7 +567,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                               ),
                                               validator: (value) {
                                                 if (value == null) {
-                                                  return 'This field can\'t be empty';
+                                                  return 'This field is required';
                                                 }
                                                 return null;
                                               },
@@ -563,119 +633,183 @@ class LoanApplicationScreen extends StatelessWidget {
                                               label: "Nominee",
                                               isRequired: true),
                                           Obx(() {
-                                            return DropdownButtonFormField2<
-                                                String>(
-                                              value: controller.selectednominee
-                                                      .value.isEmpty
-                                                  ? null
-                                                  : controller
-                                                      .selectednominee.value,
-                                              hint: Text(
-                                                "Select A Nominee Name",
-                                                style: TextStyle(
-                                                  color: Colors.grey.shade600,
-                                                  fontFamily: "Roboto-Regular",
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
-                                              dropdownSearchData:
-                                                  DropdownSearchData(
-                                                searchController: controller
-                                                    .nomineeSearchController
-                                                    .value,
-                                                searchInnerWidgetHeight: 50,
-                                                searchInnerWidget: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8),
-                                                  child: TextFormField(
-                                                    cursorColor: Colors.black,
-                                                    style: TextStyles
-                                                        .textfieldTextStyle,
-                                                    controller: controller
-                                                        .nomineeSearchController
-                                                        .value,
-                                                    decoration:
-                                                        TextFieldDecoration
-                                                            .textfieldDecoration(
-                                                      sufficIconOntap: () {},
-                                                      sufficIcon: Icons.search,
-                                                      hint: 'Search nominee...',
-                                                    ),
-                                                  ),
-                                                ),
-                                                searchMatchFn:
-                                                    (item, searchValue) {
-                                                  if (searchValue
-                                                          .trim()
-                                                          .length <
-                                                      3) {
-                                                    return true;
-                                                  }
-                                                  return (item.child is Text &&
-                                                      (item.child as Text)
-                                                          .data!
-                                                          .toLowerCase()
-                                                          .contains(searchValue
-                                                              .toLowerCase()));
-                                                },
-                                              ),
-                                              onMenuStateChange: (isOpen) {
-                                                if (!isOpen) {
-                                                  controller
-                                                      .nomineeSearchController
-                                                      .value
-                                                      .clear();
-                                                }
-                                              },
-                                              dropdownStyleData:
-                                                  DropdownStyleData(
-                                                maxHeight: 500,
-                                              ),
-                                              items: controller.nomineeList
-                                                  .map((e) {
-                                                return DropdownMenuItem<String>(
-                                                  value: e.memberName ?? "",
-                                                  child:
-                                                      Text(e.memberName ?? ""),
-                                                );
-                                              }).toList(),
-                                              style:
-                                                  TextStyles.textfieldTextStyle,
-                                              decoration: TextFieldDecoration
-                                                  .textfieldDecoration(
-                                                sufficIconOntap: () {},
-                                                sufficIcon: null,
-                                                hint: '',
-                                              ).copyWith(
-                                                contentPadding:
-                                                    EdgeInsets.all(-5),
-                                              ),
-                                              onChanged: (newValue) {
-                                                if (newValue != null) {
-                                                  controller.selectednominee
-                                                      .value = newValue;
-                                                  final memberMap = {
-                                                    for (var e in controller
-                                                        .nomineeList)
-                                                      e.memberName!: e
-                                                  };
-                                                  controller.selectedNomineeId
-                                                          .value =
-                                                      memberMap[newValue]
-                                                              ?.name ??
-                                                          "";
+                                            return Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Stack(
+                                                  children: [
+                                                    DropdownButtonFormField2<
+                                                        String>(
+                                                      value: controller
+                                                              .selectednominee
+                                                              .value
+                                                              .isEmpty
+                                                          ? null
+                                                          : controller
+                                                              .selectednominee
+                                                              .value,
+                                                      hint: Text(
+                                                        "Select A Nominee Name",
+                                                        style: TextStyle(
+                                                          color: Colors
+                                                              .grey.shade600,
+                                                          fontFamily:
+                                                              "Roboto-Regular",
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .onUserInteraction,
+                                                      dropdownSearchData:
+                                                          DropdownSearchData(
+                                                        searchController: controller
+                                                            .nomineeSearchController
+                                                            .value,
+                                                        searchInnerWidgetHeight:
+                                                            50,
+                                                        searchInnerWidget:
+                                                            Padding(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(8),
+                                                          child: TextFormField(
+                                                            cursorColor:
+                                                                Colors.black,
+                                                            style: TextStyles
+                                                                .textfieldTextStyle,
+                                                            controller: controller
+                                                                .nomineeSearchController
+                                                                .value,
+                                                            decoration:
+                                                                TextFieldDecoration
+                                                                    .textfieldDecoration(
+                                                              sufficIconOntap:
+                                                                  () {},
+                                                              sufficIcon:
+                                                                  Icons.search,
+                                                              hint:
+                                                                  'Search nominee...',
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        searchMatchFn: (item,
+                                                            searchValue) {
+                                                          if (searchValue
+                                                                  .trim()
+                                                                  .length <
+                                                              3) {
+                                                            return true;
+                                                          }
+                                                          return (item.child
+                                                                  is Text &&
+                                                              (item.child
+                                                                      as Text)
+                                                                  .data!
+                                                                  .toLowerCase()
+                                                                  .contains(
+                                                                      searchValue
+                                                                          .toLowerCase()));
+                                                        },
+                                                      ),
+                                                      onMenuStateChange:
+                                                          (isOpen) {
+                                                        if (!isOpen) {
+                                                          controller
+                                                              .nomineeSearchController
+                                                              .value
+                                                              .clear();
+                                                        }
+                                                      },
+                                                      dropdownStyleData:
+                                                          DropdownStyleData(
+                                                        maxHeight: 500,
+                                                      ),
+                                                      items: controller
+                                                          .nomineeList
+                                                          .map((e) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: e.memberName ??
+                                                              "",
+                                                          child: Text(
+                                                              e.memberName ??
+                                                                  ""),
+                                                        );
+                                                      }).toList(),
+                                                      style: TextStyles
+                                                          .textfieldTextStyle,
+                                                      decoration:
+                                                          TextFieldDecoration
+                                                              .textfieldDecoration(
+                                                        sufficIconOntap: () {},
+                                                        sufficIcon: null,
+                                                        hint: '',
+                                                      ).copyWith(
+                                                        contentPadding:
+                                                            EdgeInsets.all(-5),
+                                                        errorStyle:
+                                                            const TextStyle(
+                                                                height: 0.1),
+                                                      ),
+                                                      onChanged: (newValue) {
+                                                        if (newValue != null) {
+                                                          controller
+                                                              .selectednominee
+                                                              .value = newValue;
+                                                          final memberMap = {
+                                                            for (var e
+                                                                in controller
+                                                                    .nomineeList)
+                                                              e.memberName!: e
+                                                          };
+                                                          controller
+                                                              .selectedNomineeId
+                                                              .value = memberMap[
+                                                                      newValue]
+                                                                  ?.name ??
+                                                              "";
 
-                                                  controller.getRelationList();
-                                                }
-                                              },
-                                              validator: (value) {
-                                                if (value == null) {
-                                                  return 'This field can\'t be empty';
-                                                }
-                                                return null;
-                                              },
+                                                          controller
+                                                              .getRelationList();
+                                                        }
+                                                      },
+                                                      validator: (value) {
+                                                        if (controller
+                                                            .selectednominee
+                                                            .value
+                                                            .isEmpty) {
+                                                          return '';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                Obx(() {
+                                                  if (controller
+                                                          .showErrorNominee
+                                                          .value &&
+                                                      controller.selectednominee
+                                                          .value.isEmpty) {
+                                                    return Padding(
+                                                      padding: const EdgeInsets.only(left: 13),
+                                                      child: Text(
+                                                        'This Field is required',
+                                                        style: TextStyle(
+                                                          color: AppColors
+                                                              .primaryRed,
+                                                          fontSize: 12,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  } else {
+                                                    return const SizedBox
+                                                        .shrink();
+                                                  }
+                                                })
+                                              ],
                                             );
                                           })
                                         ]),
@@ -732,7 +866,7 @@ class LoanApplicationScreen extends StatelessWidget {
                                                 },
                                                 validator: (value) {
                                                   if (value == null) {
-                                                    return 'This field can\'t be empty';
+                                                    return 'This field is required';
                                                   }
                                                   return null;
                                                 },
@@ -775,6 +909,11 @@ class LoanApplicationScreen extends StatelessWidget {
                                 children: [
                                   InkWell(
                                     onTap: () async {
+                                      controller.showError.value = controller
+                                          .selectedApplicantId.value.isEmpty;
+                                      controller.showErrorNominee.value =
+                                          controller
+                                              .selectednominee.value.isEmpty;
                                       if (_formKey.currentState!.validate()) {
                                         await controller.saveLoanMember();
                                       } else {

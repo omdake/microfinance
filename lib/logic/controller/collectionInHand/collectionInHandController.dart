@@ -31,7 +31,8 @@ class CollectionInHandController extends GetxController {
   Rx<TextEditingController> amountgivenTo = TextEditingController().obs;
   Rx<TextEditingController> givenTo = TextEditingController().obs;
   RxString status = ''.obs;
-
+  RxString approverUserId = ''.obs;
+  RxString requestedUserId = ''.obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);
   RxString paymentProofImageUrl = ''.obs;
   RxBool isPaymentProofImageFocused = false.obs;

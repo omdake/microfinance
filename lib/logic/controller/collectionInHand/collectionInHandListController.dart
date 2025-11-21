@@ -31,6 +31,14 @@ class CollectionInHandListController extends GetxController {
   RxBool hasNextPage = true.obs;
   RxString selectedDateText = ''.obs;
   RxInt selectedIndex = 0.obs;
+  RxString selectedStatus = ''.obs;
+  List<String> statusList = [
+    "Select Status",
+    "Approved",
+    "Pending",
+    "Rejected",
+  ];
+
   final ScrollController scrollController = ScrollController();
   void changeTab(int index) {
     selectedIndex.value = index;
@@ -125,7 +133,7 @@ class CollectionInHandListController extends GetxController {
               pageSize: 10,
               isPagination: true,
               date: selectedDateController.value.text,
-              status: Status.value.text));
+              status: selectedStatus.value));
       final response = await http.get(
         url,
         headers: {
