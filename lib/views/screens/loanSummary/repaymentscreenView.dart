@@ -199,15 +199,11 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                         C10(),
                         paddingWidget(
                           [
-                            const LabelsWithMark(
-                                label: "Reference Date", isRequired: true),
+                            const LabelsWithMark(label: "Reference Date"),
                             TextFormField(
                               controller: controller.referenceDate.value,
                               cursorColor: AppColors.primary,
                               enabled: controller.isFormEdit.value,
-                              validator: (value) => requiredValidator(value!),
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
                               style: TextStyles.textfieldTextStyle,
                               decoration:
                                   TextFieldDecoration.textfieldDecorationicon(
@@ -246,29 +242,68 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             ],
                           );
                         }),
-                        paddingWidget(
-                          [
-                            LabelsWithMark(label: "UTR Number"),
-                            TextFormField(
-                              controller: controller.utrNumber.value,
-                              enabled: controller.isFormEdit.value,
-                              cursorColor: AppColors.primary,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.name,
-                              style: TextStyles.textfieldTextStyle,
-                              decoration:
-                                  TextFieldDecoration.textfieldDecoration(
-                                          hint: "UTR Number")
-                                      .copyWith(
-                                filled: true,
-                                fillColor: controller.isFormEdit.value
-                                    ? Colors.white
-                                    : Colors.grey.shade200,
+                        // paddingWidget(
+                        //   [
+                        //     LabelsWithMark(label: "UTR Number"),
+                        //     TextFormField(
+                        //       controller: controller.utrNumber.value,
+                        //       enabled: controller.isFormEdit.value,
+                        //       cursorColor: AppColors.primary,
+                        //       textCapitalization: TextCapitalization.sentences,
+                        //       keyboardType: TextInputType.name,
+                        //       style: TextStyles.textfieldTextStyle,
+                        //       decoration:
+                        //           TextFieldDecoration.textfieldDecoration(
+                        //                   hint: "UTR Number")
+                        //               .copyWith(
+                        //         filled: true,
+                        //         fillColor: controller.isFormEdit.value
+                        //             ? Colors.white
+                        //             : Colors.grey.shade200,
+                        //       ),
+                        //     )
+                        //   ],
+                        // ),
+                        Obx(() {
+                          final isCash = controller.modeOfPayment.value.text
+                                  .trim()
+                                  .toLowerCase() ==
+                              'cash';
+
+                          if (isCash) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return Column(
+                            children: [
+                              paddingWidget(
+                                [
+                                  LabelsWithMark(label: "UTR Number"),
+                                  TextFormField(
+                                    controller: controller.utrNumber.value,
+                                    enabled: controller.isFormEdit.value,
+                                    cursorColor: AppColors.primary,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    keyboardType: TextInputType.name,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      hint: "UTR Number",
+                                    ).copyWith(
+                                      filled: true,
+                                      fillColor: controller.isFormEdit.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200,
+                                    ),
+                                  )
+                                ],
                               ),
-                            )
-                          ],
-                        ),
-                        C10(),
+                              C10(),
+                            ],
+                          );
+                        }),
+
                         paddingWidget(
                           [
                             LabelsWithMark(label: "Remark"),

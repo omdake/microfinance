@@ -73,7 +73,7 @@ class RepaymentListResult {
   dynamic referenceNumber;
   double? totalInterestPaid;
   double? totalPenaltyPaid;
-  dynamic referenceDate;
+  DateTime? referenceDate;
   double? principalAmountPaid;
   double? totalChargesPaid;
   double? excessAmount;
@@ -143,18 +143,17 @@ class RepaymentListResult {
         dueDate: json["due_date"] != null && json["due_date"] != ""
             ? DateTime.tryParse(json["due_date"])
             : null,
-
+        referenceDate:
+            (json["reference_date"] != null && json["reference_date"] != "")
+                ? DateTime.tryParse(json["reference_date"])
+                : null,
         loanRestructure: json["loan_restructure"],
         clearanceDate: json["clearance_date"],
-
         rateOfInterest: (json["rate_of_interest"] ?? 0).toDouble(),
         daysPastDue: json["days_past_due"] ?? 0,
-
         modeOfPayment: json["mode_of_payment"],
         isTermLoan: json["is_term_loan"],
-
         createdBy: json["created_by"],
-
         pendingPrincipalAmount:
             (json["pending_principal_amount"] ?? 0).toDouble(),
         interestPayable: (json["interest_payable"] ?? 0).toDouble(),
@@ -164,17 +163,12 @@ class RepaymentListResult {
             (json["payable_principal_amount"] ?? 0).toDouble(),
         penaltyAmount: (json["penalty_amount"] ?? 0).toDouble(),
         amountPaid: (json["amount_paid"] ?? 0).toDouble(),
-
         referenceNumber: json["reference_number"],
-
         totalInterestPaid: (json["total_interest_paid"] ?? 0).toDouble(),
         totalPenaltyPaid: (json["total_penalty_paid"] ?? 0).toDouble(),
-        referenceDate: json["reference_date"],
-
         principalAmountPaid: (json["principal_amount_paid"] ?? 0).toDouble(),
         totalChargesPaid: (json["total_charges_paid"] ?? 0).toDouble(),
         excessAmount: (json["excess_amount"] ?? 0).toDouble(),
-
         manualRemarks: json["manual_remarks"],
         paymentAccount: json["payment_account"]?.toString(),
         applicantMemberName: json["applicant_member_name"],
@@ -214,7 +208,8 @@ class RepaymentListResult {
         "reference_number": referenceNumber,
         "total_interest_paid": totalInterestPaid,
         "total_penalty_paid": totalPenaltyPaid,
-        "reference_date": referenceDate,
+        "reference_date":
+            "${referenceDate!.year.toString().padLeft(4, '0')}-${referenceDate!.month.toString().padLeft(2, '0')}-${referenceDate!.day.toString().padLeft(2, '0')}",
         "principal_amount_paid": principalAmountPaid,
         "total_charges_paid": totalChargesPaid,
         "excess_amount": excessAmount,

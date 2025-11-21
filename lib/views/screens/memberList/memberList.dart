@@ -137,15 +137,10 @@ class MemberListScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          controller.screenTitle.value.isNotEmpty
-              ? controller.screenTitle.value
-              : "Member List",
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
+            controller.screenTitle.value.isNotEmpty
+                ? controller.screenTitle.value
+                : "Member List",
+            style: TextStyles.appbartitle),
         leading: IconButton(
           onPressed: () {
             Get.back();
