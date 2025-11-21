@@ -169,7 +169,45 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        C10(),
+                        Obx(() {
+                          final isCash = controller.modeOfPayment.value.text
+                                  .trim()
+                                  .toLowerCase() ==
+                              'cash';
+
+                          if (isCash) {
+                            return const SizedBox.shrink();
+                          }
+
+                          return Column(
+                            children: [
+                              paddingWidget(
+                                [
+                                  LabelsWithMark(label: "UTR Number",isRequired: true,),
+                                  TextFormField(
+                                    controller: controller.utrNumber.value,
+                                    enabled: controller.isFormEdit.value,
+                                    cursorColor: AppColors.primary,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    keyboardType: TextInputType.name,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                      hint: "UTR Number",
+                                    ).copyWith(
+                                      filled: true,
+                                      fillColor: controller.isFormEdit.value
+                                          ? Colors.white
+                                          : Colors.grey.shade200,
+                                    ),
+                                  )
+                                ],
+                              ),
+                              C10(),
+                            ],
+                          );
+                        }),
                         paddingWidget(
                           [
                             const LabelsWithMark(
@@ -242,68 +280,6 @@ class LoanRepaymentViewScreen extends StatelessWidget {
                             ],
                           );
                         }),
-                        // paddingWidget(
-                        //   [
-                        //     LabelsWithMark(label: "UTR Number"),
-                        //     TextFormField(
-                        //       controller: controller.utrNumber.value,
-                        //       enabled: controller.isFormEdit.value,
-                        //       cursorColor: AppColors.primary,
-                        //       textCapitalization: TextCapitalization.sentences,
-                        //       keyboardType: TextInputType.name,
-                        //       style: TextStyles.textfieldTextStyle,
-                        //       decoration:
-                        //           TextFieldDecoration.textfieldDecoration(
-                        //                   hint: "UTR Number")
-                        //               .copyWith(
-                        //         filled: true,
-                        //         fillColor: controller.isFormEdit.value
-                        //             ? Colors.white
-                        //             : Colors.grey.shade200,
-                        //       ),
-                        //     )
-                        //   ],
-                        // ),
-                        Obx(() {
-                          final isCash = controller.modeOfPayment.value.text
-                                  .trim()
-                                  .toLowerCase() ==
-                              'cash';
-
-                          if (isCash) {
-                            return const SizedBox.shrink();
-                          }
-
-                          return Column(
-                            children: [
-                              paddingWidget(
-                                [
-                                  LabelsWithMark(label: "UTR Number"),
-                                  TextFormField(
-                                    controller: controller.utrNumber.value,
-                                    enabled: controller.isFormEdit.value,
-                                    cursorColor: AppColors.primary,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    keyboardType: TextInputType.name,
-                                    style: TextStyles.textfieldTextStyle,
-                                    decoration:
-                                        TextFieldDecoration.textfieldDecoration(
-                                      hint: "UTR Number",
-                                    ).copyWith(
-                                      filled: true,
-                                      fillColor: controller.isFormEdit.value
-                                          ? Colors.white
-                                          : Colors.grey.shade200,
-                                    ),
-                                  )
-                                ],
-                              ),
-                              C10(),
-                            ],
-                          );
-                        }),
-
                         paddingWidget(
                           [
                             LabelsWithMark(label: "Remark"),

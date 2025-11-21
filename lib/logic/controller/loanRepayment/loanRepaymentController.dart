@@ -32,6 +32,7 @@ class LoanRepaymentController extends GetxController {
   RxList<ModeOfPaymentMessage> modeOfPaymentList = <ModeOfPaymentMessage>[].obs;
   RxList<GetPayableAmountMessage> getPayableAmount =
       <GetPayableAmountMessage>[].obs;
+  RxBool showError = false.obs;
   RxString selectedModeOfPayment = ''.obs;
   RxBool isLoading = false.obs;
   Rx<File?> paymentProofImage = Rx<File?>(null);

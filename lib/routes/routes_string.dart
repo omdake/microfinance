@@ -11,6 +11,7 @@ class Routes {
   static const collectionInHand = '/collectionInHand';
   static const createCollectionInHand = '/createCollectionInHand';
   static const loanApplicationViewonly = '/loanApplicationViewonly';
+   static const pendingApprovalViewonly = '/pendingApprovalViewonly';
   static const loanRepaymentViewonly = '/loanRepaymentViewonly';
   static const pendingRequest = '/pendingRequest';
   static const pendingApproval = '/pendingApproval';

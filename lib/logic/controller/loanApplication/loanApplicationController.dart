@@ -25,6 +25,8 @@ class LoanApplicationController extends GetxController {
       <LoanMemberDropdownListMessage>[].obs;
   RxList<LoanMemberDropdownListMessage> nomineeList =
       <LoanMemberDropdownListMessage>[].obs;
+  RxBool showError = false.obs;
+   RxBool showErrorNominee = false.obs;
   RxList<RelationListMessage> RelationList = <RelationListMessage>[].obs;
   RxList<ProductListResult> productList = <ProductListResult>[].obs;
   Rx<TextEditingController> loanAmount = TextEditingController().obs;

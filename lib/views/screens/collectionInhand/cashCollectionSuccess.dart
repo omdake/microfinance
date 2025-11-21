@@ -51,7 +51,7 @@ class LoanCashCollectionSuccess extends StatelessWidget {
                   fontFamily: "Roboto-Medium",
                 ),
               ),
-              C50(),
+              C20(),
               Column(
                 children: [
                   Text(
@@ -70,7 +70,7 @@ class LoanCashCollectionSuccess extends StatelessWidget {
                   ),
                 ],
               ),
-              C50(),
+              C25(),
               GestureDetector(
                 onTap: () => Get.offAllNamed(Routes.collectionInHand),
                 child: Container(
