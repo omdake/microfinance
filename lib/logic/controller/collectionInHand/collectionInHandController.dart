@@ -108,7 +108,7 @@ class CollectionInHandController extends GetxController {
     final empName = await AppPreferences.getEmpName();
     if (empId != null && empId.isNotEmpty) {
       employee.value.text = empId;
-      loggedInUser.value = empId;
+      loggedInUser.value = empName!;
     }
     if (empName != null && empName.isNotEmpty) {
       employeeName.value.text = empName;
@@ -215,7 +215,7 @@ class CollectionInHandController extends GetxController {
     employeeName.value.text = applicant.employeeEmployeeName ?? '';
     amount.value.text = applicant.amount?.toString() ?? '';
     givenTo.value.text = applicant.givenTo ?? '';
-    amountgivenTo.value.text = applicant.amountGivenEmp ?? '';
+    amountgivenTo.value.text = applicant.employeeEmployeeName ?? '';
     bankName.value.text = applicant.description ?? '';
     if (applicant.paymentProof != null && applicant.paymentProof!.isNotEmpty) {
       if (applicant.paymentProof!.startsWith('http')) {
