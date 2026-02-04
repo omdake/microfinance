@@ -13,6 +13,7 @@ import 'package:microfinance/validator.dart';
 class LoanApplicationViewOnlyScreen extends StatelessWidget {
   LoanApplicationViewOnlyScreen({super.key});
   final _formKey = GlobalKey<FormState>();
+  final _popupKey = GlobalKey<FormState>();
   final LoanApplicationViewOnlyController controller =
       Get.put(LoanApplicationViewOnlyController());
 
@@ -20,7 +21,165 @@ class LoanApplicationViewOnlyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: appBarWithTitle(title: "Loan Application Creation"),
+      appBar: appBarWithTitle(title: "Loan Application Creation", actions: [
+        Visibility(
+          visible: controller.isReadOnly.value,
+          child: IconButton(
+              onPressed: () {
+                controller.selectedPrintFormat.value = "";
+                Get.dialog(
+                    barrierDismissible: false,
+                    Dialog(
+                      insetPadding: EdgeInsets.all(10),
+                      child: Stack(
+                        children: [
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Form(
+                                key: _popupKey,
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Center(
+                                      child: Text(
+                                        "Select Report Format",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: "Roboto-Regular"),
+                                      ),
+                                    ),
+                                    C20(),
+                                    const LabelsWithMark(
+                                      label: "Report Format",
+                                      isRequired: true,
+                                    ),
+                                    Obx(() {
+                                      return DropdownButtonFormField<String>(
+                                        value: controller.selectedPrintFormat
+                                                .value.isEmpty
+                                            ? null
+                                            : controller
+                                                .selectedPrintFormat.value,
+                                        autovalidateMode:
+                                            AutovalidateMode.onUserInteraction,
+                                        hint: Text(
+                                          "Select report format",
+                                          style: TextStyle(
+                                            color: Colors.grey.shade600,
+                                            fontFamily: "Roboto-Regular",
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        items: controller.printFormatStaticList
+                                            .map((e) {
+                                          return DropdownMenuItem<String>(
+                                            value: e["value"],
+                                            child: Text(e["label"] ?? ""),
+                                          );
+                                        }).toList(),
+                                        selectedItemBuilder: (context) {
+                                          return controller
+                                              .printFormatStaticList
+                                              .map((e) {
+                                            return Text(
+                                              e["label"] ?? "",
+                                              style:
+                                                  TextStyles.textfieldTextStyle,
+                                            );
+                                          }).toList();
+                                        },
+                                        onChanged: (newValue) {
+                                          if (newValue != null) {
+                                            controller.selectedPrintFormat
+                                                .value = newValue;
+                                            final selectedItem = controller
+                                                .printFormatStaticList
+                                                .firstWhere((e) =>
+                                                    e["value"] == newValue);
+                                            controller.selectedPrintFormatLabel
+                                                    .value =
+                                                selectedItem["label"] ?? "";
+                                          }
+                                        },
+                                        style: TextStyles.textfieldTextStyle,
+                                        decoration: TextFieldDecoration
+                                            .textfieldDecoration(
+                                          sufficIconOntap: () {},
+                                          sufficIcon: null,
+                                          hint: "",
+                                        ),
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'This field is required';
+                                          }
+                                          return null;
+                                        },
+                                      );
+                                    }),
+                                    C20(),
+                                    Center(
+                                      child: InkWell(
+                                        onTap: () {
+                                          if (_popupKey.currentState!
+                                              .validate()) {
+                                            Get.back();
+                                            controller.viewReport();
+                                          }
+                                        },
+                                        child: Container(
+                                          width: 120,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.primaryOrange,
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(25)),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 8),
+                                          alignment: Alignment.center,
+                                          child: Obx(
+                                            () => Text(
+                                              controller.isLoading.value
+                                                  ? "Loading..."
+                                                  : "View",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: "Roboto-Regular"),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    C10(),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                              right: 0,
+                              top: -8,
+                              child: IconButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                icon: Icon(
+                                  Icons.close,
+                                  size: 25,
+                                  color: AppColors.primaryOrange,
+                                ),
+                              ))
+                        ],
+                      ),
+                    ));
+              },
+              icon: Icon(Icons.print)),
+        )
+      ]),
       bottomNavigationBar: const CustomBottomNavBar(),
       body: Obx(() {
         if (controller.isLoading.value) {
