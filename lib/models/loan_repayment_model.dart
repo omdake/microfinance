@@ -137,8 +137,8 @@ class RepaymentListResult {
         repaymentScheduleType: json["repayment_schedule_type"],
         loanProduct: json["loan_product"]?.toString(),
         company: json["company"],
-        valueDate: json["value_date"] != null && json["value_date"] != ""
-            ? DateTime.tryParse(json["value_date"])
+        valueDate: json["posting_date"] != null && json["posting_date"] != ""
+            ? DateTime.tryParse(json["posting_date"])
             : null,
         dueDate: json["due_date"] != null && json["due_date"] != ""
             ? DateTime.tryParse(json["due_date"])
@@ -174,7 +174,7 @@ class RepaymentListResult {
         applicantMemberName: json["applicant_member_name"],
         workflowState: json["workflow_state"],
         applicantImage: json["applicant_image"],
-        againstLoanLoanId: json["against_loan_loan_id"],
+        againstLoanLoanId: json["against_loan_custom_loan_id"],
         paymentProof: json["payment_proof"],
       );
 
@@ -188,7 +188,7 @@ class RepaymentListResult {
         "repayment_schedule_type": repaymentScheduleType,
         "loan_product": loanProduct,
         "company": company,
-        "value_date": valueDate!.toIso8601String(),
+        "posting_date": valueDate!.toIso8601String(),
         "loan_restructure": loanRestructure,
         "clearance_date": clearanceDate,
         "rate_of_interest": rateOfInterest,
@@ -218,7 +218,7 @@ class RepaymentListResult {
         "applicant_member_name": applicantMemberName,
         "workflow_state": workflowState,
         "applicant_image": applicantImage,
-        "against_loan_loan_id": againstLoanLoanId,
+        "against_loan_custom_loan_id": againstLoanLoanId,
         "payment_proof": paymentProof,
       };
 }
