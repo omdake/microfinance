@@ -17,17 +17,17 @@ class AppURLs {
 
   static String get resetPassword => "api/method/ex_loan_management.api.login.reset_password";
 
-   static String get saveRepayments => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.create_loan_repayment";
+   static String get saveRepayments => "api/method/ex_loan_management.api.cust_loan_repayment.create_loan_repayment";
 
   static String get getmodeOfPayment => "api/method/ex_loan_management.api.country.mode_of_payment_list";
 
   static String get getUserProfile => "api/method/ex_loan_management.api.user_profile.get_user_profile";
 
-  static String  getLoanRepayments({required String loanGroup,int? page,String ?search,bool? isPagination,int?pageSize}) => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.loan_repayment_list/?page=$page&loan_group=$loanGroup&search=$search&is_pagination=$isPagination&page_size=$pageSize";
+  static String  getLoanRepayments({required String loanGroup,int? page,String ?search,bool? isPagination,int?pageSize}) => "api/method/ex_loan_management.api.cust_loan_repayment.loan_repayment_list/?page=$page&loan_group=$loanGroup&search=$search&is_pagination=$isPagination&page_size=$pageSize";
 
-  static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
+  static String  LoanEmiList({String? selectedDate,String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/ex_loan_management.api.cust_payment_schedule.get_todays_emis?selected_date=$selectedDate&search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
-  static String dueEmiList({String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/lending.loan_management.doctype.repayment_schedule.repayment_schedule.get_todays_emis?search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
+  static String dueEmiList({String? searchText,String? sortBy,String?sortOrder,String? employee,String ?loanGroup,String? upToDate}) => "api/method/ex_loan_management.api.cust_payment_schedule.get_todays_emis?search_text=$searchText&sort_by=$sortBy&sort_order=$sortOrder&employee=$employee&loan_group=$loanGroup&upto_date=$upToDate";
 
   static String  submitLoanMember({required String name}) => "api/method/ex_loan_management.excel_loan_management.doctype.member.member.update_loan_member/?name=$name";
 
@@ -39,7 +39,7 @@ class AppURLs {
 
   static String get getPayableAmount => "api/method/lending.loan_management.doctype.loan_repayment.loan_repayment.calculate_amounts";
 
-  static String get getLoanlist => "api/method/lending.loan_management.doctype.loan.loan.loan_list";
+  static String get getLoanlist => "api/method/ex_loan_management.api.cust_loan.loan_list";
 
   static String get forgotPasswordOtp => "api/method/ex_loan_management.api.forgot_password.send_forgot_password_otp";
 
@@ -63,13 +63,13 @@ class AppURLs {
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
-  static String  getLoanDisbursementList({String? loanGroup,int? page,bool? isPagination,int? pagesize,String?search}) => "api/method/lending.loan_management.doctype.loan_disbursement.loan_disbursement.loan_disbursement_list/?loan_group=$loanGroup&is_pagination=$isPagination&page_size=$pagesize&page=$page&search=$search";
+  static String  getLoanDisbursementList({String? loanGroup,int? page,bool? isPagination,int? pagesize,String?search}) => "api/method/ex_loan_management.api.custom_disbursement.loan_disbursement_list/?loan_group=$loanGroup&is_pagination=$isPagination&page_size=$pagesize&page=$page&search=$search";
 
   static String get groupList => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.loan_group_list/";
 
   static String get getloanMemberListAsPerGroupAssignment => "api/method/ex_loan_management.excel_loan_management.doctype.member.member.loan_member_list_as_per_group_assignment/";
 
-  static String   getLoanPaymentSchedule({required String loanId})=> "api/method/lending.loan_management.doctype.loan_repayment_schedule.loan_repayment_schedule.loan_payment_schedule_list/?loan=$loanId";
+  static String   getLoanPaymentSchedule({required String loanId})=> "api/method/ex_loan_management.api.loan_repayment_schedule.loan_payment_schedule_list/?loan=$loanId";
 
   static String  loanMemberList({ String? search, required String country, required String group,String? Status,int? page,int? pagesize,bool? isPagination}) => "api/method/ex_loan_management.excel_loan_management.doctype.member.member.loan_member_list/?search=$search&group=$group&country=$country&is_pagination=$isPagination&status=$Status&page_size=$pagesize&page=$page";
 

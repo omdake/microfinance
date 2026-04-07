@@ -129,7 +129,7 @@ class LoanListMessage {
   factory LoanListMessage.fromJson(Map<String, dynamic> json) =>
       LoanListMessage(
         name: json["name"] ?? '',
-        loanId: json["loan_id"] ?? '',
+        loanId: json["custom_loan_id"] ?? '',
         applicantType: json["applicant_type"] ?? '',
         applicant: json["applicant"] ?? '',
         applicantName: json["applicant_name"] ?? '',
@@ -219,7 +219,7 @@ class LoanListMessage {
 
   Map<String, dynamic> toJson() => {
         "name": name,
-        "loan_id": loanId,
+        "custom_loan_id": loanId,
         "applicant_type": applicantType,
         "applicant": applicant,
         "applicant_name": applicantName,

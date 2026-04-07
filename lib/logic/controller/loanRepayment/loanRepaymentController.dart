@@ -288,14 +288,14 @@ class LoanRepaymentController extends GetxController {
       "repayment_type": "",
       "loan_disbursement": "",
       "loan_adjustment": "",
-      "mode_of_payment": selectedModeOfPayment.value,
+      "custom_mode_of_payment": selectedModeOfPayment.value,
       "loan_product": "",
-      "value_date": selectedValueDate.value.isNotEmpty
+      "posting_date": selectedValueDate.value.isNotEmpty
           ? convertToApiDate(selectedValueDate.value)
           : valueDate.value.text,
       "amount_paid": amountPaid.value.text,
       "reference_number": utrNumber.value.text,
-      "manual_remarks": remark.value.text,
+      "custom_manual_remarks": remark.value.text,
       "reference_date": convertToApiDate(selectedReferenceDate.value),
       "payable_amount": payableAmount.value.text,
     };
@@ -311,7 +311,7 @@ class LoanRepaymentController extends GetxController {
       request.fields.addAll(fields);
       if (paymentProofImage.value != null) {
         final file = await http.MultipartFile.fromPath(
-          "payment_proof",
+          "custom_payment_proof",
           paymentProofImage.value!.path,
         );
         request.files.add(file);

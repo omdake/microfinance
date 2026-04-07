@@ -184,7 +184,7 @@ class LoanDisbursementResult {
       amendedFrom: json["amended_from"] ?? "",
       applicantMemberName: json["applicant_member_name"] ?? "",
       applicantImage: json["applicant_image"],
-       againstLoanLoanId: json["against_loan_loan_id"],
+       againstLoanLoanId: json["against_loan_custom_loan_id"],
     );
 
 
@@ -232,6 +232,6 @@ class LoanDisbursementResult {
         "amended_from": amendedFrom,
          "applicant_member_name": applicantMemberName,
          "applicant_image": applicantImage,
-          "against_loan_loan_id": againstLoanLoanId,
+          "against_loan_custom_loan_id": againstLoanLoanId,
       };
 }
