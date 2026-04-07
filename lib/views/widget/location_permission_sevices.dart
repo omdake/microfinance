@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element
+
 import 'package:microfinance/common_widgets/ui_helper_widgets.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:flutter/material.dart';
