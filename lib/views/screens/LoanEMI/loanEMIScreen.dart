@@ -137,9 +137,8 @@ class LoanEMIScreen extends StatelessWidget {
                               'fromEMI': true,
                               'loanId': user.loanId ?? "",
                               'loan': user.loan ?? "",
-                              'totalPayment':
-                                  user.totalPayment?.toStringAsFixed(2) ??
-                                      "0.00",
+                              'totalPayment': user.totalPayment?.toStringAsFixed(2) ?? "0.00",
+                              'remainingAmount' : user.remainingAmount?.toStringAsFixed(2) ?? "0.00",        
                               'paymentDate': user.paymentDate,
                               'memberName': user.memberName,
                               'applicant': user.applicant,

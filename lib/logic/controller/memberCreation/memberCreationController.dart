@@ -51,14 +51,15 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> createdBy = TextEditingController().obs;
   Rx<TextEditingController> memberId = TextEditingController().obs;
   RxString addressImageUrl = ''.obs;
-  Rx<TextEditingController> consumerNumberController =
-      TextEditingController().obs;
+  Rx<TextEditingController> consumerNumberController = TextEditingController().obs;
   RxBool showConsumerNumber = false.obs;
   Rx<File?> aadharImage = Rx<File?>(null);
   Rx<File?> homeImage = Rx<File?>(null);
   Rx<File?> panImage = Rx<File?>(null);
   Rx<File?> voterImage = Rx<File?>(null);
   Rx<File?> memberImage = Rx<File?>(null);
+  Rx<File?> passbookImage1 = Rx<File?>(null);
+  Rx<File?> passbookImage2 = Rx<File?>(null);
   Rx<File?> addressImage = Rx<File?>(null);
   Rx<File?> addressProofImage = Rx<File?>(null);
   Rx<File?> aadharbackImage = Rx<File?>(null);
@@ -72,6 +73,8 @@ class MemberCreationController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isAddressImageFocused = false.obs;
   RxBool isMemberImageFocused = false.obs;
+  RxBool isPassbookImage1Focused = false.obs;
+  RxBool isPassbookImage2Focused = false.obs;
   RxBool isAddressProofImageFocused = false.obs;
   RxBool isvoterbackImageFocused = false.obs;
   RxBool isPanImagebackFocused = false.obs;
@@ -102,7 +105,7 @@ class MemberCreationController extends GetxController {
     "MALE",
     "FEMALE",
     "OTHER"
-  ]; //from backend also required
+  ]; 
   RxString selectedGender = ''.obs;
   final List<String> addressDocTypeList = [
     "ELECTRICITY BILL",
@@ -451,6 +454,9 @@ class MemberCreationController extends GetxController {
       "aadhar_image_back": aadharbackImage,
       "pancard_image_back": panbackImage,
       "voter_id_image_back": voterbackImage,
+      "passbook_image": passbookImage1,
+      "passbook_image_2": passbookImage2,
+
     };
 
     final List<String> fileNames = [];
@@ -534,8 +540,7 @@ class MemberCreationController extends GetxController {
       CustomSnackBar.show(isIssue: true, message: "Member name is required");
       return;
     }
-    final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.updateLoanMember);
-
+    final uri = Uri.parse(AppEnvironment.baseUrl + "${AppURLs.updateLoanMember}?name=${name.value}");
     final Map<String, String> fields = {
       'name': name.value,
       'first_name': firstName.value.text,
@@ -574,7 +579,6 @@ class MemberCreationController extends GetxController {
       "geo_location": geoLocation.value,
       "consumer_no": consumerNumberController.value.text
     };
-
     fields.removeWhere((key, value) => value.isEmpty);
 
     final Map<String, Rx<File?>> imageFields = {
@@ -587,8 +591,9 @@ class MemberCreationController extends GetxController {
       "aadhar_image_back": aadharbackImage,
       "pancard_image_back": panbackImage,
       "voter_id_image_back": voterbackImage,
+      "passbook_image": passbookImage1,
+      "passbook_image_2": passbookImage2,
     };
-
     final List<String> fileNames = [];
     imageFields.forEach((key, value) {
       if (value.value != null) fileNames.add(value.value!.path.split('/').last);
@@ -609,11 +614,11 @@ class MemberCreationController extends GetxController {
       }
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
-
       Map<String, dynamic> responseBody = {};
       try {
         responseBody = jsonDecode(response.body);
       } catch (_) {}
+      
       if (response.statusCode == APIStatusCode.SUCCESS) {
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
@@ -852,6 +857,19 @@ class MemberCreationController extends GetxController {
                 !memberData.homeImage!.startsWith('http'))
             ? File(memberData.homeImage!)
             : null;
+        
+        passbookImage1.value = (memberData.passbookImage1 != null &&
+                memberData.passbookImage1!.isNotEmpty &&
+                !memberData.passbookImage1!.startsWith('http'))
+            ? File(memberData.passbookImage1!)
+            : null;
+
+        passbookImage2.value = (memberData.passbookImage2 != null &&
+                memberData.passbookImage2!.isNotEmpty &&
+                !memberData.passbookImage2!.startsWith('http'))
+            ? File(memberData.passbookImage2!)
+            : null;    
+
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         final image = memberData.addressImage ?? '';
         addressImage.value =
@@ -1007,6 +1025,8 @@ class MemberCreationController extends GetxController {
     voterImage.value = null;
     homeImage.value = null;
     addressImage.value = null;
+    passbookImage1.value = null;
+    passbookImage2.value = null;
 
     loanMember.clear();
     name.value = '';

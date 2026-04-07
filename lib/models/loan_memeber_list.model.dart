@@ -102,6 +102,8 @@ class LoanMemberListResult {
   double? latitude;
   dynamic geoLocation;
   String? consumerNo;
+  dynamic passbookImage1;
+  dynamic passbookImage2;
 
   LoanMemberListResult({
     this.name,
@@ -160,6 +162,8 @@ class LoanMemberListResult {
     this.geoLocation,
     this.createdBy,
     this.consumerNo,
+    this.passbookImage1,
+    this.passbookImage2,
   });
 
   factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
@@ -228,6 +232,8 @@ class LoanMemberListResult {
                 : json["latitude"] as double)
             : null,
         consumerNo: json["consumer_no"],
+        passbookImage1: json["passbook_image"],
+        passbookImage2: json["passbook_image_2"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -287,7 +293,9 @@ class LoanMemberListResult {
         "latitude": latitude,
         "geo_location": geoLocation,
         "created_by": createdBy,
-        "consumer_no": consumerNo
+        "consumer_no": consumerNo,
+        "passbook_image": passbookImage1,
+        "passbook_image_2": passbookImage2,
       };
 }
 
