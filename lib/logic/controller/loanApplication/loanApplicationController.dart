@@ -64,7 +64,7 @@ class LoanApplicationController extends GetxController {
 
     await getLoanMemberList();
     getProductList();
-    getAplicantList();
+    //getAplicantList();
   }
 
   getLoanMemberList() async {
@@ -401,14 +401,14 @@ class LoanApplicationController extends GetxController {
     final Map<String, dynamic> requestBody = {
       "applicant": selectedApplicantId.value,
       "applicant_name": selectedMemberName.value,
-      "co_borrower": selectedCoBorrowerId.value,
+      "custom_co_borrower": selectedCoBorrowerId.value,
       "loan_product": selectedproductId.value,
       "loan_amount": double.tryParse(loanAmount.value.text) ?? 0,
       "is_term_loan": int.tryParse(saveIsTermLoan.value) ?? 0,
       "repayment_periods": int.tryParse(periods.value.text) ?? 0,
       "rate_of_interest": double.tryParse(saveROI.value) ?? 0,
-      "nominee": selectedNomineeId.value,
-      "nominee_relation": selectedRelation.value,
+      "custom_nominee": selectedNomineeId.value,
+      "custom_nominee_relation": selectedRelation.value,
       "description": description.value.text
     };
     try {

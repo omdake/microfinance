@@ -48,17 +48,23 @@ class ProductListResult {
   String? name;
   String? productCode;
   String? productName;
-  double? rateOfInterest; // changed to double
+  double? rateOfInterest; 
   String? loanCategory;
-  double? maximumLoanAmount; // changed to double
+  double? maximumLoanAmount; 
   String? company;
-  int? cyclicDayOfTheMonth;
+  String? cyclicDayOfTheMonth;
   String? repaymentDateOn;
   String? repaymentScheduleType;
-  int? isTermLoan; // 0 or 1
+  int? isTermLoan; 
   int? validateNormalRepayment;
   int? minDaysBwDisbursementFirstRepayment;
-  double? excessAmountAcceptanceLimit; // changed to double
+  double? excessAmountAcceptanceLimit; 
+  String? modeOfPayment;
+  String? disbursementAccount;
+  String? paymentAccount;
+  String? customOnlineRepaymentAccount;
+  String? loanAccount;
+ 
 
   ProductListResult({
     this.name,
@@ -75,6 +81,11 @@ class ProductListResult {
     this.validateNormalRepayment,
     this.minDaysBwDisbursementFirstRepayment,
     this.excessAmountAcceptanceLimit,
+    this.modeOfPayment,
+    this.disbursementAccount,
+    this.paymentAccount,
+    this.customOnlineRepaymentAccount,
+    this.loanAccount,
   });
 
   factory ProductListResult.fromJson(Map<String, dynamic> json) =>
@@ -86,16 +97,18 @@ class ProductListResult {
         loanCategory: json["loan_category"],
         maximumLoanAmount: (json["maximum_loan_amount"] as num?)?.toDouble(),
         company: json["company"],
-        cyclicDayOfTheMonth: (json["cyclic_day_of_the_month"] as num?)?.toInt(),
+        cyclicDayOfTheMonth: json["cyclic_day_of_the_month"],
         repaymentDateOn: json["repayment_date_on"],
         repaymentScheduleType: json["repayment_schedule_type"],
         isTermLoan: (json["is_term_loan"] as num?)?.toInt(),
-        validateNormalRepayment:
-            (json["validate_normal_repayment"] as num?)?.toInt(),
-        minDaysBwDisbursementFirstRepayment:
-            (json["min_days_bw_disbursement_first_repayment"] as num?)?.toInt(),
-        excessAmountAcceptanceLimit:
-            (json["excess_amount_acceptance_limit"] as num?)?.toDouble(),
+        validateNormalRepayment: (json["validate_normal_repayment"] as num?)?.toInt(),
+        minDaysBwDisbursementFirstRepayment: (json["min_days_bw_disbursement_first_repayment"] as num?)?.toInt(),
+        excessAmountAcceptanceLimit: (json["excess_amount_acceptance_limit"] as num?)?.toDouble(),
+        modeOfPayment: json["mode_of_payment"],
+        disbursementAccount: json["disbursement_account"],
+        paymentAccount: json["payment_account"],
+        customOnlineRepaymentAccount: json["custom_online_repayment_account"],
+        loanAccount: json["loan_account"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -111,8 +124,12 @@ class ProductListResult {
         "repayment_schedule_type": repaymentScheduleType,
         "is_term_loan": isTermLoan,
         "validate_normal_repayment": validateNormalRepayment,
-        "min_days_bw_disbursement_first_repayment":
-            minDaysBwDisbursementFirstRepayment,
+        "min_days_bw_disbursement_first_repayment": minDaysBwDisbursementFirstRepayment,
         "excess_amount_acceptance_limit": excessAmountAcceptanceLimit,
+        "mode_of_payment": modeOfPayment,
+        "disbursement_account": disbursementAccount,
+        "payment_account": paymentAccount,
+        "custom_online_repayment_account": customOnlineRepaymentAccount,
+        "loan_account": loanAccount,
       };
 }
