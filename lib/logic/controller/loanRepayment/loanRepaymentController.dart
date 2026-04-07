@@ -60,7 +60,8 @@ class LoanRepaymentController extends GetxController {
       loanId.value.text = args['loanId'] ?? '';
       loan.value = args['loan'] ?? '';
       applicantName.value.text = args['memberName'] ?? '';
-      payableAmount.value.text = args['totalPayment']?.toString() ?? '';
+      //payableAmount.value.text = args['totalPayment']?.toString() ?? '';
+      payableAmount.value.text = args['remainingAmount']?.toString() ?? '';
       valueDate.value.text = args['paymentDate'] ?? '';
       String today = DateFormat('dd-MM-yyyy').format(DateTime.now());
       referenceDate.value.text = today;
@@ -251,7 +252,6 @@ class LoanRepaymentController extends GetxController {
         ),
       );
     } catch (e) {
-      print(".........hhhhh${e}");
       CustomSnackBar.show(isIssue: true, message: "$e");
       DevService.instance.insertAPICall(
         AppAPIsCall(
@@ -281,7 +281,6 @@ class LoanRepaymentController extends GetxController {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
     final uri = Uri.parse(AppEnvironment.baseUrl + AppURLs.saveRepayments);
-
     final Map<String, String> fields = {
       "name": name.value,
       "against_loan": loan.value,
@@ -291,9 +290,9 @@ class LoanRepaymentController extends GetxController {
       "loan_adjustment": "",
       "mode_of_payment": selectedModeOfPayment.value,
       "loan_product": "",
-      "value_date": convertToApiDate(selectedValueDate.value.isNotEmpty
-          ? selectedValueDate.value
-          : valueDate.value.text),
+      "value_date": selectedValueDate.value.isNotEmpty
+          ? convertToApiDate(selectedValueDate.value)
+          : valueDate.value.text,
       "amount_paid": amountPaid.value.text,
       "reference_number": utrNumber.value.text,
       "manual_remarks": remark.value.text,
@@ -321,8 +320,8 @@ class LoanRepaymentController extends GetxController {
       final streamedResponse = await request.send();
       final response = await http.Response.fromStream(streamedResponse);
       final responseBody = jsonDecode(response.body);
-
       if (response.statusCode == APIStatusCode.SUCCESS) {
+        loanidno.value = loanId.value.text;
         Get.off(() => LoanRepaymentSuccessScreen(
               crNo: loanidno.value,
               applicantName: applicantName.value.text,

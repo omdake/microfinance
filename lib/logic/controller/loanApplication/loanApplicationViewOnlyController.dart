@@ -58,6 +58,14 @@ class LoanApplicationViewOnlyController extends GetxController {
       "value": "INDIVIDUAL_DECLARATION",
       "label": "Individual Declaration",
     },
+    {
+      "value": "INDIVIDUAL_LOAN_AGREMEENT",
+      "label": "Individual Loan Agremeent For Borrower",
+    },
+    {
+      "value": "INDIVIDUAL_LOAN_AGREMEENT_FOR_CO_BORROWER",
+      "label": "Individual Loan Agremeent For Co Borrower",
+    },
   ];
 
   @override

@@ -83,7 +83,7 @@ static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_
 
  static String  loanMember({required String name}) => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.loan_member_get/?name=$name";
 
- static String get  updateLoanMember => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.update_loan_member_api/";
+ static String get  updateLoanMember => "api/method/ex_loan_management.excel_loan_management.doctype.loan_member.loan_member.update_loan_member_api";
 
   static String get approveRejecte => "api/method/ex_loan_management.excel_loan_management.doctype.collection_in_hand.collection_in_hand.approve_or_reject_collection";
 

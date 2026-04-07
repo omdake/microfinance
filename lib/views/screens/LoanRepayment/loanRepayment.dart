@@ -96,21 +96,13 @@ class LoanRepaymentScreen extends StatelessWidget {
                                               isRequired: true),
                                           Obx(() {
                                             final LoanSummaryController?
-                                                loanSummaryController =
-                                                Get.isRegistered<
-                                                        LoanSummaryController>()
-                                                    ? Get.find<
-                                                        LoanSummaryController>()
+                                                loanSummaryController = Get.isRegistered<LoanSummaryController>()
+                                                    ? Get.find<LoanSummaryController>()
                                                     : null;
-                                            final loanlist =
-                                                loanSummaryController
-                                                        ?.loantList ??
-                                                    [];
-
+                                            final loanlist = loanSummaryController?.loantList ?? [];
                                             if (loanlist.isNotEmpty) {
                                               return Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Stack(
                                                     children: [
@@ -201,38 +193,15 @@ class LoanRepaymentScreen extends StatelessWidget {
                                                           }
                                                         },
                                                         onChanged: (value) {
-                                                          for (var loan
-                                                              in loanlist) {
-                                                            if (loan.name ==
-                                                                value) {
-                                                              controller
-                                                                      .applicantName
-                                                                      .value
-                                                                      .text =
-                                                                  loan.applicantName!;
-                                                              controller
-                                                                      .loanId
-                                                                      .value
-                                                                      .text =
-                                                                  loan.name!;
-                                                              controller.loan
-                                                                      .value =
-                                                                  loan.name!;
-                                                              controller
-                                                                      .loanidno
-                                                                      .value =
-                                                                  loan.loanId!;
-                                                              controller
-                                                                  .valueDate
-                                                                  .value
-                                                                  .text = '';
-                                                              controller
-                                                                  .selectedValueDate
-                                                                  .value = '';
-                                                              controller
-                                                                  .payableAmount
-                                                                  .value
-                                                                  .text = '';
+                                                          for (var loan in loanlist) {
+                                                            if (loan.name == value) {
+                                                              controller.applicantName.value.text = loan.applicantName!;
+                                                              controller.loanId.value.text = loan.name!;
+                                                              controller.loan.value = loan.name!;
+                                                              controller.loanidno.value = loan.loanId!;
+                                                              controller.valueDate.value.text = '';
+                                                              controller.selectedValueDate.value = '';
+                                                              controller.payableAmount.value.text = '';
                                                             }
                                                           }
                                                         },

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -211,6 +212,50 @@ class BankDetailscSreen extends StatelessWidget {
                                                         : Colors.grey.shade200),
                                   ),
                                 ],
+                              ),
+                              C10(),
+                              imagePickerField(
+                                label: "Passbook Image 1",
+                                isRequired: true,
+                                imageFile: controller.passbookImage1,
+                                readOnlyFlag: controller.isReadOnly,
+                                imageUrl: RxString(controller
+                                        .loanMember.isNotEmpty
+                                    ? controller.loanMember[0].passbookImage1 ?? ''
+                                    : ''),
+                                isFocused: controller.isPassbookImage1Focused,
+                                onTap: () => controller.pickImage(controller.passbookImage1),
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
+                                validator: (file) => imageFileValidator(
+                                  localFile: file,
+                                  networkUrl: controller.loanMember.isNotEmpty
+                                      ? controller.loanMember[0].passbookImage1
+                                      : null,
+                                  fieldName: 'Passbook Image1',
+                                ),
+                              ),
+                              C10(),
+                              imagePickerField(
+                                label: "Passbook Image 2",
+                                isRequired: false,
+                                imageFile: controller.passbookImage2,
+                                 readOnlyFlag: controller.isReadOnly,
+                                imageUrl: RxString(controller
+                                        .loanMember.isNotEmpty
+                                    ? controller.loanMember[0].passbookImage2 ?? ''
+                                    : ''),
+                                isFocused: controller.isPassbookImage2Focused,
+                                onTap: () => controller
+                                    .pickImage(controller.passbookImage2),
+                                // autovalidateMode:
+                                //     AutovalidateMode.onUserInteraction,
+                                // validator: (file) => imageFileValidator(
+                                //   localFile: file,
+                                //   networkUrl: controller.loanMember.isNotEmpty
+                                //       ? controller.loanMember[0].memberImage
+                                //       : null,
+                                //   fieldName: 'Member Image',
+                                // ),
                               ),
                             ])),
                       ),
