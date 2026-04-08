@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:microfinance/AppPreferences/app_areferences.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
@@ -481,6 +482,7 @@ class PDFViewWidget1 extends StatelessWidget {
   }
 }
 
+
 Widget imagePickerField1({
   required String label,
   Rx<File?>? imageFile,
@@ -601,6 +603,27 @@ Widget imagePickerField1({
         return null;
       }
 
+      // ── NEW: download PDF to a temp file so PDFViewWidget1 can render it ──
+      Future<File?> fetchPdfAsFile(String url) async {
+        try {
+          final String? token = await AppPreferences.getToken();
+          final bool isPrivate = url.contains('/private/files/');
+          final headers = <String, String>{};
+          if (isPrivate) headers['Authorization'] = '$token';
+          final response = await http.get(Uri.parse(url), headers: headers);
+          if (response.statusCode == 200) {
+            final tempDir = await getTemporaryDirectory();
+            final fileName = url.split('/').last.split('?').first;
+            final tempFile = File('${tempDir.path}/$fileName');
+            await tempFile.writeAsBytes(response.bodyBytes);
+            return tempFile;
+          }
+        } catch (e) {
+          print("Error fetching PDF: $e");
+        }
+        return null;
+      }
+
       return paddingWidget([
         LabelsWithMark(label: label, isRequired: isRequired),
         Obx(() {
@@ -614,6 +637,11 @@ Widget imagePickerField1({
 
           final fileExtension =
               imageFile?.value?.path.split('.').last.toLowerCase();
+
+          // ── NEW: resolve URL extension safely (strips query params) ──
+          final urlExtension = (imageUrl?.value.isNotEmpty ?? false)
+              ? imageUrl!.value.split('.').last.toLowerCase().split('?').first
+              : '';
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -641,39 +669,68 @@ Widget imagePickerField1({
                                       SizedBox(
                                         width: 300,
                                         height: 340,
+                                        // ── UPDATED: check local pdf first,
+                                        //    then network pdf, then image ──
                                         child: (fileExtension == 'pdf')
                                             ? PDFViewWidget1(
                                                 file: imageFile!.value!)
                                             : imageFile?.value != null
                                                 ? Image.file(imageFile!.value!,
                                                     fit: BoxFit.contain)
-                                                : FutureBuilder<Uint8List?>(
-                                                    future: fetchImageBytes(
-                                                        imageUrl!.value),
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot
-                                                              .connectionState ==
-                                                          ConnectionState
-                                                              .waiting) {
-                                                        return const Center(
-                                                            child:
-                                                                CircularProgressIndicator());
-                                                      } else if (!snapshot
-                                                              .hasData ||
-                                                          snapshot.data ==
-                                                              null) {
-                                                        return const Center(
-                                                            child: Text(
-                                                                "Image not available"));
-                                                      } else {
-                                                        return Image.memory(
-                                                            snapshot.data!,
-                                                            fit:
-                                                                BoxFit.contain);
-                                                      }
-                                                    },
-                                                  ),
+                                                : urlExtension == 'pdf'
+                                                    ? FutureBuilder<File?>(
+                                                        future: fetchPdfAsFile(
+                                                            imageUrl!.value),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return const Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          } else if (!snapshot
+                                                                  .hasData ||
+                                                              snapshot.data ==
+                                                                  null) {
+                                                            return const Center(
+                                                                child: Text(
+                                                                    "PDF not available"));
+                                                          } else {
+                                                            return PDFViewWidget1(
+                                                                file: snapshot
+                                                                    .data!);
+                                                          }
+                                                        },
+                                                      )
+                                                    : FutureBuilder<Uint8List?>(
+                                                        future: fetchImageBytes(
+                                                            imageUrl!.value),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return const Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          } else if (!snapshot
+                                                                  .hasData ||
+                                                              snapshot.data ==
+                                                                  null) {
+                                                            return const Center(
+                                                                child: Text(
+                                                                    "Image not available"));
+                                                          } else {
+                                                            return Image.memory(
+                                                                snapshot.data!,
+                                                                fit: BoxFit
+                                                                    .contain);
+                                                          }
+                                                        },
+                                                      ),
                                       ),
                                       if (enableGeotag &&
                                           filePosition.value != null)
@@ -866,7 +923,7 @@ Widget imagePickerField1({
                                     imageUrl?.value ??
                                     '';
                                 final extension =
-                                    filePath.split('.').last.toLowerCase();
+                                    filePath.split('.').last.toLowerCase().split('?').first;
 
                                 if (extension == 'pdf') {
                                   return const Center(
@@ -878,6 +935,14 @@ Widget imagePickerField1({
                                       fit: BoxFit.contain);
                                 } else if (imageUrl?.value.isNotEmpty ??
                                     false) {
+                                  // ── UPDATED: guard against PDF url
+                                  //    falling through to Image.network ──
+                                  if (urlExtension == 'pdf') {
+                                    return const Center(
+                                      child: Icon(Icons.picture_as_pdf,
+                                          size: 60, color: Colors.red),
+                                    );
+                                  }
                                   return Image.network(imageUrl!.value,
                                       fit: BoxFit.contain);
                                 } else {

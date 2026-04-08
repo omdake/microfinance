@@ -105,7 +105,23 @@ class LoanEMIScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
+                      "Group ID: ${user.group ?? ""}",
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
+                      ),
+                    ),
+                    Text(
                       "Total Amt: ${user.totalPayment?.toStringAsFixed(2) ?? "0.00"}",
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Color(0xFF050708),
+                        fontFamily: "Roboto-Regular",
+                      ),
+                    ),
+                    Text(
+                      "Remaining Amt: ${user.remainingAmount?.toStringAsFixed(2) ?? "0.00"}",
                       style: const TextStyle(
                         fontSize: 10,
                         color: Color(0xFF050708),
