@@ -131,28 +131,21 @@ class GroupCreationScreen extends StatelessWidget {
                                         paddingWidget([
                                           LabelsWithMark(
                                             label: "Group Head",
-                                            isRequired: true,
+                                            isRequired: false,
                                           ),
                                           Obx(() {
-                                            final validValue =
-                                                controller.groupheadList.any(
+                                            final validValue = controller.groupheadList.any(
                                               (e) =>
-                                                  e.name ==
-                                                  controller
-                                                      .selectedGroupHead.value,
+                                                  e.name == controller.selectedGroupHead.value,
                                             )
-                                                    ? controller
-                                                        .selectedGroupHead.value
+                                                    ? controller.selectedGroupHead.value
                                                     : null;
-                                            final isEnabled =
-                                                !controller.isReadOnly.value;
+                                            final isEnabled = !controller.isReadOnly.value;
                                             return Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Stack(
-                                                  alignment:
-                                                      Alignment.centerRight,
+                                                  alignment: Alignment.centerRight,
                                                   children: [
                                                     DropdownButtonFormField2<
                                                             String>(
@@ -188,15 +181,6 @@ class GroupCreationScreen extends StatelessWidget {
                                                             fontSize: 12,
                                                           ),
                                                         ),
-                                                        validator: (value) {
-                                                          if (controller
-                                                              .selectedGroupHead
-                                                              .value
-                                                              .isEmpty) {
-                                                            return '';
-                                                          }
-                                                          return null;
-                                                        },
                                                         dropdownSearchData:
                                                             DropdownSearchData(
                                                           searchController:
@@ -350,28 +334,15 @@ class GroupCreationScreen extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () async {
-                                        controller.showError.value = controller
-                                            .selectedGroupHead.value.isEmpty;
-
                                         if (_formKey.currentState!.validate()) {
-                                          if (controller.selectedGroupHead.value
-                                              .isEmpty) {
-                                            AppTostMassage.showTostMassage(
-                                              massage:
-                                                  "Please select a Group Head",
-                                            );
-                                            return;
-                                          }
-                                          if (controller
-                                              .name.value.isNotEmpty) {
+                                          if (controller.name.value.isNotEmpty) {
                                             await controller.updateGroup();
                                           } else {
                                             await controller.saveGroup();
                                           }
                                         } else {
                                           AppTostMassage.showTostMassage(
-                                            massage:
-                                                "Please fill all required fields",
+                                            massage: "Please fill all required fields",
                                           );
                                         }
                                       },

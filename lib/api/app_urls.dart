@@ -59,7 +59,7 @@ class AppURLs {
 
   static String  getApplicantList({int? page,String? loanGroup,int? pageSize,bool? isPagination,String?search}) => "api/method/ex_loan_management.api.cust_loan_application.loan_application_list?is_pagination=$isPagination&loan_group=$loanGroup&page_size=$pageSize&page=$page&search=$search";
 
-  static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.create_loan_group/";
+  static String get saveCreatedGroup => "api/method/ex_loan_management.excel_loan_management.doctype.loan_group.loan_group.create_loan_group";
 
   static String get totalLoanCount => "api/method/ex_loan_management.api.dashboard_api.get_loan_summary";
 
