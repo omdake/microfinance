@@ -82,6 +82,7 @@ class LoanDisbursementResult {
   dynamic referenceDate;
   int? daysPastDue;
   String? status;
+  int? docStatus;
   dynamic referenceNumber;
   String? amendedFrom;
    String? applicantMemberName;
@@ -125,6 +126,7 @@ class LoanDisbursementResult {
     this.referenceDate,
     this.daysPastDue,
     this.status,
+    this.docStatus,
     this.referenceNumber,
     this.amendedFrom,
     this.applicantMemberName,
@@ -137,7 +139,7 @@ class LoanDisbursementResult {
       name: json["name"] ?? "",
       againstLoan: json["against_loan"] ?? "",
       sanctionedLoanAmount:
-          (json["sanctioned_loan_amount"] ?? 0).toDouble(),
+          (json["against_loan_loan_amount"] ?? 0).toDouble(),
       currentDisbursedAmount:
           (json["current_disbursed_amount"] ?? 0).toDouble(),
       postingDate: json["posting_date"] != null
@@ -154,8 +156,8 @@ class LoanDisbursementResult {
       repaymentFrequency: json["repayment_frequency"] ?? "",
       repaymentMethod: json["repayment_method"] ?? "",
       tenure: json["tenure"] ?? 0,
-      repaymentStartDate: json["repayment_start_date"] != null
-          ? DateTime.tryParse(json["repayment_start_date"])
+      repaymentStartDate: json["against_loan_repayment_start_date"] != null
+          ? DateTime.tryParse(json["against_loan_repayment_start_date"])
           : null,
       isTermLoan: json["is_term_loan"] ?? 0,
       withholdSecurityDeposit: json["withhold_security_deposit"] ?? 0,
@@ -170,7 +172,7 @@ class LoanDisbursementResult {
       brokenPeriodInterest: (json["broken_period_interest"] ?? 0).toDouble(),
       bpiAmountDifference: (json["bpi_amount_difference"] ?? 0).toDouble(),
       principalAmountPaid:
-          (json["principal_amount_paid"] ?? 0).toDouble(),
+          (json["against_loan_total_principal_paid"] ?? 0).toDouble(),
       modeOfPayment: json["mode_of_payment"] ?? "",
       disbursementAccount: json["disbursement_account"] ?? "",
       refundAccount: json["refund_account"],
@@ -180,6 +182,7 @@ class LoanDisbursementResult {
       referenceDate: json["reference_date"],
       daysPastDue: json["days_past_due"] ?? 0,
       status: json["status"] ?? "",
+      docStatus: json["docstatus"] ?? 0,
       referenceNumber: json["reference_number"],
       amendedFrom: json["amended_from"] ?? "",
       applicantMemberName: json["applicant_member_name"] ?? "",
@@ -191,7 +194,7 @@ class LoanDisbursementResult {
   Map<String, dynamic> toJson() => {
         "name": name,
         "against_loan": againstLoan,
-        "sanctioned_loan_amount": sanctionedLoanAmount,
+        "against_loan_loan_amount": sanctionedLoanAmount,
         "current_disbursed_amount": currentDisbursedAmount,
         "posting_date":
             "${postingDate!.year.toString().padLeft(4, '0')}-${postingDate!.month.toString().padLeft(2, '0')}-${postingDate!.day.toString().padLeft(2, '0')}",
@@ -205,7 +208,7 @@ class LoanDisbursementResult {
         "repayment_frequency": repaymentFrequency,
         "repayment_method": repaymentMethod,
         "tenure": tenure,
-        "repayment_start_date":
+        "against_loan_repayment_start_date":
             "${repaymentStartDate!.year.toString().padLeft(4, '0')}-${repaymentStartDate!.month.toString().padLeft(2, '0')}-${repaymentStartDate!.day.toString().padLeft(2, '0')}",
         "is_term_loan": isTermLoan,
         "withhold_security_deposit": withholdSecurityDeposit,
@@ -218,7 +221,7 @@ class LoanDisbursementResult {
         "disbursed_amount": disbursedAmount,
         "broken_period_interest": brokenPeriodInterest,
         "bpi_amount_difference": bpiAmountDifference,
-        "principal_amount_paid": principalAmountPaid,
+        "against_loan_total_principal_paid": principalAmountPaid,
         "mode_of_payment": modeOfPayment,
         "disbursement_account": disbursementAccount,
         "refund_account": refundAccount,
@@ -228,6 +231,7 @@ class LoanDisbursementResult {
         "reference_date": referenceDate,
         "days_past_due": daysPastDue,
         "status": status,
+        "docstatus": docStatus,
         "reference_number": referenceNumber,
         "amended_from": amendedFrom,
          "applicant_member_name": applicantMemberName,

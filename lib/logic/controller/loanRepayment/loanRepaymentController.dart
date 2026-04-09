@@ -30,8 +30,7 @@ class LoanRepaymentController extends GetxController {
   Rx<TextEditingController> remark = TextEditingController().obs;
   Rx<TextEditingController> groupSearch = TextEditingController().obs;
   RxList<ModeOfPaymentMessage> modeOfPaymentList = <ModeOfPaymentMessage>[].obs;
-  RxList<GetPayableAmountMessage> getPayableAmount =
-      <GetPayableAmountMessage>[].obs;
+  RxList<GetPayableAmountMessage> getPayableAmount = <GetPayableAmountMessage>[].obs;
   RxBool showError = false.obs;
   RxString selectedModeOfPayment = ''.obs;
   RxBool isLoading = false.obs;
@@ -74,40 +73,6 @@ class LoanRepaymentController extends GetxController {
     getModeOfPaymentList();
   }
 
-  // Future<void> selectDate(
-  //   BuildContext context,
-  //   TextEditingController controller,
-  //   RxString selectedDate,
-  // ) async {
-  //   DateTime now = DateTime.now();
-  //   DateTime initialDate = controller.text.isNotEmpty
-  //       ? DateTime.tryParse(controller.text) ?? now
-  //       : now;
-
-  //   DateTime lastDate = isFromEMI.value ? now : DateTime(2100);
-
-  //   List<DateTime?>? picked = await showCalendarDatePicker2Dialog(
-  //     context: context,
-  //     config: CalendarDatePicker2WithActionButtonsConfig(
-  //       calendarType: CalendarDatePicker2Type.single,
-  //       okButtonTextStyle: const TextStyle(color: Colors.black),
-  //       cancelButtonTextStyle: const TextStyle(color: Colors.black),
-  //       selectedDayHighlightColor: Colors.grey,
-  //       dayTextStyle: const TextStyle(color: Colors.black),
-  //       firstDate: DateTime(2000),
-  //       lastDate: lastDate,
-  //       currentDate: initialDate,
-  //     ),
-  //     dialogSize: const Size(350, 400),
-  //     borderRadius: BorderRadius.circular(15),
-  //   );
-
-  //   if (picked != null && picked.isNotEmpty && picked.first != null) {
-  //     String formatted = DateFormat('dd-MM-yyyy').format(picked.first!);
-  //     controller.text = formatted;
-  //     selectedDate.value = formatted;
-  //   }
-  // }
   Future<void> selectDate(
     BuildContext context,
     TextEditingController controller,
@@ -115,9 +80,14 @@ class LoanRepaymentController extends GetxController {
     DateTime? lastDate,
   }) async {
     DateTime now = DateTime.now();
-    DateTime initialDate = controller.text.isNotEmpty
-        ? DateTime.tryParse(controller.text) ?? now
-        : now;
+     DateTime initialDate = now;
+      if (controller.text.isNotEmpty) {
+        try {
+          initialDate = DateFormat('dd-MM-yyyy').parse(controller.text);
+        } catch (_) {
+          initialDate = now;
+        }
+      }
 
     final DateTime endDate =
         lastDate ?? (isFromEMI.value ? now : DateTime(2100));
@@ -226,6 +196,7 @@ class LoanRepaymentController extends GetxController {
         },
         body: jsonEncode(requestBody),
       );
+
       final responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
         final message =

@@ -12,16 +12,14 @@ import 'package:microfinance/utils/ui_helper.dart/load_more_listview.dart';
 class DisbursementScreen extends StatelessWidget {
   DisbursementScreen({super.key});
 
-  Color statusColor(String? status) {
-    switch (status?.toUpperCase()) {
-      case "SUBMITTED":
+  Color statusColor(int? docStatus) {
+    switch (docStatus) {
+      case 0:
+        return Colors.grey.shade600;
+      case 1:
         return AppColors.primaryOrange;
-      case "CLOSED":
+      case 2:
         return const Color(0xFFAE282E);
-      case "CANCELLED":
-        return const Color(0xFFAE282E);
-      case "OPENED":
-        return AppColors.primaryRed;
       default:
         return Colors.grey.shade600;
     }
@@ -133,14 +131,14 @@ class DisbursementScreen extends StatelessWidget {
               flex: 3,
               child: Container(
                 decoration: BoxDecoration(
-                  color: statusColor(user.status),
+                  color: statusColor(user.docStatus),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
                   child: Text(
-                    (user.status ?? "-").toString().toUpperCase(),
+                   user.docStatus == 0 ? "DRAFT" : user.docStatus == 1 ? "SUBMITTED" : "CANCELLED",
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontFamily: "Roboto-Medium",
