@@ -157,45 +157,45 @@ class DetailsScreen extends StatelessWidget {
                       ],
                     ),
                     C5(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Current Disbursed Amount",
-                            isRequired: true),
-                        TextFormField(
-                          initialValue: controller
-                              .loanDisbursement.value.currentDisbursedAmount
-                              .toString(),
-                          enabled: controller.isFormEdit.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          validator: (value) => requiredValidator(value!),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          keyboardType: TextInputType.name,
-                          style: TextStyles.textfieldTextStyle,
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                                  hint: "Current Disbursed Amount")
-                              .copyWith(
-                            filled: false,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: Colors.grey.shade400,
-                                width: 1.5,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    C5(),
+                    // paddingWidget(
+                    //   [
+                    //     const LabelsWithMark(
+                    //         label: "Current Disbursed Amount",
+                    //         isRequired: true),
+                    //     TextFormField(
+                    //       initialValue: controller
+                    //           .loanDisbursement.value.currentDisbursedAmount
+                    //           .toString(),
+                    //       enabled: controller.isFormEdit.value,
+                    //       cursorColor: AppColors.primary,
+                    //       textCapitalization: TextCapitalization.sentences,
+                    //       validator: (value) => requiredValidator(value!),
+                    //       autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //       keyboardType: TextInputType.name,
+                    //       style: TextStyles.textfieldTextStyle,
+                    //       decoration: TextFieldDecoration.textfieldDecoration(
+                    //               hint: "Current Disbursed Amount")
+                    //           .copyWith(
+                    //         filled: false,
+                    //         enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           borderSide: BorderSide(
+                    //             color: Colors.grey.shade400,
+                    //             width: 1.5,
+                    //           ),
+                    //         ),
+                    //         focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           borderSide: BorderSide(
+                    //             color: AppColors.primary,
+                    //             width: 1.5,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // C5(),
                     paddingWidget(
                       [
                         const LabelsWithMark(
@@ -401,45 +401,45 @@ class DetailsScreen extends StatelessWidget {
                       ],
                     ),
                     C5(),
-                    paddingWidget(
-                      [
-                        const LabelsWithMark(
-                            label: "Days Past Due", isRequired: true),
-                        TextFormField(
-                          initialValue: controller
-                              .loanDisbursement.value.daysPastDue
-                              .toString(),
-                          enabled: controller.isFormEdit.value,
-                          cursorColor: AppColors.primary,
-                          textCapitalization: TextCapitalization.sentences,
-                          keyboardType: TextInputType.phone,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          style: TextStyles.textfieldTextStyle,
-                          validator: (value) =>
-                              mobileNoValidator(value!.trim()),
-                          decoration: TextFieldDecoration.textfieldDecoration(
-                            hint: "Days Past Due",
-                          ).copyWith(
-                            filled: false,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: Colors.grey.shade400,
-                                width: 1.5,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(
-                                color: AppColors.primary,
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    C5(),
+                    // paddingWidget(
+                    //   [
+                    //     const LabelsWithMark(
+                    //         label: "Days Past Due", isRequired: true),
+                    //     TextFormField(
+                    //       initialValue: controller
+                    //           .loanDisbursement.value.daysPastDue
+                    //           .toString(),
+                    //       enabled: controller.isFormEdit.value,
+                    //       cursorColor: AppColors.primary,
+                    //       textCapitalization: TextCapitalization.sentences,
+                    //       keyboardType: TextInputType.phone,
+                    //       autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //       style: TextStyles.textfieldTextStyle,
+                    //       validator: (value) =>
+                    //           mobileNoValidator(value!.trim()),
+                    //       decoration: TextFieldDecoration.textfieldDecoration(
+                    //         hint: "Days Past Due",
+                    //       ).copyWith(
+                    //         filled: false,
+                    //         enabledBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           borderSide: BorderSide(
+                    //             color: Colors.grey.shade400,
+                    //             width: 1.5,
+                    //           ),
+                    //         ),
+                    //         focusedBorder: OutlineInputBorder(
+                    //           borderRadius: BorderRadius.circular(12),
+                    //           borderSide: BorderSide(
+                    //             color: AppColors.primary,
+                    //             width: 1.5,
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    // C5(),
                     paddingWidget(
                       [
                         const LabelsWithMark(label: "Status", isRequired: true),

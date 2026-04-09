@@ -25,7 +25,7 @@ class GetPayableAmountMessage {
   double? unbookedInterest;
   double? unbookedPenalty;
   DateTime? dueDate;
-  int? totalChargesPayable;
+  double? totalChargesPayable;
   double? availableSecurityDeposit;
   double? writtenOffAmount;
   List<dynamic>? unpaidDemands;
