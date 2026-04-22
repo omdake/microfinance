@@ -49,28 +49,26 @@ class GetPayableAmountMessage {
   });
 
   factory GetPayableAmountMessage.fromJson(Map<String, dynamic> json) =>
-      GetPayableAmountMessage(
-        penaltyAmount: (json["penalty_amount"] ?? 0).toDouble(),
-        interestAmount: (json["interest_amount"] ?? 0).toDouble(),
-        pendingPrincipalAmount:
-            (json["pending_principal_amount"] ?? 0).toDouble(),
-        payablePrincipalAmount:
-            (json["payable_principal_amount"] ?? 0).toDouble(),
-        payableAmount: (json["payable_amount"] ?? 0).toDouble(),
-        unaccruedInterest: (json["unaccrued_interest"] ?? 0).toDouble(),
-        unbookedInterest: (json["unbooked_interest"] ?? 0).toDouble(),
-        unbookedPenalty: (json["unbooked_penalty"] ?? 0).toDouble(),
-        dueDate:
-            json["due_date"] != null ? DateTime.parse(json["due_date"]) : null,
-        totalChargesPayable: json["total_charges_payable"] ?? 0,
-        availableSecurityDeposit:
-            (json["available_security_deposit"] ?? 0).toDouble(),
-        writtenOffAmount: (json["written_off_amount"] ?? 0).toDouble(),
-        unpaidDemands: json["unpaid_demands"] != null
-            ? List<dynamic>.from(json["unpaid_demands"].map((x) => x))
-            : [],
-        excessAmountPaid: (json["excess_amount_paid"] ?? 0).toDouble(),
-      );
+    GetPayableAmountMessage(
+      penaltyAmount: (json["penalty_amount"] ?? 0).toDouble(),
+      interestAmount: (json["interest_amount"] ?? 0).toDouble(),
+      pendingPrincipalAmount: (json["pending_principal_amount"] ?? 0).toDouble(),
+      payablePrincipalAmount: (json["payable_principal_amount"] ?? 0).toDouble(),
+      payableAmount: (json["payable_amount"] ?? 0).toDouble(),
+      unaccruedInterest: (json["unaccrued_interest"] ?? 0).toDouble(),
+      unbookedInterest: (json["unbooked_interest"] ?? 0).toDouble(),
+      unbookedPenalty: (json["unbooked_penalty"] ?? 0).toDouble(),
+      dueDate: (json["due_date"] != null && json["due_date"].toString().isNotEmpty) 
+          ? DateTime.tryParse(json["due_date"])
+          : null,
+      totalChargesPayable: (json["total_charges_payable"] ?? 0).toDouble(), 
+      availableSecurityDeposit: (json["available_security_deposit"] ?? 0).toDouble(),
+      writtenOffAmount: (json["written_off_amount"] ?? 0).toDouble(),
+      unpaidDemands: json["unpaid_demands"] != null
+          ? List<dynamic>.from(json["unpaid_demands"].map((x) => x))
+          : [],
+      excessAmountPaid: (json["excess_amount_paid"] ?? 0).toDouble(),
+    );
 
   Map<String, dynamic> toJson() => {
         "penalty_amount": penaltyAmount,

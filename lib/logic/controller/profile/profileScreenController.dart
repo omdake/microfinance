@@ -24,6 +24,7 @@ class ProfileScreenController extends GetxController {
   Rx<TextEditingController> bloodGroup = TextEditingController().obs;
   Rx<TextEditingController> bio = TextEditingController().obs;
   Rx<TextEditingController> maritalStatus = TextEditingController().obs;
+  Rx<TextEditingController> mobile = TextEditingController().obs;
 
   Rx<File?> memberImage = Rx<File?>(null);
   RxString memberImageUrl = ''.obs;
@@ -62,6 +63,7 @@ class ProfileScreenController extends GetxController {
         dojoining.value.text = employeeData['date_of_joining'] ?? '';
         status.value.text = employeeData['status'] ?? '';
         email.value.text = userData['email'] ?? '';
+        mobile.value.text = userData['mobile_no'] ?? '';
         company.value.text = employeeData['company'] ?? '';
         department.value.text = employeeData['department'] ?? '';
         designation.value.text = employeeData['designation'] ?? '';

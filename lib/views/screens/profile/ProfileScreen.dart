@@ -223,7 +223,7 @@ class ProfileScreen extends StatelessWidget {
               DetailTile(
                 icon: Icons.phone,
                 title: 'Personal Contact No',
-                subtitle: '+91 9876543210',
+                subtitle: getValue(controller.mobile.value.text, ''),
               ),
               DetailTile(
                 icon: Icons.bloodtype,

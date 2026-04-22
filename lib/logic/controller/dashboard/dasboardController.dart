@@ -98,7 +98,7 @@ class DashboardController extends GetxController {
         totalMembers.value = message.loanMembers ?? 0;
         verifiedMembers.value = message.verifiedCount ?? 0;
         ungroupedMembers.value = message.withoutGroupCount ?? 0;
-        pendingVerification.value = message.nonVerifiedCount ?? 0;
+        pendingVerification.value = message.pendingCount ?? 0;
         draftCount.value = message.draftCount ?? 0;
       } else if (response.statusCode == 401) {
         await oauthService.handleExceptionLogout('AuthenticationError');
