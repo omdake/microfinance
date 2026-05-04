@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:microfinance/common_widgets/label_value_widget.dart';
+import 'package:microfinance/common_widgets/uploadFile.dart';
 import 'package:microfinance/logic/controller/memberCreation/memberCreationController.dart';
 import 'package:microfinance/themes/app_colors.dart';
 import 'package:microfinance/themes/app_textstyles.dart';
@@ -39,7 +40,7 @@ class CibilDetailscSreen extends StatelessWidget {
                               paddingWidget(
                                 [
                                   const LabelsWithMark(
-                                    label: "Cibil Score",
+                                    label: "Retail Cibil Score",
                                   ),
                                   TextFormField(
                                     enabled: !controller.isReadOnly.value,
@@ -51,7 +52,7 @@ class CibilDetailscSreen extends StatelessWidget {
                                     style: TextStyles.textfieldTextStyle,
                                     decoration:
                                         TextFieldDecoration.textfieldDecoration(
-                                                hint: "Cibil Score")
+                                                hint: "Retail Cibil Score")
                                             .copyWith(
                                                 filled: true,
                                                 fillColor:
@@ -92,6 +93,79 @@ class CibilDetailscSreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              C10(),
+                              paddingWidget(
+                                [
+                                  const LabelsWithMark(
+                                    label: "Microfinance Cibil Score",
+                                  ),
+                                  TextFormField(
+                                    enabled: !controller.isReadOnly.value,
+                                    controller: controller.microFinanceCibilScore.value,
+                                    cursorColor: AppColors.primary,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    keyboardType: TextInputType.name,
+                                    style: TextStyles.textfieldTextStyle,
+                                    decoration:
+                                        TextFieldDecoration.textfieldDecoration(
+                                                hint: "Microfinance Cibil Score")
+                                            .copyWith(
+                                                filled: true,
+                                                fillColor:
+                                                    !controller.isReadOnly.value
+                                                        ? Colors.white
+                                                        : Colors.grey.shade200),
+                                  ),
+                                ],
+                              ),
+                              C10(),
+                              imagePickerField1(
+                                label: "Cibil Report",
+                                isRequired: false,
+                                imageFile: controller.cibilReportImage,
+                                readOnlyFlag: controller.isReadOnly,
+                                imageUrl: RxString(controller.loanMember.isNotEmpty
+                                    ? controller.loanMember[0].cibilReportImage ?? ''
+                                    : ''),
+                                isFocused: controller.isCibilReportImageFocused,
+                                onTap: () => controller.pickImage(controller.cibilReportImage),
+                                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                                // validator: (file) => imageFileValidator(
+                                //   localFile: file,
+                                //   networkUrl: controller.loanMember.isNotEmpty
+                                //       ? controller.loanMember[0].cibilReportImage
+                                //       : null,
+                                //   fieldName: 'Cibil Report',
+                                // ),
+                              ),
+                              C10(),
+                              if(controller.adminCibilRemark.value.text.isNotEmpty) ...[
+                                paddingWidget(
+                                  [
+                                    const LabelsWithMark(
+                                      label: "Admin Cibil Remark",
+                                    ),
+                                    TextFormField(
+                                      enabled: false,
+                                      controller: controller.adminCibilRemark.value,
+                                      cursorColor: AppColors.primary,
+                                      textCapitalization:
+                                      TextCapitalization.sentences,
+                                      keyboardType: TextInputType.name,
+                                      style: TextStyles.textfieldTextStyle,
+                                      decoration:
+                                      TextFieldDecoration.textfieldDecoration(
+                                          hint: "Admin Cibil Remark")
+                                          .copyWith(
+                                          filled: true,
+                                          fillColor:
+                                          Colors.grey.shade200),
+                                    ),
+                                  ],
+                                )
+                              ]
+
                             ])),
                       ),
                     ),

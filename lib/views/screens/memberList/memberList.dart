@@ -276,7 +276,7 @@ class MemberListScreen extends StatelessWidget {
                               controller.page.value = 1;
 
                               if (newValue == null) {
-                                controller.selectedGroup.value = "All Group";
+                                controller.selectedGroup.value = "";
 
                                 controller.totalLoanMemberList(
                                   Status: controller.status.value,
