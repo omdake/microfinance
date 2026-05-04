@@ -46,6 +46,8 @@ class MemberCreationController extends GetxController {
   Rx<TextEditingController> voterId = TextEditingController().obs;
   Rx<TextEditingController> cibilScore = TextEditingController().obs;
   Rx<TextEditingController> cibilDate = TextEditingController().obs;
+  Rx<TextEditingController> microFinanceCibilScore = TextEditingController().obs;
+  Rx<TextEditingController> adminCibilRemark = TextEditingController().obs;
   Rx<TextEditingController> addressDocType = TextEditingController().obs;
   Rx<TextEditingController> country = TextEditingController(text: "INDIA").obs;
   Rx<TextEditingController> createdBy = TextEditingController().obs;
@@ -65,6 +67,7 @@ class MemberCreationController extends GetxController {
   Rx<File?> aadharbackImage = Rx<File?>(null);
   Rx<File?> panbackImage = Rx<File?>(null);
   Rx<File?> voterbackImage = Rx<File?>(null);
+  Rx<File?> cibilReportImage = Rx<File?>(null);
   final RxBool memberError = false.obs;
   RxBool isvoterImageFocused = false.obs;
   RxBool ishomeImageFocused = false.obs;
@@ -79,6 +82,7 @@ class MemberCreationController extends GetxController {
   RxBool isvoterbackImageFocused = false.obs;
   RxBool isPanImagebackFocused = false.obs;
   RxBool isAadharbackImageFocused = false.obs;
+  RxBool isCibilReportImageFocused = false.obs;
   RxString selectedOccupation = ''.obs;
   RxString selectedCountry = "".obs;
   RxString selectedState = "".obs;
@@ -416,6 +420,7 @@ class MemberCreationController extends GetxController {
       'completed_age': completedAge.value.text,
       'address_doc_type': selectedAddressDocType.value,
       "cibil_score": cibilScore.value.text,
+      "micro_fin_cibil_score": microFinanceCibilScore.value.text,
       "cibil_date": convertToApiDate(cibilDate.value.text),
       'entry_age': entryAge.value.text,
       'mobile_no': mobileNo.value.text,
@@ -456,7 +461,7 @@ class MemberCreationController extends GetxController {
       "voter_id_image_back": voterbackImage,
       "passbook_image": passbookImage1,
       "passbook_image_2": passbookImage2,
-
+      "cibil_report": cibilReportImage,
     };
 
     final List<String> fileNames = [];
@@ -564,6 +569,7 @@ class MemberCreationController extends GetxController {
       'pancard': panNumber.value.text,
       'address': address.value.text,
       "cibil_score": cibilScore.value.text,
+      "micro_fin_cibil_score": microFinanceCibilScore.value.text,
       "cibil_date": convertToApiDate(cibilDate.value.text),
       'bank_name': bankName.value.text,
       'account_number': accountNumber.value.text,
@@ -593,6 +599,7 @@ class MemberCreationController extends GetxController {
       "voter_id_image_back": voterbackImage,
       "passbook_image": passbookImage1,
       "passbook_image_2": passbookImage2,
+      "cibil_report": cibilReportImage,
     };
     final List<String> fileNames = [];
     imageFields.forEach((key, value) {
@@ -767,6 +774,11 @@ class MemberCreationController extends GetxController {
                 ? ''
                 : memberData.cibilScore.toString();
         cibilDate.value.text = formatToDisplay(memberData.cibilDate);
+        microFinanceCibilScore.value.text =
+            (memberData.microFinanceCibilScore == 0 || memberData.microFinanceCibilScore == null)
+                ? ''
+                : memberData.microFinanceCibilScore.toString();
+        adminCibilRemark.value.text = memberData.adminCibilRemark ?? '';
         lastName.value.text = memberData.lastName ?? '';
         email.value.text = memberData.email ?? '';
         selectedGender.value = memberData.gender ?? '';
@@ -868,7 +880,13 @@ class MemberCreationController extends GetxController {
                 memberData.passbookImage2!.isNotEmpty &&
                 !memberData.passbookImage2!.startsWith('http'))
             ? File(memberData.passbookImage2!)
-            : null;    
+            : null;
+
+        cibilReportImage.value = (memberData.cibilReportImage != null &&
+                memberData.cibilReportImage!.isNotEmpty &&
+                !memberData.cibilReportImage!.startsWith('http'))
+            ? File(memberData.cibilReportImage!)
+            : null;        
 
         selectedAddressDocType.value = memberData.addressDocType ?? '';
         final image = memberData.addressImage ?? '';
@@ -1027,6 +1045,7 @@ class MemberCreationController extends GetxController {
     addressImage.value = null;
     passbookImage1.value = null;
     passbookImage2.value = null;
+    cibilReportImage.value = null;
 
     loanMember.clear();
     name.value = '';

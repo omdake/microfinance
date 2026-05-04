@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData;
@@ -6,6 +8,7 @@ import 'package:microfinance/api/app_api.dart';
 import 'package:microfinance/api/app_envirments.dart';
 import 'package:microfinance/logic/controller/loanApplication/report_view_page.dart';
 import 'package:microfinance/models/loan_applicant_list.model.dart';
+import 'package:microfinance/utils/snackbar_widget.dart';
 
 class LoanApplicationViewOnlyController extends GetxController {
   Rx<TextEditingController> applicantName = TextEditingController().obs;
@@ -99,7 +102,7 @@ class LoanApplicationViewOnlyController extends GetxController {
   Future<void> viewReport() async {
     final token = await AppPreferences.getToken();
     isLoading.value = true;
-
+    print(">>>>>>>>>>> token :- $token");
     try {
       final url =
           "${AppEnvironment.baseUrl}api/method/ex_loan_management.api.loan_pdf.loan_application_print"
@@ -116,13 +119,36 @@ class LoanApplicationViewOnlyController extends GetxController {
           },
         ),
       );
-
+      print(">>>>>>>> response :- ${response.statusCode}");
+      print(">>>>>>>> response :- ${response.data}");
       Get.to(() => PdfPreviewPage(
             pdfBytes: response.data,
             fileName: "${loanApplicationId.value} ${selectedPrintFormatLabel.value}.pdf",
           ));
+      print("after navigation");    
     } catch (e) {
-      print("PDF Preview Error: $e");
+      if (e is DioException) {
+        // Decode byte response to string
+        final responseBytes = e.response?.data;
+        String errorMessage = "Something went wrong";
+
+        if (responseBytes != null) {
+          try {
+            final decoded = String.fromCharCodes(responseBytes);
+            final json = jsonDecode(decoded);
+            final exception = json['exception'] ?? '';
+
+            if (exception.contains('cancelled')) {
+              errorMessage = "Cannot print a cancelled loan application.";
+            } else if (exception.contains('PermissionError')) {
+              errorMessage = "You don't have permission to print this document.";
+            } else {
+              errorMessage = json['exception'] ?? errorMessage;
+            }
+          } catch (_) {}
+        }
+        CustomSnackBar.show(isIssue: true, message: errorMessage);
+      }
     } finally {
       isLoading.value = false;
     }

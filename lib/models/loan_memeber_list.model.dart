@@ -75,6 +75,8 @@ class LoanMemberListResult {
   int? pancardVerified;
   int? addressVerified;
   int? cibilScore;
+  int? microFinanceCibilScore;
+  String? adminCibilRemark;
   String? createdBy;
   dynamic cibilDate;
   dynamic bankName;
@@ -104,6 +106,7 @@ class LoanMemberListResult {
   String? consumerNo;
   dynamic passbookImage1;
   dynamic passbookImage2;
+  dynamic cibilReportImage;
 
   LoanMemberListResult({
     this.name,
@@ -136,6 +139,8 @@ class LoanMemberListResult {
     this.addressVerified,
     this.cibilScore,
     this.cibilDate,
+    this.microFinanceCibilScore,
+    this.adminCibilRemark,
     this.bankName,
     this.accountNumber,
     this.holderName,
@@ -164,6 +169,7 @@ class LoanMemberListResult {
     this.consumerNo,
     this.passbookImage1,
     this.passbookImage2,
+    this.cibilReportImage,
   });
 
   factory LoanMemberListResult.fromJson(Map<String, dynamic> json) =>
@@ -199,6 +205,8 @@ class LoanMemberListResult {
         addressVerified: json["address_verified"],
         cibilScore: json["cibil_score"],
         cibilDate: json["cibil_date"],
+        microFinanceCibilScore: json["micro_fin_cibil_score"],
+        adminCibilRemark: json["cibil_remark"],
         bankName: json["bank_name"],
         accountNumber: json["account_number"],
         holderName: json["holder_name"],
@@ -234,6 +242,7 @@ class LoanMemberListResult {
         consumerNo: json["consumer_no"],
         passbookImage1: json["passbook_image"],
         passbookImage2: json["passbook_image_2"],
+        cibilReportImage: json["cibil_report"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -268,6 +277,8 @@ class LoanMemberListResult {
         "address_verified": addressVerified,
         "cibil_score": cibilScore,
         "cibil_date": cibilDate,
+        "micro_fin_cibil_score": microFinanceCibilScore,
+        "cibil_remark": adminCibilRemark,
         "bank_name": bankName,
         "account_number": accountNumber,
         "holder_name": holderName,
@@ -296,6 +307,7 @@ class LoanMemberListResult {
         "consumer_no": consumerNo,
         "passbook_image": passbookImage1,
         "passbook_image_2": passbookImage2,
+        "cibil_report": cibilReportImage,
       };
 }
 
